@@ -1,0 +1,12 @@
+# Informational .NET dependency inventory, NOT a pip requirements file.
+# Directory.Packages.props is authoritative. Target: net8.0, C# 12.
+Silk.NET.Windowing==2.23.0
+Silk.NET.Input==2.23.0
+Silk.NET.OpenGL==2.23.0
+Silk.NET.OpenGL.Extensions.ImGui==2.23.0
+ImGui.NET==1.91.6.1
+SharpAvi==3.0.1
+SharpAvi.ImageSharp==3.0.0
+Microsoft.NET.Test.Sdk==18.8.1
+xunit==2.9.3
+xunit.runner.visualstudio==3.1.5

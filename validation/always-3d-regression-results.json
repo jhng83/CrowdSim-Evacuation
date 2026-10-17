@@ -1,0 +1,2026 @@
+{
+  "Runner": "xUnit 2.9.3 in-process execution engine",
+  "Summary": "Tests: 404; passed: 404; failed: 0; skipped: 0; elapsed: 3.09s",
+  "Cases": [
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.NearBlastFliesOutwardThenLandsAsPersistentObstacle(kind: RoundTableSet)",
+      "Result": "Passed",
+      "Seconds": 0.0847171
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.NearBlastFliesOutwardThenLandsAsPersistentObstacle(kind: SingleChair)",
+      "Result": "Passed",
+      "Seconds": 0.0023788
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.SweptFlightStopsBeforeWall(kind: RoundTableSet)",
+      "Result": "Passed",
+      "Seconds": 0.005143
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.SweptFlightStopsBeforeWall(kind: SingleChair)",
+      "Result": "Passed",
+      "Seconds": 0.0023777
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.CloserSurvivingFurnitureTravelsFarther(kind: RoundTableSet)",
+      "Result": "Passed",
+      "Seconds": 0.0042038
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.CloserSurvivingFurnitureTravelsFarther(kind: SingleChair)",
+      "Result": "Passed",
+      "Seconds": 0.0027607
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.CenterBlastRemovesBodyAndCollisionProxy(kind: SingleChair)",
+      "Result": "Passed",
+      "Seconds": 0.0019721
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.CenterBlastRemovesBodyAndCollisionProxy(kind: RoundTableSet)",
+      "Result": "Passed",
+      "Seconds": 0.0020356
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.SaveAfterTableDestructionRestoresAuthoredTableOnReplay",
+      "Result": "Passed",
+      "Seconds": 0.0098681
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.ToxicModeDoesNotLaunchOrDestroyTable",
+      "Result": "Passed",
+      "Seconds": 0.0123832
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.WallShieldsFurnitureFromImpulse(kind: RoundTableSet)",
+      "Result": "Passed",
+      "Seconds": 0.001725
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.WallShieldsFurnitureFromImpulse(kind: SingleChair)",
+      "Result": "Passed",
+      "Seconds": 0.0015996
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.ConfiguredIncapacitationBoundaryDestroysFurniture(kind: RoundTableSet)",
+      "Result": "Passed",
+      "Seconds": 0.0042302
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.ConfiguredIncapacitationBoundaryDestroysFurniture(kind: SingleChair)",
+      "Result": "Passed",
+      "Seconds": 0.0014615
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.SameSeedProducesIdenticalFurnitureLanding",
+      "Result": "Passed",
+      "Seconds": 0.0119262
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureBlastTests.DistantBlastLeavesTableIntact",
+      "Result": "Passed",
+      "Seconds": 0.0018731
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.BarrierHasExactMetricFootprintAndNoOccupants(degrees: 180, xSize: 1.5, ySize: 0.400000006)",
+      "Result": "Passed",
+      "Seconds": 0.0033362
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.BarrierHasExactMetricFootprintAndNoOccupants(degrees: 270, xSize: 0.400000006, ySize: 1.5)",
+      "Result": "Passed",
+      "Seconds": 0.0004257
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.BarrierHasExactMetricFootprintAndNoOccupants(degrees: 0, xSize: 1.5, ySize: 0.400000006)",
+      "Result": "Passed",
+      "Seconds": 0.0000488
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.BarrierHasExactMetricFootprintAndNoOccupants(degrees: 90, xSize: 0.400000006, ySize: 1.5)",
+      "Result": "Passed",
+      "Seconds": 0.00006
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.BarrierCannotOverlapOtherAssets(other: RectangularTable)",
+      "Result": "Passed",
+      "Seconds": 0.0007628
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.BarrierCannotOverlapOtherAssets(other: SingleChair)",
+      "Result": "Passed",
+      "Seconds": 0.0002903
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.BarrierCannotOverlapOtherAssets(other: Stage)",
+      "Result": "Passed",
+      "Seconds": 0.0001121
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.SaveLoadAndReplayPreserveBarrierOrientationAndStageLimit(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0536736
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.SaveLoadAndReplayPreserveBarrierOrientationAndStageLimit(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.0010468
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.NearbyParallelBarrierSnapsFlushUsingTheSamePreviewPoint(degrees: 0)",
+      "Result": "Passed",
+      "Seconds": 0.0006068
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.NearbyParallelBarrierSnapsFlushUsingTheSamePreviewPoint(degrees: 90)",
+      "Result": "Passed",
+      "Seconds": 0.0001565
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.FixedBarrierRemainsPresentAfterTheHazardActuallyRuns(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0072373
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.FixedBarrierRemainsPresentAfterTheHazardActuallyRuns(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.001536
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.FootprintUsesTheThinBaseNotABoundingCircle",
+      "Result": "Passed",
+      "Seconds": 0.0001449
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.SnapNeverPullsThePreviewIntoAnOccupiedEndpoint",
+      "Result": "Passed",
+      "Seconds": 0.0002213
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.PlannedPeopleAndInvalidCoordinatesStillPreventPlacement",
+      "Result": "Passed",
+      "Seconds": 0.0014716
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.ExistingPersistedKindNumbersAreUnchanged",
+      "Result": "Passed",
+      "Seconds": 0.0000703
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.BarrierBlocksWalkingButIsNotAFullHeightBlastOrFumeWall",
+      "Result": "Passed",
+      "Seconds": 0.007306
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.MultipleBarriersCanTouchAndUndoRemovesOnlyTheLast(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0006888
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.MultipleBarriersCanTouchAndUndoRemovesOnlyTheLast(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.0002213
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeTests.SnappingDoesNotReachDistantOrPerpendicularBarriers",
+      "Result": "Passed",
+      "Seconds": 0.0001542
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRefinementTests.PanicCompressesSocialSpaceWithoutDisablingPhysicalContact",
+      "Result": "Passed",
+      "Seconds": 0.0020949
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRefinementTests.ZeroTraitVariation_ProducesConfiguredPopulationCentres",
+      "Result": "Passed",
+      "Seconds": 0.0010255
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRefinementTests.IndividualRecoveryBias_ChangesStressDecayRate",
+      "Result": "Passed",
+      "Seconds": 0.0271795
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRefinementTests.EmergencyUrgencyTuning_ChangesPurposefulSpeedWithinCap",
+      "Result": "Passed",
+      "Seconds": 0.0005643
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.AirborneOrDestroyedChairCannotBePushed(state: Destroyed)",
+      "Result": "Passed",
+      "Seconds": 0.0018996
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.AirborneOrDestroyedChairCannotBePushed(state: Airborne)",
+      "Result": "Passed",
+      "Seconds": 0.0002325
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.InjuredWalkerCanClearChairDuringFailedRouteCooldown",
+      "Result": "Passed",
+      "Seconds": 0.0012125
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.MultiplePushesInOneTickCannotMultiplyChairSpeed",
+      "Result": "Passed",
+      "Seconds": 0.0001727
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.LooseChairMovesAndRetainsObstacle(state: Upright)",
+      "Result": "Passed",
+      "Seconds": 0.0002926
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.LooseChairMovesAndRetainsObstacle(state: Fallen)",
+      "Result": "Passed",
+      "Seconds": 0.0002245
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.TrappedChairCannotPassThroughWallOrFurniture",
+      "Result": "Passed",
+      "Seconds": 0.0007312
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.InjuredWalkerPushesGentlyEvenWithoutMomentum",
+      "Result": "Passed",
+      "Seconds": 0.0019359
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.CrawlingPersonCannotShoveFurnitureWithRunningMomentum",
+      "Result": "Passed",
+      "Seconds": 0.000132
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.OccupiedChairCannotBePushed",
+      "Result": "Passed",
+      "Seconds": 0.0001579
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.MovementPipelinePushesBeforeHardCollision",
+      "Result": "Passed",
+      "Seconds": 0.000186
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.WaitingAgentCanShiftChairWithoutRunningMomentum",
+      "Result": "Passed",
+      "Seconds": 0.0001759
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairPushingTests.ChairShiftsSidewaysWithoutEnteringCrawler",
+      "Result": "Passed",
+      "Seconds": 0.001085
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.NearBlastMovesTableThenLeavesAnExactSettledRectangle(degrees: 90)",
+      "Result": "Passed",
+      "Seconds": 0.0029824
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.NearBlastMovesTableThenLeavesAnExactSettledRectangle(degrees: 0)",
+      "Result": "Passed",
+      "Seconds": 0.002096
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.FullHeightWallShieldsAgainstImpulseAndDestruction(blastX: 11)",
+      "Result": "Passed",
+      "Seconds": 0.0017416
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.FullHeightWallShieldsAgainstImpulseAndDestruction(blastX: 12.5)",
+      "Result": "Passed",
+      "Seconds": 0.0013137
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.SweptRectangleStopsBeforeItsLongEdgePassesThroughWall",
+      "Result": "Passed",
+      "Seconds": 0.0017166
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.SameSeedAndLayoutProduceTheSameRectangularTableTrajectory",
+      "Result": "Passed",
+      "Seconds": 0.0046153
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.SharedFieldClearsDestroyedTableCellsWithoutInvalidatingStaticWalls",
+      "Result": "Passed",
+      "Seconds": 0.0103942
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.CentralBlastRemovesTheTableAndAllItsNavigationGeometry(degrees: 0)",
+      "Result": "Passed",
+      "Seconds": 0.0008974
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.CentralBlastRemovesTheTableAndAllItsNavigationGeometry(degrees: 90)",
+      "Result": "Passed",
+      "Seconds": 0.0005978
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.TableDoesNotSlideThroughTheFixedFifteenBySixStage",
+      "Result": "Passed",
+      "Seconds": 0.0020582
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.ExactContactsDoNotHitPeopleOrChairsInClearSpaceBesideTheTable",
+      "Result": "Passed",
+      "Seconds": 0.0002271
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.DestructionUsesTheConfiguredFurnitureZoneNotAHardCodedDistance",
+      "Result": "Passed",
+      "Seconds": 0.000891
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.ShortSideCanSlideAlongBoundaryWithoutAnOversizedCircularCollider",
+      "Result": "Passed",
+      "Seconds": 0.0012203
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.LongTablesTransferMotionWithoutMissingContactsAcrossGridCells",
+      "Result": "Passed",
+      "Seconds": 0.0011749
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.ABlastBeyondTheOuterZoneLeavesTheTableIntact",
+      "Result": "Passed",
+      "Seconds": 0.0006836
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.SaveAndReplayRestoreAuthoredTableNotDisplacedOrDestroyedState(destroy: False)",
+      "Result": "Passed",
+      "Seconds": 0.0051436
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.SaveAndReplayRestoreAuthoredTableNotDisplacedOrDestroyedState(destroy: True)",
+      "Result": "Passed",
+      "Seconds": 0.0018836
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.ToxicFumeReleaseNeitherLaunchesNorDestroysTheUnoccupiedTable",
+      "Result": "Passed",
+      "Seconds": 0.006396
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.MovingTableUpdatesSpatialHashWithoutLeavingItsOldFootprintBehind",
+      "Result": "Passed",
+      "Seconds": 0.0026414
+    },
+    {
+      "Name": "CrowdSim.Tests.RectangularTableBlastTests.DestructionRemovesTheOldFootprintFromTheSpatialHashToo",
+      "Result": "Passed",
+      "Seconds": 0.0006966
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.SameSeedAndLayoutReproduceAdaptiveDecisions",
+      "Result": "Passed",
+      "Seconds": 0.0233602
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.SweptClearanceNeverCutsThroughBodyButAllowsSeparation(sx: 0.400000006, sy: 0, ex: 1.20000005, ey: 0, cx: 0, cy: 0, radius: 0.5, expected: True)",
+      "Result": "Passed",
+      "Seconds": 0.0018702
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.SweptClearanceNeverCutsThroughBodyButAllowsSeparation(sx: 0.400000006, sy: 0, ex: -1.20000005, ey: 0, cx: 0, cy: 0, radius: 0.5, expected: False)",
+      "Result": "Passed",
+      "Seconds": 0.0002701
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.SweptClearanceNeverCutsThroughBodyButAllowsSeparation(sx: 0, sy: 0, ex: 3, ey: 0, cx: 1.5, cy: 1, radius: 0.5, expected: True)",
+      "Result": "Passed",
+      "Seconds": 0.0000045
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.SweptClearanceNeverCutsThroughBodyButAllowsSeparation(sx: 0, sy: 0, ex: 3, ey: 0, cx: 1.5, cy: 0, radius: 0.5, expected: False)",
+      "Result": "Passed",
+      "Seconds": 0.0000014
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.MovingObstacleInvalidatesACommittedDetour",
+      "Result": "Passed",
+      "Seconds": 0.0004152
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.UsefulPhysicalProgressResetsTheClock",
+      "Result": "Passed",
+      "Seconds": 0.0001955
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.RecoveryBudgetServesHighIdsAsWellAsLowIds",
+      "Result": "Passed",
+      "Seconds": 0.0031056
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.SealedPocketDoesNotInventAnEscapeThroughWalls",
+      "Result": "Passed",
+      "Seconds": 0.0002301
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.RecoveryIsDisabledByTheReferenceToggleInEitherScenario(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0001807
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.RecoveryIsDisabledByTheReferenceToggleInEitherScenario(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.0001691
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.RecoveryQueueIsBoundedAndDoesNotDuplicate600Requests",
+      "Result": "Passed",
+      "Seconds": 0.004473
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.FullOrbitIsDetectedEvenWhenSomeSamplesMoveCloserToExit",
+      "Result": "Passed",
+      "Seconds": 0.0001331
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.DeadEndCanChooseSidewaysOrBackwardEscapeRatherThanOnlyExitwardMotion",
+      "Result": "Passed",
+      "Seconds": 0.0006983
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.DecreasingRouteCostRecognisesLegitimateMovementAwayFromExit",
+      "Result": "Passed",
+      "Seconds": 0.0001113
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.NaturalModeDoesNotPollUnseenRemoteDoorwayCongestion",
+      "Result": "Passed",
+      "Seconds": 0.0008852
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.ReplanningOrChangingTargetsDoesNotPretendStationaryAgentMadeProgress",
+      "Result": "Passed",
+      "Seconds": 0.0002983
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.PersistentFailedSolutionsEventuallyReconsiderAnotherKnownExit",
+      "Result": "Passed",
+      "Seconds": 0.0025373
+    },
+    {
+      "Name": "CrowdSim.Tests.NaturalNavigationTests.FailedLocationsAreRememberedButEventuallyExpire",
+      "Result": "Passed",
+      "Seconds": 0.0001077
+    },
+    {
+      "Name": "CrowdSim.Tests.OpenSpaceDetourTests.CloseCrawlerDoesNotRejectEverySeparatingDirection",
+      "Result": "Passed",
+      "Seconds": 0.002999
+    },
+    {
+      "Name": "CrowdSim.Tests.OpenSpaceDetourTests.FullySurroundedAgentCannotSelectPathThroughPeople",
+      "Result": "Passed",
+      "Seconds": 0.0003026
+    },
+    {
+      "Name": "CrowdSim.Tests.OpenSpaceDetourTests.ForwardWallAllowsTemporaryBackwardDetour",
+      "Result": "Passed",
+      "Seconds": 0.0003266
+    },
+    {
+      "Name": "CrowdSim.Tests.MetricWorldAndCircularBlockageTests.DefaultWorld_UsesMetresAndFixedOnePointSevenMetreAgents",
+      "Result": "Passed",
+      "Seconds": 0.0002202
+    },
+    {
+      "Name": "CrowdSim.Tests.MetricWorldAndCircularBlockageTests.ScenarioRoundTrip_PreservesMetricCircularBlockage",
+      "Result": "Passed",
+      "Seconds": 0.0119522
+    },
+    {
+      "Name": "CrowdSim.Tests.MetricWorldAndCircularBlockageTests.CircularBlockage_IsTrueTwoPointFiveMetreDiameterSolidGeometry",
+      "Result": "Passed",
+      "Seconds": 0.004258
+    },
+    {
+      "Name": "CrowdSim.Tests.MetricWorldAndCircularBlockageTests.CircularBlockage_UndoRemovesLastPlacedCircle",
+      "Result": "Passed",
+      "Seconds": 0.0001222
+    },
+    {
+      "Name": "CrowdSim.Tests.MetricWorldAndCircularBlockageTests.LegacyScenarioV1_ConvertsWorldCoordinatesToMetres",
+      "Result": "Passed",
+      "Seconds": 0.0004882
+    },
+    {
+      "Name": "CrowdSim.Tests.MetricWorldAndCircularBlockageTests.ClampToBounds_PreservesMetricPrecisionAndUsesFullRoomExtent",
+      "Result": "Passed",
+      "Seconds": 0.0000766
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderPlacementTests.AgentPlacement_FiftyAgentsSpreadsAroundBlockedFloor",
+      "Result": "Passed",
+      "Seconds": 0.0015221
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderPlacementTests.Exit_CanBeFivePersonsWide",
+      "Result": "Passed",
+      "Seconds": 0.0001554
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderPlacementTests.VisibilityPlanner_RoutesAroundBlueWallLikeAnyOtherSolidObstacle",
+      "Result": "Passed",
+      "Seconds": 0.0004029
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderPlacementTests.Blockage_CanBeOneOrTwoGridCells",
+      "Result": "Passed",
+      "Seconds": 0.0002029
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderPlacementTests.ScenarioRoundTrip_PreservesRoomBlueWallsAndMouseSpawnGroups",
+      "Result": "Passed",
+      "Seconds": 0.0045207
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderPlacementTests.RoomResize_WorksBeforePlacementAndLocksAfterSceneConstructionStarts",
+      "Result": "Passed",
+      "Seconds": 0.0001766
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderPlacementTests.BlueWall_IsTwoGridCellsAndActsAsSolidGeometry",
+      "Result": "Passed",
+      "Seconds": 0.0001708
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderPlacementTests.SpawnAgentsAtPositions_UsesMousePlannedStartPositionsExactly",
+      "Result": "Passed",
+      "Seconds": 0.0002349
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureImpactTests.EqualMassImpactTransfersMomentumAndLosesEnergy",
+      "Result": "Passed",
+      "Seconds": 0.0001831
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureImpactTests.FurniturePinnedAgainstWallStopsIncomingMotion",
+      "Result": "Passed",
+      "Seconds": 0.0010446
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureImpactTests.LowFlightHitsChairAndTransfersMovementThroughStepPipeline",
+      "Result": "Passed",
+      "Seconds": 0.0007001
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureImpactTests.DescendingBodyLandsOnFurnitureAndFallsWhenSupportIsRemoved",
+      "Result": "Passed",
+      "Seconds": 0.0003656
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureImpactTests.HighFlightCanPassOverChairWithoutHorizontalImpact",
+      "Result": "Passed",
+      "Seconds": 0.0003425
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureImpactTests.ChairLosesMostSpeedAgainstHeavierTable",
+      "Result": "Passed",
+      "Seconds": 0.0001346
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureImpactTests.PinnedTargetDoesNotGainVelocity",
+      "Result": "Passed",
+      "Seconds": 0.0000907
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.SeatingCannotReviveCasualties(state: Incapacitated)",
+      "Result": "Passed",
+      "Seconds": 0.001976
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.SeatingCannotReviveCasualties(state: Fallen)",
+      "Result": "Passed",
+      "Seconds": 0.0002804
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.SeatingCannotReviveCasualties(state: Dead)",
+      "Result": "Passed",
+      "Seconds": 0.0000728
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.SaveReloadRestoresAuthoredLayoutWithoutDuplicateProxiesOrOccupants",
+      "Result": "Passed",
+      "Seconds": 0.0013824
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.SeatedOccupantsRemainStillBeforeAnyThreat",
+      "Result": "Passed",
+      "Seconds": 0.0019696
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.ReactionStartsTimedRiseThenReleasesIntoExistingMovement",
+      "Result": "Passed",
+      "Seconds": 0.0014643
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.CongestedSeatWaitsThenLeavesWhenGapOpens",
+      "Result": "Passed",
+      "Seconds": 0.0014329
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.PlacementSpawnsExactlyOneOccupantPerChair(kind: SingleChair, people: 1, obstacles: 1)",
+      "Result": "Passed",
+      "Seconds": 0.0027746
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.PlacementSpawnsExactlyOneOccupantPerChair(kind: RoundTableSet, people: 10, obstacles: 11)",
+      "Result": "Passed",
+      "Seconds": 0.000371
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.InvalidPlacementIsAtomic",
+      "Result": "Passed",
+      "Seconds": 0.000211
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.RestartAfterDestructionRecreatesIntactOccupiedChair",
+      "Result": "Passed",
+      "Seconds": 0.0007602
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.ToxicExposureReachesSeatedPersonAndStartsRise",
+      "Result": "Passed",
+      "Seconds": 0.0037879
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.FinalisedCheckpoint_ToxicReplayRebuildsReadyFumeCache",
+      "Result": "Passed",
+      "Seconds": 0.0054849
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.FinalisedCheckpoint_ReplayRestoresExactReadySceneAfterRuntimeDamage",
+      "Result": "Passed",
+      "Seconds": 0.0020623
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.ChairBlocksWalkingButDoesNotShieldItsOccupant",
+      "Result": "Passed",
+      "Seconds": 0.0002373
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.NearBlastFurnitureLandsWithinRoomAndKeepsObstacles",
+      "Result": "Passed",
+      "Seconds": 0.0387883
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.UndoRemovesEntireSetAndOccupantsFromPlan",
+      "Result": "Passed",
+      "Seconds": 0.0004078
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureTests.BlastAtSeatAppliesExistingFatalityAndDestroysChair",
+      "Result": "Passed",
+      "Seconds": 0.0004564
+    },
+    {
+      "Name": "CrowdSim.Tests.SeatDepartureRecoveryTests.DepartingPersonMakesPartialProgressThenReleasesSeat",
+      "Result": "Passed",
+      "Seconds": 0.0041122
+    },
+    {
+      "Name": "CrowdSim.Tests.SeatDepartureRecoveryTests.CompletedStandUpCanPushLooseChairButNotOccupiedSeat",
+      "Result": "Passed",
+      "Seconds": 0.0002231
+    },
+    {
+      "Name": "CrowdSim.Tests.SeatDepartureRecoveryTests.DestroyedSeatDoesNotKeepAgentWaitingForDeparturePath",
+      "Result": "Passed",
+      "Seconds": 0.0036003
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairChainPushTests.CrawlingPersonStopsEntireChain",
+      "Result": "Passed",
+      "Seconds": 0.0005402
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairChainPushTests.SmallChainTranslatesTogetherWithAddedResistance(count: 2, travel: 0.0799999982)",
+      "Result": "Passed",
+      "Seconds": 0.0003533
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairChainPushTests.SmallChainTranslatesTogetherWithAddedResistance(count: 3, travel: 0.0599999987)",
+      "Result": "Passed",
+      "Seconds": 0.0002285
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairChainPushTests.WallStopsEntireChain",
+      "Result": "Passed",
+      "Seconds": 0.0002225
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairChainPushTests.OccupiedChairStopsEntireChain",
+      "Result": "Passed",
+      "Seconds": 0.0001979
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairChainPushTests.FourChairChainIsRejectedWithoutMovingAnyChair",
+      "Result": "Passed",
+      "Seconds": 0.0004531
+    },
+    {
+      "Name": "CrowdSim.Tests.ChairChainPushTests.NormalPushFallsBackToChainInNarrowPassage",
+      "Result": "Passed",
+      "Seconds": 0.0002332
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.NonDirectionalBlocksDoNotOfferOrAccumulateRotation(choice: 1)",
+      "Result": "Passed",
+      "Seconds": 0.0006147
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.NonDirectionalBlocksDoNotOfferOrAccumulateRotation(choice: 0)",
+      "Result": "Passed",
+      "Seconds": 0.0001804
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.NonDirectionalBlocksDoNotOfferOrAccumulateRotation(choice: 2)",
+      "Result": "Passed",
+      "Seconds": 0.0000044
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.InvalidSelectionOrRotationCannotPoisonThePreview",
+      "Result": "Passed",
+      "Seconds": 0.000495
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.EveryAssetRemembersItsOwnFacingWhileSwitchingTools",
+      "Result": "Passed",
+      "Seconds": 0.0002161
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.TablesAndStageRotateByQuarterTurnsAndWrapAt360(choice: 5)",
+      "Result": "Passed",
+      "Seconds": 0.0001917
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.TablesAndStageRotateByQuarterTurnsAndWrapAt360(choice: 6)",
+      "Result": "Passed",
+      "Seconds": 0.0001186
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.PickerIncludesEveryFurnitureKindExactlyOnce",
+      "Result": "Passed",
+      "Seconds": 0.0085149
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderAssetSelectionTests.NewScenarioClearsSelectionsAndRestoresDefaultSnap",
+      "Result": "Passed",
+      "Seconds": 0.0016046
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.ControlClampsFiniteValuesAndResetRestoresDefault",
+      "Result": "Passed",
+      "Seconds": 0.000147
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.HybridOpenSpaceMovementAlsoHonoursTheCeiling(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.000847
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.HybridOpenSpaceMovementAlsoHonoursTheCeiling(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0002388
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.InvalidValuesCannotEnterConfiguration(value: -Infinity)",
+      "Result": "Passed",
+      "Seconds": 0.0002627
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.InvalidValuesCannotEnterConfiguration(value: Infinity)",
+      "Result": "Passed",
+      "Seconds": 0.000146
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.InvalidValuesCannotEnterConfiguration(value: NaN)",
+      "Result": "Passed",
+      "Seconds": 0.0000297
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.LegacyScenarioWithoutSpeedPropertyUsesTheDefault",
+      "Result": "Passed",
+      "Seconds": 0.0001249
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.IntegratorEnforcesMetresPerSecondRegardlessOfTimestep(scenario: Explosion, dt: 0.150000006)",
+      "Result": "Passed",
+      "Seconds": 0.0003452
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.IntegratorEnforcesMetresPerSecondRegardlessOfTimestep(scenario: ToxicFume, dt: 0.150000006)",
+      "Result": "Passed",
+      "Seconds": 0.0004479
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.IntegratorEnforcesMetresPerSecondRegardlessOfTimestep(scenario: Explosion, dt: 0.075000003)",
+      "Result": "Passed",
+      "Seconds": 0.0000985
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.IntegratorEnforcesMetresPerSecondRegardlessOfTimestep(scenario: ToxicFume, dt: 0.075000003)",
+      "Result": "Passed",
+      "Seconds": 0.0000652
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.InjuryAndFumesStillSlowAnAgentBelowTheCeiling",
+      "Result": "Passed",
+      "Seconds": 0.000148
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.SaveLoadAndCheckpointRetainTheRunningCeiling(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0019826
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.SaveLoadAndCheckpointRetainTheRunningCeiling(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.0003174
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.DesiredSpeedNeverExceedsTheSelectedPhysicalCeiling(limit: 0.5)",
+      "Result": "Passed",
+      "Seconds": 0.0000868
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.DesiredSpeedNeverExceedsTheSelectedPhysicalCeiling(limit: 1.5)",
+      "Result": "Passed",
+      "Seconds": 0.0001146
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.DesiredSpeedNeverExceedsTheSelectedPhysicalCeiling(limit: 1)",
+      "Result": "Passed",
+      "Seconds": 0.0000042
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.CrawlingAndSeatingDoNotAcquireRunningSpeed",
+      "Result": "Passed",
+      "Seconds": 0.0000987
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.InvalidSavedCeilingsAreRejectedRatherThanSilentlyChanged(value: 0.100000001)",
+      "Result": "Passed",
+      "Seconds": 0.0001364
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.InvalidSavedCeilingsAreRejectedRatherThanSilentlyChanged(value: 8)",
+      "Result": "Passed",
+      "Seconds": 0.0001269
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.DefaultCeilingPreservesExistingNormalAgentSpeeds",
+      "Result": "Passed",
+      "Seconds": 0.0000842
+    },
+    {
+      "Name": "CrowdSim.Tests.AgentRunningSpeedTests.RaisingTheCeilingDoesNotForceSlowerPeopleToRunFaster",
+      "Result": "Passed",
+      "Seconds": 0.0000584
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.Exploration_StopsImmediatelyWhenExitBecomesVisible",
+      "Result": "Passed",
+      "Seconds": 0.0006005
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.ExitCongestion_ModeratePanicYieldsAfterOneSetback",
+      "Result": "Passed",
+      "Seconds": 0.0015464
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.TemporaryVisibilityField_DegradesThenRecovers",
+      "Result": "Passed",
+      "Seconds": 0.0008793
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.RelayedSocialAlarm_PropagatesAcrossMultipleHops",
+      "Result": "Passed",
+      "Seconds": 0.0010701
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.Exploration_ContinuesWhenExitIsVisibleButBodyClearanceIsBlocked",
+      "Result": "Passed",
+      "Seconds": 0.0067857
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.DynamicRerouting_ChangesExitWhenCurrentApproachIsMateriallyWorse",
+      "Result": "Passed",
+      "Seconds": 0.0011865
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.DirectThreatPanic_WaitsForShockFrontArrival",
+      "Result": "Passed",
+      "Seconds": 0.0003922
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.LineOfSight_IsBlockedByObstacleAndClearOtherwise",
+      "Result": "Passed",
+      "Seconds": 0.0001374
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.CoherentRunningCrowd_CreatesPanicContagionSignal",
+      "Result": "Passed",
+      "Seconds": 0.0030556
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.DirectAlarmWindow_MaintainsVisiblePanicAfterShockArrival",
+      "Result": "Passed",
+      "Seconds": 0.0003406
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.Exploration_ChoosesClearWaypointThatRecoversExitSightAroundWallEnd",
+      "Result": "Passed",
+      "Seconds": 0.0003596
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.ExplosionZones_AreAppliedInOrderedNonOverlappingBands",
+      "Result": "Passed",
+      "Seconds": 0.0005707
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.ResidualLowPanic_DecaysInsteadOfMutuallyReAmplifying",
+      "Result": "Passed",
+      "Seconds": 0.0003482
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.RelayedSocialAlarm_TriggersReactionAndMeaningfulPanic",
+      "Result": "Passed",
+      "Seconds": 0.0002517
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.EnvironmentExit_IsARealHoleInBoundaryWall",
+      "Result": "Passed",
+      "Seconds": 0.0002833
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.ExitCongestion_HighPanicMaintainsPressureWithoutRepeatedSetback",
+      "Result": "Passed",
+      "Seconds": 0.0002383
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.Shockwave_PropagatesBeforeApplyingPhysicalOutcome",
+      "Result": "Passed",
+      "Seconds": 0.0002664
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.MoveAgent_RecoversFromNonFiniteState",
+      "Result": "Passed",
+      "Seconds": 0.0001477
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.SfmForce_IsFiniteAndPairRepulsionIsSoftCapped",
+      "Result": "Passed",
+      "Seconds": 0.0001711
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.MeaningfullyPanickedNeighbour_CanStillRaiseSocialPanic",
+      "Result": "Passed",
+      "Seconds": 0.000213
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.BlastShielding_DetectsBlockingRectangle",
+      "Result": "Passed",
+      "Seconds": 0.0000973
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.WallStopsDebrisBeforeItCanHitAgent",
+      "Result": "Passed",
+      "Seconds": 0.0003818
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.NavigationClearance_DistinguishesVisualSightFromBodyTraversability",
+      "Result": "Passed",
+      "Seconds": 0.0000875
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.HighEnergyDebris_CanIncapacitateOrKillAndIsConsumedOnImpact",
+      "Result": "Passed",
+      "Seconds": 0.0003321
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.WallShieldsTemporaryVisibilityField",
+      "Result": "Passed",
+      "Seconds": 0.0004005
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.PanicLevel_IncreasesDesiredSfmDriveWithoutBypassingFiniteGuardrails",
+      "Result": "Passed",
+      "Seconds": 0.0002015
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.BlastZoneRadii_AreConfigurableAndRemainStrictlyOrdered",
+      "Result": "Passed",
+      "Seconds": 0.000203
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.RelayedAlarm_CannotReactivateFromSameEpisodeAfterExpiry",
+      "Result": "Passed",
+      "Seconds": 0.0001282
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.WallBlocksRunningCrowdContagion",
+      "Result": "Passed",
+      "Seconds": 0.0003298
+    },
+    {
+      "Name": "CrowdSim.Tests.GuardrailTests.CalmFastEvacuees_DoNotCreateRunningPanicWithoutActiveAlarm",
+      "Result": "Passed",
+      "Seconds": 0.0002823
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.StandingBodyOverlap_IsResolvedEvenWithoutMotion",
+      "Result": "Passed",
+      "Seconds": 0.0004278
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.ConstantVelocityTravel_UsesElapsedSeconds",
+      "Result": "Passed",
+      "Seconds": 0.0003035
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.FreeDrivingAcceleration_IsIndependentOfMass",
+      "Result": "Passed",
+      "Seconds": 0.0002602
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.SeededEmergencyRun_RemainsFiniteAndReproducible",
+      "Result": "Passed",
+      "Seconds": 1.1344582
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.MovingAgents_KeepSpatialIndexCurrent",
+      "Result": "Passed",
+      "Seconds": 0.0067781
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.Locomotion_UsesOneBoundedAccelerationUpdate",
+      "Result": "Passed",
+      "Seconds": 0.0005159
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.CoincidentBodies_GetFiniteOpposingContactForces",
+      "Result": "Passed",
+      "Seconds": 0.0001931
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.SpatialQueries_MatchBruteForceAcrossCellBoundaries",
+      "Result": "Passed",
+      "Seconds": 0.0039496
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.WallQueries_HonourRadiiLargerThanOneCell",
+      "Result": "Passed",
+      "Seconds": 0.0002391
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.FiveLaneExit_HasFiveAdmissionsRatherThanThree",
+      "Result": "Passed",
+      "Seconds": 0.0004565
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.ContactOutsideForwardVision_StillRepels(x: 0, y: 0.349999994)",
+      "Result": "Passed",
+      "Seconds": 0.0002219
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.ContactOutsideForwardVision_StillRepels(x: -0.349999994, y: 0)",
+      "Result": "Passed",
+      "Seconds": 0.0003763
+    },
+    {
+      "Name": "CrowdSim.Tests.PanicMovementFixTests.SocialSignal_DecreasesWithSingleSourceDistance",
+      "Result": "Passed",
+      "Seconds": 0.0002629
+    },
+    {
+      "Name": "CrowdSim.Tests.ScenarioFileStoreTests.Save_CreatesLoadableFileAndRefreshableName",
+      "Result": "Passed",
+      "Seconds": 0.0040611
+    },
+    {
+      "Name": "CrowdSim.Tests.ScenarioFileStoreTests.SaveAs_AtomicallyOverwritesAndLeavesNoTemporaryFiles",
+      "Result": "Passed",
+      "Seconds": 0.0009151
+    },
+    {
+      "Name": "CrowdSim.Tests.ScenarioFileStoreTests.DefaultDirectory_IsStablePerUserLocationWhenAvailable",
+      "Result": "Passed",
+      "Seconds": 0.0007128
+    },
+    {
+      "Name": "CrowdSim.Tests.LocalNavigationRecoveryTests.ControlledPress_NeverDisablesHardCasualtyBodySeparation",
+      "Result": "Passed",
+      "Seconds": 0.0004144
+    },
+    {
+      "Name": "CrowdSim.Tests.LocalNavigationRecoveryTests.CasualtyStillBlockingAfterFailedBypass_SeeksClearSpacePromptly",
+      "Result": "Passed",
+      "Seconds": 0.0038599
+    },
+    {
+      "Name": "CrowdSim.Tests.LocalNavigationRecoveryTests.CircularBlockageContact_LatchesTangentFollowInsteadOfRepeatedInwardDrive",
+      "Result": "Passed",
+      "Seconds": 0.0053266
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicFumeScenarioTests.Version2Scenario_UpgradesToExplosionMode",
+      "Result": "Passed",
+      "Seconds": 0.0002276
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicFumeScenarioTests.ConfigurationChange_InvalidatesPrecomputedCacheByRevision",
+      "Result": "Passed",
+      "Seconds": 0.0024406
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicFumeScenarioTests.FumeIncapacitation_RemainsPermanentAfterPlumeClears",
+      "Result": "Passed",
+      "Seconds": 0.0051426
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicFumeScenarioTests.RuntimeRelease_UsesCachedFieldAndAccumulatesAgentExposure",
+      "Result": "Passed",
+      "Seconds": 0.0032583
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicFumeScenarioTests.Precompute_BuildsDeterministicArrivalFieldBeforeRuntime",
+      "Result": "Passed",
+      "Seconds": 0.0022542
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicFumeScenarioTests.GeometryChange_MakesPrecomputedCacheUnusableUntilRecomputed",
+      "Result": "Passed",
+      "Seconds": 0.0021522
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.FumeObservationDoesNotReachBeyondTheConfiguredPerceptionHorizon",
+      "Result": "Passed",
+      "Seconds": 0.0025916
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.UsefulDetourIsNotOverriddenByACompetingFumeSteeringGoal",
+      "Result": "Passed",
+      "Seconds": 0.0036649
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.NewlyContaminatedDetourIsAbandonedAndRemembered",
+      "Result": "Passed",
+      "Seconds": 0.0029333
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.FumeObservationStopsAtAnOccludingWall",
+      "Result": "Passed",
+      "Seconds": 0.0024313
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.ToxicRecoveryCanRetreatFromADeadEndWithoutTeleportation",
+      "Result": "Passed",
+      "Seconds": 0.0066763
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.IncapacitationCancelsQueuedRecoveryWithoutMovingTheBody",
+      "Result": "Passed",
+      "Seconds": 0.0032209
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.GenericRecoveryIsEnabledInBothScenarios(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.0001594
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.GenericRecoveryIsEnabledInBothScenarios(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0002493
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.ToxicRecoveryRespectsTheBudgetAndServesLaterAgentIds",
+      "Result": "Passed",
+      "Seconds": 0.0028645
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.HybridOpenSpaceMovementStillChecksEachAgentsFumeHazard",
+      "Result": "Passed",
+      "Seconds": 0.0022053
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.WorseningFumeCanChangeExitWithoutWaitingForAStuckTimer",
+      "Result": "Passed",
+      "Seconds": 0.003016
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.RisingLocalExposureDoesNotCancelAnImprovingRetreat",
+      "Result": "Passed",
+      "Seconds": 0.002568
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.ToxicRecoveryDeduplicatesSixHundredRequests",
+      "Result": "Passed",
+      "Seconds": 0.0047688
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.SameSeedReproducesToxicRecoveryDecisions",
+      "Result": "Passed",
+      "Seconds": 0.0094891
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.ToxicFumeDoesNotReuseStaleFlyingFurnitureAvoidance",
+      "Result": "Passed",
+      "Seconds": 0.0002488
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.FuturePlumeAndPreviewTimeAreNotReadAsCurrentHazards",
+      "Result": "Passed",
+      "Seconds": 0.0021869
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.PrecomputedButUnreleasedFumeDoesNotAffectNavigation",
+      "Result": "Passed",
+      "Seconds": 0.0023127
+    },
+    {
+      "Name": "CrowdSim.Tests.ToxicNaturalNavigationTests.RecoveryPrefersAClearCandidateOverContaminatedExitwardSpace",
+      "Result": "Passed",
+      "Seconds": 0.0022646
+    },
+    {
+      "Name": "CrowdSim.Tests.BottleneckBehaviorTests.ScenarioRoundTrip_PreservesBottleneckTuning",
+      "Result": "Passed",
+      "Seconds": 0.0018567
+    },
+    {
+      "Name": "CrowdSim.Tests.BottleneckBehaviorTests.CrawlingAgent_AlwaysYieldsAtCongestedDoorway",
+      "Result": "Passed",
+      "Seconds": 0.0032104
+    },
+    {
+      "Name": "CrowdSim.Tests.BottleneckBehaviorTests.PressingCompressesSocialSpaceWithoutRemovingBodyContact",
+      "Result": "Passed",
+      "Seconds": 0.000252
+    },
+    {
+      "Name": "CrowdSim.Tests.BottleneckBehaviorTests.LeavingDoorwayInfluence_ReleasesCommittedModeAndDecaysPressure",
+      "Result": "Passed",
+      "Seconds": 0.0010286
+    },
+    {
+      "Name": "CrowdSim.Tests.BottleneckBehaviorTests.LowAssertivenessAgent_SeeksGapInsteadOfPressing",
+      "Result": "Passed",
+      "Seconds": 0.0008379
+    },
+    {
+      "Name": "CrowdSim.Tests.BottleneckBehaviorTests.AssertiveDelayedAgent_TransitionsToPressWithoutPanic",
+      "Result": "Passed",
+      "Seconds": 0.0008538
+    },
+    {
+      "Name": "CrowdSim.Tests.RouteRetryCostTests.FailedRouteIsNotSearchedRepeatedlyButClearDirectPathRecoversImmediately",
+      "Result": "Passed",
+      "Seconds": 0.0003518
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.SharedFieldReusesOneBuildAndPointsTowardExit",
+      "Result": "Passed",
+      "Seconds": 0.0061706
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.GroupsAreLimitedToFiveAndSplitWhenMemberIsInjured",
+      "Result": "Passed",
+      "Seconds": 0.0015941
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.InjuryOrCasualtyRequiresDetailedTreatment(state: Injured)",
+      "Result": "Passed",
+      "Seconds": 0.0001985
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.InjuryOrCasualtyRequiresDetailedTreatment(state: Dead)",
+      "Result": "Passed",
+      "Seconds": 0.0002206
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.InjuryOrCasualtyRequiresDetailedTreatment(state: Crawling)",
+      "Result": "Passed",
+      "Seconds": 0.0000562
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.DisabledModeDoesNotAdvanceAgentsAndPersistenceRetainsOptIn",
+      "Result": "Passed",
+      "Seconds": 0.0003602
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.OpenMovementPreservesIndividualBodiesAndSpeedLimit",
+      "Result": "Passed",
+      "Seconds": 0.0009455
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.NewlyBlockedSampleCannotBeUsedEvenBeforeFieldRefresh",
+      "Result": "Passed",
+      "Seconds": 0.0034814
+    },
+    {
+      "Name": "CrowdSim.Tests.HybridMovementTests.ObstacleForcesDetailedMovementWithoutTeleporting",
+      "Result": "Passed",
+      "Seconds": 0.0002039
+    },
+    {
+      "Name": "CrowdSim.Tests.Fix15Tests.CalmEvacuatingAgent_HasUrgencySpeedFloor",
+      "Result": "Passed",
+      "Seconds": 0.0003283
+    },
+    {
+      "Name": "CrowdSim.Tests.Fix15Tests.CoherentEvacuationFlow_TriggersAwarenessWithoutCreatingPanicAlarm",
+      "Result": "Passed",
+      "Seconds": 0.0006504
+    },
+    {
+      "Name": "CrowdSim.Tests.Fix15Tests.ScenarioJson_RoundTripPreservesGeometryRadiiAgentCountAndSeed",
+      "Result": "Passed",
+      "Seconds": 0.0042301
+    },
+    {
+      "Name": "CrowdSim.Tests.Fix15Tests.EvacuationAwarenessAlone_DoesNotCreateLatePanicEpisode",
+      "Result": "Passed",
+      "Seconds": 0.004896
+    },
+    {
+      "Name": "CrowdSim.Tests.Fix15Tests.ActiveAlarmSocialSignal_RemainsMeaningfulWhenObserverAlreadyHasPanic",
+      "Result": "Passed",
+      "Seconds": 0.0003143
+    },
+    {
+      "Name": "CrowdSim.Tests.Fix15Tests.ObviousEvacuatingCrowd_TriggersAwarenessEvenWhenMovementIsSlow",
+      "Result": "Passed",
+      "Seconds": 0.0003094
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.BothPanelStatesFitWithoutOverflowAndHidingExpandsTheViewport(width: 1280)",
+      "Result": "Passed",
+      "Seconds": 0.0004047
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.BothPanelStatesFitWithoutOverflowAndHidingExpandsTheViewport(width: 2560)",
+      "Result": "Passed",
+      "Seconds": 0.0001656
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.BothPanelStatesFitWithoutOverflowAndHidingExpandsTheViewport(width: 320)",
+      "Result": "Passed",
+      "Seconds": 0.0000058
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.BothPanelStatesFitWithoutOverflowAndHidingExpandsTheViewport(width: 1600)",
+      "Result": "Passed",
+      "Seconds": 0.000002
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.BothPanelStatesFitWithoutOverflowAndHidingExpandsTheViewport(width: 640)",
+      "Result": "Passed",
+      "Seconds": 0.0000035
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.BothPanelStatesFitWithoutOverflowAndHidingExpandsTheViewport(width: 1000)",
+      "Result": "Passed",
+      "Seconds": 0.0000016
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.InvalidDimensionsCannotReachImGui(width: -1)",
+      "Result": "Passed",
+      "Seconds": 0.0003613
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.InvalidDimensionsCannotReachImGui(width: 0)",
+      "Result": "Passed",
+      "Seconds": 0.0001817
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.InvalidDimensionsCannotReachImGui(width: Infinity)",
+      "Result": "Passed",
+      "Seconds": 0.000022
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.InvalidDimensionsCannotReachImGui(width: NaN)",
+      "Result": "Passed",
+      "Seconds": 0.0000167
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.OversizedSpacingCannotConsumeTheViewportInATinyWindow",
+      "Result": "Passed",
+      "Seconds": 0.0000725
+    },
+    {
+      "Name": "CrowdSim.Tests.DashboardLayoutTests.HideShowRetainsTheDebugDestinationAndAgentSelectionDoesNotForceItOpen",
+      "Result": "Passed",
+      "Seconds": 0.0017998
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ExactFootprintsNeverCreateChairsOrPeople(kind: Stage, degrees: 270, width: 6, length: 15)",
+      "Result": "Passed",
+      "Seconds": 0.0003343
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ExactFootprintsNeverCreateChairsOrPeople(kind: Stage, degrees: 0, width: 15, length: 6)",
+      "Result": "Passed",
+      "Seconds": 0.0003174
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ExactFootprintsNeverCreateChairsOrPeople(kind: RectangularTable, degrees: 180, width: 3, length: 1)",
+      "Result": "Passed",
+      "Seconds": 0.0000511
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ExactFootprintsNeverCreateChairsOrPeople(kind: RectangularTable, degrees: 0, width: 3, length: 1)",
+      "Result": "Passed",
+      "Seconds": 0.0000378
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ExactFootprintsNeverCreateChairsOrPeople(kind: Stage, degrees: 90, width: 6, length: 15)",
+      "Result": "Passed",
+      "Seconds": 0.0000306
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ExactFootprintsNeverCreateChairsOrPeople(kind: RectangularTable, degrees: 90, width: 1, length: 3)",
+      "Result": "Passed",
+      "Seconds": 0.0000267
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.AssetOnlySaveLoadAndReplayKeepZeroAddedOccupants(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0009049
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.AssetOnlySaveLoadAndReplayKeepZeroAddedOccupants(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.0003536
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ManyRectangularTablesStillAllowBoundedGridRouting",
+      "Result": "Passed",
+      "Seconds": 0.0073324
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.EnlargedStageCannotBePlacedInRoomThatOnlyFitsTheOldStage",
+      "Result": "Passed",
+      "Seconds": 0.0001538
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.RectangularPlacementUsesItsShortSideNotAnOversizedCircle",
+      "Result": "Passed",
+      "Seconds": 0.0001083
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.AssetBlocksMovementButNotFullHeightSightOrHazardFields(kind: RectangularTable)",
+      "Result": "Passed",
+      "Seconds": 0.0001838
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.AssetBlocksMovementButNotFullHeightSightOrHazardFields(kind: Stage)",
+      "Result": "Passed",
+      "Seconds": 0.0001832
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.StageLimitIsOnePerScenarioAndUndoReleasesIt(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.000222
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.StageLimitIsOnePerScenarioAndUndoReleasesIt(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.0001377
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.SharedExitGuidanceIncludesFixedFootprintAndReusesItsField(kind: Stage)",
+      "Result": "Passed",
+      "Seconds": 0.003624
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.SharedExitGuidanceIncludesFixedFootprintAndReusesItsField(kind: RectangularTable)",
+      "Result": "Passed",
+      "Seconds": 0.0039449
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.InvalidCoordinatesAndOutOfBoundsPlacementsAreAtomic(kind: RectangularTable)",
+      "Result": "Passed",
+      "Seconds": 0.0001673
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.InvalidCoordinatesAndOutOfBoundsPlacementsAreAtomic(kind: Stage)",
+      "Result": "Passed",
+      "Seconds": 0.000137
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ClearingTheLayoutRemovesFixedProxiesAndResetsStageLimit",
+      "Result": "Passed",
+      "Seconds": 0.0006532
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.RectanglesCannotOverlapEachOtherAndDoNotLoseChairDepartureClearance",
+      "Result": "Passed",
+      "Seconds": 0.0001684
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.SavedStandingAgentCannotLoadInsideStage",
+      "Result": "Passed",
+      "Seconds": 0.0004327
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.GlobalPlannerFindsBodyClearAlternativeAroundAsset(kind: RectangularTable)",
+      "Result": "Passed",
+      "Seconds": 0.0003352
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.GlobalPlannerFindsBodyClearAlternativeAroundAsset(kind: Stage)",
+      "Result": "Passed",
+      "Seconds": 0.0004237
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.DuplicateStageCannotEnterThroughScenarioLoadingOrRestore",
+      "Result": "Passed",
+      "Seconds": 0.0002687
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ExistingPeoplePreventOverlappingAssetPlacement(kind: RectangularTable)",
+      "Result": "Passed",
+      "Seconds": 0.0001286
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.ExistingPeoplePreventOverlappingAssetPlacement(kind: Stage)",
+      "Result": "Passed",
+      "Seconds": 0.0001386
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.SpawnPlacementNearStageNeverPlacesPeopleInsideItsFootprint",
+      "Result": "Passed",
+      "Seconds": 0.0002961
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.MixedFurnitureSavePreservesElevenSeatedPeopleNotThirteen",
+      "Result": "Passed",
+      "Seconds": 0.0004265
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.OnlyFixedAssetsStillPreventRoomResizeUntilUndone",
+      "Result": "Passed",
+      "Seconds": 0.0001681
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.LowStageRemainsVisibleAcrossSpatialHashSightBranch",
+      "Result": "Passed",
+      "Seconds": 0.0002669
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.RectangleRotationSnapsConsistentlyForPreviewAndPlacement",
+      "Result": "Passed",
+      "Seconds": 0.0004068
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.StandaloneTablesCanBePlacedMoreThanOnceWithoutChangingPopulation",
+      "Result": "Passed",
+      "Seconds": 0.000391
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.OriginalFurnitureEnumValuesAndOccupancyAreUnchanged",
+      "Result": "Passed",
+      "Seconds": 0.000089
+    },
+    {
+      "Name": "CrowdSim.Tests.FixedAssetTests.StageStaysFixedWhileNearbyRectangularTableIsDestroyed",
+      "Result": "Passed",
+      "Seconds": 0.0010858
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderBarricadeAngleTests.BarricadeAcceptsAnglesWithoutQuarterTurnSnapping(input: 37.5, expected: 37.5)",
+      "Result": "Passed",
+      "Seconds": 0.0001121
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderBarricadeAngleTests.BarricadeAcceptsAnglesWithoutQuarterTurnSnapping(input: 382.5, expected: 22.5)",
+      "Result": "Passed",
+      "Seconds": 0.0001861
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderBarricadeAngleTests.BarricadeAcceptsAnglesWithoutQuarterTurnSnapping(input: 15, expected: 15)",
+      "Result": "Passed",
+      "Seconds": 0.000006
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderBarricadeAngleTests.BarricadeAcceptsAnglesWithoutQuarterTurnSnapping(input: -22.5, expected: 337.5)",
+      "Result": "Passed",
+      "Seconds": 0.0000015
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderBarricadeAngleTests.BarricadeAcceptsAnglesWithoutQuarterTurnSnapping(input: 68, expected: 68)",
+      "Result": "Passed",
+      "Seconds": 0.0000011
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderBarricadeAngleTests.FineStepsAreReversibleAndWrapAround360",
+      "Result": "Passed",
+      "Seconds": 0.0001555
+    },
+    {
+      "Name": "CrowdSim.Tests.BuilderBarricadeAngleTests.SwitchingAssetsRetainsTheBarricadeAngleAndTableQuarterTurns",
+      "Result": "Passed",
+      "Seconds": 0.0000921
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.TenBlocksCanTouchWithoutAnyGap(cells: 1, vertical: True)",
+      "Result": "Passed",
+      "Seconds": 0.0005515
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.TenBlocksCanTouchWithoutAnyGap(cells: 1, vertical: False)",
+      "Result": "Passed",
+      "Seconds": 0.0002154
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.TenBlocksCanTouchWithoutAnyGap(cells: 2, vertical: True)",
+      "Result": "Passed",
+      "Seconds": 0.000066
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.TenBlocksCanTouchWithoutAnyGap(cells: 2, vertical: False)",
+      "Result": "Passed",
+      "Seconds": 0.000089
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.JoinedBlockSeamDoesNotBecomeAWalkableCrack",
+      "Result": "Passed",
+      "Seconds": 0.0001966
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.MixedSizesShareTheSameGridEdges(firstCells: 2, secondCells: 1, vertical: True)",
+      "Result": "Passed",
+      "Seconds": 0.0002217
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.MixedSizesShareTheSameGridEdges(firstCells: 1, secondCells: 2, vertical: False)",
+      "Result": "Passed",
+      "Seconds": 0.0001962
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.MixedSizesShareTheSameGridEdges(firstCells: 1, secondCells: 2, vertical: True)",
+      "Result": "Passed",
+      "Seconds": 0.0000297
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.MixedSizesShareTheSameGridEdges(firstCells: 2, secondCells: 1, vertical: False)",
+      "Result": "Passed",
+      "Seconds": 0.0000354
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.AdjacentLegacyBlueTileUsesTheSameEdgeGrid",
+      "Result": "Passed",
+      "Seconds": 0.0001461
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.AFloatRoundingSliverIsNotAnOverlapButOneMillimetreIs",
+      "Result": "Passed",
+      "Seconds": 0.0001396
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.NonFiniteClicksAreRejectedWithoutMutatingTheScene",
+      "Result": "Passed",
+      "Seconds": 0.0003993
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.JoinedMixedBlocksSurviveSaveLoadWithoutBeingResnapped",
+      "Result": "Passed",
+      "Seconds": 0.0009092
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.NewBlockCanMeetAnOldHalfCellShiftedBlockWithoutMovingIt(cells: 2)",
+      "Result": "Passed",
+      "Seconds": 0.0002311
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.NewBlockCanMeetAnOldHalfCellShiftedBlockWithoutMovingIt(cells: 1)",
+      "Result": "Passed",
+      "Seconds": 0.0001578
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.BlockCanTouchBoundaryWithoutProtrudingOutside",
+      "Result": "Passed",
+      "Seconds": 0.0001347
+    },
+    {
+      "Name": "CrowdSim.Tests.BlockageAdjacencyTests.CornerContactIsAllowedButDuplicatePlacementIsRejected",
+      "Result": "Passed",
+      "Seconds": 0.0001722
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.VisibilityRouteGoesAroundActualAngledCorners(degrees: 75)",
+      "Result": "Passed",
+      "Seconds": 0.0030004
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.VisibilityRouteGoesAroundActualAngledCorners(degrees: 15)",
+      "Result": "Passed",
+      "Seconds": 0.0002469
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.VisibilityRouteGoesAroundActualAngledCorners(degrees: 37.5)",
+      "Result": "Passed",
+      "Seconds": 0.0000533
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.UnoccupiedCornerCanContainASmallWallOrCircle(circle: True)",
+      "Result": "Passed",
+      "Seconds": 0.0002198
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.UnoccupiedCornerCanContainASmallWallOrCircle(circle: False)",
+      "Result": "Passed",
+      "Seconds": 0.0001754
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 37.5)",
+      "Result": "Passed",
+      "Seconds": 0.0010656
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 45)",
+      "Result": "Passed",
+      "Seconds": 0.0001183
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 120)",
+      "Result": "Passed",
+      "Seconds": 0.0000081
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 15)",
+      "Result": "Passed",
+      "Seconds": 0.0000034
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 359.899994)",
+      "Result": "Passed",
+      "Seconds": 0.0000041
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 225)",
+      "Result": "Passed",
+      "Seconds": 0.0000036
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 30)",
+      "Result": "Passed",
+      "Seconds": 0.0000028
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 382.5)",
+      "Result": "Passed",
+      "Seconds": 0.000003
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: -22.5)",
+      "Result": "Passed",
+      "Seconds": 0.0000029
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MetricBaseRetainsTheAuthoredAngle(degrees: 60)",
+      "Result": "Passed",
+      "Seconds": 0.0000028
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.SavedAnglesAndCheckpointReplayDoNotRequantize(scenario: ToxicFume)",
+      "Result": "Passed",
+      "Seconds": 0.0004978
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.SavedAnglesAndCheckpointReplayDoNotRequantize(scenario: Explosion)",
+      "Result": "Passed",
+      "Seconds": 0.0003438
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.DiagonalBarrierDoesNotBecomeABlastOrFumeWall",
+      "Result": "Passed",
+      "Seconds": 0.0001401
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.CollisionPushesAlongTheRotatedSurfaceNormal(degrees: 135)",
+      "Result": "Passed",
+      "Seconds": 0.0005996
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.CollisionPushesAlongTheRotatedSurfaceNormal(degrees: 15)",
+      "Result": "Passed",
+      "Seconds": 0.0002395
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.CollisionPushesAlongTheRotatedSurfaceNormal(degrees: 37.5)",
+      "Result": "Passed",
+      "Seconds": 0.0000651
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.SweptBodyClearanceUsesRoundedCornersNotAnOversizedBox(offset: 0.100000001, blocked: True)",
+      "Result": "Passed",
+      "Seconds": 0.0001827
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.SweptBodyClearanceUsesRoundedCornersNotAnOversizedBox(offset: 0.150000006, blocked: False)",
+      "Result": "Passed",
+      "Seconds": 0.0001817
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.EmptyBroadPhaseCornersDoNotBecomeInvisibleObstacles",
+      "Result": "Passed",
+      "Seconds": 0.0001818
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.OffFloorRotatedCornersAreRejected",
+      "Result": "Passed",
+      "Seconds": 0.0001113
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.DiagonalRowsSnapFlushAndRejectRealOverlap(degrees: 45)",
+      "Result": "Passed",
+      "Seconds": 0.0014038
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.DiagonalRowsSnapFlushAndRejectRealOverlap(degrees: 22.5)",
+      "Result": "Passed",
+      "Seconds": 0.0001741
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.DiagonalRowsSnapFlushAndRejectRealOverlap(degrees: 70)",
+      "Result": "Passed",
+      "Seconds": 0.000054
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.DifferentAnglesDoNotSnapOrSilentlyChangeTheAngle",
+      "Result": "Passed",
+      "Seconds": 0.0001531
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MovingAgentCannotCrossTheThinRotatedBase(degrees: 30)",
+      "Result": "Passed",
+      "Seconds": 0.000266
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.MovingAgentCannotCrossTheThinRotatedBase(degrees: 45)",
+      "Result": "Passed",
+      "Seconds": 0.0002288
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.FinalContainmentDoesNotTeleportAnAgentInAFreeCorner",
+      "Result": "Passed",
+      "Seconds": 0.0002329
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.PositiveOverlapIsRejectedEvenWhenAnglesDiffer",
+      "Result": "Passed",
+      "Seconds": 0.0001287
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.FineGridCanConnectFromAFreeCornerInsideTheBroadPhaseBox",
+      "Result": "Passed",
+      "Seconds": 0.0005203
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.AngledGeometryStillReusesTheSharedExitField",
+      "Result": "Passed",
+      "Seconds": 0.0040852
+    },
+    {
+      "Name": "CrowdSim.Tests.BarricadeAngleTests.SpawnAndRestoreUseTheRealFootprint",
+      "Result": "Passed",
+      "Seconds": 0.0003669
+    },
+    {
+      "Name": "CrowdSim.Tests.SimulationBasicTests.RunningGuardrail_RequiresAtLeastOneExit",
+      "Result": "Passed",
+      "Seconds": 0.0002816
+    },
+    {
+      "Name": "CrowdSim.Tests.SimulationBasicTests.InitialState_StartsWithWanderingAgents",
+      "Result": "Passed",
+      "Seconds": 0.0002971
+    },
+    {
+      "Name": "CrowdSim.Tests.SimulationBasicTests.ExitFlow_AllowsAgentToLeaveThroughTrueOpening",
+      "Result": "Passed",
+      "Seconds": 0.0002871
+    },
+    {
+      "Name": "CrowdSim.Tests.SimulationBasicTests.Explosion_StartlesAgentsThenTheyReact",
+      "Result": "Passed",
+      "Seconds": 0.0123347
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.MobileAgent_BehindSlowCrawler_ChoosesLateralBypassWhenSideSpaceIsClear",
+      "Result": "Passed",
+      "Seconds": 0.000544
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.VisibilityGraphPlanner_FindsBodyClearRouteAroundBlockage",
+      "Result": "Passed",
+      "Seconds": 0.0008655
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.ThreatEscape_WhenForwardAndSidewaysAreBlocked_AllowsBoundedBackSideStep",
+      "Result": "Passed",
+      "Seconds": 0.0004055
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.BlockedHelper_AbandonsAssistanceAfterBoundedNoProgressWindow",
+      "Result": "Passed",
+      "Seconds": 0.0096797
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.DirectFront_CanSwitchAlreadyEvacuatingAgentToThreatEscape",
+      "Result": "Passed",
+      "Seconds": 0.0011281
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.EvacuationRouting_UsesWaypointBeforeLegacyExploration",
+      "Result": "Passed",
+      "Seconds": 0.003767
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.HighHelpingTrait_CanAttendNearbyCasualtyWithoutChangingCasualtyOutcome",
+      "Result": "Passed",
+      "Seconds": 0.0010977
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.ThreatEscape_CasualtyCluster_ChoosesClearLocalDetourInsteadOfPressingForward",
+      "Result": "Passed",
+      "Seconds": 0.0004479
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.TwoHelpers_AssignedToSameCasualty_UseOppositeAssistanceSlots",
+      "Result": "Passed",
+      "Seconds": 0.0003449
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.DirectlyExposedMobileAgent_BeginsWithThreatEscapeIntent",
+      "Result": "Passed",
+      "Seconds": 0.0001769
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.SameSeed_ReproducesBehaviorTraits",
+      "Result": "Passed",
+      "Seconds": 0.0003123
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.DirectlyExposedAgent_CannotBeRelayedSameEpisodeAfterDirectWindowExpires",
+      "Result": "Passed",
+      "Seconds": 0.0001279
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.PurposefulEvacuation_RemainsBriskAfterAcutePanicSubsides",
+      "Result": "Passed",
+      "Seconds": 0.0001955
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.PanicDecay_IsTimeBasedAndRemainsVisibleForSeveralSeconds",
+      "Result": "Passed",
+      "Seconds": 0.0003348
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.CrawlingAgent_DoesNotActAsHerdMovementLeader",
+      "Result": "Passed",
+      "Seconds": 0.0001879
+    },
+    {
+      "Name": "CrowdSim.Tests.BehaviorRebuildTests.PersistentSocialAlarm_ApproachesBoundedStressInsteadOfSaturating",
+      "Result": "Passed",
+      "Seconds": 0.0003475
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureWorkflowRegressionTests.RestoreStillRejectsOverlappingFurniture",
+      "Result": "Passed",
+      "Seconds": 0.0085767
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureWorkflowRegressionTests.ReportedSceneLoadsWithoutMovingOrDuplicatingOccupants",
+      "Result": "Passed",
+      "Seconds": 0.0031249
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureWorkflowRegressionTests.ReportedSceneReplaysAtFrameZeroAfterFumeAndChairDeparture",
+      "Result": "Passed",
+      "Seconds": 0.6267742
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureWorkflowRegressionTests.HeavyFurnitureRoutesRemainBodyClearBeforeAndAfterToppling",
+      "Result": "Passed",
+      "Seconds": 0.4902781
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureWorkflowRegressionTests.ReportedSceneSurvivesFileSaveLoadRoundTrip",
+      "Result": "Passed",
+      "Seconds": 0.0040896
+    },
+    {
+      "Name": "CrowdSim.Tests.FurnitureWorkflowRegressionTests.RestoreStillRejectsStandingPersonInsidePhysicalChair",
+      "Result": "Passed",
+      "Seconds": 0.0014992
+    }
+  ]
+}

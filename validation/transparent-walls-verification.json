@@ -1,0 +1,44 @@
+{
+  "base": "CrowdSimCs(20261012-031833).zip",
+  "change": "Make only room perimeter walls fully transparent in the renderer",
+  "modifiedCodeFiles": [
+    "src/CrowdSim.OpenGL/Rendering/WorldRenderer.cs"
+  ],
+  "coreFilesByteIdentical": 42,
+  "allOtherCSharpFilesByteIdentical": true,
+  "dependenciesUnchanged": true,
+  "build": {
+    "configuration": "Release",
+    "sdk": "8.0.415",
+    "result": "Passed",
+    "existingAdvisory": "xUnit2031 in RectangularTableBlastTests.cs:308"
+  },
+  "tests": {
+    "runner": "xUnit 2.9.3 in-process execution engine",
+    "passed": 404,
+    "failed": 0,
+    "skipped": 0
+  },
+  "visualQA": {
+    "backend": "Native Silk.NET/ImGui OpenGL on Xvfb/Mesa software rendering",
+    "scenes": [
+      "Explosion builder",
+      "Explosion runtime ready, 50 agents",
+      "Toxic Fume builder, 205 planned occupants"
+    ],
+    "window": [
+      1600,
+      900
+    ],
+    "result": "Perimeter walls invisible; floor, grid, exits, blocks, circular obstacles and furniture remain visible",
+    "windowsSpecificRenderingTested": false
+  },
+  "preservedWallLogic": [
+    "Collision and repulsion",
+    "Room bounds and placement validation",
+    "Exit opening/capture and evacuation",
+    "Navigation and line-of-sight",
+    "Blast and toxic-fume obstacle interactions"
+  ],
+  "implementation": "Return from WorldRenderer.DrawWall for non-blockage, non-blue-wall chunks; furniture has its existing separate render path."
+}

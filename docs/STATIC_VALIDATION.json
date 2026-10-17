@@ -1,0 +1,13 @@
+{
+  "project_xml": "well-formed",
+  "csharp_parser": "Superseded by successful C# compilation of current authored sources",
+  "benchmark_baseline_files_identical": 26,
+  "independent_grid_vs_bruteforce_cases": 1000,
+  "independent_numeric_checks": "SI drive, distance attenuation, constant-speed time scaling, prism face topology passed",
+  "production_compile": "Core, OpenGL, tests and FurnitureLatency passed direct Roslyn/.NET 8 compilation",
+  "xunit_tests": "129 passed, 0 failed through reflection runner; VSTest engine crashed before executing",
+  "scenario_lifecycle_smoke": "User JSON load, file save/load and replay after fume/chair departure passed: 205 occupants, 80 seated",
+  "cpu_benchmarks": "User scene, 600 steps: before median 7.78ms/p95 16.31ms/max 402.00ms; after median 3.35ms/p95 16.70ms/max 81.16ms; see raw CSVs",
+  "gpu_fps_recording_validation": "NOT RUN",
+  "no_latency_regression": "Worst-step and total CPU time improved in this scene; not a general performance guarantee"
+}

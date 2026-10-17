@@ -1,0 +1,106 @@
+[
+  {
+    "path": "src/CrowdSim.Core/Simulation.Step.cs",
+    "sha256": "312cc9fce1c3378ca6d3924a18000be0623a08032d9fa6ef1a153bdb17092589"
+  },
+  {
+    "path": "src/CrowdSim.Core/Simulation.cs",
+    "sha256": "2b1c25e6b08d698b9ad0c538fbaa0ffa9721a7f18766a443598b176c239154b1"
+  },
+  {
+    "path": "src/CrowdSim.Core/CrowdSim.Core.csproj",
+    "sha256": "57a9b409a6e8b03c68e869c88c0001389af591f0cb0dc2a636fd4c2224da8c2d"
+  },
+  {
+    "path": "src/CrowdSim.Core/Simulation.Collisions.cs",
+    "sha256": "6d755cdad2b440409cc7ebc98de2cb72fd98b77bacea066da1e9c2aa08e8c3cf"
+  },
+  {
+    "path": "src/CrowdSim.Core/Model/EnvironmentEntities.cs",
+    "sha256": "e5a50bee90cd2cbadeb0cbb80aee5c73e7664f53b70bc796bc59bcd4271b6317"
+  },
+  {
+    "path": "src/CrowdSim.Core/Model/Agent.cs",
+    "sha256": "6ad802e55eee2a91d06eb079f39f6f41bb1cafb4cacd848af55d6ab519ae4f28"
+  },
+  {
+    "path": "src/CrowdSim.Core/Model/AgentState.cs",
+    "sha256": "f42fee0c22521f9112b2c69c4498b9368ba175b875d0477d279d17e4aabc5eec"
+  },
+  {
+    "path": "src/CrowdSim.Core/Model/Debris.cs",
+    "sha256": "29637a58ae21c2ed7b0b1f8eeca0ef3b1ef1d34f2b2cd454b81288432fb53ba0"
+  },
+  {
+    "path": "src/CrowdSim.Core/Model/SimulationEnvironment.cs",
+    "sha256": "9635d7f0fc03cb97a81f5a38fdee04b3289e47ffd04f2ff4778f9a86b210ece8"
+  },
+  {
+    "path": "src/CrowdSim.Core/Model/Wall.cs",
+    "sha256": "d2d1cd27ca61abaa1c3cce938a37e64a191f758b64d7f0faddc52b41d66c47c4"
+  },
+  {
+    "path": "src/CrowdSim.Core/Model/CircleBlockage.cs",
+    "sha256": "582b9f37a4ee4f12d2a5c98f1a2714f64916af4a00379654ab87083c3fffe1b9"
+  },
+  {
+    "path": "src/CrowdSim.Core/Geometry/VectorMath.cs",
+    "sha256": "d740435fd2e69236899570b720ae73c067f31497b906538be0f93f9060ff419f"
+  },
+  {
+    "path": "src/CrowdSim.Core/Geometry/CircleGeometry.cs",
+    "sha256": "ce9bd8ddb0f1f5e3d706f5dac0fbdaf613f78429d0da21b4c486aad60de971af"
+  },
+  {
+    "path": "src/CrowdSim.Core/Configuration/SimulationConfig.cs",
+    "sha256": "17ba1a068551fb8d6cb4dc30c886339b47ae1c8135cd68f39448fe719cd020f4"
+  },
+  {
+    "path": "src/CrowdSim.Core/Persistence/ScenarioDefinition.cs",
+    "sha256": "86886095f82213ad1a9276e79b46f891bbab95fb0f413d0b03e6bb63efa123f4"
+  },
+  {
+    "path": "src/CrowdSim.Core/Persistence/ScenarioFileStore.cs",
+    "sha256": "347b0afb05ee91a4255cf874db6df44c355a879a0d015027879ff2f7f24eaaa3"
+  },
+  {
+    "path": "src/CrowdSim.Core/Systems/SfmEngine.cs",
+    "sha256": "93df114133cb7fd992cf989918ab5d3650da1efed60c41276d36a72cb3062888"
+  },
+  {
+    "path": "src/CrowdSim.Core/Systems/VisibilitySystem.cs",
+    "sha256": "586e3bc37611373d5b89df94cf3cb16168a5e47ab6bde6008a5d2d3034cfd507"
+  },
+  {
+    "path": "src/CrowdSim.Core/Systems/VisibilityGraphPlanner.cs",
+    "sha256": "43cd5d31ed3e489d3213c9fc73ffe36a799b9d9e3c47134fcddebd692922635b"
+  },
+  {
+    "path": "src/CrowdSim.Core/Systems/EvacuationSystem.cs",
+    "sha256": "5f5b38ab9265438191a20246d3db716971e5fe509c9062e5b9fc276dd4d29c93"
+  },
+  {
+    "path": "src/CrowdSim.Core/Systems/ExplosionSystem.cs",
+    "sha256": "248b42900ade2eadc85f26b2d34f48db9df7e25ea1de4f619a209e9c99d94750"
+  },
+  {
+    "path": "src/CrowdSim.OpenGL/Rendering/WorldRenderer.cs",
+    "sha256": "830e249eb285367cff3d5264ac2bea260f803c27930f7da18864d10defe9a61a"
+  },
+  {
+    "path": "src/CrowdSim.OpenGL/Rendering/Camera3D.cs",
+    "sha256": "c0b64a7ab6c64b4e7348ca7bb5231a6e7ccc67a2ffd8d5b82bf2c43068d8e968"
+  },
+  {
+    "path": "src/CrowdSim.OpenGL/UI/BlastZoneStyle.cs",
+    "sha256": "b4bd91cc56a0ecfec6937826dfddd904b9faa57f07eb607fb6558756064f4abd"
+  },
+  {
+    "path": "src/CrowdSim.OpenGL/UI/RenderDebugOptions.cs",
+    "sha256": "9d96e917a641295bd718e261d8326d6878b09174cc701f640dd83e8b1a12bce8"
+  },
+  {
+    "path": "src/CrowdSim.OpenGL/UI/InteractionModes.cs",
+    "sha256": "0d8f2b966a0741a633f75735631be206ed3af5a07752e3cbed44925de7dee07f"
+  }
+]

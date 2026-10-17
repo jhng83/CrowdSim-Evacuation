@@ -1,0 +1,56 @@
+{
+  "base": "CrowdSimCs_TransparentPerimeterWalls.zip",
+  "date": "2026-10-12",
+  "change": "Replace distant flat agent drawings with the existing reduced world-space 3D humanoid",
+  "modifiedCodeFiles": [
+    "src/CrowdSim.OpenGL/Rendering/WorldRenderer.cs",
+    "src/CrowdSim.OpenGL/Rendering/WorldRenderer.AgentOutlines.cs"
+  ],
+  "coreFilesByteIdentical": 42,
+  "allOtherCSharpFilesByteIdentical": true,
+  "dependenciesAndFixturesUnchanged": true,
+  "build": {
+    "configuration": "Release",
+    "sdk": "8.0.415",
+    "result": "Passed",
+    "existingWarning": "xUnit2031 in RectangularTableBlastTests.cs:308"
+  },
+  "tests": {
+    "runner": "xUnit 2.9.3 in-process execution engine",
+    "passed": 404,
+    "failed": 0,
+    "skipped": 0
+  },
+  "visualQA": {
+    "backend": "Native Silk.NET/ImGui OpenGL on Xvfb/Mesa software rendering",
+    "window": [
+      1600,
+      900
+    ],
+    "explosionCrowd": 300,
+    "explosionZooms": [
+      0.45,
+      1.0,
+      2.5
+    ],
+    "checks": [
+      "World-space shaded 3D models at all three tested zooms",
+      "Native start/pause with animated walking agents",
+      "Transparent perimeter walls retained",
+      "Toxic Fume scene precomputed and finalised with 205 occupants",
+      "Toxic Fume default and minimum-zoom views inspected"
+    ],
+    "windowsSpecificRenderingTested": false,
+    "windowsPerformanceBenchmarkPerformed": false
+  },
+  "preserved": [
+    "Simulation physics and navigation",
+    "All behavioural states and injury/fume outcomes",
+    "Animation, colours and black outlines",
+    "Selected-agent/follow/POV paths",
+    "Transparent perimeter wall behaviour",
+    "Builder planning markers",
+    "Scenario persistence, replay and AVI implementation"
+  ],
+  "implementation": "Far/heavy agent LOD dispatch now calls DrawReducedHumanoid. Flat billboard renderer and its unused quad-outline helper are removed."
+}

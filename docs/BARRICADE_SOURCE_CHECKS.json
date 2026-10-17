@@ -1,0 +1,39 @@
+{
+  "dotnet_build_and_xunit": "NOT RUN: dotnet executable unavailable",
+  "lexical_delimiter_scan": {
+    "files": 88,
+    "issues": [],
+    "not_a_csharp_compiler": true
+  },
+  "project_xml_and_explicit_source_links": {
+    "projects": 10,
+    "status": "passed"
+  },
+  "enum_references": "passed",
+  "preserved_physics_navigation_configuration_outlines_packages": {
+    "files": 25,
+    "unchanged": true
+  },
+  "float32_numerical_reference": {
+    "old_rounding_rejections_in_40_samples": 9,
+    "largest_old_sliver_metres": 1.9073486328125e-06,
+    "new_same_and_mixed_size_edge_comparisons": 500,
+    "new_failures": 0,
+    "not_csharp_execution": true
+  },
+  "benchmark_layout_geometry_reference": "24 tables + stage + 64 barricades fit without overlaps (numerical reference only)",
+  "new_declared_regression_cases": {
+    "by_file": {
+      "BlockageAdjacencyTests.cs": 17,
+      "BarricadeTests.cs": 21,
+      "BuilderAssetSelectionTests.cs": 10
+    },
+    "total": 48,
+    "execution": "not run"
+  },
+  "diff_whitespace_check": "passed",
+  "base_archive": {
+    "name": "CrowdSimCs(9).zip",
+    "sha256": "096b75eac8325b102ec9ca6e7861130264569c60bffbfc98085afaf7aff7322b"
+  }
+}

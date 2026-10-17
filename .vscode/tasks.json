@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dotnet: restore",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["restore", "${workspaceFolder}/CrowdSim.sln"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "dotnet: build",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["build", "${workspaceFolder}/CrowdSim.sln", "--configuration", "Debug", "--no-restore"],
+      "dependsOn": "dotnet: restore",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "dotnet: test",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["test", "${workspaceFolder}/CrowdSim.sln", "--configuration", "Debug"],
+      "group": "test",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "run: CrowdSim 3D",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["run", "--project", "${workspaceFolder}/src/CrowdSim.OpenGL/CrowdSim.OpenGL.csproj"],
+      "dependsOn": "dotnet: build",
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

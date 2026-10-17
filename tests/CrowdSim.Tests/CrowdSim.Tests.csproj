@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../src/CrowdSim.OpenGL/UI/BuilderAssetSelection.cs" Link="UiLogic/BuilderAssetSelection.cs" />
+    <Compile Include="../../src/CrowdSim.OpenGL/UI/DashboardLayout.cs" Link="UiLogic/DashboardLayout.cs" />
+    <Compile Include="../../src/CrowdSim.OpenGL/UI/InspectorPanelState.cs" Link="UiLogic/InspectorPanelState.cs" />
+    <None Update="Fixtures/*.json" CopyToOutputDirectory="PreserveNewest" />
+    <ProjectReference Include="../../src/CrowdSim.Core/CrowdSim.Core.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

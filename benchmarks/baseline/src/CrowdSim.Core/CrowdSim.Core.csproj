@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>CrowdSim.Core</AssemblyName>
+    <RootNamespace>CrowdSim.Core</RootNamespace>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>CrowdSim.OpenGL</AssemblyName>
+    <RootNamespace>CrowdSim.OpenGL</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../CrowdSim.Core/CrowdSim.Core.csproj" />
+    <PackageReference Include="Silk.NET.Windowing" />
+    <PackageReference Include="Silk.NET.Input" />
+    <PackageReference Include="Silk.NET.OpenGL" />
+    <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" />
+    <PackageReference Include="ImGui.NET" />
+    <PackageReference Include="SharpAvi" />
+    <PackageReference Include="SharpAvi.ImageSharp" />
+  </ItemGroup>
+</Project>

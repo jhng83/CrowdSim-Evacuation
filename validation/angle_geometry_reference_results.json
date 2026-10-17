@@ -1,0 +1,14 @@
+{
+  "verification_type": "independent Python float32 algorithm/reference check; not C# execution",
+  "seed": 27351,
+  "checks": {
+    "swept_disc_vs_polygon": 5000,
+    "point_clearance_vs_polygon": 5000,
+    "sat_overlap_vs_polygon": 5000,
+    "disc_separation": 5000,
+    "flush_diagonal_contacts": 720,
+    "diagonal_overlap_rejections": 720
+  },
+  "total": 21440,
+  "result": "passed"
+}

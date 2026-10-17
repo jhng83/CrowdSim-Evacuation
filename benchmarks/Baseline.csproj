@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>CrowdSim.Bench.Baseline</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <SourceRoot>baseline</SourceRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="$(SourceRoot)/src/CrowdSim.OpenGL/Rendering/*.cs" Link="Rendering/%(Filename)%(Extension)" />
+    <Compile Include="$(SourceRoot)/src/CrowdSim.OpenGL/UI/InteractionModes.cs" Link="UI/InteractionModes.cs" />
+    <Compile Include="$(SourceRoot)/src/CrowdSim.OpenGL/UI/RenderDebugOptions.cs" Link="UI/RenderDebugOptions.cs" />
+    <Compile Include="$(SourceRoot)/src/CrowdSim.OpenGL/UI/BlastZoneStyle.cs" Link="UI/BlastZoneStyle.cs" />
+    <ProjectReference Include="$(SourceRoot)/src/CrowdSim.Core/CrowdSim.Core.csproj" />
+    <PackageReference Include="ImGui.NET" />
+  </ItemGroup>
+</Project>
