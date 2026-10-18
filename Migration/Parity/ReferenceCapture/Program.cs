@@ -4,6 +4,12 @@ using System.Text.Json;
 using CrowdSim.Core;
 using CrowdSim.Core.Model;
 using CrowdSim.Core.Persistence;
+#if PORTABLE
+using Random = CrowdSim.Core.Compatibility.ReferenceRandom;
+using OracleQueue = CrowdSim.Core.Compatibility.ReferencePriorityQueue<int, int>;
+#else
+using OracleQueue = System.Collections.Generic.PriorityQueue<int, int>;
+#endif
 
 namespace CrowdSim.Migration.ReferenceCapture;
 
@@ -182,7 +188,7 @@ internal static class Program
                 Doubles = Enumerable.Range(0, 20).Select(_ => doubles.NextDouble()).ToArray(),
                 Bytes = Convert.ToHexString(buffer).ToLowerInvariant() };
         }).ToArray();
-        PriorityQueue<int, int> queue = new();
+        OracleQueue queue = new();
         for (int i = 0; i < 16; i++) queue.Enqueue(i, i % 3);
         List<int> order = new();
         while (queue.TryDequeue(out int item, out _)) order.Add(item);

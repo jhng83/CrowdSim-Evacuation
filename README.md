@@ -1,10 +1,13 @@
-# Unity migration — Milestone 1
+# Unity migration — Milestone 2
 
 On `unity-migration`, open **UnityProject/** with **Unity 6000.3.26f1**, then open
-`Assets/CrowdSim/Scenes/Bootstrap.unity`. M1 provides the Unity startup foundation;
-the simulation port begins in M2. Follow the [local M1 checklist](docs/unity-migration/M1_LOCAL_TESTING.md)
-and [migration status](docs/unity-migration/STATUS.md). The original .NET application
-and tests below remain the behavioral reference.
+**Assets/CrowdSim/Scenes/Validation/SimulationParity.unity**. M2 ports the simulation
+engine and provides three diagnostic presets with step/play/pause/reset, both Hybrid
+modes and reference-checkpoint/replay results. M1 was tested successfully by the user.
+Follow the [M2 local checklist](docs/unity-migration/M2_LOCAL_TESTING.md) and
+[migration status](docs/unity-migration/STATUS.md). Cloud regressions pass; M2 Unity
+import/tests/rendering await local verification. The original .NET application and
+tests below remain unchanged as the behavioral reference.
 
 # Always-3D agents — current revision
 

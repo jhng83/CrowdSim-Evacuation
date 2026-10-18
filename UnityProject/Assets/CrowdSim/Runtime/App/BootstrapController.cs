@@ -5,6 +5,7 @@ using CrowdSim.Migration;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace CrowdSim.Unity.Foundation
@@ -20,6 +21,7 @@ namespace CrowdSim.Unity.Foundation
         private Action _showFume;
         private Action _reset;
         private Action _check;
+        private Action _openParity;
 
         /// <summary>The currently displayed scenario overview, for integration tests.</summary>
         public string SelectedOverview { get; private set; } = "Welcome";
@@ -55,17 +57,19 @@ namespace CrowdSim.Unity.Foundation
             _showExplosion = () => ShowOverview("Explosion",
                 "Shock, debris, shielding and crowd response",
                 "The original fixed-step model is preserved as the reference. " +
-                "The portable engine and executable presets arrive in M2; full Explosion controls and analysis arrive in M6.");
+                "The portable engine and executable presets are available in M2; full Explosion controls and analysis arrive in M6.");
             _showFume = () => ShowOverview("Toxic Fume",
                 "Precomputed plume, exposure and evacuation",
                 "The original obstacle-aware normalized fume model is the reference. " +
-                "The portable engine arrives in M2; source placement, precomputation, preview and release arrive in M7.");
+                "The portable engine is available in M2; source placement, precomputation, preview and release controls arrive in M7.");
             _reset = ResetOverview;
             _check = RunStartupChecks;
+            _openParity = () => SceneManager.LoadScene("SimulationParity");
             _root.Q<Button>("explosion-overview").clicked += _showExplosion;
             _root.Q<Button>("fume-overview").clicked += _showFume;
             _root.Q<Button>("reset-overview").clicked += _reset;
             _root.Q<Button>("run-checks").clicked += _check;
+            _root.Q<Button>("open-parity").clicked += _openParity;
             _root.Q<Label>("editor-version").text = "EDITOR  " + Application.unityVersion;
             _root.Q<Label>("milestone-label").text = MigrationContract.Milestone;
             ResetOverview();
@@ -81,8 +85,8 @@ namespace CrowdSim.Unity.Foundation
         private void ResetOverview()
         {
             ShowOverview("Welcome", "A new home for the same simulation",
-                "Explore the two scenario overviews, check the project setup, then follow the M1 local test checklist. " +
-                "This milestone provides the Unity foundation; no crowd simulation runs yet.");
+                "Explore the two scenario overviews, check the setup, then open the M2 simulation parity scene. " +
+                "Run a seeded preset, inspect fixed ticks, and compare reference checkpoints.");
         }
 
         private void ShowOverview(string scenario, string title, string description)
@@ -105,8 +109,8 @@ namespace CrowdSim.Unity.Foundation
             _root.Q<Label>("pipeline-check").text = (pipelineOk ? "PASS" : "CHECK") + "  Universal Render Pipeline";
             _root.Q<Label>("samples-check").text = (samplesOk ? "PASS" : "CHECK") + "  Two bundled reference examples";
             _root.Q<Label>("setup-status").text = editorOk && pipelineOk && samplesOk
-                ? "Startup checks passed. Ready for your M1 Editor tests."
-                : "Check the setup items above before accepting M1.";
+                ? "Startup checks passed. Open the M2 diagnostic scene when ready."
+                : "Check the setup items above before running diagnostics.";
         }
 
         private void OnDisable()
@@ -118,6 +122,7 @@ namespace CrowdSim.Unity.Foundation
                 _root.Q<Button>("fume-overview").clicked -= _showFume;
                 _root.Q<Button>("reset-overview").clicked -= _reset;
                 _root.Q<Button>("run-checks").clicked -= _check;
+                _root.Q<Button>("open-parity").clicked -= _openParity;
             }
             if (_document != null)
             {

@@ -109,7 +109,10 @@
         }
       },
       "crowdsim.portable": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "Newtonsoft.Json": "[13.0.2, )"
+        }
       },
       "recordingdependencyprobe": {
         "type": "Project",
@@ -117,6 +120,12 @@
           "SharpAvi": "[3.0.1, )",
           "SharpAvi.ImageSharp": "[3.0.0, )"
         }
+      },
+      "Newtonsoft.Json": {
+        "type": "CentralTransitive",
+        "requested": "[13.0.2, )",
+        "resolved": "13.0.2",
+        "contentHash": "R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg=="
       },
       "SharpAvi": {
         "type": "CentralTransitive",

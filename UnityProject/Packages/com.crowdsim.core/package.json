@@ -1,8 +1,13 @@
 {
   "name": "com.crowdsim.core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "displayName": "CrowdSim Portable Core",
-  "description": "Unity-independent migration contract. Simulation port begins in M2.",
+  "description": "Unity-independent C# 9/.NET Standard 2.1 simulation engine and M2 diagnostics.",
   "unity": "6000.3",
-  "author": { "name": "CrowdSim-Evacuation" }
+  "author": {
+    "name": "CrowdSim-Evacuation"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.2"
+  }
 }

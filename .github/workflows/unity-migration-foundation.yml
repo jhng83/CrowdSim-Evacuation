@@ -1,4 +1,4 @@
-name: Unity migration foundation
+name: Unity migration validation
 
 on:
   push:
@@ -11,20 +11,20 @@ permissions:
   contents: read
 
 jobs:
-  reference-and-foundation:
+  reference-and-portable:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.415
-      - name: Verify unchanged reference, portable build, static Unity contract and seeded baselines
+      - name: Verify original and portable regressions, Unity contract and both seeded captures
         run: bash Migration/Tools/validate.sh
       - name: Retain actual test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: migration-foundation-test-results
+          name: migration-test-results
           path: Migration/artifacts/tests/*.trx
           if-no-files-found: warn
 

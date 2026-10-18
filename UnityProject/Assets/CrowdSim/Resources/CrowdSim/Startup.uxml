@@ -7,7 +7,8 @@
                 <ui:Label name="milestone-label" class="milestone" />
             </ui:VisualElement>
             <ui:Label text="A foundation for what comes next." class="headline" />
-            <ui:Label text="Unity migration / Milestone 1" class="subtitle" />
+            <ui:Label text="Unity migration / Milestone 2" class="subtitle" />
+            <ui:Button name="open-parity" text="Open M2 simulation parity scene" class="scenario-button" />
             <ui:VisualElement class="cards">
                 <ui:VisualElement class="scenario-card explosion-card">
                     <ui:Label text="01 / EXPLOSION" class="card-kicker explosion-text" />
@@ -37,7 +38,7 @@
                 <ui:Button name="run-checks" text="Run startup checks" class="quiet-button" />
             </ui:VisualElement>
             <ui:VisualElement class="footer">
-                <ui:Label text="M1 FOUNDATION / M2 SIMULATION ENGINE NEXT" class="footer-label" />
+                <ui:Label text="M2 SIMULATION ENGINE / M3 BUILDER NEXT" class="footer-label" />
                 <ui:Label name="editor-version" class="footer-label" />
             </ui:VisualElement>
         </ui:VisualElement>

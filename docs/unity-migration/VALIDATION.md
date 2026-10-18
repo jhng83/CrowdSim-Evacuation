@@ -1,65 +1,62 @@
-# M1 validation evidence
+# M2 validation evidence
 
 Executed in Codex cloud on 2026-10-18, Linux x64, SDK 8.0.415/runtime 8.0.21.
-This file distinguishes commands executed here from tests supplied for local Unity.
+M1 was accepted by the user before this task; its delivery results are retained in
+[M1_VALIDATION.md](M1_VALIDATION.md). No local Editor logs were supplied with that acceptance.
 
 | Check | Actual result |
 | --- | --- |
-| Static project/asset/package graph/UXML checks | Passed: 30 unique GUIDs, resolved serialized references, startup bindings and two exact fixture copies |
-| Reference preservation | Passed: SHA-256 manifest for 106 original files; no changes to src/, tests/, scenarios/, solution or reference dependency declarations |
+| Static asset/project/package/binding checks | Passed: 103 unique GUIDs, serialized references, both scenes, bundled scenarios and exact parity data |
+| Reference preservation | Passed: SHA-256 manifest for 106 original files, unchanged original source/tests/scenarios/solution/dependency pins and M1 goldens |
 | Original Release solution build | Passed |
-| Original xUnit regression suite | 404 passed, 0 failed, 0 skipped |
-| Foundation/recording-dependency xUnit suite | 8 passed, 0 failed, 0 skipped |
-| Portable package source compilation | Passed: same production shell source, C# 9 / netstandard2.1, no UnityEngine or reference-engine assembly dependency |
-| Reference capture replay | Passed: six cases, 121 tick observations each, repeat-generated hashes and compatibility oracle matched checked-in baselines |
-| Encoder framework assets | Resolved SharpAvi/SharpAvi.ImageSharp netstandard2.0 and ImageSharp netstandard2.1 assets; encoded two-frame probe |
-| Independent AVI inspection/decode | ffprobe: MJPEG, 64x64, 20/1 fps, 2 frames; ffmpeg decoded both, average RGB red [254,0,0] then blue [0,0,254] |
-| Shell syntax and Git whitespace checks | Passed |
-| GitHub Actions workflow | Added; remote execution is not established by these cloud results |
-| Unity package resolution/first import | **Not executed — no Unity Editor installed** |
-| Unity frontend C# compilation | **Not executed** |
-| Unity EditMode tests | **3 supplied, not executed** |
-| Unity PlayMode test | **1 supplied, not executed** |
-| Actual Unity appearance, resizing and native input | **Not executed** |
-| Desktop player build/run | **Not executed; final player acceptance belongs to M11** |
+| Original xUnit regressions | **404 passed, 0 failed, 0 skipped** |
+| Linked portable xUnit regressions | **376 passed, 0 failed, 0 skipped**; same original core test source/assertions, portable engine reference |
+| Foundation/diagnostic xUnit tests | **32 passed, 0 failed, 0 skipped**; six sessions/replay, random/queue differential checks, JSON guards, detached frames, scheduler and M1 checks |
+| Production portable compilation | Passed: all engine/compatibility/diagnostic source, C# 9 / netstandard2.1, no UnityEngine or reference-engine dependency |
+| Original seeded capture | Passed: all six cases, all 121 tick hashes each, readable checkpoints/replay and compatibility oracle match unchanged M1 baselines |
+| Portable seeded capture | Passed: same six-case and compatibility comparisons, exact match in pinned cloud runtime |
+| Unity JSON package metadata | Inspected version 3.2.2 / codec 13.0.2; explicit precompiled DLL assembly reference |
+| Shell syntax and Git whitespace | Passed |
+| GitHub Actions | Workflow updated; remote run result **not verified** |
+| Unity first import/UPM/frontend C# compilation | **Not executed — no Unity Editor installed** |
+| Unity EditMode tests | **9 supplied, not executed** (3 foundation + 6 host-runtime parity cases) |
+| Unity PlayMode tests | **2 supplied, not executed** (foundation + actual diagnostic-scene lifecycle) |
+| Unity appearance/native input/resizing/Mono numeric results | **Not executed** |
+| Standalone player build/run | **Not executed**, final acceptance belongs to M11 |
 
-The original reference can emit its existing xUnit2031 advisory on a clean build;
-its tests and assertion behavior were not changed. No tests were disabled or skipped.
+The original and linked original tests can emit the existing xUnit2031 advisory.
+Original assertions were not changed, and no tests were disabled or skipped. The
+28 frontend-helper cases excluded from the portable-core project still run in
+the 404-case original suite; their Unity frontend replacements arrive later.
 
-## Reproduce available cloud checks
+## Reproduce cloud checks
 
-From the repository root, with an installed .NET SDK 8.0.415:
+From the repository root with .NET SDK 8.0.415/runtime 8.0.21 installed:
 
 ```bash
 bash Migration/Tools/validate.sh
 ```
 
-If dotnet is installed privately, set DOTNET to its executable before invoking:
+Private SDK example:
 
 ```bash
 DOTNET=/workspace/crowdsim-tools/dotnet/dotnet bash Migration/Tools/validate.sh
 ```
 
-The script enters Migration/ to activate its SDK pin even for the original solution,
-and restores the tooling using committed NuGet lockfiles. The reference capture
-also pins runtime 8.0.21 to avoid silently using another installed runtime patch.
-It verifies baselines without rewriting them. TRX outputs are under the ignored
-`Migration/artifacts/tests/` directory. The workflow uploads actual TRX results.
+The script enters Migration/ to enforce its SDK pin, restores tooling with committed
+lockfiles, builds/tests the original and portable engines and verifies both captures
+without writing baselines. Actual TRX files go to ignored `Migration/artifacts/tests/`;
+the GitHub workflow uploads them when executed. Baseline capture pins runtime 8.0.21
+and disables runtime roll-forward. See [the capture contract](../../Migration/Parity/README.md).
 
-To preserve the encoder probe for independent inspection:
-
-```bash
-CROWDSIM_PROBE_ARTIFACT="$PWD/Migration/artifacts/recording-probe.avi" bash Migration/Tools/validate.sh
-ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height,r_frame_rate,nb_frames -of json Migration/artifacts/recording-probe.avi
-```
-
-The 64x64 probe is a dependency check, not the final 1280x720 Unity recorder.
-No Unity codec binary or video capture implementation is delivered by M1.
+M2's six cloud diagnostic sessions also execute the same production checkpoint
+comparator used by the Unity viewer. Exact cloud hashes and tolerant Unity runtime
+checks are distinct evidence. Unity results must not be inferred from cloud passes.
 
 ## Required local acceptance
 
-Follow [M1_LOCAL_TESTING.md](M1_LOCAL_TESTING.md) in Unity 6000.3.26f1. Actual Editor
-results must be reported before M1 becomes accepted. A static package-lock check
-cannot prove Unity registry resolution. First import may normalize the lock and
-serialize generated default settings; review any such changes rather than assuming
-they are parity failures or claiming they were tested here.
+Follow [M2_LOCAL_TESTING.md](M2_LOCAL_TESTING.md) in Unity **6000.3.26f1**. Exercise
+all three presets with Hybrid off and on, transport/reset/startup navigation,
+resize, and both Unity test suites. Report any Console error or checkpoint mismatch
+with the preset, mode, tick, failure paths and actual values. Do not overwrite
+reference data. M2 stays awaiting acceptance until the actual Editor checks pass.

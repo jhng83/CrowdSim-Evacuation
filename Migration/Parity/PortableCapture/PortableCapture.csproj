@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <DefineConstants>$(DefineConstants);PORTABLE</DefineConstants>
+    <RuntimeFrameworkVersion>8.0.21</RuntimeFrameworkVersion>
+    <RollForward>Disable</RollForward>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../ReferenceCapture/Program.cs" Link="Program.cs" />
+    <ProjectReference Include="../../Build/CrowdSim.Portable.csproj" />
+  </ItemGroup>
+</Project>

@@ -13,5 +13,10 @@ cd "$crowdsim_root/Migration"
 "$crowdsim_dotnet" restore Tests/CrowdSim.Migration.Tests.csproj --locked-mode
 "$crowdsim_dotnet" test Tests/CrowdSim.Migration.Tests.csproj -c Release --no-restore \
     --logger 'trx;LogFileName=foundation.trx' --results-directory "$crowdsim_root/Migration/artifacts/tests"
+"$crowdsim_dotnet" restore PortableTests/CrowdSim.Portable.Tests.csproj --locked-mode
+"$crowdsim_dotnet" test PortableTests/CrowdSim.Portable.Tests.csproj -c Release --no-restore \
+    --logger 'trx;LogFileName=portable-core.trx' --results-directory "$crowdsim_root/Migration/artifacts/tests"
 "$crowdsim_dotnet" restore Parity/ReferenceCapture/ReferenceCapture.csproj --locked-mode
 "$crowdsim_dotnet" run --project Parity/ReferenceCapture/ReferenceCapture.csproj -c Release --no-restore -- --verify "$crowdsim_root"
+"$crowdsim_dotnet" restore Parity/PortableCapture/PortableCapture.csproj --locked-mode
+"$crowdsim_dotnet" run --project Parity/PortableCapture/PortableCapture.csproj -c Release --no-restore -- --verify "$crowdsim_root"

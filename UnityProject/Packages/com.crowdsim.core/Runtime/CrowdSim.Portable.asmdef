@@ -2,6 +2,10 @@
   "name": "CrowdSim.Portable",
   "rootNamespace": "CrowdSim.Migration",
   "references": [],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll"
+  ],
   "autoReferenced": true,
   "noEngineReferences": true
 }

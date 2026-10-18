@@ -85,8 +85,23 @@ def validate() -> None:
         require(data["name"] not in assemblies, "Duplicate assembly name")
         assemblies[data["name"]] = data
     require(assemblies["CrowdSim.Portable"]["noEngineReferences"], "Portable core permits UnityEngine references")
-    for file in (PROJECT / "Packages/com.crowdsim.core/Runtime").glob("*.cs"):
+    core_assembly = assemblies["CrowdSim.Portable"]
+    require(core_assembly.get("overrideReferences") and
+            "Newtonsoft.Json.dll" in core_assembly.get("precompiledReferences", []),
+            "Core must reference the JSON package's precompiled DLL")
+    require("Unity.Newtonsoft.Json" not in core_assembly.get("references", []),
+            "JSON package 3.2.2 supplies DLLs, not an assembly definition")
+    for file in (PROJECT / "Packages/com.crowdsim.core/Runtime").rglob("*.cs"):
         require("using Unity" not in file.read_text(), f"Engine dependency in portable source: {file}")
+
+    parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
+    require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
+    require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")
+    for reference in (ROOT / "Migration/Parity/Reference").glob("*.json"):
+        if reference.name == "source-manifest.json":
+            continue
+        bundled = PROJECT / "Assets/StreamingAssets/Parity" / reference.name
+        require(bundled.read_bytes() == reference.read_bytes(), f"Unity parity data differs: {reference.name}")
 
     source_manifest = json.loads((ROOT / "Migration/Parity/Reference/source-manifest.json").read_text())
     for name, expected in source_manifest["files"].items():

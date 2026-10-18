@@ -1,0 +1,6 @@
+{
+  "name": "CrowdSim.Diagnostics.Unity",
+  "rootNamespace": "CrowdSim.Unity.Diagnostics",
+  "references": ["CrowdSim.Portable"],
+  "autoReferenced": true
+}
