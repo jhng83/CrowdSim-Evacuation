@@ -1,0 +1,45 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Startup.uss" />
+    <ui:ScrollView name="startup-scroll" class="startup-scroll" mode="Vertical">
+        <ui:VisualElement class="page">
+            <ui:VisualElement class="header">
+                <ui:Label text="CROWD / SIM" class="brand" />
+                <ui:Label name="milestone-label" class="milestone" />
+            </ui:VisualElement>
+            <ui:Label text="A foundation for what comes next." class="headline" />
+            <ui:Label text="Unity migration / Milestone 1" class="subtitle" />
+            <ui:VisualElement class="cards">
+                <ui:VisualElement class="scenario-card explosion-card">
+                    <ui:Label text="01 / EXPLOSION" class="card-kicker explosion-text" />
+                    <ui:Label text="A sudden event. Individual responses." class="card-title" />
+                    <ui:Label text="Shock, shielding, debris and evacuation remain grounded in the original simulation." class="body" />
+                    <ui:Button name="explosion-overview" text="Explore Explosion roadmap" class="scenario-button" />
+                </ui:VisualElement>
+                <ui:VisualElement class="scenario-card fume-card">
+                    <ui:Label text="02 / TOXIC FUME" class="card-kicker fume-text" />
+                    <ui:Label text="A spreading plume. A changing route." class="card-title" />
+                    <ui:Label text="Cached dispersion, local exposure and crowd movement retain their existing model." class="body" />
+                    <ui:Button name="fume-overview" text="Explore Toxic Fume roadmap" class="scenario-button" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="overview">
+                <ui:Label name="overview-kicker" class="card-kicker" />
+                <ui:Label name="overview-title" class="overview-title" />
+                <ui:Label name="overview-description" class="body" />
+                <ui:Button name="reset-overview" text="Return to welcome" class="quiet-button" />
+            </ui:VisualElement>
+            <ui:VisualElement class="setup">
+                <ui:Label text="PROJECT CHECK" class="card-kicker" />
+                <ui:Label name="editor-check" class="check" />
+                <ui:Label name="pipeline-check" class="check" />
+                <ui:Label name="samples-check" class="check" />
+                <ui:Label name="setup-status" class="body" />
+                <ui:Button name="run-checks" text="Run startup checks" class="quiet-button" />
+            </ui:VisualElement>
+            <ui:VisualElement class="footer">
+                <ui:Label text="M1 FOUNDATION / M2 SIMULATION ENGINE NEXT" class="footer-label" />
+                <ui:Label name="editor-version" class="footer-label" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:ScrollView>
+</ui:UXML>

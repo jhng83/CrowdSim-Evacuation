@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "name": "scenario_1",
+  "agentCount": 0,
+  "randomSeed": 141956310,
+  "roomWidth": 25.3381,
+  "roomHeight": 21.9786,
+  "blastZones": {
+    "kill": 1.5786,
+    "incapacitation": 3.1571,
+    "fallen": 4.0476,
+    "injury": 4.8571,
+    "panic": 6.0714
+  },
+  "behavior": {
+    "traitVariation": 0.65,
+    "reactionVariation": 0.75,
+    "stressSusceptibility": 1,
+    "stressPersistence": 1,
+    "crowdFollowing": 0.5,
+    "personalSpace": 1,
+    "panicSpaceCompression": 0.2,
+    "emergencyUrgency": 1,
+    "helpingTendency": 0.5,
+    "routeFamiliarity": 0.5,
+    "bottleneckAssertiveness": 0.5,
+    "bottleneckPressureSensitivity": 1,
+    "bottleneckSpaceCompression": 0.18
+  },
+  "exits": [
+    {
+      "name": "West_1",
+      "x": 0.3036,
+      "y": 11.8595,
+      "size": 1.0119,
+      "side": "W"
+    },
+    {
+      "name": "South_1",
+      "x": 12.1833,
+      "y": 21.675,
+      "size": 1.0119,
+      "side": "S"
+    }
+  ],
+  "blockages": [
+    {
+      "x1": 5.4643,
+      "y1": 4.25,
+      "x2": 6.6786,
+      "y2": 5.4643
+    },
+    {
+      "x1": 5.4643,
+      "y1": 17.6071,
+      "x2": 6.6786,
+      "y2": 18.8214
+    },
+    {
+      "x1": 17.6071,
+      "y1": 16.3929,
+      "x2": 18.8214,
+      "y2": 17.6071
+    },
+    {
+      "x1": 16.3929,
+      "y1": 4.25,
+      "x2": 17.6071,
+      "y2": 5.4643
+    },
+    {
+      "x1": 11.5357,
+      "y1": 9.1071,
+      "x2": 12.75,
+      "y2": 10.3214
+    },
+    {
+      "x1": 11.5357,
+      "y1": 10.3214,
+      "x2": 12.75,
+      "y2": 11.5357
+    },
+    {
+      "x1": 11.5357,
+      "y1": 11.5357,
+      "x2": 12.75,
+      "y2": 12.75
+    }
+  ],
+  "blueWalls": [],
+  "agentSpawnGroups": [],
+  "circularBlockages": []
+}

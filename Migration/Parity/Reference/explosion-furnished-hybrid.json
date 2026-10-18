@@ -1,0 +1,5485 @@
+{
+  "FormatVersion": 1,
+  "ReferenceCommit": "01b435568f211f5c8ddf99b32b05e7ceb1ad3a24",
+  "Name": "explosion-furnished-hybrid",
+  "Runtime": ".NET 8.0.21 / SDK 8.0.415 / Linux x64",
+  "EventTick": 10,
+  "LastTick": 120,
+  "EventOrdering": "Observe tick, trigger event at tick 10, then Step; tick 11 is first post-event observation.",
+  "AuthoredScenario": {
+    "Version": 4,
+    "Name": "explosion-furnished-hybrid",
+    "AgentCount": 61,
+    "HybridEnabled": true,
+    "RandomSeed": 731,
+    "RoomWidth": 56,
+    "RoomHeight": 34,
+    "ScenarioType": 0,
+    "ToxicFume": {
+      "HasSource": false,
+      "SourceX": 0,
+      "SourceY": 0,
+      "InitialRadiusMeters": 0.6,
+      "DispersionSpeedMetersPerSecond": 0.3,
+      "MaximumExtentMeters": 12,
+      "ReleaseDurationSeconds": 30,
+      "DriftDirectionDegrees": 0,
+      "DriftBias": 0,
+      "AwarenessConcentration": 0.12,
+      "DangerConcentration": 0.55,
+      "ImpairmentExposure": 8,
+      "IncapacitationExposure": 20
+    },
+    "BlastZones": {
+      "Kill": 1.58,
+      "Incapacitation": 3.16,
+      "Fallen": 6.31,
+      "Injury": 9.47,
+      "Panic": 18.21
+    },
+    "Behavior": {
+      "TraitVariation": 0.65,
+      "ReactionVariation": 0.75,
+      "StressSusceptibility": 1,
+      "StressPersistence": 1,
+      "CrowdFollowing": 0.5,
+      "PersonalSpace": 1,
+      "PanicSpaceCompression": 0.2,
+      "EmergencyUrgency": 1,
+      "MaxRunningSpeedMetersPerSecond": 4.0466666,
+      "HelpingTendency": 0.5,
+      "RouteFamiliarity": 0.5,
+      "BottleneckAssertiveness": 0.5,
+      "BottleneckPressureSensitivity": 1,
+      "BottleneckSpaceCompression": 0.18
+    },
+    "Exits": [
+      {
+        "Name": "West_1",
+        "X": 0.3,
+        "Y": 17,
+        "Size": 1,
+        "Side": "W"
+      },
+      {
+        "Name": "East_1",
+        "X": 55.7,
+        "Y": 17,
+        "Size": 0.6,
+        "Side": "E"
+      }
+    ],
+    "Blockages": [
+      {
+        "X1": 18.6,
+        "Y1": 18.6,
+        "X2": 21,
+        "Y2": 21
+      }
+    ],
+    "Furniture": [
+      {
+        "Kind": 0,
+        "X": 28,
+        "Y": 17,
+        "Rotation": 0
+      },
+      {
+        "Kind": 1,
+        "X": 36,
+        "Y": 20,
+        "Rotation": 0
+      },
+      {
+        "Kind": 2,
+        "X": 24,
+        "Y": 12,
+        "Rotation": 0
+      },
+      {
+        "Kind": 3,
+        "X": 42,
+        "Y": 27,
+        "Rotation": 0
+      },
+      {
+        "Kind": 4,
+        "X": 15,
+        "Y": 12,
+        "Rotation": 0.7853982
+      }
+    ],
+    "CircularBlockages": [
+      {
+        "CenterX": 12.000001,
+        "CenterY": 22.800001,
+        "Radius": 1.25
+      }
+    ],
+    "BlueWalls": [],
+    "AgentSpawnGroups": [
+      {
+        "CenterX": 10,
+        "CenterY": 10,
+        "Positions": [
+          {
+            "X": 10,
+            "Y": 10
+          },
+          {
+            "X": 9.55,
+            "Y": 9.55
+          },
+          {
+            "X": 9.55,
+            "Y": 10.45
+          },
+          {
+            "X": 10,
+            "Y": 9.55
+          },
+          {
+            "X": 10,
+            "Y": 10.45
+          },
+          {
+            "X": 10.45,
+            "Y": 9.55
+          },
+          {
+            "X": 10.45,
+            "Y": 10.45
+          },
+          {
+            "X": 9.55,
+            "Y": 10
+          },
+          {
+            "X": 10.45,
+            "Y": 10
+          },
+          {
+            "X": 9.1,
+            "Y": 9.1
+          },
+          {
+            "X": 9.1,
+            "Y": 10.9
+          },
+          {
+            "X": 9.55,
+            "Y": 9.1
+          },
+          {
+            "X": 9.55,
+            "Y": 10.9
+          },
+          {
+            "X": 10,
+            "Y": 9.1
+          },
+          {
+            "X": 10,
+            "Y": 10.9
+          },
+          {
+            "X": 10.45,
+            "Y": 9.1
+          },
+          {
+            "X": 10.45,
+            "Y": 10.9
+          },
+          {
+            "X": 10.9,
+            "Y": 9.1
+          },
+          {
+            "X": 10.9,
+            "Y": 10.9
+          },
+          {
+            "X": 9.1,
+            "Y": 9.55
+          },
+          {
+            "X": 10.9,
+            "Y": 9.55
+          },
+          {
+            "X": 9.1,
+            "Y": 10
+          },
+          {
+            "X": 10.9,
+            "Y": 10
+          },
+          {
+            "X": 9.1,
+            "Y": 10.45
+          },
+          {
+            "X": 10.9,
+            "Y": 10.45
+          },
+          {
+            "X": 8.65,
+            "Y": 8.65
+          },
+          {
+            "X": 8.65,
+            "Y": 11.35
+          },
+          {
+            "X": 9.1,
+            "Y": 8.65
+          },
+          {
+            "X": 9.1,
+            "Y": 11.35
+          },
+          {
+            "X": 9.55,
+            "Y": 8.65
+          },
+          {
+            "X": 9.55,
+            "Y": 11.35
+          },
+          {
+            "X": 10,
+            "Y": 8.65
+          },
+          {
+            "X": 10,
+            "Y": 11.35
+          },
+          {
+            "X": 10.45,
+            "Y": 8.65
+          },
+          {
+            "X": 10.45,
+            "Y": 11.35
+          },
+          {
+            "X": 10.9,
+            "Y": 8.65
+          },
+          {
+            "X": 10.9,
+            "Y": 11.35
+          },
+          {
+            "X": 11.35,
+            "Y": 8.65
+          },
+          {
+            "X": 11.35,
+            "Y": 11.35
+          },
+          {
+            "X": 8.65,
+            "Y": 9.1
+          },
+          {
+            "X": 11.35,
+            "Y": 9.1
+          },
+          {
+            "X": 8.65,
+            "Y": 9.55
+          },
+          {
+            "X": 11.35,
+            "Y": 9.55
+          },
+          {
+            "X": 8.65,
+            "Y": 10
+          },
+          {
+            "X": 11.35,
+            "Y": 10
+          },
+          {
+            "X": 8.65,
+            "Y": 10.45
+          },
+          {
+            "X": 11.35,
+            "Y": 10.45
+          },
+          {
+            "X": 8.65,
+            "Y": 10.9
+          },
+          {
+            "X": 11.35,
+            "Y": 10.9
+          },
+          {
+            "X": 8.2,
+            "Y": 8.2
+          }
+        ]
+      }
+    ]
+  },
+  "InitialTraits": [
+    {
+      "AgentId": 0,
+      "BaseSpeed": 0.059507057,
+      "ReactionDelayFrames": 40.872257,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.9697189,
+      "FollowTendency": 0.37947074,
+      "HelpingTendency": 0.6967586,
+      "RouteFamiliarity": 0.30372,
+      "UrgencyBias": 1.0426756,
+      "StressRecoveryBias": 0.9512488,
+      "PersonalSpaceBias": 0.9750781,
+      "Assertiveness": 0.5896899,
+      "PatienceBias": 0.93715143
+    },
+    {
+      "AgentId": 1,
+      "BaseSpeed": 0.0571232,
+      "ReactionDelayFrames": 37.16135,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0418415,
+      "FollowTendency": 0.22498211,
+      "HelpingTendency": 0.37275106,
+      "RouteFamiliarity": 0.59808254,
+      "UrgencyBias": 1.0107619,
+      "StressRecoveryBias": 0.9268414,
+      "PersonalSpaceBias": 1.038693,
+      "Assertiveness": 0.60370016,
+      "PatienceBias": 0.9679581
+    },
+    {
+      "AgentId": 2,
+      "BaseSpeed": 0.059806217,
+      "ReactionDelayFrames": 42.463467,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0098057,
+      "FollowTendency": 0.49272782,
+      "HelpingTendency": 0.559009,
+      "RouteFamiliarity": 0.3732322,
+      "UrgencyBias": 1.0492393,
+      "StressRecoveryBias": 1.0860267,
+      "PersonalSpaceBias": 1.0304348,
+      "Assertiveness": 0.7217123,
+      "PatienceBias": 1.1656327
+    },
+    {
+      "AgentId": 3,
+      "BaseSpeed": 0.050105654,
+      "ReactionDelayFrames": 40.152084,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.9692175,
+      "FollowTendency": 0.6079945,
+      "HelpingTendency": 0.4670718,
+      "RouteFamiliarity": 0.54894644,
+      "UrgencyBias": 0.9689465,
+      "StressRecoveryBias": 1.0547748,
+      "PersonalSpaceBias": 0.9970033,
+      "Assertiveness": 0.562792,
+      "PatienceBias": 0.9775321
+    },
+    {
+      "AgentId": 4,
+      "BaseSpeed": 0.06440501,
+      "ReactionDelayFrames": 33.911797,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.9942053,
+      "FollowTendency": 0.52959096,
+      "HelpingTendency": 0.27181426,
+      "RouteFamiliarity": 0.55209863,
+      "UrgencyBias": 1.0237092,
+      "StressRecoveryBias": 1.0288115,
+      "PersonalSpaceBias": 1.0016934,
+      "Assertiveness": 0.3448161,
+      "PatienceBias": 1.0769407
+    },
+    {
+      "AgentId": 5,
+      "BaseSpeed": 0.063125916,
+      "ReactionDelayFrames": 20.88644,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.96691656,
+      "FollowTendency": 0.35766438,
+      "HelpingTendency": 0.59321874,
+      "RouteFamiliarity": 0.49465284,
+      "UrgencyBias": 1.0168344,
+      "StressRecoveryBias": 0.8599433,
+      "PersonalSpaceBias": 0.9942336,
+      "Assertiveness": 0.3935739,
+      "PatienceBias": 1.046822
+    },
+    {
+      "AgentId": 6,
+      "BaseSpeed": 0.06714212,
+      "ReactionDelayFrames": 36.30835,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0313565,
+      "FollowTendency": 0.62629664,
+      "HelpingTendency": 0.48679602,
+      "RouteFamiliarity": 0.425382,
+      "UrgencyBias": 1.0571026,
+      "StressRecoveryBias": 1.0140622,
+      "PersonalSpaceBias": 0.9721809,
+      "Assertiveness": 0.6166319,
+      "PatienceBias": 0.89509
+    },
+    {
+      "AgentId": 7,
+      "BaseSpeed": 0.05841764,
+      "ReactionDelayFrames": 41.012527,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0883001,
+      "FollowTendency": 0.41284975,
+      "HelpingTendency": 0.49744236,
+      "RouteFamiliarity": 0.42652577,
+      "UrgencyBias": 0.95551145,
+      "StressRecoveryBias": 1.1216993,
+      "PersonalSpaceBias": 0.9740831,
+      "Assertiveness": 0.5530162,
+      "PatienceBias": 1.0861832
+    },
+    {
+      "AgentId": 8,
+      "BaseSpeed": 0.056837283,
+      "ReactionDelayFrames": 44.255867,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.9988308,
+      "FollowTendency": 0.7360678,
+      "HelpingTendency": 0.48818704,
+      "RouteFamiliarity": 0.56612056,
+      "UrgencyBias": 1.0101972,
+      "StressRecoveryBias": 0.97942746,
+      "PersonalSpaceBias": 0.9977902,
+      "Assertiveness": 0.5926859,
+      "PatienceBias": 0.94864684
+    },
+    {
+      "AgentId": 9,
+      "BaseSpeed": 0.059860595,
+      "ReactionDelayFrames": 40.48674,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.95628893,
+      "FollowTendency": 0.31209946,
+      "HelpingTendency": 0.3434828,
+      "RouteFamiliarity": 0.38169646,
+      "UrgencyBias": 0.99356604,
+      "StressRecoveryBias": 1.0668554,
+      "PersonalSpaceBias": 0.93364185,
+      "Assertiveness": 0.41240656,
+      "PatienceBias": 1.0288376
+    },
+    {
+      "AgentId": 10,
+      "BaseSpeed": 0.06359793,
+      "ReactionDelayFrames": 35.207275,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0340571,
+      "FollowTendency": 0.51812106,
+      "HelpingTendency": 0.4856245,
+      "RouteFamiliarity": 0.36592716,
+      "UrgencyBias": 0.92091554,
+      "StressRecoveryBias": 0.9764195,
+      "PersonalSpaceBias": 0.9743742,
+      "Assertiveness": 0.38237435,
+      "PatienceBias": 1.0461289
+    },
+    {
+      "AgentId": 11,
+      "BaseSpeed": 0.06020967,
+      "ReactionDelayFrames": 38.460285,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0272382,
+      "FollowTendency": 0.52156794,
+      "HelpingTendency": 0.74138737,
+      "RouteFamiliarity": 0.5175898,
+      "UrgencyBias": 1.0365646,
+      "StressRecoveryBias": 0.99577355,
+      "PersonalSpaceBias": 0.9579219,
+      "Assertiveness": 0.47155434,
+      "PatienceBias": 1.1400422
+    },
+    {
+      "AgentId": 12,
+      "BaseSpeed": 0.065925196,
+      "ReactionDelayFrames": 27.70375,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0047241,
+      "FollowTendency": 0.36220258,
+      "HelpingTendency": 0.50869477,
+      "RouteFamiliarity": 0.5096066,
+      "UrgencyBias": 1.0793617,
+      "StressRecoveryBias": 1.0374548,
+      "PersonalSpaceBias": 1.0081644,
+      "Assertiveness": 0.40286487,
+      "PatienceBias": 1.0162731
+    },
+    {
+      "AgentId": 13,
+      "BaseSpeed": 0.058478408,
+      "ReactionDelayFrames": 37.613457,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.022315,
+      "FollowTendency": 0.2952543,
+      "HelpingTendency": 0.60607266,
+      "RouteFamiliarity": 0.7273908,
+      "UrgencyBias": 0.9934378,
+      "StressRecoveryBias": 0.91246563,
+      "PersonalSpaceBias": 1.0671179,
+      "Assertiveness": 0.40308788,
+      "PatienceBias": 1.0261176
+    },
+    {
+      "AgentId": 14,
+      "BaseSpeed": 0.061589085,
+      "ReactionDelayFrames": 25.600471,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.96718764,
+      "FollowTendency": 0.48468933,
+      "HelpingTendency": 0.598167,
+      "RouteFamiliarity": 0.4305549,
+      "UrgencyBias": 0.99695235,
+      "StressRecoveryBias": 0.9566446,
+      "PersonalSpaceBias": 1.0154666,
+      "Assertiveness": 0.5792496,
+      "PatienceBias": 0.8425549
+    },
+    {
+      "AgentId": 15,
+      "BaseSpeed": 0.06465234,
+      "ReactionDelayFrames": 35.3952,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.96870714,
+      "FollowTendency": 0.6178347,
+      "HelpingTendency": 0.42204398,
+      "RouteFamiliarity": 0.22436321,
+      "UrgencyBias": 0.9956412,
+      "StressRecoveryBias": 0.9755592,
+      "PersonalSpaceBias": 1.0075487,
+      "Assertiveness": 0.46226916,
+      "PatienceBias": 1.0554897
+    },
+    {
+      "AgentId": 16,
+      "BaseSpeed": 0.061282948,
+      "ReactionDelayFrames": 29.619986,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.9139378,
+      "FollowTendency": 0.74683,
+      "HelpingTendency": 0.726336,
+      "RouteFamiliarity": 0.26221842,
+      "UrgencyBias": 1.0475348,
+      "StressRecoveryBias": 0.9894574,
+      "PersonalSpaceBias": 1.0199671,
+      "Assertiveness": 0.49867472,
+      "PatienceBias": 0.9264736
+    },
+    {
+      "AgentId": 17,
+      "BaseSpeed": 0.057757065,
+      "ReactionDelayFrames": 44.08059,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0283012,
+      "FollowTendency": 0.62780154,
+      "HelpingTendency": 0.5198051,
+      "RouteFamiliarity": 0.7814784,
+      "UrgencyBias": 1.0116401,
+      "StressRecoveryBias": 1.0837253,
+      "PersonalSpaceBias": 0.98421526,
+      "Assertiveness": 0.34372127,
+      "PatienceBias": 0.8666814
+    },
+    {
+      "AgentId": 18,
+      "BaseSpeed": 0.060167216,
+      "ReactionDelayFrames": 41.51008,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0999404,
+      "FollowTendency": 0.57266915,
+      "HelpingTendency": 0.61172056,
+      "RouteFamiliarity": 0.4762825,
+      "UrgencyBias": 0.9434974,
+      "StressRecoveryBias": 1.0118502,
+      "PersonalSpaceBias": 0.9545073,
+      "Assertiveness": 0.36214268,
+      "PatienceBias": 1.1830397
+    },
+    {
+      "AgentId": 19,
+      "BaseSpeed": 0.060552925,
+      "ReactionDelayFrames": 24.876635,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0321486,
+      "FollowTendency": 0.5617448,
+      "HelpingTendency": 0.6111989,
+      "RouteFamiliarity": 0.3564622,
+      "UrgencyBias": 0.9883556,
+      "StressRecoveryBias": 0.9968244,
+      "PersonalSpaceBias": 1.0066878,
+      "Assertiveness": 0.49609905,
+      "PatienceBias": 0.90200794
+    },
+    {
+      "AgentId": 20,
+      "BaseSpeed": 0.064907305,
+      "ReactionDelayFrames": 31.45205,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.007955,
+      "FollowTendency": 0.4664477,
+      "HelpingTendency": 0.5498582,
+      "RouteFamiliarity": 0.30789545,
+      "UrgencyBias": 0.98193043,
+      "StressRecoveryBias": 0.9201699,
+      "PersonalSpaceBias": 1.0001202,
+      "Assertiveness": 0.48662055,
+      "PatienceBias": 1.0772829
+    },
+    {
+      "AgentId": 21,
+      "BaseSpeed": 0.0489746,
+      "ReactionDelayFrames": 28.572416,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0719799,
+      "FollowTendency": 0.44673768,
+      "HelpingTendency": 0.6271516,
+      "RouteFamiliarity": 0.5378297,
+      "UrgencyBias": 1.0184779,
+      "StressRecoveryBias": 0.9869283,
+      "PersonalSpaceBias": 1.0530597,
+      "Assertiveness": 0.60553956,
+      "PatienceBias": 1.0340785
+    },
+    {
+      "AgentId": 22,
+      "BaseSpeed": 0.069382295,
+      "ReactionDelayFrames": 34.018387,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.9975825,
+      "FollowTendency": 0.38738966,
+      "HelpingTendency": 0.497382,
+      "RouteFamiliarity": 0.40514857,
+      "UrgencyBias": 0.95736545,
+      "StressRecoveryBias": 0.90770376,
+      "PersonalSpaceBias": 0.94920385,
+      "Assertiveness": 0.46840787,
+      "PatienceBias": 0.9387232
+    },
+    {
+      "AgentId": 23,
+      "BaseSpeed": 0.06354149,
+      "ReactionDelayFrames": 27.077621,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.88202584,
+      "FollowTendency": 0.4938242,
+      "HelpingTendency": 0.49568817,
+      "RouteFamiliarity": 0.49725246,
+      "UrgencyBias": 0.957813,
+      "StressRecoveryBias": 1.0863574,
+      "PersonalSpaceBias": 0.96375626,
+      "Assertiveness": 0.48641118,
+      "PatienceBias": 1.1052133
+    },
+    {
+      "AgentId": 24,
+      "BaseSpeed": 0.059710883,
+      "ReactionDelayFrames": 26.552921,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0019584,
+      "FollowTendency": 0.5754074,
+      "HelpingTendency": 0.4812617,
+      "RouteFamiliarity": 0.41792244,
+      "UrgencyBias": 1.0186411,
+      "StressRecoveryBias": 1.065129,
+      "PersonalSpaceBias": 0.97019243,
+      "Assertiveness": 0.67875737,
+      "PatienceBias": 1.1995935
+    },
+    {
+      "AgentId": 25,
+      "BaseSpeed": 0.06505895,
+      "ReactionDelayFrames": 27.057266,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.89545655,
+      "FollowTendency": 0.72730434,
+      "HelpingTendency": 0.43149024,
+      "RouteFamiliarity": 0.6862329,
+      "UrgencyBias": 1.0447748,
+      "StressRecoveryBias": 0.99859184,
+      "PersonalSpaceBias": 0.967718,
+      "Assertiveness": 0.50766504,
+      "PatienceBias": 0.9522405
+    },
+    {
+      "AgentId": 26,
+      "BaseSpeed": 0.055278864,
+      "ReactionDelayFrames": 33.6808,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0545497,
+      "FollowTendency": 0.4565168,
+      "HelpingTendency": 0.5185576,
+      "RouteFamiliarity": 0.5606511,
+      "UrgencyBias": 1.0464246,
+      "StressRecoveryBias": 0.9133068,
+      "PersonalSpaceBias": 1.0421189,
+      "Assertiveness": 0.4805171,
+      "PatienceBias": 0.8754108
+    },
+    {
+      "AgentId": 27,
+      "BaseSpeed": 0.06287178,
+      "ReactionDelayFrames": 22.160513,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0040638,
+      "FollowTendency": 0.45645532,
+      "HelpingTendency": 0.36897945,
+      "RouteFamiliarity": 0.49070364,
+      "UrgencyBias": 0.96003693,
+      "StressRecoveryBias": 1.0991461,
+      "PersonalSpaceBias": 1.0328331,
+      "Assertiveness": 0.7872623,
+      "PatienceBias": 0.98644704
+    },
+    {
+      "AgentId": 28,
+      "BaseSpeed": 0.069058046,
+      "ReactionDelayFrames": 30.727253,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0790107,
+      "FollowTendency": 0.4580779,
+      "HelpingTendency": 0.54557586,
+      "RouteFamiliarity": 0.7198571,
+      "UrgencyBias": 1.0159383,
+      "StressRecoveryBias": 1.0131285,
+      "PersonalSpaceBias": 0.98910534,
+      "Assertiveness": 0.5781773,
+      "PatienceBias": 0.8559309
+    },
+    {
+      "AgentId": 29,
+      "BaseSpeed": 0.05673723,
+      "ReactionDelayFrames": 28.981903,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.083274,
+      "FollowTendency": 0.3450515,
+      "HelpingTendency": 0.56948864,
+      "RouteFamiliarity": 0.40434438,
+      "UrgencyBias": 1.0266378,
+      "StressRecoveryBias": 1.0222137,
+      "PersonalSpaceBias": 1.0484853,
+      "Assertiveness": 0.53582674,
+      "PatienceBias": 0.92978364
+    },
+    {
+      "AgentId": 30,
+      "BaseSpeed": 0.06088823,
+      "ReactionDelayFrames": 29.979599,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0197874,
+      "FollowTendency": 0.69689745,
+      "HelpingTendency": 0.58059126,
+      "RouteFamiliarity": 0.5159425,
+      "UrgencyBias": 1.0143591,
+      "StressRecoveryBias": 1.028995,
+      "PersonalSpaceBias": 0.98870015,
+      "Assertiveness": 0.7353144,
+      "PatienceBias": 1.1144974
+    },
+    {
+      "AgentId": 31,
+      "BaseSpeed": 0.06846622,
+      "ReactionDelayFrames": 33.51779,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.94242084,
+      "FollowTendency": 0.5714416,
+      "HelpingTendency": 0.50768083,
+      "RouteFamiliarity": 0.69009554,
+      "UrgencyBias": 0.9985536,
+      "StressRecoveryBias": 1.1545485,
+      "PersonalSpaceBias": 0.97038454,
+      "Assertiveness": 0.5272335,
+      "PatienceBias": 1.0236783
+    },
+    {
+      "AgentId": 32,
+      "BaseSpeed": 0.06932299,
+      "ReactionDelayFrames": 31.410221,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0434451,
+      "FollowTendency": 0.46690735,
+      "HelpingTendency": 0.6538113,
+      "RouteFamiliarity": 0.5393135,
+      "UrgencyBias": 1.0162979,
+      "StressRecoveryBias": 1.0834482,
+      "PersonalSpaceBias": 0.9716617,
+      "Assertiveness": 0.591179,
+      "PatienceBias": 1.0467143
+    },
+    {
+      "AgentId": 33,
+      "BaseSpeed": 0.061474975,
+      "ReactionDelayFrames": 19.473343,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0299292,
+      "FollowTendency": 0.32747743,
+      "HelpingTendency": 0.35192472,
+      "RouteFamiliarity": 0.2832021,
+      "UrgencyBias": 1.003789,
+      "StressRecoveryBias": 1.0989186,
+      "PersonalSpaceBias": 0.96635705,
+      "Assertiveness": 0.4162025,
+      "PatienceBias": 0.8923999
+    },
+    {
+      "AgentId": 34,
+      "BaseSpeed": 0.055699617,
+      "ReactionDelayFrames": 34.06906,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.074168,
+      "FollowTendency": 0.43926454,
+      "HelpingTendency": 0.3411141,
+      "RouteFamiliarity": 0.42259756,
+      "UrgencyBias": 1.0174775,
+      "StressRecoveryBias": 1.1283407,
+      "PersonalSpaceBias": 1.0292288,
+      "Assertiveness": 0.4599603,
+      "PatienceBias": 0.98718846
+    },
+    {
+      "AgentId": 35,
+      "BaseSpeed": 0.056022048,
+      "ReactionDelayFrames": 31.718662,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.1207445,
+      "FollowTendency": 0.64385885,
+      "HelpingTendency": 0.65974486,
+      "RouteFamiliarity": 0.6556584,
+      "UrgencyBias": 0.94020426,
+      "StressRecoveryBias": 1.06707,
+      "PersonalSpaceBias": 0.97869706,
+      "Assertiveness": 0.6165374,
+      "PatienceBias": 1.0550885
+    },
+    {
+      "AgentId": 36,
+      "BaseSpeed": 0.059868157,
+      "ReactionDelayFrames": 27.754976,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0550525,
+      "FollowTendency": 0.4016967,
+      "HelpingTendency": 0.4110977,
+      "RouteFamiliarity": 0.58377385,
+      "UrgencyBias": 0.9719134,
+      "StressRecoveryBias": 1.0506635,
+      "PersonalSpaceBias": 0.94552565,
+      "Assertiveness": 0.5347276,
+      "PatienceBias": 0.9789343
+    },
+    {
+      "AgentId": 37,
+      "BaseSpeed": 0.063739814,
+      "ReactionDelayFrames": 46.724213,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.8596369,
+      "FollowTendency": 0.6594906,
+      "HelpingTendency": 0.6233754,
+      "RouteFamiliarity": 0.46268088,
+      "UrgencyBias": 1.0429772,
+      "StressRecoveryBias": 0.910972,
+      "PersonalSpaceBias": 0.9504659,
+      "Assertiveness": 0.53872454,
+      "PatienceBias": 1.0556448
+    },
+    {
+      "AgentId": 38,
+      "BaseSpeed": 0.05310824,
+      "ReactionDelayFrames": 26.099415,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0157312,
+      "FollowTendency": 0.24360055,
+      "HelpingTendency": 0.22071478,
+      "RouteFamiliarity": 0.6083597,
+      "UrgencyBias": 0.98161364,
+      "StressRecoveryBias": 0.975051,
+      "PersonalSpaceBias": 0.943128,
+      "Assertiveness": 0.7249979,
+      "PatienceBias": 1.1048636
+    },
+    {
+      "AgentId": 39,
+      "BaseSpeed": 0.058234386,
+      "ReactionDelayFrames": 36.596806,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.9599891,
+      "FollowTendency": 0.43419096,
+      "HelpingTendency": 0.4995746,
+      "RouteFamiliarity": 0.5526558,
+      "UrgencyBias": 0.9645693,
+      "StressRecoveryBias": 1.0466627,
+      "PersonalSpaceBias": 1.0210056,
+      "Assertiveness": 0.516654,
+      "PatienceBias": 0.9581641
+    },
+    {
+      "AgentId": 40,
+      "BaseSpeed": 0.0683396,
+      "ReactionDelayFrames": 49.55459,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.97749704,
+      "FollowTendency": 0.34654546,
+      "HelpingTendency": 0.49541724,
+      "RouteFamiliarity": 0.4108839,
+      "UrgencyBias": 1.0552752,
+      "StressRecoveryBias": 1.0040787,
+      "PersonalSpaceBias": 1.0629632,
+      "Assertiveness": 0.4916328,
+      "PatienceBias": 1.0166166
+    },
+    {
+      "AgentId": 41,
+      "BaseSpeed": 0.062040545,
+      "ReactionDelayFrames": 31.373314,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.9187371,
+      "FollowTendency": 0.32567066,
+      "HelpingTendency": 0.50405604,
+      "RouteFamiliarity": 0.35282135,
+      "UrgencyBias": 1.0034798,
+      "StressRecoveryBias": 0.99228156,
+      "PersonalSpaceBias": 1.0098026,
+      "Assertiveness": 0.5196207,
+      "PatienceBias": 1.0909761
+    },
+    {
+      "AgentId": 42,
+      "BaseSpeed": 0.06285838,
+      "ReactionDelayFrames": 38.771137,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0405788,
+      "FollowTendency": 0.4545782,
+      "HelpingTendency": 0.3582247,
+      "RouteFamiliarity": 0.40073478,
+      "UrgencyBias": 0.9559247,
+      "StressRecoveryBias": 0.9972339,
+      "PersonalSpaceBias": 0.9742179,
+      "Assertiveness": 0.45583355,
+      "PatienceBias": 0.94164085
+    },
+    {
+      "AgentId": 43,
+      "BaseSpeed": 0.061013956,
+      "ReactionDelayFrames": 37.51894,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.9749294,
+      "FollowTendency": 0.5017435,
+      "HelpingTendency": 0.41684756,
+      "RouteFamiliarity": 0.3916544,
+      "UrgencyBias": 1.0488676,
+      "StressRecoveryBias": 0.9410938,
+      "PersonalSpaceBias": 1.0355068,
+      "Assertiveness": 0.5299037,
+      "PatienceBias": 1.0453748
+    },
+    {
+      "AgentId": 44,
+      "BaseSpeed": 0.059522975,
+      "ReactionDelayFrames": 35.66915,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.90211314,
+      "FollowTendency": 0.36863568,
+      "HelpingTendency": 0.33430254,
+      "RouteFamiliarity": 0.54754776,
+      "UrgencyBias": 0.97995305,
+      "StressRecoveryBias": 0.8700638,
+      "PersonalSpaceBias": 1.0662749,
+      "Assertiveness": 0.37527722,
+      "PatienceBias": 1.009109
+    },
+    {
+      "AgentId": 45,
+      "BaseSpeed": 0.06868577,
+      "ReactionDelayFrames": 29.744944,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.0639904,
+      "FollowTendency": 0.3950631,
+      "HelpingTendency": 0.4529429,
+      "RouteFamiliarity": 0.5607423,
+      "UrgencyBias": 0.9337962,
+      "StressRecoveryBias": 1.0489142,
+      "PersonalSpaceBias": 0.9859879,
+      "Assertiveness": 0.502564,
+      "PatienceBias": 0.91203874
+    },
+    {
+      "AgentId": 46,
+      "BaseSpeed": 0.060512327,
+      "ReactionDelayFrames": 49.23666,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0410404,
+      "FollowTendency": 0.39056182,
+      "HelpingTendency": 0.46684155,
+      "RouteFamiliarity": 0.6232511,
+      "UrgencyBias": 0.98322976,
+      "StressRecoveryBias": 1.0307633,
+      "PersonalSpaceBias": 0.9803056,
+      "Assertiveness": 0.37175536,
+      "PatienceBias": 1.1457005
+    },
+    {
+      "AgentId": 47,
+      "BaseSpeed": 0.07308992,
+      "ReactionDelayFrames": 40.549442,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.1224015,
+      "FollowTendency": 0.5091476,
+      "HelpingTendency": 0.50028074,
+      "RouteFamiliarity": 0.41775048,
+      "UrgencyBias": 0.9675087,
+      "StressRecoveryBias": 1.0555986,
+      "PersonalSpaceBias": 1.048078,
+      "Assertiveness": 0.55388033,
+      "PatienceBias": 0.99180204
+    },
+    {
+      "AgentId": 48,
+      "BaseSpeed": 0.061060935,
+      "ReactionDelayFrames": 39.55028,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0424545,
+      "FollowTendency": 0.2226516,
+      "HelpingTendency": 0.3129415,
+      "RouteFamiliarity": 0.73822784,
+      "UrgencyBias": 0.9877338,
+      "StressRecoveryBias": 0.9303189,
+      "PersonalSpaceBias": 0.9727045,
+      "Assertiveness": 0.723445,
+      "PatienceBias": 0.8903005
+    },
+    {
+      "AgentId": 49,
+      "BaseSpeed": 0.049530994,
+      "ReactionDelayFrames": 35.34014,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.9910906,
+      "FollowTendency": 0.6334488,
+      "HelpingTendency": 0.49440435,
+      "RouteFamiliarity": 0.574258,
+      "UrgencyBias": 0.96668565,
+      "StressRecoveryBias": 1.125509,
+      "PersonalSpaceBias": 1.0248414,
+      "Assertiveness": 0.53741264,
+      "PatienceBias": 0.98463553
+    },
+    {
+      "AgentId": 50,
+      "BaseSpeed": 0.057349235,
+      "ReactionDelayFrames": 29.08992,
+      "Strategy": 1,
+      "ThreatSensitivity": 1.086799,
+      "FollowTendency": 0.5585147,
+      "HelpingTendency": 0.6533555,
+      "RouteFamiliarity": 0.5192674,
+      "UrgencyBias": 0.9989843,
+      "StressRecoveryBias": 1.0000352,
+      "PersonalSpaceBias": 0.99259377,
+      "Assertiveness": 0.49727666,
+      "PatienceBias": 1.0900055
+    },
+    {
+      "AgentId": 51,
+      "BaseSpeed": 0.068871215,
+      "ReactionDelayFrames": 30.320326,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.072383,
+      "FollowTendency": 0.6140451,
+      "HelpingTendency": 0.5714712,
+      "RouteFamiliarity": 0.57446927,
+      "UrgencyBias": 0.97258216,
+      "StressRecoveryBias": 0.9625454,
+      "PersonalSpaceBias": 0.9844025,
+      "Assertiveness": 0.6464213,
+      "PatienceBias": 1.1619426
+    },
+    {
+      "AgentId": 52,
+      "BaseSpeed": 0.06068265,
+      "ReactionDelayFrames": 33.38976,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0362145,
+      "FollowTendency": 0.48296905,
+      "HelpingTendency": 0.31511557,
+      "RouteFamiliarity": 0.51654434,
+      "UrgencyBias": 1.0575483,
+      "StressRecoveryBias": 1.0618013,
+      "PersonalSpaceBias": 1.0006202,
+      "Assertiveness": 0.3867873,
+      "PatienceBias": 1.0996978
+    },
+    {
+      "AgentId": 53,
+      "BaseSpeed": 0.05941382,
+      "ReactionDelayFrames": 20.124588,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0309818,
+      "FollowTendency": 0.4693,
+      "HelpingTendency": 0.47554648,
+      "RouteFamiliarity": 0.42298764,
+      "UrgencyBias": 1.0166947,
+      "StressRecoveryBias": 0.939667,
+      "PersonalSpaceBias": 0.9451503,
+      "Assertiveness": 0.3980751,
+      "PatienceBias": 1.0204239
+    },
+    {
+      "AgentId": 54,
+      "BaseSpeed": 0.07072921,
+      "ReactionDelayFrames": 39.980633,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.080053,
+      "FollowTendency": 0.5289246,
+      "HelpingTendency": 0.37582657,
+      "RouteFamiliarity": 0.49872315,
+      "UrgencyBias": 1.0619991,
+      "StressRecoveryBias": 0.91418564,
+      "PersonalSpaceBias": 0.9973442,
+      "Assertiveness": 0.4873923,
+      "PatienceBias": 0.9572019
+    },
+    {
+      "AgentId": 55,
+      "BaseSpeed": 0.054657526,
+      "ReactionDelayFrames": 28.014599,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.88887423,
+      "FollowTendency": 0.43760777,
+      "HelpingTendency": 0.44989774,
+      "RouteFamiliarity": 0.33589992,
+      "UrgencyBias": 1.0698614,
+      "StressRecoveryBias": 1.0043163,
+      "PersonalSpaceBias": 0.9450529,
+      "Assertiveness": 0.66073394,
+      "PatienceBias": 1.0107193
+    },
+    {
+      "AgentId": 56,
+      "BaseSpeed": 0.061703667,
+      "ReactionDelayFrames": 36.494728,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.948908,
+      "FollowTendency": 0.53886706,
+      "HelpingTendency": 0.48706982,
+      "RouteFamiliarity": 0.70594734,
+      "UrgencyBias": 1.0388789,
+      "StressRecoveryBias": 0.9395227,
+      "PersonalSpaceBias": 1.0196532,
+      "Assertiveness": 0.5583503,
+      "PatienceBias": 1.0950139
+    },
+    {
+      "AgentId": 57,
+      "BaseSpeed": 0.062246293,
+      "ReactionDelayFrames": 34.628292,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.1074687,
+      "FollowTendency": 0.57673985,
+      "HelpingTendency": 0.3579687,
+      "RouteFamiliarity": 0.3646058,
+      "UrgencyBias": 0.98904455,
+      "StressRecoveryBias": 1.1572186,
+      "PersonalSpaceBias": 0.95589113,
+      "Assertiveness": 0.5284105,
+      "PatienceBias": 1.1434444
+    },
+    {
+      "AgentId": 58,
+      "BaseSpeed": 0.054641187,
+      "ReactionDelayFrames": 21.668892,
+      "Strategy": 0,
+      "ThreatSensitivity": 1.0483525,
+      "FollowTendency": 0.45543155,
+      "HelpingTendency": 0.69676125,
+      "RouteFamiliarity": 0.48498458,
+      "UrgencyBias": 1.0556997,
+      "StressRecoveryBias": 0.8932929,
+      "PersonalSpaceBias": 1.0155542,
+      "Assertiveness": 0.6852833,
+      "PatienceBias": 1.0402975
+    },
+    {
+      "AgentId": 59,
+      "BaseSpeed": 0.07018729,
+      "ReactionDelayFrames": 40.465183,
+      "Strategy": 1,
+      "ThreatSensitivity": 0.9618104,
+      "FollowTendency": 0.5937502,
+      "HelpingTendency": 0.6464046,
+      "RouteFamiliarity": 0.33030948,
+      "UrgencyBias": 1.076192,
+      "StressRecoveryBias": 0.8842806,
+      "PersonalSpaceBias": 1.0249478,
+      "Assertiveness": 0.5072619,
+      "PatienceBias": 0.90683454
+    },
+    {
+      "AgentId": 60,
+      "BaseSpeed": 0.052794937,
+      "ReactionDelayFrames": 22.904524,
+      "Strategy": 0,
+      "ThreatSensitivity": 0.98337907,
+      "FollowTendency": 0.49914527,
+      "HelpingTendency": 0.6120808,
+      "RouteFamiliarity": 0.37188685,
+      "UrgencyBias": 0.97497135,
+      "StressRecoveryBias": 1.111276,
+      "PersonalSpaceBias": 0.9639309,
+      "Assertiveness": 0.52403903,
+      "PatienceBias": 1.0742908
+    }
+  ],
+  "TickHashes": [
+    "8401eb197229cd041e1e3f7ce0caa412a2454e143dfeebb2dcf35f9764c31c75",
+    "1e123a694cad4c662d47ba119f9a51a18a27cd98dd23352a146029c23c5052b4",
+    "144d165012b984beedca715fd648e215c550e141f396f330842d56f1c0a6643b",
+    "db212b6e5be80f7a7289c7abed202a1cf0f4bd5b2e00b32302127f116a9beb9a",
+    "a4223d8f537d39c3b886ed2759799df210476200887fb333025e726fd519649d",
+    "61bb7f2bcc8d30c878565254e0829a3848a494f6d2c962e9ed4ccc86e74c14a6",
+    "386de245fbf10e3af530e32519d6b347607ed0b5d9c1e1c3357404c08be738fb",
+    "181a52e03e4d036d2a640f017985cc59732b21ad65e558f7fc33e2de8ac328e0",
+    "9e54570295471cf72a2191dcd4c44c23b5288a0e78d05b0c87fbfcf969c9805d",
+    "2ed68868b98d17c449480013cb42168da97c2606733095bb40613180d88406e0",
+    "6ef217372ee4de97f8ee01de908d6090bc2b6bcdfd94df5f4270d9d68864b249",
+    "1bde931b3afd93544f3b74726901cab921caa40a3d9d48a660a8072a3b046620",
+    "5e88ecfde115356a23c5226cf307e835090d3908512dfd096d747fe976dfb41f",
+    "7e7961b69b6c437b8b85f544fcf7808e447a3f360a34c65c1828293706e91bd3",
+    "4395ad0202b7ff0ecbcf3bbfad50f58b8d2a29038b27cfdc7835169ec9922e41",
+    "00c313203810bf9e5ddff61dac8206efd9e4cf5a0b04a7370403d9ea766e1041",
+    "57ef3ccd0ebdccf8dcf2e31097cad646d9cc21e1c42ade58e28a5a2a212606f8",
+    "488bb7101ee0c7bdabe44f4cf3792372eb5ac767e32c4b11532ec3fac884a1b6",
+    "c21c59109b6c599610587e2058cbcd3d00cb68d563f124265d9094ad62afce94",
+    "615f0386a282c9bc78e19c2a0c1f4cf3478bbf83847419fdf17f9d8868b358f9",
+    "0a2f0e777ffa1cd6dc55d4db758c01ffd424640865cbf76062153ba805c9eab1",
+    "4c8f379596f0da4e5418cfc6f01b1ff856d685b115d8f0a9e155cba3e31207a1",
+    "9f8b041be409fc6cc8081379cfad9bb02288b3500fbc45b7f1ca48863bb9495b",
+    "a81b4a2ebce4d82121103fc0d131b1fae0fa79774f9b4cdbc3f17d23cf0b4250",
+    "a9bf129d37690604ab0f9ac2e8ecdadbe01f399fd413b34955982ddfa19d5831",
+    "ebcb35751c39539d45dce1ddbcf7681b782be9dba4019e803840a351adbaf491",
+    "2ad97fba838b9409905f06c9f7937666c1514646b9591c44ea473987672ba147",
+    "2fb9080991b203c0db175fce97ca0d42a446fc184f68124a7f20a1efc9fd074b",
+    "5fdcd8af2691f8f46dd2769211bfafd912f2497639a2200e30d8a2524a248262",
+    "7c3bb180807b9b782912332d16ce619dce5eec3bc4b011abdefd950aeb6486b6",
+    "8df8a2c71c0e962076e7cfe88fc964a34a43319443a12a82bd577b610334ad00",
+    "95fda095ca390933525c570f5f10edfcf82ac83528c84028492995a3b6ccbcfb",
+    "dcd1dae934032fc94480c7c1a706095793df52ad8617d565498f4efae52efcc2",
+    "7b091f3681496439a19793a56160e5b46e4b56705cdf691fdf52a771777bb86c",
+    "5b91ee253d6c82e77fc6cc2badb4662accdb04d309f01ff822d2fe0f50f15378",
+    "42431705c52a0a4e4e375bb651372b4644c24d95f4dcd86c37e6998fb642be8d",
+    "39e0e7f1b3763d93daed6719bcf7c37c33fc1348b86af95585303168e7c4c9bc",
+    "2eb90af844f3495b9984d23c317777d9db22aede178cf5efa55005802ebf7ca1",
+    "f3d1b1f2e5289beba14db65c35939302874b6a81c934543a641b810119356f3f",
+    "734bbd7ddcda5d0cdb978c9f4f93e2159b4d3fc0e51f87e162370850241c1e4e",
+    "e4eab60c53aa9f19b1d4878a0ec078e7bdefab9f2e436ec144166f65d542d8a2",
+    "befa5cd3f1830b977cfb8f30d37826928d51c8766a6e2fa16b5c4a4fecf6a761",
+    "26f9c42d599445270b596089b444bea2b27b245baba189d6b2c40ae1644da328",
+    "cbec162f8ee9da9e644fdb329a301c0c3d08d845ad648efbebd4ae9bd7369273",
+    "4d1513f4555a8fa502222b8a29191f29455dbceb205a12af2760b1e9adb7db67",
+    "36aa28fdb829036cf324e647541371898508234ae9047790b6a46af3e72b3c69",
+    "f609afcf34677c82088310bba63ae8871bdf8d41b445fb073c05a4ad27bd1c51",
+    "2d0200c7686de0b3db5c0ffe9d4fd80fa772ba9262cac47a424fd41d8798100a",
+    "71ba11107a1fb0fc4d37087a7f826def9473d034882df4462de5b30127c61927",
+    "c58a8c70b700db4c63a74872d90ebaaa1318f2897542b85e030e651a1754fe37",
+    "cd92e4bdb4165a6e6754313cacf6fd87ccc43caa7adf9e657f963a1cc7ecdbc2",
+    "ea33e89e1c8b98d0c2f865c7330e664f9830de4db07d193f3336b15fcea41363",
+    "8582ac81c16ed68304ddbaf13e7cce396983ea1541c7c5902bb0215ba5c31636",
+    "6a6307bfc8358c9bce99bb8854919c2f47469245178a66b76d1f2741078c395b",
+    "f306ebeecc23e7a73241be45d2ff8bef4d32809029fb2d82ebdc9e602736b053",
+    "6908c3160b7e01eed7f070c0630a7204b17c647c66382a2e8f56a307b8dcc511",
+    "cf08dff83f00ee3b34f5b8bc8f832ac1d99858d10c6854e1de2063ccb1c6a768",
+    "3f167a787058612f798cb85a0aa5fb4e75590d2ae2b038e61e43b577abe9a928",
+    "fa96ee14b1271ffaed6d40fe1b52b6f19d9ade05c6d6ccabe09698a929dfd32b",
+    "03ff9351b613fde268048b1a5b9836d4bfc78a98e747b4f4d221ba78c6b715fd",
+    "ec4edd5edcfb4d9d6f36a618f9a20f4bdb2c25ea1ab4bcd77f4ff40fbbe37368",
+    "245eada29f675232bf4b21ac65f4dcee9843d5468ebcb8394b8639f01f285f1e",
+    "38ea08cbf195437edff2aff2a332334bdd54a389f09f498e52aab296cad0ad81",
+    "91cfedd0bf2b47737154d9f42d4bb96f1f1a39425c2592f74558d05c1cbd510f",
+    "e8a74ec82fe5050f31cf2c303d350b9fb9465134fe4814ca839fc7827f60d2e2",
+    "1bd52485425243d77c326b9b1632521f6e3f757d6da51cfdfbbf208962bac9c1",
+    "b577304e030aee3ba0fc723f18128f799f073f1bd27287623fd0e0467f1308e3",
+    "003f6c0b4db9e1363d3a154ade2c7a01f905e32bd2722b94fab0462cd599f261",
+    "9f7883d14c396b772a4f30fa193da4cf40973ad8e27f50dcda6577e86551fe98",
+    "01e167442da8fad408711dcdba52f1578d83f838f99ab29cf06961d8eba1e9e3",
+    "3dc6e5f14a61659ab063ee91e257965766338c5be662cc616398922869c1838d",
+    "384cf215b47c845a3fe262b804b885ff84aa16dcaaea0658f1b75cba50272110",
+    "a8bfbf58db68487d366880e5a45e6995d1b2c8f1f0c98d21cef3841a29874a8d",
+    "512dcc4fe1ef086126106538b0fc5ff448f480916eff3f2361c8784d0c196f12",
+    "7952cae385a9dcd3cd77096b34bed0aa1ad9f94fc6888b7fe046fe0fcb716754",
+    "547814b46a620f7e8eff1b062a7b14ddaa1b62a523df31b22961fde0fa6292fd",
+    "154b1c7a90ddbcd80a3d7730c1e8a56a3c7f75aea429c6bc9a75a220d2ac979a",
+    "7c4f53a79d6ca66d5ff8ee18010192aebc8c3d821694dc87e01a157ce7018961",
+    "c810cadd29654d6edd8bb3f02639870bfdd8593633ca39236552db3845ce7340",
+    "3660e39430aa3332903df53b0f978a88256551cd786bf23166952149e82fd818",
+    "d128dc7c52e5d9f4f23b1229880b1efd89550caffbdf2d00c9f1b29af80e3295",
+    "4a0a3704add1e111581d566ce4fa740ad7f71fe8422f98de9726c0438adb96cc",
+    "c8154f2b8a8b1032322f6d23b00d3d825adcd89826c68a3bb7aa426f556d4545",
+    "580cc31679fa88c341648ea7c07c7c23f95b3675c3bdeee06802ea58c6b44f52",
+    "77a96148f2590f97bc4b048f27b29b66c499e4203a8963a66186fc725cdd3594",
+    "17659a9786c508fdfba2633d50e25493cc97b22d8c0893c6d2548527476a6439",
+    "2694ec78c6760df9412548e40ec9b2c53ba7de406c2024b92ca92459e2f91b1f",
+    "51e80b6fa6d395936ecc8b1d07bcbf8bae53461b788505d04bfb9ea8452aee1a",
+    "6963d12094c304b842fd5f5d9118cd812e823f1e6930a7c9ce8fbca5acd81141",
+    "5f6e7bf87267395ddeeabd9501f35272c9ddb5ff6ed078be1458b5232a1fdb90",
+    "6c75635b975300109e96b0170670ea7d872e69f33078996872f210ee28205170",
+    "bfbd2f953486e299179d21871f0cedebb1a73b109f8b571af38db659f8daa644",
+    "dd9916ca84be1f5e9cfecdff0eddf642677f64af1f4969a93db50d37fc353649",
+    "1b35f777ba0289b319de744e4a2ff03d76f33909d56f0cb696b5a6e45ce41e49",
+    "f20c2ec9cf9babf3c82d28f29a5ada8bf5c1a661cfc36d2f299688123161a530",
+    "7a49057e26f39d35a95707e681625735933779bd2eef4e0e2f9c142d5c0b0374",
+    "82a4bb27e4ab9f7960eeca7dcc11818cc8c5026b54cf26d30defeadb1b266d75",
+    "13e5b84e17a2b776b0848d897fb662ff7a0389ec82778b7e3018214e1e441b52",
+    "0cf1f9bb34d572dcdfdbdea1b0586380b4feb0f92b8388c10bfc8dde1cd0cae1",
+    "f9beed2d52e8d679cbea59b0b8af3dab3c888a505ab3799b78f01ebc05fdef23",
+    "23079984628df77f184bc2c6b2c13f39bc122841b836cb9e2804825d030be984",
+    "f5a477bec5792d64285afb875ebb399a15b213524a0d5d9c8f09d4b868b85f18",
+    "6658cfac2b63611eed6e40178b379910256fb01cd9f6362691401ca38249fd68",
+    "8f4d1f626d6e3c90d13d10be004eb2f8d59d287381988ed6ec13165100fecce6",
+    "c05c1fe1b5e9f4b344c424a8265753d841d2fd36f6069f6db03bb9e006d90634",
+    "c0f3c51aed5060df96885eb0042aa0b70ed738beb4a007c2f8c7030565c7ef8a",
+    "cf92ecd446e8855851439b5080f8531d38c85b5836f2a7c44e2ef5b8402a1e78",
+    "b77ad999141a0141be50c400ef42abe4f019b6184fd9db5e1e26714c85571f98",
+    "0bf8bb490ace971be0781ee3b2ef45c1f1ad1a1e1b99533f4c48f47ff1609594",
+    "45e721395c45db51e0a1900428a67365dc135908c8d67f8d18d280f661eb8edc",
+    "9c6376e366c22a393ca50a6f84c3fcdafb2da52a65a7bd8d6099d5bf632b0670",
+    "4c4a4992160524de0f639f566b7bde879757bd532d81bbea0c828207d64f9b0b",
+    "f0010f04025ab9d5462dea54d9ace7ff03b6d54a99f9860dfc7187d160d3ad9f",
+    "6f1cec7fd707dc8ab9de803524c51a467dc08045b179acdc85a9616da58e0bb1",
+    "0d9c802db844fb563291a8e0d356e15fbf873354a22e4862e5c7c9c7a237cb85",
+    "70a8288a6f553f6234c695e4e63f12e5092951cef82efb17c1ff5d173360f782",
+    "127e63554c898c4068d1130834d0e3051cbc275bd6b6a9b4aed6452624664558",
+    "1006c66bd53a2e95e5736fdce3d2dff56cd7d9e58c84d4b1132f1299159d975f",
+    "682a1c93ca057ef7cadadd454dedc972a21821908229b5f79be64797f61651bf",
+    "c641323968a4c20734fefd33318b009301fff7fa62b71f3b31f6436cd2db834c",
+    "60770182dc6d9d178eca6fc0cfef7ea4c3ce0de88f7e7a5f098537ce3f20cd2e"
+  ],
+  "Checkpoints": [
+    {
+      "SampledAgentsOnly": true,
+      "FrameIndex": 0,
+      "Running": true,
+      "ScenarioType": 0,
+      "ExplosionTriggerFrame": null,
+      "Fume": {
+        "IsReleased": false,
+        "ReleaseFrame": -1,
+        "GridCellCount": 0,
+        "ReachableCellCount": 0
+      },
+      "Counts": {
+        "Wandering": 61,
+        "WaitingToReact": 0,
+        "Evacuating": 0,
+        "Exited": 0,
+        "Injured": 0,
+        "Fallen": 0,
+        "Crawling": 0,
+        "Incapacitated": 0,
+        "TempIncap": 0,
+        "Dead": 0
+      },
+      "Agents": [
+        {
+          "AgentId": 0,
+          "Position": {
+            "X": 10,
+            "Y": 10
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 1,
+          "Position": {
+            "X": 9.55,
+            "Y": 9.55
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 2,
+          "Position": {
+            "X": 9.55,
+            "Y": 10.45
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 58,
+          "Position": {
+            "X": 28.463526,
+            "Y": 15.573416
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 59,
+          "Position": {
+            "X": 29.213526,
+            "Y": 16.118322
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 60,
+          "Position": {
+            "X": 36,
+            "Y": 20
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        }
+      ],
+      "Furniture": [
+        {
+          "Kind": 0,
+          "Center": {
+            "X": 28,
+            "Y": 17
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 28,
+              "Y": 17
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 0,
+            "Heading": 0
+          },
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 3.1415927
+              },
+              "OccupantId": 50
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 3.7699113
+              },
+              "OccupantId": 51
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 4.3982296
+              },
+              "OccupantId": 52
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 5.0265484
+              },
+              "OccupantId": 53
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 5.654867
+              },
+              "OccupantId": 54
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 6.2831855
+              },
+              "OccupantId": 55
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 6.911504
+              },
+              "OccupantId": 56
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 15.573415
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 7.5398226
+              },
+              "OccupantId": 57
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 15.573416
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 8.168141
+              },
+              "OccupantId": 58
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 8.796459
+              },
+              "OccupantId": 59
+            }
+          ]
+        },
+        {
+          "Kind": 1,
+          "Center": {
+            "X": 36,
+            "Y": 20
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 36,
+                  "Y": 20
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 0
+              },
+              "OccupantId": 60
+            }
+          ]
+        },
+        {
+          "Kind": 2,
+          "Center": {
+            "X": 24,
+            "Y": 12
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 24,
+              "Y": 12
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 0,
+            "Heading": 0
+          },
+          "Chairs": []
+        },
+        {
+          "Kind": 3,
+          "Center": {
+            "X": 42,
+            "Y": 27
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": []
+        },
+        {
+          "Kind": 4,
+          "Center": {
+            "X": 15,
+            "Y": 12
+          },
+          "Rotation": 0.7853982,
+          "Table": null,
+          "Chairs": []
+        }
+      ],
+      "Debris": [],
+      "Exits": [],
+      "Hybrid": {
+        "OpenSpaceAgents": 0,
+        "DetailedAgents": 0,
+        "GroupedAgents": 0,
+        "GroupCount": 0
+      },
+      "DebrisHits": 0,
+      "DebrisInjuries": 0,
+      "DebrisIncapacitations": 0,
+      "DebrisFatalities": 0
+    },
+    {
+      "SampledAgentsOnly": true,
+      "FrameIndex": 1,
+      "Running": true,
+      "ScenarioType": 0,
+      "ExplosionTriggerFrame": null,
+      "Fume": {
+        "IsReleased": false,
+        "ReleaseFrame": -1,
+        "GridCellCount": 0,
+        "ReachableCellCount": 0
+      },
+      "Counts": {
+        "Wandering": 61,
+        "WaitingToReact": 0,
+        "Evacuating": 0,
+        "Exited": 0,
+        "Injured": 0,
+        "Fallen": 0,
+        "Crawling": 0,
+        "Incapacitated": 0,
+        "TempIncap": 0,
+        "Dead": 0
+      },
+      "Agents": [
+        {
+          "AgentId": 0,
+          "Position": {
+            "X": 10.01886,
+            "Y": 10.034725
+          },
+          "Velocity": {
+            "X": -0.005888028,
+            "Y": 0.035837054
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 1,
+          "Position": {
+            "X": 9.584233,
+            "Y": 9.529336
+          },
+          "Velocity": {
+            "X": 0.03423292,
+            "Y": -0.020664137
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 2,
+          "Position": {
+            "X": 9.590662,
+            "Y": 10.440039
+          },
+          "Velocity": {
+            "X": 0.040662084,
+            "Y": -0.009960854
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 58,
+          "Position": {
+            "X": 28.463526,
+            "Y": 15.573416
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 59,
+          "Position": {
+            "X": 29.213526,
+            "Y": 16.118322
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 60,
+          "Position": {
+            "X": 36,
+            "Y": 20
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        }
+      ],
+      "Furniture": [
+        {
+          "Kind": 0,
+          "Center": {
+            "X": 28,
+            "Y": 17
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 28,
+              "Y": 17
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 0,
+            "Heading": 0
+          },
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 3.1415927
+              },
+              "OccupantId": 50
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 3.7699113
+              },
+              "OccupantId": 51
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 4.3982296
+              },
+              "OccupantId": 52
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 5.0265484
+              },
+              "OccupantId": 53
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 5.654867
+              },
+              "OccupantId": 54
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 6.2831855
+              },
+              "OccupantId": 55
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 6.911504
+              },
+              "OccupantId": 56
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 15.573415
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 7.5398226
+              },
+              "OccupantId": 57
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 15.573416
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 8.168141
+              },
+              "OccupantId": 58
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 8.796459
+              },
+              "OccupantId": 59
+            }
+          ]
+        },
+        {
+          "Kind": 1,
+          "Center": {
+            "X": 36,
+            "Y": 20
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 36,
+                  "Y": 20
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 0
+              },
+              "OccupantId": 60
+            }
+          ]
+        },
+        {
+          "Kind": 2,
+          "Center": {
+            "X": 24,
+            "Y": 12
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 24,
+              "Y": 12
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 0,
+            "Heading": 0
+          },
+          "Chairs": []
+        },
+        {
+          "Kind": 3,
+          "Center": {
+            "X": 42,
+            "Y": 27
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": []
+        },
+        {
+          "Kind": 4,
+          "Center": {
+            "X": 15,
+            "Y": 12
+          },
+          "Rotation": 0.7853982,
+          "Table": null,
+          "Chairs": []
+        }
+      ],
+      "Debris": [],
+      "Exits": [
+        {
+          "Name": "East_1",
+          "Density": 0,
+          "Flow": 0
+        },
+        {
+          "Name": "West_1",
+          "Density": 0,
+          "Flow": 0
+        }
+      ],
+      "Hybrid": {
+        "OpenSpaceAgents": 0,
+        "DetailedAgents": 0,
+        "GroupedAgents": 0,
+        "GroupCount": 0
+      },
+      "DebrisHits": 0,
+      "DebrisInjuries": 0,
+      "DebrisIncapacitations": 0,
+      "DebrisFatalities": 0
+    },
+    {
+      "SampledAgentsOnly": true,
+      "FrameIndex": 10,
+      "Running": true,
+      "ScenarioType": 0,
+      "ExplosionTriggerFrame": null,
+      "Fume": {
+        "IsReleased": false,
+        "ReleaseFrame": -1,
+        "GridCellCount": 0,
+        "ReachableCellCount": 0
+      },
+      "Counts": {
+        "Wandering": 61,
+        "WaitingToReact": 0,
+        "Evacuating": 0,
+        "Exited": 0,
+        "Injured": 0,
+        "Fallen": 0,
+        "Crawling": 0,
+        "Incapacitated": 0,
+        "TempIncap": 0,
+        "Dead": 0
+      },
+      "Agents": [
+        {
+          "AgentId": 0,
+          "Position": {
+            "X": 10.061118,
+            "Y": 10.022696
+          },
+          "Velocity": {
+            "X": 0.0054753125,
+            "Y": -0.009804566
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 1,
+          "Position": {
+            "X": 9.773358,
+            "Y": 9.334792
+          },
+          "Velocity": {
+            "X": 0.0038528016,
+            "Y": -0.03529244
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 2,
+          "Position": {
+            "X": 9.848268,
+            "Y": 10.356625
+          },
+          "Velocity": {
+            "X": -0.0009532012,
+            "Y": -0.008517696
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 58,
+          "Position": {
+            "X": 28.463526,
+            "Y": 15.573416
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 59,
+          "Position": {
+            "X": 29.213526,
+            "Y": 16.118322
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 60,
+          "Position": {
+            "X": 36,
+            "Y": 20
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        }
+      ],
+      "Furniture": [
+        {
+          "Kind": 0,
+          "Center": {
+            "X": 28,
+            "Y": 17
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 28,
+              "Y": 17
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 0,
+            "Heading": 0
+          },
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 3.1415927
+              },
+              "OccupantId": 50
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 3.7699113
+              },
+              "OccupantId": 51
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 4.3982296
+              },
+              "OccupantId": 52
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 5.0265484
+              },
+              "OccupantId": 53
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 5.654867
+              },
+              "OccupantId": 54
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 6.2831855
+              },
+              "OccupantId": 55
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 6.911504
+              },
+              "OccupantId": 56
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 15.573415
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 7.5398226
+              },
+              "OccupantId": 57
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 15.573416
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 8.168141
+              },
+              "OccupantId": 58
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 8.796459
+              },
+              "OccupantId": 59
+            }
+          ]
+        },
+        {
+          "Kind": 1,
+          "Center": {
+            "X": 36,
+            "Y": 20
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 36,
+                  "Y": 20
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 0
+              },
+              "OccupantId": 60
+            }
+          ]
+        },
+        {
+          "Kind": 2,
+          "Center": {
+            "X": 24,
+            "Y": 12
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 24,
+              "Y": 12
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 0,
+            "Heading": 0
+          },
+          "Chairs": []
+        },
+        {
+          "Kind": 3,
+          "Center": {
+            "X": 42,
+            "Y": 27
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": []
+        },
+        {
+          "Kind": 4,
+          "Center": {
+            "X": 15,
+            "Y": 12
+          },
+          "Rotation": 0.7853982,
+          "Table": null,
+          "Chairs": []
+        }
+      ],
+      "Debris": [],
+      "Exits": [
+        {
+          "Name": "East_1",
+          "Density": 0,
+          "Flow": 0
+        },
+        {
+          "Name": "West_1",
+          "Density": 0,
+          "Flow": 0
+        }
+      ],
+      "Hybrid": {
+        "OpenSpaceAgents": 0,
+        "DetailedAgents": 0,
+        "GroupedAgents": 0,
+        "GroupCount": 0
+      },
+      "DebrisHits": 0,
+      "DebrisInjuries": 0,
+      "DebrisIncapacitations": 0,
+      "DebrisFatalities": 0
+    },
+    {
+      "SampledAgentsOnly": true,
+      "FrameIndex": 11,
+      "Running": true,
+      "ScenarioType": 0,
+      "ExplosionTriggerFrame": 10,
+      "Fume": {
+        "IsReleased": false,
+        "ReleaseFrame": -1,
+        "GridCellCount": 0,
+        "ReachableCellCount": 0
+      },
+      "Counts": {
+        "Wandering": 52,
+        "WaitingToReact": 0,
+        "Evacuating": 0,
+        "Exited": 0,
+        "Injured": 0,
+        "Fallen": 1,
+        "Crawling": 0,
+        "Incapacitated": 8,
+        "TempIncap": 0,
+        "Dead": 0
+      },
+      "Agents": [
+        {
+          "AgentId": 0,
+          "Position": {
+            "X": 10.059639,
+            "Y": 10.008924
+          },
+          "Velocity": {
+            "X": 0.008625653,
+            "Y": -0.008969971
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 1,
+          "Position": {
+            "X": 9.770727,
+            "Y": 9.312824
+          },
+          "Velocity": {
+            "X": 0.0055729216,
+            "Y": -0.0351345
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 2,
+          "Position": {
+            "X": 9.851778,
+            "Y": 10.336533
+          },
+          "Velocity": {
+            "X": -5.2526593E-07,
+            "Y": -0.010427077
+          },
+          "State": 0,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 58,
+          "Position": {
+            "X": 28.463526,
+            "Y": 15.573416
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 5,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0.6496611,
+          "Exit": null,
+          "InjurySpeedFactor": 0,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 59,
+          "Position": {
+            "X": 29.213526,
+            "Y": 16.118322
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 7,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0.71417356,
+          "Exit": null,
+          "InjurySpeedFactor": 0,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 60,
+          "Position": {
+            "X": 36,
+            "Y": 20
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 0,
+          "Posture": 1,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        }
+      ],
+      "Furniture": [
+        {
+          "Kind": 0,
+          "Center": {
+            "X": 28,
+            "Y": 17
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 28,
+              "Y": 17
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 3,
+            "Heading": 0
+          },
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 3.1415927
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 3.7699113
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 4.3982296
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 5.0265484
+              },
+              "OccupantId": 53
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 5.654867
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 6.2831855
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 6.911504
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 15.573415
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 7.5398226
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 15.573416
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 8.168141
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 8.796459
+              },
+              "OccupantId": null
+            }
+          ]
+        },
+        {
+          "Kind": 1,
+          "Center": {
+            "X": 36,
+            "Y": 20
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 36,
+                  "Y": 20
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 0,
+                "Heading": 0
+              },
+              "OccupantId": 60
+            }
+          ]
+        },
+        {
+          "Kind": 2,
+          "Center": {
+            "X": 24,
+            "Y": 12
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 24,
+              "Y": 12
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 0,
+            "Heading": 0
+          },
+          "Chairs": []
+        },
+        {
+          "Kind": 3,
+          "Center": {
+            "X": 42,
+            "Y": 27
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": []
+        },
+        {
+          "Kind": 4,
+          "Center": {
+            "X": 15,
+            "Y": 12
+          },
+          "Rotation": 0.7853982,
+          "Table": null,
+          "Chairs": []
+        }
+      ],
+      "Debris": [
+        {
+          "Position": {
+            "X": 26.870548,
+            "Y": 17.346415
+          },
+          "Velocity": {
+            "X": -1.1294527,
+            "Y": 0.34641364
+          },
+          "Ttl": 26,
+          "Energy": 0.8482741
+        },
+        {
+          "Position": {
+            "X": 27.563538,
+            "Y": 17.398026
+          },
+          "Velocity": {
+            "X": -0.4364626,
+            "Y": 0.3980263
+          },
+          "Ttl": 24,
+          "Energy": 0.43656826
+        },
+        {
+          "Position": {
+            "X": 27.222252,
+            "Y": 16.856384
+          },
+          "Velocity": {
+            "X": -0.7777485,
+            "Y": -0.14361577
+          },
+          "Ttl": 60,
+          "Energy": 0.57610637
+        },
+        {
+          "Position": {
+            "X": 27.821365,
+            "Y": 17.844662
+          },
+          "Velocity": {
+            "X": -0.17863551,
+            "Y": 0.8446619
+          },
+          "Ttl": 25,
+          "Energy": 0.62660223
+        },
+        {
+          "Position": {
+            "X": 27.270414,
+            "Y": 16.96398
+          },
+          "Velocity": {
+            "X": -0.7295859,
+            "Y": -0.036019407
+          },
+          "Ttl": 44,
+          "Energy": 0.5339919
+        },
+        {
+          "Position": {
+            "X": 28.67661,
+            "Y": 16.194542
+          },
+          "Velocity": {
+            "X": 0.676611,
+            "Y": -0.80545795
+          },
+          "Ttl": 45,
+          "Energy": 0.75804836
+        },
+        {
+          "Position": {
+            "X": 27.48611,
+            "Y": 16.283484
+          },
+          "Velocity": {
+            "X": -0.5138887,
+            "Y": -0.71651703
+          },
+          "Ttl": 61,
+          "Energy": 0.6394287
+        },
+        {
+          "Position": {
+            "X": 27.441084,
+            "Y": 16.870922
+          },
+          "Velocity": {
+            "X": -0.55891556,
+            "Y": -0.12907837
+          },
+          "Ttl": 37,
+          "Energy": 0.42466953
+        },
+        {
+          "Position": {
+            "X": 28.712587,
+            "Y": 16.68097
+          },
+          "Velocity": {
+            "X": 0.7125872,
+            "Y": -0.3190303
+          },
+          "Ttl": 54,
+          "Energy": 0.56902945
+        },
+        {
+          "Position": {
+            "X": 28.051968,
+            "Y": 16.351381
+          },
+          "Velocity": {
+            "X": 0.051968027,
+            "Y": -0.6486183
+          },
+          "Ttl": 39,
+          "Energy": 0.47838706
+        },
+        {
+          "Position": {
+            "X": 28.506336,
+            "Y": 16.446608
+          },
+          "Velocity": {
+            "X": 0.50633526,
+            "Y": -0.5533932
+          },
+          "Ttl": 35,
+          "Energy": 0.5476566
+        },
+        {
+          "Position": {
+            "X": 28.63667,
+            "Y": 16.282776
+          },
+          "Velocity": {
+            "X": 0.63666826,
+            "Y": -0.71722335
+          },
+          "Ttl": 68,
+          "Energy": 0.69330084
+        },
+        {
+          "Position": {
+            "X": 28.791073,
+            "Y": 17.437086
+          },
+          "Velocity": {
+            "X": 0.7910727,
+            "Y": 0.4370862
+          },
+          "Ttl": 41,
+          "Energy": 0.654794
+        },
+        {
+          "Position": {
+            "X": 28.361668,
+            "Y": 17.190886
+          },
+          "Velocity": {
+            "X": 0.36166704,
+            "Y": 0.19088547
+          },
+          "Ttl": 46,
+          "Energy": 0.3098903
+        },
+        {
+          "Position": {
+            "X": 28.961557,
+            "Y": 16.944885
+          },
+          "Velocity": {
+            "X": 0.96155715,
+            "Y": -0.055113822
+          },
+          "Ttl": 29,
+          "Energy": 0.6961559
+        },
+        {
+          "Position": {
+            "X": 27.816628,
+            "Y": 16.049875
+          },
+          "Velocity": {
+            "X": -0.18337269,
+            "Y": -0.9501256
+          },
+          "Ttl": 24,
+          "Energy": 0.699309
+        },
+        {
+          "Position": {
+            "X": 28.53844,
+            "Y": 17.71319
+          },
+          "Velocity": {
+            "X": 0.5384401,
+            "Y": 0.7131902
+          },
+          "Ttl": 33,
+          "Energy": 0.6477045
+        },
+        {
+          "Position": {
+            "X": 27.59798,
+            "Y": 16.099234
+          },
+          "Velocity": {
+            "X": -0.40201995,
+            "Y": -0.900766
+          },
+          "Ttl": 42,
+          "Energy": 0.71237653
+        },
+        {
+          "Position": {
+            "X": 27.74544,
+            "Y": 17.426517
+          },
+          "Velocity": {
+            "X": -0.2545611,
+            "Y": 0.42651796
+          },
+          "Ttl": 47,
+          "Energy": 0.37105727
+        },
+        {
+          "Position": {
+            "X": 27.08212,
+            "Y": 17.033
+          },
+          "Velocity": {
+            "X": -0.9178795,
+            "Y": 0.033001564
+          },
+          "Ttl": 52,
+          "Energy": 0.6650261
+        },
+        {
+          "Position": {
+            "X": 27.535639,
+            "Y": 16.311687
+          },
+          "Velocity": {
+            "X": -0.46436065,
+            "Y": -0.68831277
+          },
+          "Ttl": 53,
+          "Energy": 0.603573
+        },
+        {
+          "Position": {
+            "X": 28.177334,
+            "Y": 17.643366
+          },
+          "Velocity": {
+            "X": 0.17733353,
+            "Y": 0.6433651
+          },
+          "Ttl": 47,
+          "Energy": 0.4899994
+        },
+        {
+          "Position": {
+            "X": 28.513426,
+            "Y": 17.118174
+          },
+          "Velocity": {
+            "X": 0.5134265,
+            "Y": 0.11817348
+          },
+          "Ttl": 68,
+          "Energy": 0.39206663
+        },
+        {
+          "Position": {
+            "X": 28.736448,
+            "Y": 16.765484
+          },
+          "Velocity": {
+            "X": 0.73644876,
+            "Y": -0.23451687
+          },
+          "Ttl": 65,
+          "Energy": 0.56355363
+        }
+      ],
+      "Exits": [
+        {
+          "Name": "East_1",
+          "Density": 0,
+          "Flow": 0
+        },
+        {
+          "Name": "West_1",
+          "Density": 0,
+          "Flow": 0
+        }
+      ],
+      "Hybrid": {
+        "OpenSpaceAgents": 0,
+        "DetailedAgents": 0,
+        "GroupedAgents": 0,
+        "GroupCount": 0
+      },
+      "DebrisHits": 12,
+      "DebrisInjuries": 0,
+      "DebrisIncapacitations": 11,
+      "DebrisFatalities": 0
+    },
+    {
+      "SampledAgentsOnly": true,
+      "FrameIndex": 30,
+      "Running": true,
+      "ScenarioType": 0,
+      "ExplosionTriggerFrame": 10,
+      "Fume": {
+        "IsReleased": false,
+        "ReleaseFrame": -1,
+        "GridCellCount": 0,
+        "ReachableCellCount": 0
+      },
+      "Counts": {
+        "Wandering": 0,
+        "WaitingToReact": 51,
+        "Evacuating": 0,
+        "Exited": 0,
+        "Injured": 0,
+        "Fallen": 0,
+        "Crawling": 0,
+        "Incapacitated": 0,
+        "TempIncap": 1,
+        "Dead": 9
+      },
+      "Agents": [
+        {
+          "AgentId": 0,
+          "Position": {
+            "X": 10.256417,
+            "Y": 9.92626
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 1,
+          "Posture": 0,
+          "Intent": 1,
+          "PanicLevel": 0.51307523,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 1,
+          "Position": {
+            "X": 9.606012,
+            "Y": 8.875384
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 1,
+          "Posture": 0,
+          "Intent": 1,
+          "PanicLevel": 0.504261,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 2,
+          "Position": {
+            "X": 9.901326,
+            "Y": 10.075103
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 1,
+          "Posture": 0,
+          "Intent": 1,
+          "PanicLevel": 0.51786476,
+          "Exit": null,
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 58,
+          "Position": {
+            "X": 28.998081,
+            "Y": 15.573765
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 8,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0.8,
+          "Exit": "East_1",
+          "InjurySpeedFactor": 0,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 5,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 59,
+          "Position": {
+            "X": 29.213526,
+            "Y": 16.118322
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 9,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 0,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 60,
+          "Position": {
+            "X": 36.149815,
+            "Y": 20.05618
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 1,
+          "Posture": 2,
+          "Intent": 1,
+          "PanicLevel": 0.74344194,
+          "Exit": null,
+          "InjurySpeedFactor": 0.4,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 1,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        }
+      ],
+      "Furniture": [
+        {
+          "Kind": 0,
+          "Center": {
+            "X": 28,
+            "Y": 17
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 28,
+              "Y": 17
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 3,
+            "Heading": 0
+          },
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 3.1415927
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 3.7699113
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 4.3982296
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 5.0265484
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 5.654867
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 6.2831855
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 6.911504
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 15.573415
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 7.5398226
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 15.573416
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 8.168141
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.257214,
+                  "Y": 16.150063
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 8.796459
+              },
+              "OccupantId": null
+            }
+          ]
+        },
+        {
+          "Kind": 1,
+          "Center": {
+            "X": 36,
+            "Y": 20
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 37.828053,
+                  "Y": 20.685532
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 2,
+                "Heading": 2.1076925
+              },
+              "OccupantId": 60
+            }
+          ]
+        },
+        {
+          "Kind": 2,
+          "Center": {
+            "X": 24,
+            "Y": 12
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 23.044,
+              "Y": 10.805015
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 2,
+            "Heading": 0
+          },
+          "Chairs": []
+        },
+        {
+          "Kind": 3,
+          "Center": {
+            "X": 42,
+            "Y": 27
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": []
+        },
+        {
+          "Kind": 4,
+          "Center": {
+            "X": 15,
+            "Y": 12
+          },
+          "Rotation": 0.7853982,
+          "Table": null,
+          "Chairs": []
+        }
+      ],
+      "Debris": [
+        {
+          "Position": {
+            "X": 20.831284,
+            "Y": 7.004631
+          },
+          "Velocity": {
+            "X": -0.23660415,
+            "Y": -0.32989812
+          },
+          "Ttl": 42,
+          "Energy": 0.3952574
+        },
+        {
+          "Position": {
+            "X": 20.203161,
+            "Y": 15.199363
+          },
+          "Velocity": {
+            "X": -0.25733534,
+            "Y": -0.05943014
+          },
+          "Ttl": 18,
+          "Energy": 0.2625059
+        },
+        {
+          "Position": {
+            "X": 33.04524,
+            "Y": 19.66284
+          },
+          "Velocity": {
+            "X": 0.16651839,
+            "Y": 0.0878873
+          },
+          "Ttl": 27,
+          "Energy": 0.19155604
+        },
+        {
+          "Position": {
+            "X": 24.448889,
+            "Y": 22.9499
+          },
+          "Velocity": {
+            "X": -0.11720476,
+            "Y": 0.19637695
+          },
+          "Ttl": 28,
+          "Energy": 0.22936597
+        },
+        {
+          "Position": {
+            "X": 35.16227,
+            "Y": 18.648514
+          },
+          "Velocity": {
+            "X": 0.23639128,
+            "Y": 0.054409314
+          },
+          "Ttl": 49,
+          "Energy": 0.24235263
+        },
+        {
+          "Position": {
+            "X": 38.273415,
+            "Y": 13.728504
+          },
+          "Velocity": {
+            "X": 0.33907497,
+            "Y": -0.10797602
+          },
+          "Ttl": 46,
+          "Energy": 0.34835592
+        }
+      ],
+      "Exits": [
+        {
+          "Name": "East_1",
+          "Density": 0,
+          "Flow": 0
+        },
+        {
+          "Name": "West_1",
+          "Density": 0,
+          "Flow": 0
+        }
+      ],
+      "Hybrid": {
+        "OpenSpaceAgents": 0,
+        "DetailedAgents": 0,
+        "GroupedAgents": 0,
+        "GroupCount": 0
+      },
+      "DebrisHits": 30,
+      "DebrisInjuries": 9,
+      "DebrisIncapacitations": 20,
+      "DebrisFatalities": 0
+    },
+    {
+      "SampledAgentsOnly": true,
+      "FrameIndex": 60,
+      "Running": true,
+      "ScenarioType": 0,
+      "ExplosionTriggerFrame": 10,
+      "Fume": {
+        "IsReleased": false,
+        "ReleaseFrame": -1,
+        "GridCellCount": 0,
+        "ReachableCellCount": 0
+      },
+      "Counts": {
+        "Wandering": 0,
+        "WaitingToReact": 1,
+        "Evacuating": 49,
+        "Exited": 0,
+        "Injured": 1,
+        "Fallen": 0,
+        "Crawling": 0,
+        "Incapacitated": 0,
+        "TempIncap": 1,
+        "Dead": 9
+      },
+      "Agents": [
+        {
+          "AgentId": 0,
+          "Position": {
+            "X": 10.150917,
+            "Y": 9.983486
+          },
+          "Velocity": {
+            "X": -0.053985287,
+            "Y": 0.00081280386
+          },
+          "State": 2,
+          "Posture": 0,
+          "Intent": 3,
+          "PanicLevel": 0.57685405,
+          "Exit": "West_1",
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 1,
+          "Position": {
+            "X": 9.457271,
+            "Y": 8.930658
+          },
+          "Velocity": {
+            "X": -0.0062999837,
+            "Y": 0.03414815
+          },
+          "State": 2,
+          "Posture": 0,
+          "Intent": 3,
+          "PanicLevel": 0.5364519,
+          "Exit": "East_1",
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 2,
+          "Position": {
+            "X": 9.567485,
+            "Y": 10.062833
+          },
+          "Velocity": {
+            "X": -0.07050908,
+            "Y": 0.03350628
+          },
+          "State": 2,
+          "Posture": 0,
+          "Intent": 4,
+          "PanicLevel": 0.5669242,
+          "Exit": "West_1",
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 58,
+          "Position": {
+            "X": 28.998081,
+            "Y": 15.573765
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 8,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0.8,
+          "Exit": "East_1",
+          "InjurySpeedFactor": 0,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 5,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 59,
+          "Position": {
+            "X": 29.213526,
+            "Y": 16.118322
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 9,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 0,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 60,
+          "Position": {
+            "X": 37.151672,
+            "Y": 19.952133
+          },
+          "Velocity": {
+            "X": 0.046444017,
+            "Y": -0.010565286
+          },
+          "State": 4,
+          "Posture": 0,
+          "Intent": 3,
+          "PanicLevel": 0.51698023,
+          "Exit": "East_1",
+          "InjurySpeedFactor": 0.4,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 1,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        }
+      ],
+      "Furniture": [
+        {
+          "Kind": 0,
+          "Center": {
+            "X": 28,
+            "Y": 17
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 28,
+              "Y": 17
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 3,
+            "Heading": 0
+          },
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 3.1415927
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 3.7699113
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 4.3982296
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 5.0265484
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 5.654867
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 6.2831855
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 6.911504
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 15.573415
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 7.5398226
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 15.573416
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 8.168141
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.257214,
+                  "Y": 16.150063
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 8.796459
+              },
+              "OccupantId": null
+            }
+          ]
+        },
+        {
+          "Kind": 1,
+          "Center": {
+            "X": 36,
+            "Y": 20
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 37.866238,
+                  "Y": 20.723715
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 2,
+                "Heading": 2.1076925
+              },
+              "OccupantId": null
+            }
+          ]
+        },
+        {
+          "Kind": 2,
+          "Center": {
+            "X": 24,
+            "Y": 12
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 23.044,
+              "Y": 10.805015
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 2,
+            "Heading": 0
+          },
+          "Chairs": []
+        },
+        {
+          "Kind": 3,
+          "Center": {
+            "X": 42,
+            "Y": 27
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": []
+        },
+        {
+          "Kind": 4,
+          "Center": {
+            "X": 15,
+            "Y": 12
+          },
+          "Rotation": 0.7853982,
+          "Table": null,
+          "Chairs": []
+        }
+      ],
+      "Debris": [
+        {
+          "Position": {
+            "X": 16.821455,
+            "Y": 1.4137121
+          },
+          "Velocity": {
+            "X": -0.06952789,
+            "Y": -0.09694302
+          },
+          "Ttl": 12,
+          "Energy": 0.18493484
+        },
+        {
+          "Position": {
+            "X": 39.16849,
+            "Y": 19.57061
+          },
+          "Velocity": {
+            "X": 0.06946535,
+            "Y": 0.01598858
+          },
+          "Ttl": 19,
+          "Energy": 0.11339307
+        },
+        {
+          "Position": {
+            "X": 44.019863,
+            "Y": 11.898589
+          },
+          "Velocity": {
+            "X": 0.09963971,
+            "Y": -0.031729564
+          },
+          "Ttl": 16,
+          "Energy": 0.16299038
+        }
+      ],
+      "Exits": [
+        {
+          "Name": "East_1",
+          "Density": 0,
+          "Flow": 0
+        },
+        {
+          "Name": "West_1",
+          "Density": 0,
+          "Flow": 0
+        }
+      ],
+      "Hybrid": {
+        "OpenSpaceAgents": 2,
+        "DetailedAgents": 48,
+        "GroupedAgents": 0,
+        "GroupCount": 0
+      },
+      "DebrisHits": 30,
+      "DebrisInjuries": 9,
+      "DebrisIncapacitations": 20,
+      "DebrisFatalities": 0
+    },
+    {
+      "SampledAgentsOnly": true,
+      "FrameIndex": 120,
+      "Running": true,
+      "ScenarioType": 0,
+      "ExplosionTriggerFrame": 10,
+      "Fume": {
+        "IsReleased": false,
+        "ReleaseFrame": -1,
+        "GridCellCount": 0,
+        "ReachableCellCount": 0
+      },
+      "Counts": {
+        "Wandering": 0,
+        "WaitingToReact": 0,
+        "Evacuating": 48,
+        "Exited": 2,
+        "Injured": 1,
+        "Fallen": 0,
+        "Crawling": 0,
+        "Incapacitated": 0,
+        "TempIncap": 1,
+        "Dead": 9
+      },
+      "Agents": [
+        {
+          "AgentId": 0,
+          "Position": {
+            "X": 5.364303,
+            "Y": 12.725457
+          },
+          "Velocity": {
+            "X": -0.07546163,
+            "Y": 0.06880917
+          },
+          "State": 2,
+          "Posture": 0,
+          "Intent": 3,
+          "PanicLevel": 0.17678465,
+          "Exit": "West_1",
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 1,
+          "Position": {
+            "X": 12.016436,
+            "Y": 8.322736
+          },
+          "Velocity": {
+            "X": 0.1033717,
+            "Y": 0.014172705
+          },
+          "State": 2,
+          "Posture": 0,
+          "Intent": 3,
+          "PanicLevel": 0.15936178,
+          "Exit": "East_1",
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": [
+            {
+              "X": 24.954,
+              "Y": 9.895015
+            },
+            {
+              "X": 55.7,
+              "Y": 17
+            }
+          ]
+        },
+        {
+          "AgentId": 2,
+          "Position": {
+            "X": 3.7511013,
+            "Y": 14.471176
+          },
+          "Velocity": {
+            "X": -0.08036613,
+            "Y": 0.059700884
+          },
+          "State": 2,
+          "Posture": 0,
+          "Intent": 3,
+          "PanicLevel": 0.20120783,
+          "Exit": "West_1",
+          "InjurySpeedFactor": 1,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 58,
+          "Position": {
+            "X": 28.998081,
+            "Y": 15.573765
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 8,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0.8,
+          "Exit": "East_1",
+          "InjurySpeedFactor": 0,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 5,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 59,
+          "Position": {
+            "X": 29.213526,
+            "Y": 16.118322
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "State": 9,
+          "Posture": 0,
+          "Intent": 0,
+          "PanicLevel": 0,
+          "Exit": null,
+          "InjurySpeedFactor": 0,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 0,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        },
+        {
+          "AgentId": 60,
+          "Position": {
+            "X": 39.548557,
+            "Y": 19.444113
+          },
+          "Velocity": {
+            "X": 0.037567537,
+            "Y": -0.006289767
+          },
+          "State": 4,
+          "Posture": 0,
+          "Intent": 3,
+          "PanicLevel": 0.18785195,
+          "Exit": "East_1",
+          "InjurySpeedFactor": 0.4,
+          "CumulativeToxicExposure": 0,
+          "CurrentToxicConcentration": 0,
+          "ToxicMobilityFactor": 1,
+          "StandUpProgress": 1,
+          "BottleneckMode": 0,
+          "BottleneckPressure": 0,
+          "LocalNavigationMode": 0,
+          "AssistTargetAgentId": null,
+          "RouteWaypointIndex": 0,
+          "Route": []
+        }
+      ],
+      "Furniture": [
+        {
+          "Kind": 0,
+          "Center": {
+            "X": 28,
+            "Y": 17
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 28,
+              "Y": 17
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 3,
+            "Heading": 0
+          },
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 3.1415927
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.213526,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 3.7699113
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 4.3982296
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 18.426584
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 5.0265484
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 17.881678
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 5.654867
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.5,
+                  "Y": 17
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 6.2831855
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 26.786474,
+                  "Y": 16.118322
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 6.911504
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 27.536474,
+                  "Y": 15.573415
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 7.5398226
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 28.463526,
+                  "Y": 15.573416
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 8.168141
+              },
+              "OccupantId": null
+            },
+            {
+              "Body": {
+                "Position": {
+                  "X": 29.257214,
+                  "Y": 16.150063
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 3,
+                "Heading": 8.796459
+              },
+              "OccupantId": null
+            }
+          ]
+        },
+        {
+          "Kind": 1,
+          "Center": {
+            "X": 36,
+            "Y": 20
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": [
+            {
+              "Body": {
+                "Position": {
+                  "X": 37.95538,
+                  "Y": 20.857641
+                },
+                "Velocity": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "Height": 0,
+                "State": 2,
+                "Heading": 2.1076925
+              },
+              "OccupantId": null
+            }
+          ]
+        },
+        {
+          "Kind": 2,
+          "Center": {
+            "X": 24,
+            "Y": 12
+          },
+          "Rotation": 0,
+          "Table": {
+            "Position": {
+              "X": 23.044,
+              "Y": 10.805015
+            },
+            "Velocity": {
+              "X": 0,
+              "Y": 0
+            },
+            "Height": 0,
+            "State": 2,
+            "Heading": 0
+          },
+          "Chairs": []
+        },
+        {
+          "Kind": 3,
+          "Center": {
+            "X": 42,
+            "Y": 27
+          },
+          "Rotation": 0,
+          "Table": null,
+          "Chairs": []
+        },
+        {
+          "Kind": 4,
+          "Center": {
+            "X": 15,
+            "Y": 12
+          },
+          "Rotation": 0.7853982,
+          "Table": null,
+          "Chairs": []
+        }
+      ],
+      "Debris": [],
+      "Exits": [
+        {
+          "Name": "East_1",
+          "Density": 0,
+          "Flow": 0
+        },
+        {
+          "Name": "West_1",
+          "Density": 0,
+          "Flow": 0
+        }
+      ],
+      "Hybrid": {
+        "OpenSpaceAgents": 6,
+        "DetailedAgents": 43,
+        "GroupedAgents": 0,
+        "GroupCount": 0
+      },
+      "DebrisHits": 30,
+      "DebrisInjuries": 9,
+      "DebrisIncapacitations": 20,
+      "DebrisFatalities": 0
+    }
+  ],
+  "Replay": {
+    "SampledAgentsOnly": true,
+    "FrameIndex": 0,
+    "Running": false,
+    "ScenarioType": 0,
+    "ExplosionTriggerFrame": null,
+    "Fume": {
+      "IsReleased": false,
+      "ReleaseFrame": -1,
+      "GridCellCount": 0,
+      "ReachableCellCount": 0
+    },
+    "Counts": {
+      "Wandering": 61,
+      "WaitingToReact": 0,
+      "Evacuating": 0,
+      "Exited": 0,
+      "Injured": 0,
+      "Fallen": 0,
+      "Crawling": 0,
+      "Incapacitated": 0,
+      "TempIncap": 0,
+      "Dead": 0
+    },
+    "Agents": [
+      {
+        "AgentId": 0,
+        "Position": {
+          "X": 10,
+          "Y": 10
+        },
+        "Velocity": {
+          "X": 0,
+          "Y": 0
+        },
+        "State": 0,
+        "Posture": 0,
+        "Intent": 0,
+        "PanicLevel": 0,
+        "Exit": null,
+        "InjurySpeedFactor": 1,
+        "CumulativeToxicExposure": 0,
+        "CurrentToxicConcentration": 0,
+        "ToxicMobilityFactor": 1,
+        "StandUpProgress": 0,
+        "BottleneckMode": 0,
+        "BottleneckPressure": 0,
+        "LocalNavigationMode": 0,
+        "AssistTargetAgentId": null,
+        "RouteWaypointIndex": 0,
+        "Route": []
+      },
+      {
+        "AgentId": 1,
+        "Position": {
+          "X": 9.55,
+          "Y": 9.55
+        },
+        "Velocity": {
+          "X": 0,
+          "Y": 0
+        },
+        "State": 0,
+        "Posture": 0,
+        "Intent": 0,
+        "PanicLevel": 0,
+        "Exit": null,
+        "InjurySpeedFactor": 1,
+        "CumulativeToxicExposure": 0,
+        "CurrentToxicConcentration": 0,
+        "ToxicMobilityFactor": 1,
+        "StandUpProgress": 0,
+        "BottleneckMode": 0,
+        "BottleneckPressure": 0,
+        "LocalNavigationMode": 0,
+        "AssistTargetAgentId": null,
+        "RouteWaypointIndex": 0,
+        "Route": []
+      },
+      {
+        "AgentId": 2,
+        "Position": {
+          "X": 9.55,
+          "Y": 10.45
+        },
+        "Velocity": {
+          "X": 0,
+          "Y": 0
+        },
+        "State": 0,
+        "Posture": 0,
+        "Intent": 0,
+        "PanicLevel": 0,
+        "Exit": null,
+        "InjurySpeedFactor": 1,
+        "CumulativeToxicExposure": 0,
+        "CurrentToxicConcentration": 0,
+        "ToxicMobilityFactor": 1,
+        "StandUpProgress": 0,
+        "BottleneckMode": 0,
+        "BottleneckPressure": 0,
+        "LocalNavigationMode": 0,
+        "AssistTargetAgentId": null,
+        "RouteWaypointIndex": 0,
+        "Route": []
+      },
+      {
+        "AgentId": 58,
+        "Position": {
+          "X": 28.463526,
+          "Y": 15.573416
+        },
+        "Velocity": {
+          "X": 0,
+          "Y": 0
+        },
+        "State": 0,
+        "Posture": 1,
+        "Intent": 0,
+        "PanicLevel": 0,
+        "Exit": null,
+        "InjurySpeedFactor": 1,
+        "CumulativeToxicExposure": 0,
+        "CurrentToxicConcentration": 0,
+        "ToxicMobilityFactor": 1,
+        "StandUpProgress": 0,
+        "BottleneckMode": 0,
+        "BottleneckPressure": 0,
+        "LocalNavigationMode": 0,
+        "AssistTargetAgentId": null,
+        "RouteWaypointIndex": 0,
+        "Route": []
+      },
+      {
+        "AgentId": 59,
+        "Position": {
+          "X": 29.213526,
+          "Y": 16.118322
+        },
+        "Velocity": {
+          "X": 0,
+          "Y": 0
+        },
+        "State": 0,
+        "Posture": 1,
+        "Intent": 0,
+        "PanicLevel": 0,
+        "Exit": null,
+        "InjurySpeedFactor": 1,
+        "CumulativeToxicExposure": 0,
+        "CurrentToxicConcentration": 0,
+        "ToxicMobilityFactor": 1,
+        "StandUpProgress": 0,
+        "BottleneckMode": 0,
+        "BottleneckPressure": 0,
+        "LocalNavigationMode": 0,
+        "AssistTargetAgentId": null,
+        "RouteWaypointIndex": 0,
+        "Route": []
+      },
+      {
+        "AgentId": 60,
+        "Position": {
+          "X": 36,
+          "Y": 20
+        },
+        "Velocity": {
+          "X": 0,
+          "Y": 0
+        },
+        "State": 0,
+        "Posture": 1,
+        "Intent": 0,
+        "PanicLevel": 0,
+        "Exit": null,
+        "InjurySpeedFactor": 1,
+        "CumulativeToxicExposure": 0,
+        "CurrentToxicConcentration": 0,
+        "ToxicMobilityFactor": 1,
+        "StandUpProgress": 0,
+        "BottleneckMode": 0,
+        "BottleneckPressure": 0,
+        "LocalNavigationMode": 0,
+        "AssistTargetAgentId": null,
+        "RouteWaypointIndex": 0,
+        "Route": []
+      }
+    ],
+    "Furniture": [
+      {
+        "Kind": 0,
+        "Center": {
+          "X": 28,
+          "Y": 17
+        },
+        "Rotation": 0,
+        "Table": {
+          "Position": {
+            "X": 28,
+            "Y": 17
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "Height": 0,
+          "State": 0,
+          "Heading": 0
+        },
+        "Chairs": [
+          {
+            "Body": {
+              "Position": {
+                "X": 29.5,
+                "Y": 17
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 3.1415927
+            },
+            "OccupantId": 50
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 29.213526,
+                "Y": 17.881678
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 3.7699113
+            },
+            "OccupantId": 51
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 28.463526,
+                "Y": 18.426584
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 4.3982296
+            },
+            "OccupantId": 52
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 27.536474,
+                "Y": 18.426584
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 5.0265484
+            },
+            "OccupantId": 53
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 26.786474,
+                "Y": 17.881678
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 5.654867
+            },
+            "OccupantId": 54
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 26.5,
+                "Y": 17
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 6.2831855
+            },
+            "OccupantId": 55
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 26.786474,
+                "Y": 16.118322
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 6.911504
+            },
+            "OccupantId": 56
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 27.536474,
+                "Y": 15.573415
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 7.5398226
+            },
+            "OccupantId": 57
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 28.463526,
+                "Y": 15.573416
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 8.168141
+            },
+            "OccupantId": 58
+          },
+          {
+            "Body": {
+              "Position": {
+                "X": 29.213526,
+                "Y": 16.118322
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 8.796459
+            },
+            "OccupantId": 59
+          }
+        ]
+      },
+      {
+        "Kind": 1,
+        "Center": {
+          "X": 36,
+          "Y": 20
+        },
+        "Rotation": 0,
+        "Table": null,
+        "Chairs": [
+          {
+            "Body": {
+              "Position": {
+                "X": 36,
+                "Y": 20
+              },
+              "Velocity": {
+                "X": 0,
+                "Y": 0
+              },
+              "Height": 0,
+              "State": 0,
+              "Heading": 0
+            },
+            "OccupantId": 60
+          }
+        ]
+      },
+      {
+        "Kind": 2,
+        "Center": {
+          "X": 24,
+          "Y": 12
+        },
+        "Rotation": 0,
+        "Table": {
+          "Position": {
+            "X": 24,
+            "Y": 12
+          },
+          "Velocity": {
+            "X": 0,
+            "Y": 0
+          },
+          "Height": 0,
+          "State": 0,
+          "Heading": 0
+        },
+        "Chairs": []
+      },
+      {
+        "Kind": 3,
+        "Center": {
+          "X": 42,
+          "Y": 27
+        },
+        "Rotation": 0,
+        "Table": null,
+        "Chairs": []
+      },
+      {
+        "Kind": 4,
+        "Center": {
+          "X": 15,
+          "Y": 12
+        },
+        "Rotation": 0.7853982,
+        "Table": null,
+        "Chairs": []
+      }
+    ],
+    "Debris": [],
+    "Exits": [],
+    "Hybrid": {
+      "OpenSpaceAgents": 0,
+      "DetailedAgents": 0,
+      "GroupedAgents": 0,
+      "GroupCount": 0
+    },
+    "DebrisHits": 0,
+    "DebrisInjuries": 0,
+    "DebrisIncapacitations": 0,
+    "DebrisFatalities": 0
+  }
+}

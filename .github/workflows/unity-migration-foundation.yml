@@ -1,0 +1,32 @@
+name: Unity migration foundation
+
+on:
+  push:
+    branches: [unity-migration]
+  pull_request:
+    branches: [main, unity-migration]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference-and-foundation:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.415
+      - name: Verify unchanged reference, portable build, static Unity contract and seeded baselines
+        run: bash Migration/Tools/validate.sh
+      - name: Retain actual test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migration-foundation-test-results
+          path: Migration/artifacts/tests/*.trx
+          if-no-files-found: warn
+
+# This job does not execute Unity. EditMode/PlayMode and first-import acceptance
+# remain local checks until a licensed Editor runner is configured.

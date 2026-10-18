@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "com.crowdsim.core": "file:com.crowdsim.core",
+    "com.unity.inputsystem": "1.14.2",
+    "com.unity.nuget.newtonsoft-json": "3.2.2",
+    "com.unity.render-pipelines.universal": "17.3.0",
+    "com.unity.test-framework": "1.4.6",
+    "com.unity.modules.audio": "1.0.0",
+    "com.unity.modules.imgui": "1.0.0",
+    "com.unity.modules.jsonserialize": "1.0.0",
+    "com.unity.modules.ui": "1.0.0",
+    "com.unity.modules.uielements": "1.0.0"
+  }
+}

@@ -8,3 +8,20 @@ TestResults/
 coverage/
 *.avi
 recordings/
+
+# Unity migration: retain Assets, Packages, ProjectSettings and their metadata.
+UnityProject/[Ll]ibrary/
+UnityProject/[Tt]emp/
+UnityProject/[Oo]bj/
+UnityProject/[Bb]uild/
+UnityProject/[Bb]uilds/
+UnityProject/[Ll]ogs/
+UnityProject/[Uu]ser[Ss]ettings/
+UnityProject/[Mm]emoryCaptures/
+UnityProject/.vs/
+UnityProject/.idea/
+UnityProject/*.csproj
+UnityProject/*.sln
+UnityProject/*.slnx
+UnityProject/*.unitypackage
+Migration/artifacts/

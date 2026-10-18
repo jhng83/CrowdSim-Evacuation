@@ -1,0 +1,7 @@
+{
+  "name": "CrowdSim.Foundation.EditModeTests",
+  "references": ["CrowdSim.Portable", "CrowdSim.Foundation", "Unity.RenderPipelines.Universal.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

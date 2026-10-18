@@ -1,0 +1,7 @@
+{
+  "name": "CrowdSim.Portable",
+  "rootNamespace": "CrowdSim.Migration",
+  "references": [],
+  "autoReferenced": true,
+  "noEngineReferences": true
+}

@@ -1,0 +1,23 @@
+.startup-scroll { flex-grow: 1; background-color: rgb(12, 18, 26); color: rgb(222, 231, 239); }
+.page { max-width: 1180px; width: 100%; align-self: center; padding: 36px 32px 28px 32px; }
+.header { flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; }
+.brand { font-size: 20px; -unity-font-style: bold; color: rgb(100, 198, 246); letter-spacing: 2px; }
+.milestone { font-size: 13px; color: rgb(151, 172, 191); }
+.headline { font-size: 36px; -unity-font-style: bold; white-space: normal; margin-bottom: 4px; }
+.subtitle { font-size: 15px; color: rgb(151, 172, 191); margin-bottom: 25px; }
+.cards { flex-direction: row; flex-wrap: wrap; margin-left: -7px; margin-right: -7px; }
+.scenario-card { flex-grow: 1; flex-basis: 340px; margin: 7px; padding: 23px; background-color: rgb(22, 31, 43); border-width: 1px; border-color: rgb(48, 65, 83); border-radius: 9px; }
+.card-kicker { font-size: 12px; -unity-font-style: bold; letter-spacing: 1px; color: rgb(127, 190, 222); margin-bottom: 10px; }
+.explosion-text { color: rgb(247, 178, 82); }
+.fume-text { color: rgb(102, 218, 173); }
+.card-title { font-size: 22px; -unity-font-style: bold; white-space: normal; margin-bottom: 10px; }
+.body { font-size: 15px; color: rgb(174, 194, 211); white-space: normal; margin-bottom: 12px; }
+.scenario-button { height: 39px; margin-top: 12px; background-color: rgb(39, 64, 85); border-width: 1px; border-color: rgb(78, 112, 142); border-radius: 5px; color: rgb(231, 241, 249); }
+.scenario-button:hover, .scenario-button:focus, .scenario-button.selected { background-color: rgb(52, 91, 120); border-color: rgb(124, 194, 236); }
+.overview, .setup { background-color: rgb(17, 26, 37); border-width: 1px; border-color: rgb(43, 61, 78); border-radius: 8px; padding: 20px 24px; margin-top: 18px; }
+.overview-title { font-size: 23px; white-space: normal; margin-bottom: 8px; }
+.quiet-button { min-height: 33px; align-self: flex-start; padding-left: 15px; padding-right: 15px; background-color: rgb(29, 45, 61); color: rgb(211, 230, 244); border-color: rgb(66, 96, 120); border-width: 1px; border-radius: 4px; }
+.quiet-button:hover, .quiet-button:focus { background-color: rgb(43, 67, 87); }
+.check { color: rgb(142, 215, 181); font-size: 14px; margin-bottom: 6px; white-space: normal; }
+.footer { flex-direction: row; justify-content: space-between; flex-wrap: wrap; margin-top: 24px; }
+.footer-label { font-size: 11px; color: rgb(123, 148, 170); white-space: normal; }
