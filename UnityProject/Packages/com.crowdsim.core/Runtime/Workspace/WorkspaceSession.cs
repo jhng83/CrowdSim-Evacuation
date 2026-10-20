@@ -11,7 +11,7 @@ using CrowdSim.OpenGL.UI;
 
 namespace CrowdSim.Workspace
 {
-    public enum PlacementTool { Select, Exit, Square, Circle, Agents, Explosion }
+    public enum PlacementTool { Select, Exit, Square, Circle, Agents, Explosion, Asset }
     public enum WorkspacePhase { Building, Ready, Running, Paused }
 
     /// <summary>Detached candidate geometry. Preview uses a throwaway model and never consumes the live RNG/history.</summary>
@@ -27,6 +27,7 @@ namespace CrowdSim.Workspace
     public sealed class WorkspaceSession
     {
         private readonly Simulation _simulation;
+        private readonly BuilderAssetSelection _assets = new BuilderAssetSelection();
         private readonly InspectorPanelState _inspector = new InspectorPanelState();
         private readonly FixedStepScheduler _scheduler = new FixedStepScheduler();
         private double _speed = 1d;
@@ -36,6 +37,15 @@ namespace CrowdSim.Workspace
         public bool Running => Phase == WorkspacePhase.Running;
         public float StepSeconds => _simulation.Config.Agent.Dt;
         public int Tick => _simulation.FrameIndex;
+        public BuilderAsset SelectedAsset => _assets.Selected;
+        public float AssetRotationDegrees => _assets.RotationDegrees;
+        public bool AssetSupportsRotation => _assets.SupportsRotation;
+        public bool AssetUsesQuarterTurns => _assets.UsesQuarterTurns;
+        public bool SnapBarricadeEnds => _assets.SnapBarricadeEnds;
+        public string AssetHint => _assets.Hint;
+        public bool HasStage => _simulation.Environment.HasStage;
+        public bool AssetUnavailable => SelectedAsset == BuilderAsset.Stage && HasStage;
+        public int FurnitureCount => _simulation.Environment.Furniture.Count;
         public int PlannedCount => _simulation.Environment.PlannedAgentCount;
         public int ExitCount => _simulation.Environment.Exits.Count;
         public bool Hybrid => _simulation.Config.HybridEnabled;
@@ -79,7 +89,7 @@ namespace CrowdSim.Workspace
             return result;
         }
 
-        private static bool ApplyPlacement(Simulation simulation, PlacementTool tool, Vector2 point, int option)
+        private static bool ApplyPlacement(Simulation simulation, PlacementTool tool, Vector2 point, int option, BuilderAssetSelection assets)
         {
             if (!float.IsFinite(point.X) || !float.IsFinite(point.Y)) return false;
             switch (tool)
@@ -88,6 +98,16 @@ namespace CrowdSim.Workspace
                 case PlacementTool.Square: return (option == 1 || option == 2) && simulation.Environment.AddBlockageFromClick(point.X, point.Y, option);
                 case PlacementTool.Circle: return simulation.Environment.AddCircularBlockageFromClick(point.X, point.Y);
                 case PlacementTool.Agents: return (option == 1 || option == 5 || option == 15 || option == 50) && simulation.Environment.AddAgentSpawnGroupFromClick(point.X, point.Y, option);
+                case PlacementTool.Asset:
+                    if (assets.Furniture is FurnitureKind kind)
+                    {
+                        if (kind == FurnitureKind.Barricade && assets.SnapBarricadeEnds)
+                            point = simulation.Environment.SnapBarricadePlacement(point, assets.RotationRadians);
+                        return simulation.Environment.AddFurniture(kind, point, assets.RotationRadians);
+                    }
+                    return assets.Selected == BuilderAsset.CircularBlock
+                        ? simulation.Environment.AddCircularBlockageFromClick(point.X, point.Y)
+                        : simulation.Environment.AddBlockageFromClick(point.X, point.Y, assets.BlockageCells);
                 default: return false;
             }
         }
@@ -95,10 +115,25 @@ namespace CrowdSim.Workspace
         public PlacementPreview Preview(PlacementTool tool, Vector2 point, int option)
         {
             if (!IsBuilding) return new PlacementPreview(false, Array.Empty<ViewBody>());
+            if (tool == PlacementTool.Asset && _assets.Furniture is FurnitureKind kind)
+            {
+                if (!float.IsFinite(point.X) || !float.IsFinite(point.Y)) return new PlacementPreview(false, Array.Empty<ViewBody>());
+                Vector2 snapped = kind == FurnitureKind.Barricade && _assets.SnapBarricadeEnds
+                    ? _simulation.Environment.SnapBarricadePlacement(point, _assets.RotationRadians) : point;
+                bool fits = _simulation.Environment.CanPlaceFurniture(kind, snapped, _assets.RotationRadians);
+                List<ViewBody> bodies = new List<ViewBody>();
+                FurnitureSet proposed = new FurnitureSet(kind, snapped, _assets.RotationRadians);
+                FurniturePresentation.AddSet(bodies, proposed, "candidate");
+                int seat = 0;
+                foreach (FurnitureChair chair in proposed.Chairs)
+                    FurniturePresentation.AddSeatedAgent(bodies, "candidate-person-" + seat++, chair.StartPosition,
+                        chair.StartHeading, SeatingPosture.Seated, 0, AgentState.Wandering);
+                return new PlacementPreview(fits, bodies);
+            }
             ScenarioDefinition definition = ScenarioDefinition.Capture(_simulation, 0, "Preview");
             Simulation candidate = new Simulation(config: definition.CreateConfig(), randomSeed: definition.RandomSeed);
             definition.ApplyLayout(candidate);
-            bool valid = ApplyPlacement(candidate, tool, point, option);
+            bool valid = ApplyPlacement(candidate, tool, point, option, _assets);
             HashSet<(ViewKind, ViewShape, Vector3, Vector3, float)> existing = new HashSet<(ViewKind, ViewShape, Vector3, Vector3, float)>(
                 Frame.Bodies.Select(b => (b.Kind, b.Shape, b.Position, b.Size, b.GroundAngle)));
             return new PlacementPreview(valid, valid ? PresentationFrame.Capture(candidate, true).Bodies.Where(b => !existing.Contains((b.Kind, b.Shape, b.Position, b.Size, b.GroundAngle))) : Array.Empty<ViewBody>());
@@ -107,10 +142,39 @@ namespace CrowdSim.Workspace
         public bool Place(PlacementTool tool, Vector2 point, int option)
         {
             if (!IsBuilding) { Message = "Geometry is locked after finalisation."; return false; }
-            bool result = ApplyPlacement(_simulation, tool, point, option);
-            if (!result) { Message = "Placement rejected: check boundary, overlap, occupancy and available floor."; return false; }
+            bool result = ApplyPlacement(_simulation, tool, point, option, _assets);
+            if (!result) { Message = tool == PlacementTool.Asset && AssetUnavailable ? "Only one stage is allowed. Undo its placement before replacing it." : "Placement rejected: check boundary, overlap, occupancy and available floor."; return false; }
             _simulation.BuildWallGrid();
             Changed(tool + " placed. Ctrl+Z undoes the last placement.");
+            return true;
+        }
+
+        /// <summary>Picker state is session-owned and locked with authored geometry.</summary>
+        public bool SelectAsset(BuilderAsset asset)
+        {
+            if (!IsBuilding) return false;
+            _assets.Select(asset);
+            Message = _assets.Hint;
+            return true;
+        }
+        public bool SetAssetRotation(float degrees)
+        {
+            if (!IsBuilding || AssetUnavailable) return false;
+            _assets.SetRotation(degrees);
+            Message = "Next placement: " + _assets.RotationDegrees.ToString("F1") + " degrees. Existing assets are unchanged.";
+            return true;
+        }
+        public bool RotateAsset(bool reverse = false)
+        {
+            if (!IsBuilding || !AssetSupportsRotation || AssetUnavailable) return false;
+            _assets.RotateStep(reverse);
+            Message = "Next placement: " + _assets.RotationDegrees.ToString("F1") + " degrees. Existing assets are unchanged.";
+            return true;
+        }
+        public bool SetBarricadeSnap(bool enabled)
+        {
+            if (!IsBuilding) return false;
+            _assets.SnapBarricadeEnds = enabled;
             return true;
         }
 
@@ -211,6 +275,8 @@ namespace CrowdSim.Workspace
         }
         public string SelectedAgentSummary => SelectedAgentId.HasValue
             ? "Agent " + SelectedAgentId + "\nState: " + _simulation.Agents[SelectedAgentId.Value].State +
+                "\nPosture: " + _simulation.Agents[SelectedAgentId.Value].Posture +
+                "\nRise: " + _simulation.Agents[SelectedAgentId.Value].StandUpProgress.ToString("P0") +
                 "\nPanic: " + _simulation.Agents[SelectedAgentId.Value].PanicLevel.ToString("F2")
             : "No agent selected. Click a runtime capsule to select it.";
     }

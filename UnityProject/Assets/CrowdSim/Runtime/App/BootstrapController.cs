@@ -25,6 +25,7 @@ namespace CrowdSim.Unity.Foundation
         private Action _check;
         private Action _openParity;
         private Action _openExplosion;
+        private Action _openFurnished;
         private Action _openFume;
         private GameObject _workspace;
 
@@ -77,8 +78,10 @@ namespace CrowdSim.Unity.Foundation
             _root.Q<Button>("run-checks").clicked += _check;
             _root.Q<Button>("open-parity").clicked += _openParity;
             _openExplosion = () => OpenWorkspace(ScenarioType.Explosion);
+            _openFurnished = () => OpenWorkspace(ScenarioType.Explosion, true);
             _openFume = () => OpenWorkspace(ScenarioType.ToxicFume);
             _root.Q<Button>("open-explosion-workspace").clicked += _openExplosion;
+            _root.Q<Button>("open-furnished-workspace").clicked += _openFurnished;
             _root.Q<Button>("open-fume-workspace").clicked += _openFume;
             _root.Q<Label>("editor-version").text = "EDITOR  " + Application.unityVersion;
             _root.Q<Label>("milestone-label").text = MigrationContract.Milestone;
@@ -86,17 +89,17 @@ namespace CrowdSim.Unity.Foundation
             StartCoroutine(CheckAfterFirstFrame());
         }
 
-        private void OpenWorkspace(ScenarioType scenario)
+        private void OpenWorkspace(ScenarioType scenario, bool furnished = false)
         {
             if (_workspace != null) return;
             _root.style.display = DisplayStyle.None;
-            _workspace = new GameObject("CrowdSim M3 workspace");
+            _workspace = new GameObject("CrowdSim M4 workspace");
             // Keep this a scene root: nested UIDocuments inherit their parent's panel
             // and would disappear when the startup document is hidden. OnDisable owns cleanup.
             _workspace.AddComponent<WorkspaceController>().Open(scenario, () =>
             {
                 if (_root != null) _root.style.display = DisplayStyle.Flex;
-            });
+            }, furnished);
         }
 
         private IEnumerator CheckAfterFirstFrame()
@@ -108,7 +111,7 @@ namespace CrowdSim.Unity.Foundation
         private void ResetOverview()
         {
             ShowOverview("Welcome", "A new home for the same simulation",
-                "Build an Explosion scene in the M3 workspace, or open the accepted M2 preset checks. " +
+                "Build an Explosion scene in the M4 workspace, or open the accepted M2 preset checks. " +
                 "Place a room, exits, obstacles and people; finalise, start and trigger the basic event.");
         }
 
@@ -132,7 +135,7 @@ namespace CrowdSim.Unity.Foundation
             _root.Q<Label>("pipeline-check").text = (pipelineOk ? "PASS" : "CHECK") + "  Universal Render Pipeline";
             _root.Q<Label>("samples-check").text = (samplesOk ? "PASS" : "CHECK") + "  Two bundled reference examples";
             _root.Q<Label>("setup-status").text = editorOk && pipelineOk && samplesOk
-                ? "Startup checks passed. Open the M3 builder or M2 diagnostic scene."
+                ? "Startup checks passed. Open the M4 builder or M2 diagnostic scene."
                 : "Check the setup items above before running diagnostics.";
         }
 
@@ -148,6 +151,7 @@ namespace CrowdSim.Unity.Foundation
                 _root.Q<Button>("run-checks").clicked -= _check;
                 _root.Q<Button>("open-parity").clicked -= _openParity;
                 _root.Q<Button>("open-explosion-workspace").clicked -= _openExplosion;
+                _root.Q<Button>("open-furnished-workspace").clicked -= _openFurnished;
                 _root.Q<Button>("open-fume-workspace").clicked -= _openFume;
             }
             if (_document != null)

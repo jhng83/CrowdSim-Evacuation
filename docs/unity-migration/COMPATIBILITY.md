@@ -16,7 +16,7 @@
 Pins were checked against
 [Unity's Editor source](https://github.com/Unity-Technologies/UnityCsReference/tree/6000.3.26f1)
 and [URP metadata](https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/package.json).
-M1 and M2 were accepted by the user. M3's new workspace assembly and frontend still
+M1–M3 were accepted by the user. M4's new picker/presentation source and frontend still
 require actual Editor import; a static lock check cannot establish resolution.
 
 ## M2 source and runtime adaptations
@@ -133,3 +133,45 @@ must not be parented under the startup UIDocument: Unity automatically inherits
 parent panels, which would hide the workspace with startup. The bootstrap controller
 owns destruction of this root on disable and the exit action. This rule was checked
 against the pinned UIDocument source; actual lifecycle tests remain unexecuted here.
+
+## M4 furniture authoring and physical views
+
+The final original frontend helper, BuilderAssetSelection, is ported as C#9 source
+under Runtime/Workspace and retains the historical CrowdSim.OpenGL.UI namespace.
+Its enum/picker are public for the Unity adapter, but session-owned mutable state
+is private. Standard-compatible enum/array APIs replace newer BCL calls. All original
+picker and barricade-angle assertions now run against this production helper;
+the portable suite links all original test files. No new dependency or pin is added.
+
+WorkspaceSession owns asset selection, per-asset facing and snap settings, and
+locks changes at finalisation. The unified picker preserves the original eight
+options. Quarter-turn normalization and R steps are the original helper's behavior;
+free-angle chairs/round sets and barricades retain exact normalized input. Furniture
+previews call the engine's CanPlaceFurniture and, for parallel barricades, the same
+SnapBarricadePlacement operation used by the commit path. Proposed set geometry and
+seat views are detached even on invalid red previews. Hovering never inserts into
+the live undo stack, consumes the live RNG or bypasses stage/seat/overlap guards.
+
+PresentationFrame/FurniturePresentation emit reference-shaped compound furniture,
+seated/rising parts and immutable FurnitureBodyFrame status. Anchors use live XY
+position/height/heading. Upright and tipped profiles follow the original renderer's
+lightweight approximation; round tops and rotated rectangular tops preserve actual
+dimensions. Stages/barricades stay fixed. Destroyed bodies are omitted from views
+but retained in status/counts. Agent posture, timed stand-up progress and chair
+occupancy come from the engine; presentation cannot make someone stand or recover.
+Basic seated parts yield to walking capsules after departure; full humanoids/poses,
+interpolation and zoom-dependent detail remain M8.
+
+The renderer replaces a pooled primitive when a reused ID changes shape, so rapid
+undo/replacement or preview switching cannot retain a round mesh for a rectangular
+table. Snapshot status/counts refer to physical bodies rather than the number of
+render parts. Source XY maps to Unity XZ with negative Unity-Y yaw as before. No
+Unity rigid-body driver or collider-based integration is introduced. Portable
+engine algorithm files, original code/tests/examples/pins and all goldens remain
+unchanged; both original and portable captures still match exactly in cloud.
+
+WorkspaceExamples.Furniture builds an editable example through ordinary commands;
+it is not a user-file loading/replay implementation. It has five furniture sets,
+26 people (15 floor, 11 seated), one exit and all obstacle choices. The existing
+Bootstrap scene hosts it using the M3 independent-panel lifecycle. M4 adds no new
+scene, Editor version change, file workflow or standalone target.

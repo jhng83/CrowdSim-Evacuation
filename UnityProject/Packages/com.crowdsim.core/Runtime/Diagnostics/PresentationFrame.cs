@@ -10,7 +10,7 @@ using CrowdSim.Core.Model;
 namespace CrowdSim.Diagnostics
 {
     public enum ViewShape { Box, Cylinder, Capsule, Sphere }
-    public enum ViewKind { Floor, Wall, Block, Exit, Agent, Table, Chair, Stage, Barricade, Debris, Fume, Source }
+    public enum ViewKind { Floor, Wall, Block, Exit, Agent, Table, Chair, Stage, Barricade, Debris, Fume, Source, AgentDetail }
 
     /// <summary>Detached value description. Coordinates map (ground X,Y,height) to Unity X,Y,Z.</summary>
     public sealed class ViewBody
@@ -22,10 +22,15 @@ namespace CrowdSim.Diagnostics
         public Vector3 Size { get; }
         public float GroundAngle { get; }
         public AgentState State { get; }
+        public SeatingPosture Posture { get; }
+        public float RiseProgress { get; }
+        public ChairState MotionState { get; }
         public ViewBody(string id, ViewShape shape, ViewKind kind, Vector3 position, Vector3 size,
-            float groundAngle = 0f, AgentState state = AgentState.Wandering)
+            float groundAngle = 0f, AgentState state = AgentState.Wandering,
+            SeatingPosture posture = SeatingPosture.Walking, float riseProgress = 0f, ChairState motionState = ChairState.Upright)
         {
             Id = id; Shape = shape; Kind = kind; Position = position; Size = size; GroundAngle = groundAngle; State = state;
+            Posture = posture; RiseProgress = riseProgress; MotionState = motionState;
         }
     }
 
@@ -43,6 +48,9 @@ namespace CrowdSim.Diagnostics
         public int OpenSpaceAgents { get; }
         public bool HazardReleased { get; }
         public IReadOnlyList<ViewBody> Bodies { get; }
+        public IReadOnlyList<FurnitureBodyFrame> FurnitureBodies { get; }
+        public int SeatedAgents { get; }
+        public int RisingAgents { get; }
 
         private PresentationFrame(Simulation simulation, List<ViewBody> bodies)
         {
@@ -53,6 +61,10 @@ namespace CrowdSim.Diagnostics
             OpenSpaceAgents = simulation.HybridMovement.OpenSpaceAgents;
             HazardReleased = simulation.Environment.HasExplosion() || simulation.ToxicFumeSystem.IsReleased;
             Bodies = new ReadOnlyCollection<ViewBody>(bodies);
+            FurnitureBodies = Array.AsReadOnly(simulation.Environment.Furniture.SelectMany((set, i) => FurniturePresentation.Status(set, "furniture-" + i)).ToArray());
+            SeatedAgents = simulation.Agents.Count == 0 ? simulation.Environment.Furniture.Sum(set => set.Chairs.Count)
+                : simulation.Agents.Count(a => a.Posture == SeatingPosture.Seated);
+            RisingAgents = simulation.Agents.Count(a => a.Posture == SeatingPosture.StandingUp);
         }
 
         public static Vector3 ToPresentation(Vector2 ground, float height) => new Vector3(ground.X, height, ground.Y);
@@ -66,9 +78,12 @@ namespace CrowdSim.Diagnostics
             if (includePlanned && simulation.Agents.Count == 0)
             {
                 int planned = 0;
-                foreach (Vector2 position in simulation.Environment.GetPlannedAgentPositions())
+                foreach (Vector2 position in simulation.Environment.AgentSpawnGroups.SelectMany(g => g.Positions))
                     bodies.Add(new ViewBody("planned-" + planned++, ViewShape.Capsule, ViewKind.Agent,
                         ToPresentation(position, 0.85f), new Vector3(0.4f, 1.7f, 0.4f)));
+                foreach (FurnitureChair chair in simulation.Environment.Furniture.SelectMany(set => set.Chairs))
+                    FurniturePresentation.AddSeatedAgent(bodies, "planned-" + planned++, chair.StartPosition,
+                        chair.StartHeading, SeatingPosture.Seated, 0, AgentState.Wandering);
             }
             int index = 0;
             // Perimeter geometry stays in the model and is intentionally absent from the view.
@@ -86,39 +101,17 @@ namespace CrowdSim.Diagnostics
                     new Vector3(vertical ? 0.35f : exit.Size * 2f, 0.08f, vertical ? exit.Size * 2f : 0.35f)));
             }
             foreach (Agent agent in simulation.Agents.Where(a => a.State != AgentState.Exited))
-                bodies.Add(new ViewBody("agent-" + agent.AgentId, ViewShape.Capsule, ViewKind.Agent,
-                    ToPresentation(agent.Position, 0.85f), new Vector3(0.4f, 1.7f, 0.4f), state: agent.State));
+            {
+                if (agent.Posture != SeatingPosture.Walking && agent.Chair is FurnitureChair seat)
+                    FurniturePresentation.AddSeatedAgent(bodies, "agent-" + agent.AgentId, agent.Position,
+                        seat.StartHeading, agent.Posture, agent.StandUpProgress, agent.State);
+                else
+                    bodies.Add(new ViewBody("agent-" + agent.AgentId, ViewShape.Capsule, ViewKind.Agent,
+                        ToPresentation(agent.Position, 0.85f), new Vector3(0.4f, 1.7f, 0.4f), state: agent.State));
+            }
             index = 0;
             foreach (FurnitureSet furniture in simulation.Environment.Furniture)
-            {
-                string id = "furniture-" + index++;
-                if (furniture.StaticObstacle is Wall fixedWall && furniture.Table == null)
-                {
-                    bool barricade = furniture.Kind == FurnitureKind.Barricade;
-                    float height = barricade ? FurnitureSet.BarricadeHeight : FurnitureSet.StageHeight;
-                    Vector3 size = barricade ? new Vector3(FurnitureSet.BarricadeLength, height, FurnitureSet.BarricadeWidth)
-                        : new Vector3(fixedWall.X2 - fixedWall.X1, height, fixedWall.Y2 - fixedWall.Y1);
-                    bodies.Add(new ViewBody(id, ViewShape.Box, barricade ? ViewKind.Barricade : ViewKind.Stage,
-                        ToPresentation(furniture.Center, height / 2f), size, barricade ? furniture.Rotation : 0f));
-                }
-                if (furniture.Table is FurnitureBody table && table.State != ChairState.Destroyed)
-                {
-                    Vector3 size = table is RectangularFurnitureBody rectangle
-                        ? new Vector3(rectangle.HalfExtents.X * 2f, 0.78f, rectangle.HalfExtents.Y * 2f)
-                        : new Vector3(table.Radius * 2f, 0.78f, table.Radius * 2f);
-                    bodies.Add(new ViewBody(id + "-table", table is RectangularFurnitureBody ? ViewShape.Box : ViewShape.Cylinder,
-                        ViewKind.Table, ToPresentation(table.Position, table.Height + 0.39f), size));
-                }
-                int chairIndex = 0;
-                foreach (FurnitureChair chair in furniture.Chairs)
-                {
-                    string chairId = id + "-chair-" + chairIndex++;
-                    if (chair.State == ChairState.Destroyed) continue;
-                    float height = chair.State == ChairState.Fallen ? 0.15f : 0.65f;
-                    bodies.Add(new ViewBody(chairId, ViewShape.Box, ViewKind.Chair,
-                        ToPresentation(chair.Position, chair.Height + height / 2f), new Vector3(0.6f, height, 0.6f), chair.Heading));
-                }
-            }
+                FurniturePresentation.AddSet(bodies, furniture, "furniture-" + index++);
             index = 0;
             foreach (Debris fragment in simulation.Debris)
                 bodies.Add(new ViewBody("debris-" + index++, ViewShape.Sphere, ViewKind.Debris,

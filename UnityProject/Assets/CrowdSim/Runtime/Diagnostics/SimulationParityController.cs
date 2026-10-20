@@ -254,7 +254,7 @@ namespace CrowdSim.Unity.Diagnostics
 
         private static Color BodyColor(ViewBody body)
         {
-            if (body.Kind == ViewKind.Agent)
+            if (body.Kind == ViewKind.Agent || body.Kind == ViewKind.AgentDetail)
             {
                 switch (body.State)
                 {

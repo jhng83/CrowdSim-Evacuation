@@ -11,6 +11,7 @@ namespace CrowdSim.Unity.Workspace
     public sealed class WorkspaceWorldView : MonoBehaviour
     {
         private readonly Dictionary<string, GameObject> _views = new Dictionary<string, GameObject>();
+        private readonly Dictionary<string, ViewShape> _shapes = new Dictionary<string, ViewShape>();
         private readonly Dictionary<string, Material> _materials = new Dictionary<string, Material>();
         public Camera ViewCamera { get; private set; }
         public float Azimuth { get; set; } = -35f;
@@ -33,6 +34,10 @@ namespace CrowdSim.Unity.Workspace
             {
                 string id = prefix + body.Id;
                 active.Add(id);
+                if (_views.TryGetValue(id, out GameObject previous) && _shapes[id] != body.Shape)
+                {
+                    Destroy(previous); _views.Remove(id); _shapes.Remove(id);
+                }
                 if (!_views.TryGetValue(id, out GameObject view))
                 {
                     PrimitiveType primitive = body.Shape == ViewShape.Capsule ? PrimitiveType.Capsule
@@ -43,7 +48,7 @@ namespace CrowdSim.Unity.Workspace
                     view.transform.SetParent(transform, false);
                     Collider collider = view.GetComponent<Collider>();
                     if (collider != null) Destroy(collider);
-                    _views.Add(id, view);
+                    _views.Add(id, view); _shapes.Add(id, body.Shape);
                 }
                 view.transform.localPosition = new Vector3(body.Position.X, body.Position.Y, body.Position.Z);
                 Vector3 scale = new Vector3(body.Size.X, body.Size.Y, body.Size.Z);
@@ -65,7 +70,7 @@ namespace CrowdSim.Unity.Workspace
             foreach (string id in _views.Keys.Where(id => id.StartsWith(prefix, StringComparison.Ordinal) && (prefix.Length > 0 || (!id.StartsWith("preview-") && !id.StartsWith("grid-") && !id.StartsWith("selection-"))) && !active.Contains(id)).ToArray())
             {
                 Destroy(_views[id]);
-                _views.Remove(id);
+                _views.Remove(id); _shapes.Remove(id);
             }
         }
 
@@ -101,7 +106,7 @@ namespace CrowdSim.Unity.Workspace
         public void ResetCamera() { Azimuth = -35; Elevation = 34; Zoom = 1; }
         private static Color BodyColor(ViewBody body)
         {
-            if (body.Kind == ViewKind.Agent)
+            if (body.Kind == ViewKind.Agent || body.Kind == ViewKind.AgentDetail)
             {
                 switch (body.State)
                 {

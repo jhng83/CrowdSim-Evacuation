@@ -99,6 +99,10 @@ def validate() -> None:
     require("_workspace.transform.SetParent" not in controller.read_text(), "Workspace UIDocument must be independent of hidden startup UI")
     require("open-explosion-workspace" in names and "open-fume-workspace" in names, "M3 startup entries missing")
 
+    require("open-furnished-workspace" in names, "M4 example entry missing")
+    workspace = PROJECT / "Assets/CrowdSim/Runtime/Workspace/WorkspaceController.cs"
+    require('name = "asset-picker"' in workspace.read_text() and 'name = "asset-angle-exact"' in workspace.read_text(), "M4 picker/rotation bindings missing")
+
     parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
     require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
     require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")

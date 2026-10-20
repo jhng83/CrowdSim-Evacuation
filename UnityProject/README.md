@@ -1,38 +1,40 @@
-# CrowdSim Unity migration — M3
+# CrowdSim Unity migration — M4
 
-Open **UnityProject/** with **Unity 6000.3.26f1** (URP 17.3.0). Then open
-**Assets/CrowdSim/Scenes/Bootstrap.unity**, enter Play Mode and choose
-**Build an Explosion scene**.
+Open **UnityProject/** with **Unity 6000.3.26f1** (URP 17.3.0). Open
+**Assets/CrowdSim/Scenes/Bootstrap.unity**, press Play, and choose
+**Build furnished example (26 people)** or **Build an Explosion scene**.
 
-1. Set room size before placing anything.
-2. Place a boundary exit and people; add squares/circles as desired.
-3. Adjust behavior and Hybrid setup, then **Finalise scene**.
-4. **Start**, **Arm Explosion**, then click inside the room. Pause/Resume and change
-   playback speed with the fixed footer.
-5. Test camera controls, inspector/F4, undo before finalisation and input focus.
+1. The editable example has all five furniture kinds, three obstacle choices,
+   26 people (11 seated), one exit and tick zero.
+2. In a blank scene, use the unified **Asset** picker for obstacles/furniture.
+   Set facing, inspect green/red previews, place and undo whole sets.
+3. Tables/stages use quarter turns. Barricades retain free/exact angles, +/-15°,
+   R/Shift+R over the viewport and optional parallel end snapping. Each asset
+   remembers its own facing; stages are limited to one.
+4. Finalise/start, arm an Explosion and click the room. Inspect seated/rising
+   people, moving/tipped furniture and destruction using pause and playback speed.
 
-Follow [the M3 acceptance checklist](../docs/unity-migration/M3_LOCAL_TESTING.md)
-for exact expected results and **13 EditMode / 3 PlayMode** supplied tests.
-M1 and M2 were accepted by the user; M3 awaits your actual Editor checks.
+Follow [the full M4 checklist](../docs/unity-migration/M4_LOCAL_TESTING.md) for
+precise dimensions, expected counts, manual controls and **17 EditMode / 5 PlayMode**
+supplied tests. M1–M3 were accepted by the user; M4 awaits actual Unity testing.
+The original reference application and tests remain unchanged.
 
-The common builder is also accessible from the Toxic Fume entry, with a readiness
-explanation that source/precompute/run authoring arrives in M7. The accepted M2
-scene remains **Assets/CrowdSim/Scenes/Validation/SimulationParity.unity** and is
-reachable from startup; it runs all six bounded preset/Hybrid checks.
+Furniture positions, height, heading, states and occupancy come from detached
+portable-engine snapshots. The model retains seating/departure, pushing/chains,
+impacts/flight/support/landing, destruction and dynamic navigation; Unity physics
+does not move the crowd or furniture. Simple seated/rising parts complement the
+existing walking capsules. Full humanoids/animation/cameras remain M8.
 
-M3 uses 3D capsules/blocks, not the full M8 humanoids/poses. Furniture authoring,
-file/replay workflows, detailed hazard controls/graphics, complete analysis and
-recording retain their [approved milestones](../docs/unity-migration/ROADMAP.md).
-No standalone player is delivered yet. No original .NET executable or SDK is needed
-locally; first import needs Internet access to Unity's package registry.
+Files/replay, full hazard controls, complete analysis, recording and standalone
+acceptance retain their [approved milestones](../docs/unity-migration/ROADMAP.md).
+The common Toxic Fume builder includes furniture, while source/precompute/run
+authoring remains M7. The accepted M2 six-case diagnostics remain at
+**Assets/CrowdSim/Scenes/Validation/SimulationParity.unity** and are accessible
+from startup. No original .NET executable/SDK is needed locally; first import
+needs access to Unity's package registry.
 
-Production simulation and workspace commands live under
-`Packages/com.crowdsim.core/Runtime/` and compile in the cloud harness too. All model
-changes pass through session commands; rendering consumes detached snapshots.
-Transport schedules the engine's configured fixed step independently of render FPS
-and Unity FixedUpdate. The original source/tests remain in the repository as the
-unchanged behavioral reference.
-
-The cloud has no Unity Editor. **M3 import, frontend compilation, Unity tests,
-input/picking/layout/graphics and player builds were not executed.** Cloud results
-are recorded separately in [VALIDATION.md](../docs/unity-migration/VALIDATION.md).
+Cloud checks pass 404 original tests, 415 portable tests, 70 migration tests and
+both exact six-case captures. **M4 Unity import, frontend compilation, supplied
+Unity tests, input/picking/layout/graphics and player builds were not executed**;
+there is no Unity Editor installed in cloud. See
+[VALIDATION.md](../docs/unity-migration/VALIDATION.md).

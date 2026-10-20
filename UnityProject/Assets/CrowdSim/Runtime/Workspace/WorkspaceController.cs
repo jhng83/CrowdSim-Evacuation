@@ -13,7 +13,7 @@ using ViewVector = System.Numerics.Vector3;
 
 namespace CrowdSim.Unity.Workspace
 {
-    /// <summary>M3 build/run workspace. All model changes pass through the testable session commands.</summary>
+    /// <summary>Common build/run and furniture workspace. All model changes pass through the testable session commands.</summary>
     public sealed class WorkspaceController : MonoBehaviour
     {
         public WorkspaceSession Session { get; private set; }
@@ -29,17 +29,24 @@ namespace CrowdSim.Unity.Workspace
         private Toggle _hybrid;
         private readonly List<Slider> _behaviour = new List<Slider>();
         private PlacementTool _tool = PlacementTool.Exit;
-        private int _exitWidth = 1, _squareCells = 1, _people = 1;
+        private int _exitWidth = 1, _people = 1;
+        private VisualElement _assetControls;
+        private Label _assetHint;
+        private Button _placeAsset;
+        private Slider _angleSlider;
+        private FloatField _exactAngle;
+        private bool _overViewport, _hasPointer;
+        private Vector3 _pointerPosition;
         private int _drawnRevision = -1;
         private bool _drawnGrid;
         private string _activePage = "Build / Run";
         private float _lastPreviewTime;
         private readonly List<ViewBody> _grid = new List<ViewBody>();
 
-        public void Open(ScenarioType scenario, Action exit = null)
+        public void Open(ScenarioType scenario, Action exit = null, bool furnished = false)
         {
             _exit = exit;
-            Session = new WorkspaceSession(scenario);
+            Session = furnished ? WorkspaceExamples.Furniture() : new WorkspaceSession(scenario);
             _document = gameObject.AddComponent<UIDocument>();
             _document.sortingOrder = 10;
             _settings = ScriptableObject.CreateInstance<PanelSettings>();
@@ -61,7 +68,7 @@ namespace CrowdSim.Unity.Workspace
         private void BuildInterface()
         {
             VisualElement top = Box(_root, "topbar");
-            Label(top, "CROWD / SIM  ·  " + Session.Scenario + "  ·  M3", "brand");
+            Label(top, "CROWD / SIM  ·  " + Session.Scenario + "  ·  M4", "brand");
             _toggleInspector = Button(top, "Hide inspector (F4)", () => { Session.ToggleInspector(); Refresh(); });
             Button(top, "Return to startup", RequestExit);
             VisualElement body = Box(_root, "workspace-body");
@@ -80,7 +87,8 @@ namespace CrowdSim.Unity.Workspace
             _selection.pickingMode = PickingMode.Ignore;
             Button(_viewport, "Show selected agent", () => { Session.ShowAgentInspector(); Refresh(); }).AddToClassList("agent-open");
             _viewport.RegisterCallback<PointerMoveEvent>(evt => Preview(evt.position));
-            _viewport.RegisterCallback<PointerLeaveEvent>(evt => ClearPreview());
+            _viewport.RegisterCallback<PointerEnterEvent>(evt => { _overViewport = true; });
+            _viewport.RegisterCallback<PointerLeaveEvent>(evt => { _overViewport = false; _hasPointer = false; ClearPreview(); });
             _viewport.RegisterCallback<PointerDownEvent>(evt =>
             {
                 if (evt.button != 0 || evt.target != _viewport) return;
@@ -148,10 +156,20 @@ namespace CrowdSim.Unity.Workspace
             DropdownField exits = new DropdownField("Exit capacity", new List<string> { "1 person", "3 people", "5 people" }, _exitWidth == 1 ? 0 : _exitWidth == 3 ? 1 : 2);
             exits.RegisterValueChangedCallback(evt => { _exitWidth = new[] { 1, 3, 5 }[exits.index]; _tool = PlacementTool.Exit; ClearPreview(); Refresh(); }); _builder.Add(exits);
             Button(_builder, "Place exit", () => SetTool(PlacementTool.Exit));
-            DropdownField squares = new DropdownField("Square size", new List<string> { "1.2 m", "2.4 m" }, _squareCells - 1);
-            squares.RegisterValueChangedCallback(evt => { _squareCells = squares.index + 1; SetTool(PlacementTool.Square); }); _builder.Add(squares);
-            Button(_builder, "Place square", () => SetTool(PlacementTool.Square));
-            Button(_builder, "Place circle (diameter 2.5 m)", () => SetTool(PlacementTool.Circle));
+            List<string> assetNames = BuilderAssetSelection.Options.Select(asset => BuilderAssetSelection.Label(asset, 1.2f)).ToList();
+            DropdownField assets = new DropdownField("Asset", assetNames, (int)Session.SelectedAsset) { name = "asset-picker" };
+            assets.RegisterValueChangedCallback(evt =>
+            {
+                Session.SelectAsset((BuilderAsset)assets.index);
+                _tool = PlacementTool.Asset;
+                BuildAssetControls(); ClearPreview(); Refresh(); Repreview();
+            });
+            _builder.Add(assets);
+            _assetHint = Label(_builder, Session.AssetHint, "muted");
+            _assetControls = Box(_builder, "asset-controls");
+            _placeAsset = Button(_builder, "Place selected asset", () => { SetTool(PlacementTool.Asset); Repreview(); });
+            _placeAsset.name = "place-asset";
+            BuildAssetControls();
             DropdownField people = new DropdownField("People per click", new List<string> { "1", "5", "15", "50" }, Array.IndexOf(new[] { 1, 5, 15, 50 }, _people));
             people.RegisterValueChangedCallback(evt => { _people = new[] { 1, 5, 15, 50 }[people.index]; SetTool(PlacementTool.Agents); }); _builder.Add(people);
             Button(_builder, "Place people", () => SetTool(PlacementTool.Agents));
@@ -180,8 +198,53 @@ namespace CrowdSim.Unity.Workspace
                 Refresh();
             });
             Label(tuning, "Higher stress persistence slows recovery. Compression affects social spacing; physical guards remain active. Running speed is a ceiling, not a target.", "muted");
-            Label(_page, "Furniture authoring arrives in M4; full hazard controls in M6/M7. Select runtime agents by clicking their capsules.", "muted");
+            Label(_page, "Occupied furniture contributes to the planned population. Full hazard controls arrive in M6/M7. Select runtime agents by clicking their capsules.", "muted");
             Refresh();
+        }
+
+        private void BuildAssetControls()
+        {
+            _assetControls.Clear(); _angleSlider = null; _exactAngle = null;
+            if (Session.AssetSupportsRotation)
+            {
+                _angleSlider = new Slider(Session.AssetUsesQuarterTurns ? "Facing (quarter turns)" : "Facing (degrees)", 0, 359.9f)
+                { value = Session.AssetRotationDegrees, name = "asset-angle-slider" };
+                _angleSlider.RegisterValueChangedCallback(evt => SetRotation(evt.newValue)); _assetControls.Add(_angleSlider);
+                _exactAngle = new FloatField("Exact angle (degrees)")
+                { value = Session.AssetRotationDegrees, isDelayed = true, name = "asset-angle-exact" };
+                _exactAngle.RegisterValueChangedCallback(evt => SetRotation(evt.newValue)); _assetControls.Add(_exactAngle);
+                if (Session.SelectedAsset == BuilderAsset.Barricade)
+                {
+                    Button(_assetControls, "-15 degrees", () => RotateSelectedAsset(true));
+                    Button(_assetControls, "+15 degrees", () => RotateSelectedAsset());
+                    Label(_assetControls, "R: +15° / Shift+R: -15° over the viewport. 0° along X, 90° along Y.", "muted");
+                }
+                else
+                {
+                    Button(_assetControls, "Rotate 90 degrees (R)", () => RotateSelectedAsset());
+                    Label(_assetControls, Session.AssetUsesQuarterTurns ? "Table/stage angles snap to quarter turns." : "Occupied sets/chairs retain exact facing; R rotates 90°.", "muted");
+                }
+            }
+            if (Session.SelectedAsset == BuilderAsset.Barricade)
+            {
+                Toggle snap = new Toggle("Snap barricades end-to-end") { value = Session.SnapBarricadeEnds, name = "barricade-snap" };
+                snap.RegisterValueChangedCallback(evt => { Session.SetBarricadeSnap(evt.newValue); ClearPreview(); Repreview(); }); _assetControls.Add(snap);
+            }
+        }
+        private void RotateSelectedAsset(bool reverse = false)
+        {
+            if (Session.RotateAsset(reverse)) _tool = PlacementTool.Asset;
+            Refresh(); ClearPreview(); Repreview();
+        }
+        private void SetRotation(float degrees)
+        {
+            if (float.IsFinite(degrees)) { Session.SetAssetRotation(degrees); _tool = PlacementTool.Asset; }
+            Refresh(); ClearPreview(); Repreview();
+        }
+        private void Repreview()
+        {
+            if (!_hasPointer || !_overViewport) return;
+            _lastPreviewTime = -100; Preview(_pointerPosition);
         }
 
         private void CameraSlider(string name, float min, float max, float initial, Action<float> changed)
@@ -194,7 +257,7 @@ namespace CrowdSim.Unity.Workspace
             }); _page.Add(slider);
         }
         private void SetTool(PlacementTool tool) { _tool = tool; ClearPreview(); Refresh(); }
-        private int Option => _tool == PlacementTool.Exit ? _exitWidth : _tool == PlacementTool.Square ? _squareCells : _people;
+        private int Option => _tool == PlacementTool.Exit ? _exitWidth : _people;
         public void HandleWorldClick(GroundPoint point)
         {
             if (Session.IsBuilding)
@@ -217,15 +280,16 @@ namespace CrowdSim.Unity.Workspace
         }
         private void Preview(Vector3 point)
         {
+            _pointerPosition = point; _hasPointer = true;
             if (_tool == PlacementTool.Select) { ClearPreview(); return; }
             if (!Session.IsBuilding || Time.unscaledTime - _lastPreviewTime < .08f) return;
             _lastPreviewTime = Time.unscaledTime;
             if (!WorldPoint(point, out GroundPoint ground)) { ClearPreview(); return; }
             PlacementPreview preview = Session.Preview(_tool, ground, Option);
-            if (preview.Valid) _world.Draw(preview.Bodies, "preview-", new Color(.2f, 1, .7f));
+            if (preview.Bodies.Count > 0) _world.Draw(preview.Bodies, "preview-", preview.Valid ? new Color(.2f, 1, .7f) : Color.red);
             else _world.Draw(new[] { new ViewBody("invalid", ViewShape.Box, ViewKind.Block,
                 new ViewVector(ground.X, .06f, ground.Y), new ViewVector(.7f, .12f, .7f)) }, "preview-", Color.red);
-            _selection.text = _tool + " · " + ground.X.ToString("F1") + ", " + ground.Y.ToString("F1") + " m · " + (preview.Valid ? "valid preview" : "placement rejected");
+            _selection.text = (_tool == PlacementTool.Asset ? Session.SelectedAsset + " " + Session.AssetRotationDegrees.ToString("F1") + "°" : _tool.ToString()) + " · " + ground.X.ToString("F1") + ", " + ground.Y.ToString("F1") + " m · " + (preview.Valid ? "valid preview" : "placement rejected");
         }
         private void ClearPreview() { if (_world != null) _world.Draw(Array.Empty<ViewBody>(), "preview-"); }
 
@@ -297,9 +361,15 @@ namespace CrowdSim.Unity.Workspace
             if (_activePage == "Build / Run")
             {
                 _metrics.text = Session.Phase + " · tick " + Session.Tick + " · " + (Session.Tick * .15f).ToString("F2") + " s\n" +
-                    Session.ExitCount + " exits · " + Session.PlannedCount + " planned · " + Session.Frame.Exited + " evacuated";
+                    Session.ExitCount + " exits · " + Session.PlannedCount + " planned · " + Session.Frame.Exited + " evacuated\n" +
+                    Session.FurnitureCount + " furniture sets · seated " + Session.Frame.SeatedAgents + " · rising " + Session.Frame.RisingAgents;
                 _builder.SetEnabled(Session.IsBuilding);
                 _width.SetEnabled(Session.CanResize); _length.SetEnabled(Session.CanResize);
+                _placeAsset.SetEnabled(Session.IsBuilding && !Session.AssetUnavailable);
+                _assetControls.SetEnabled(Session.IsBuilding && !Session.AssetUnavailable);
+                _assetHint.text = Session.AssetUnavailable ? "Stage already placed (1/1). Undo its placement before replacing it." : Session.AssetHint;
+                _angleSlider?.SetValueWithoutNotify(Session.AssetRotationDegrees);
+                _exactAngle?.SetValueWithoutNotify(Session.AssetRotationDegrees);
             }
             BuildInspector();
             Layout();
@@ -322,6 +392,10 @@ namespace CrowdSim.Unity.Workspace
                 }
             }
             _inspectorText.text = tab == 0 ? "Tick " + Session.Tick + "\nPopulation " + (Session.IsBuilding ? Session.PlannedCount : Session.Frame.Population) +
+                "\nSeated " + Session.Frame.SeatedAgents + " · rising " + Session.Frame.RisingAgents +
+                "\nFurniture airborne " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Airborne) +
+                " · fallen " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Fallen) +
+                " · destroyed " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Destroyed) +
                 "\nEvacuated " + Session.Frame.Exited + "\nInjured " + Session.Frame.Injured + "\nDead " + Session.Frame.Dead + "\nHybrid " + Session.Hybrid
                 : tab == 1 ? "Hazard: " + Session.Scenario + "\n" + (Session.Frame.HazardReleased ? "Triggered" : "Waiting") +
                     "\nExplosion: start, arm, then click the room. Detailed hazard controls arrive in M6/M7."
@@ -333,7 +407,8 @@ namespace CrowdSim.Unity.Workspace
             VisualElement focus = _root.focusController?.focusedElement as VisualElement;
             while (focus != null)
             {
-                if (focus.ClassListContains("unity-base-text-field__input") || focus.ClassListContains("unity-base-field__input")) editing = true;
+                if (focus is TextField || focus is FloatField || focus is IntegerField || focus is DoubleField ||
+                    focus.ClassListContains("unity-base-text-field__input")) editing = true;
                 focus = focus.parent;
             }
             WorkspaceShortcut command = WorkspaceShortcuts.Resolve(evt.keyCode.ToString(), evt.ctrlKey || evt.commandKey, evt.altKey, editing);
@@ -343,9 +418,12 @@ namespace CrowdSim.Unity.Workspace
                 case WorkspaceShortcut.Undo: Session.Undo(); break;
                 case WorkspaceShortcut.ToggleRunning: Session.ToggleRunning(); break;
                 case WorkspaceShortcut.CancelTool: _tool = PlacementTool.Select; break;
+                case WorkspaceShortcut.RotateAsset:
+                    if (_tool != PlacementTool.Asset || !Session.IsBuilding || !_overViewport) return;
+                    Session.RotateAsset(evt.shiftKey); break;
                 default: return;
             }
-            evt.StopPropagation(); evt.PreventDefault(); ClearPreview(); Refresh();
+            evt.StopPropagation(); evt.PreventDefault(); ClearPreview(); Refresh(); Repreview();
         }
         private void RequestExit() => ShowExitPrompt(false);
         private void ShowExitPrompt(bool diagnostics)
