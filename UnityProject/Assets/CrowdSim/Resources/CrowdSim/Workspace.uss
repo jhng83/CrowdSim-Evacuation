@@ -1,0 +1,23 @@
+.workspace { position: absolute; left: 0; top: 0; right: 0; bottom: 0; color: rgb(225, 234, 242); }
+.topbar { height: 52px; flex-shrink: 0; flex-direction: row; align-items: center; padding: 6px; background-color: rgb(17, 26, 37); }
+.brand { flex-grow: 1; color: rgb(100, 198, 246); font-size: 17px; -unity-font-style: bold; }
+.workspace-body { flex-grow: 1; min-height: 0; flex-direction: row; }
+.controls, .inspector { flex-shrink: 0; background-color: rgb(17, 26, 37); padding: 8px; }
+.viewport { flex-grow: 1; min-width: 0; margin-left: 8px; margin-right: 8px; }
+.page-scroll { flex-grow: 1; min-height: 0; }
+.tabs { flex-direction: row; flex-wrap: wrap; flex-shrink: 0; }
+.tabs Button { flex-grow: 1; min-width: 60px; }
+.transport { height: 140px; flex-shrink: 0; background-color: rgb(17, 26, 37); padding: 8px; }
+.actions { flex-direction: row; flex-wrap: wrap; flex-shrink: 0; }
+.actions Button { min-width: 80px; }
+.actions Slider { min-width: 220px; flex-grow: 1; }
+.heading { font-size: 20px; margin: 10px 0; white-space: normal; }
+.metrics { font-size: 14px; white-space: normal; margin: 10px 0; }
+.muted, .readiness { font-size: 12px; color: rgb(163, 190, 210); white-space: normal; margin: 6px 0; }
+.status { color: rgb(246, 201, 117); font-size: 12px; white-space: normal; }
+.viewport-label { position: absolute; top: 8px; left: 8px; right: 8px; white-space: normal; color: rgb(220, 238, 245); background-color: rgba(10, 20, 30, .8); padding: 6px; }
+.agent-open { position: absolute; top: 70px; left: 8px; }
+Button { min-height: 30px; margin: 3px 2px; background-color: rgb(36, 61, 81); color: rgb(225, 238, 247); border-radius: 4px; border-color: rgb(74, 107, 132); border-width: 1px; white-space: normal; }
+Button:hover, Button:focus { background-color: rgb(48, 86, 115); }
+.unity-base-field { margin-top: 6px; margin-bottom: 6px; flex-direction: column; }
+.unity-base-field__label { min-width: 0; white-space: normal; }

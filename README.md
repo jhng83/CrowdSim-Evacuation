@@ -1,13 +1,13 @@
-# Unity migration — Milestone 2
+# Unity migration — Milestone 3
 
 On `unity-migration`, open **UnityProject/** with **Unity 6000.3.26f1**, then open
-**Assets/CrowdSim/Scenes/Validation/SimulationParity.unity**. M2 ports the simulation
-engine and provides three diagnostic presets with step/play/pause/reset, both Hybrid
-modes and reference-checkpoint/replay results. M1 was tested successfully by the user.
-Follow the [M2 local checklist](docs/unity-migration/M2_LOCAL_TESTING.md) and
-[migration status](docs/unity-migration/STATUS.md). Cloud regressions pass; M2 Unity
-import/tests/rendering await local verification. The original .NET application and
-tests below remain unchanged as the behavioral reference.
+**Assets/CrowdSim/Scenes/Bootstrap.unity**. Enter Play Mode and choose **Build an
+Explosion scene** to author a room, exits, obstacles and people, finalise and run.
+M3 adds the common workspace, all behavior controls, undo, inspector, basic camera
+and fixed-step transport. M1/M2 were tested successfully by the user. Follow the
+[M3 local checklist](docs/unity-migration/M3_LOCAL_TESTING.md) and
+[migration status](docs/unity-migration/STATUS.md). M3 Unity checks await local
+execution; the original application and tests below remain the behavioral reference.
 
 # Always-3D agents — current revision
 

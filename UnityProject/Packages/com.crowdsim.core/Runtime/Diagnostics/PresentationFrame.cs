@@ -57,12 +57,19 @@ namespace CrowdSim.Diagnostics
 
         public static Vector3 ToPresentation(Vector2 ground, float height) => new Vector3(ground.X, height, ground.Y);
 
-        public static PresentationFrame Capture(Simulation simulation)
+        public static PresentationFrame Capture(Simulation simulation, bool includePlanned = false)
         {
             List<ViewBody> bodies = new List<ViewBody>();
             bodies.Add(new ViewBody("floor", ViewShape.Box, ViewKind.Floor,
                 new Vector3(simulation.Environment.Width / 2f, -0.08f, simulation.Environment.Height / 2f),
                 new Vector3(simulation.Environment.Width, 0.12f, simulation.Environment.Height)));
+            if (includePlanned && simulation.Agents.Count == 0)
+            {
+                int planned = 0;
+                foreach (Vector2 position in simulation.Environment.GetPlannedAgentPositions())
+                    bodies.Add(new ViewBody("planned-" + planned++, ViewShape.Capsule, ViewKind.Agent,
+                        ToPresentation(position, 0.85f), new Vector3(0.4f, 1.7f, 0.4f)));
+            }
             int index = 0;
             // Perimeter geometry stays in the model and is intentionally absent from the view.
             foreach (Wall wall in simulation.Environment.Blockages.Concat(simulation.Environment.BlueWalls))
@@ -76,7 +83,7 @@ namespace CrowdSim.Diagnostics
             {
                 bool vertical = exit.Side == "E" || exit.Side == "W";
                 bodies.Add(new ViewBody("exit-" + exit.Name, ViewShape.Box, ViewKind.Exit, ToPresentation(exit.Position, 0.04f),
-                    new Vector3(vertical ? 0.35f : exit.Size, 0.08f, vertical ? exit.Size : 0.35f)));
+                    new Vector3(vertical ? 0.35f : exit.Size * 2f, 0.08f, vertical ? exit.Size * 2f : 0.35f)));
             }
             foreach (Agent agent in simulation.Agents.Where(a => a.State != AgentState.Exited))
                 bodies.Add(new ViewBody("agent-" + agent.AgentId, ViewShape.Capsule, ViewKind.Agent,

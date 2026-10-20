@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="../Build/CrowdSim.Portable.csproj" />
     <Compile Include="../../tests/CrowdSim.Tests/*.cs"
-      Exclude="../../tests/CrowdSim.Tests/DashboardLayoutTests.cs;../../tests/CrowdSim.Tests/BuilderAssetSelectionTests.cs;../../tests/CrowdSim.Tests/BuilderBarricadeAngleTests.cs" Link="ReferenceTests/%(Filename)%(Extension)" />
+      Exclude="../../tests/CrowdSim.Tests/BuilderAssetSelectionTests.cs;../../tests/CrowdSim.Tests/BuilderBarricadeAngleTests.cs" Link="ReferenceTests/%(Filename)%(Extension)" />
     <None Include="../../tests/CrowdSim.Tests/Fixtures/*.json" Link="Fixtures/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />

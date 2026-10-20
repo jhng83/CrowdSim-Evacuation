@@ -9,7 +9,7 @@ namespace CrowdSim.Migration
         public const string UrpVersion = "17.3.0";
         public const string ReferenceCommit = "01b435568f211f5c8ddf99b32b05e7ceb1ad3a24";
         public const string BootstrapScene = "Assets/CrowdSim/Scenes/Bootstrap.unity";
-        public const string Milestone = "M2 - Portable simulation";
+        public const string Milestone = "M3 - Builder and workspace";
         public const string ParityScene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity";
         public const float ReferenceStepSeconds = 0.15f;
 

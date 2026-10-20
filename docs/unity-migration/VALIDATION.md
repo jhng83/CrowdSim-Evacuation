@@ -1,62 +1,57 @@
-# M2 validation evidence
+# M3 validation evidence
 
-Executed in Codex cloud on 2026-10-18, Linux x64, SDK 8.0.415/runtime 8.0.21.
-M1 was accepted by the user before this task; its delivery results are retained in
-[M1_VALIDATION.md](M1_VALIDATION.md). No local Editor logs were supplied with that acceptance.
+Executed in Codex cloud on 2026-10-20, Linux x64, SDK 8.0.415/runtime 8.0.21.
+The user reported M2 tested successfully before authorizing this task. Local Editor
+logs were not supplied. Historical M2 evidence is in [M2_VALIDATION.md](M2_VALIDATION.md).
 
 | Check | Actual result |
 | --- | --- |
-| Static asset/project/package/binding checks | Passed: 103 unique GUIDs, serialized references, both scenes, bundled scenarios and exact parity data |
-| Reference preservation | Passed: SHA-256 manifest for 106 original files, unchanged original source/tests/scenarios/solution/dependency pins and M1 goldens |
 | Original Release solution build | Passed |
-| Original xUnit regressions | **404 passed, 0 failed, 0 skipped** |
-| Linked portable xUnit regressions | **376 passed, 0 failed, 0 skipped**; same original core test source/assertions, portable engine reference |
-| Foundation/diagnostic xUnit tests | **32 passed, 0 failed, 0 skipped**; six sessions/replay, random/queue differential checks, JSON guards, detached frames, scheduler and M1 checks |
-| Production portable compilation | Passed: all engine/compatibility/diagnostic source, C# 9 / netstandard2.1, no UnityEngine or reference-engine dependency |
-| Original seeded capture | Passed: all six cases, all 121 tick hashes each, readable checkpoints/replay and compatibility oracle match unchanged M1 baselines |
-| Portable seeded capture | Passed: same six-case and compatibility comparisons, exact match in pinned cloud runtime |
-| Unity JSON package metadata | Inspected version 3.2.2 / codec 13.0.2; explicit precompiled DLL assembly reference |
-| Shell syntax and Git whitespace | Passed |
-| GitHub Actions | Workflow updated; remote run result **not verified** |
-| Unity first import/UPM/frontend C# compilation | **Not executed — no Unity Editor installed** |
-| Unity EditMode tests | **9 supplied, not executed** (3 foundation + 6 host-runtime parity cases) |
-| Unity PlayMode tests | **2 supplied, not executed** (foundation + actual diagnostic-scene lifecycle) |
-| Unity appearance/native input/resizing/Mono numeric results | **Not executed** |
-| Standalone player build/run | **Not executed**, final acceptance belongs to M11 |
+| Original xUnit suite | **404 passed, 0 failed, 0 skipped** |
+| Linked portable suite | **388 passed, 0 failed, 0 skipped**; 376 core plus 12 unchanged DashboardLayout/InspectorPanelState cases |
+| Foundation/diagnostic/workspace xUnit suite | **57 passed, 0 failed, 0 skipped**; 32 existing plus 25 workspace cases |
+| Portable production compilation | Passed: same production engine, commands, tuning, layout and shortcut source as Unity, C#9/netstandard2.1 |
+| Original and portable seeded captures | Both match all six unchanged M1 traces and compatibility oracle exactly in the pinned cloud runtime |
+| Static Unity contract | Passed: 116 unique GUIDs, serialized references, bundled fixtures/parity data, startup entries, resource/assembly wiring and 106 unchanged reference files |
+| Reference/baseline preservation | Original src/tests/scenarios/solution/dependency pins and golden JSON unchanged |
+| Shell syntax, Git whitespace, handoff links | Passed |
+| GitHub Actions execution | Workflow remains available; remote result **not verified** |
+| M3 Unity import/UPM/frontend compilation | **Not executed — no Unity Editor installed** |
+| Unity EditMode | **13 supplied, not executed**: 9 existing + 4 workspace tests |
+| Unity PlayMode | **3 supplied, not executed**: 2 existing + Bootstrap workspace interaction test |
+| Unity picking/input/layout/graphics | **Not executed**; explicit local checks required |
+| Standalone player/IL2CPP | **Not executed**; no player delivered |
 
-The original and linked original tests can emit the existing xUnit2031 advisory.
-Original assertions were not changed, and no tests were disabled or skipped. The
-28 frontend-helper cases excluded from the portable-core project still run in
-the 404-case original suite; their Unity frontend replacements arrive later.
+New cloud cases cover placement validity, exit widths, previews without live mutation,
+exact planned-to-runtime starts, undo/room locks, both Hybrid modes, single-event
+and finalisation guards, paused scheduling, playback scaling, all 14 tuning bounds/
+reset, hidden inspector selection/grid continuity, Fume readiness and shortcut focus/
+Alt+F4 policy. The reference frontend helpers are ported into the portable package;
+the unchanged original layout tests are linked against those implementations.
+The two remaining original builder-asset/rotation test classes stay in the 404-case
+reference suite and retain M4 ownership. No original assertions were edited.
 
-## Reproduce cloud checks
+The new PlayMode test enters through the actual Bootstrap button and operates its
+UI controls, using the controller's world-click command for exact world positions.
+It does **not** prove screen-ray picking works; manual pointer tests remain required.
+The existing xUnit2031 advisory can appear in linked original source; it is not a
+failure, and no tests are disabled/skipped.
 
-From the repository root with .NET SDK 8.0.415/runtime 8.0.21 installed:
+## Reproduce
+
+From the repository root with SDK 8.0.415/runtime 8.0.21 installed:
 
 ```bash
 bash Migration/Tools/validate.sh
 ```
 
-Private SDK example:
+For the current worker's private SDK:
 
 ```bash
 DOTNET=/workspace/crowdsim-tools/dotnet/dotnet bash Migration/Tools/validate.sh
 ```
 
-The script enters Migration/ to enforce its SDK pin, restores tooling with committed
-lockfiles, builds/tests the original and portable engines and verifies both captures
-without writing baselines. Actual TRX files go to ignored `Migration/artifacts/tests/`;
-the GitHub workflow uploads them when executed. Baseline capture pins runtime 8.0.21
-and disables runtime roll-forward. See [the capture contract](../../Migration/Parity/README.md).
-
-M2's six cloud diagnostic sessions also execute the same production checkpoint
-comparator used by the Unity viewer. Exact cloud hashes and tolerant Unity runtime
-checks are distinct evidence. Unity results must not be inferred from cloud passes.
-
-## Required local acceptance
-
-Follow [M2_LOCAL_TESTING.md](M2_LOCAL_TESTING.md) in Unity **6000.3.26f1**. Exercise
-all three presets with Hybrid off and on, transport/reset/startup navigation,
-resize, and both Unity test suites. Report any Console error or checkpoint mismatch
-with the preset, mode, tick, failure paths and actual values. Do not overwrite
-reference data. M2 stays awaiting acceptance until the actual Editor checks pass.
+The script restores migration tooling in locked mode, builds/tests both engine
+variants and verifies captures without rewriting goldens. Actual TRX outputs live
+under ignored `Migration/artifacts/tests/`; CI uploads them when it executes.
+See [M3_LOCAL_TESTING.md](M3_LOCAL_TESTING.md) for required Editor acceptance.

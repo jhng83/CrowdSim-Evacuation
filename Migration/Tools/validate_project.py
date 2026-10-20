@@ -94,6 +94,11 @@ def validate() -> None:
     for file in (PROJECT / "Packages/com.crowdsim.core/Runtime").rglob("*.cs"):
         require("using Unity" not in file.read_text(), f"Engine dependency in portable source: {file}")
 
+    require((PROJECT / "Assets/CrowdSim/Resources/CrowdSim/Workspace.uss").is_file(), "M3 stylesheet missing")
+    require("CrowdSim.Workspace.Unity" in assemblies["CrowdSim.Foundation"]["references"], "Startup cannot reference M3 workspace")
+    require("_workspace.transform.SetParent" not in controller.read_text(), "Workspace UIDocument must be independent of hidden startup UI")
+    require("open-explosion-workspace" in names and "open-fume-workspace" in names, "M3 startup entries missing")
+
     parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
     require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
     require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")

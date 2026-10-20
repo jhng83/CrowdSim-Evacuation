@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.IO;
 using CrowdSim.Migration;
+using CrowdSim.Core.Model;
+using CrowdSim.Unity.Workspace;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -10,7 +12,7 @@ using UnityEngine.UIElements;
 
 namespace CrowdSim.Unity.Foundation
 {
-    /// <summary>Downloadable M1 startup screen. Simulation workflows are introduced in M2 onward.</summary>
+    /// <summary>Startup and scenario entry for the accepted diagnostics and common workspace.</summary>
     [DisallowMultipleComponent]
     public sealed class BootstrapController : MonoBehaviour
     {
@@ -22,6 +24,9 @@ namespace CrowdSim.Unity.Foundation
         private Action _reset;
         private Action _check;
         private Action _openParity;
+        private Action _openExplosion;
+        private Action _openFume;
+        private GameObject _workspace;
 
         /// <summary>The currently displayed scenario overview, for integration tests.</summary>
         public string SelectedOverview { get; private set; } = "Welcome";
@@ -38,7 +43,7 @@ namespace CrowdSim.Unity.Foundation
             VisualTreeAsset layout = Resources.Load<VisualTreeAsset>("CrowdSim/Startup");
             if (theme == null || layout == null)
             {
-                Debug.LogError("CrowdSim M1: startup layout or runtime theme is missing.");
+                Debug.LogError("CrowdSim: startup layout or runtime theme is missing.");
                 enabled = false;
                 return;
             }
@@ -53,6 +58,7 @@ namespace CrowdSim.Unity.Foundation
             _document.panelSettings = _panel;
             _document.visualTreeAsset = layout;
             _root = _document.rootVisualElement;
+            _root.style.display = DisplayStyle.Flex;
 
             _showExplosion = () => ShowOverview("Explosion",
                 "Shock, debris, shielding and crowd response",
@@ -70,10 +76,27 @@ namespace CrowdSim.Unity.Foundation
             _root.Q<Button>("reset-overview").clicked += _reset;
             _root.Q<Button>("run-checks").clicked += _check;
             _root.Q<Button>("open-parity").clicked += _openParity;
+            _openExplosion = () => OpenWorkspace(ScenarioType.Explosion);
+            _openFume = () => OpenWorkspace(ScenarioType.ToxicFume);
+            _root.Q<Button>("open-explosion-workspace").clicked += _openExplosion;
+            _root.Q<Button>("open-fume-workspace").clicked += _openFume;
             _root.Q<Label>("editor-version").text = "EDITOR  " + Application.unityVersion;
             _root.Q<Label>("milestone-label").text = MigrationContract.Milestone;
             ResetOverview();
             StartCoroutine(CheckAfterFirstFrame());
+        }
+
+        private void OpenWorkspace(ScenarioType scenario)
+        {
+            if (_workspace != null) return;
+            _root.style.display = DisplayStyle.None;
+            _workspace = new GameObject("CrowdSim M3 workspace");
+            // Keep this a scene root: nested UIDocuments inherit their parent's panel
+            // and would disappear when the startup document is hidden. OnDisable owns cleanup.
+            _workspace.AddComponent<WorkspaceController>().Open(scenario, () =>
+            {
+                if (_root != null) _root.style.display = DisplayStyle.Flex;
+            });
         }
 
         private IEnumerator CheckAfterFirstFrame()
@@ -85,8 +108,8 @@ namespace CrowdSim.Unity.Foundation
         private void ResetOverview()
         {
             ShowOverview("Welcome", "A new home for the same simulation",
-                "Explore the two scenario overviews, check the setup, then open the M2 simulation parity scene. " +
-                "Run a seeded preset, inspect fixed ticks, and compare reference checkpoints.");
+                "Build an Explosion scene in the M3 workspace, or open the accepted M2 preset checks. " +
+                "Place a room, exits, obstacles and people; finalise, start and trigger the basic event.");
         }
 
         private void ShowOverview(string scenario, string title, string description)
@@ -109,13 +132,14 @@ namespace CrowdSim.Unity.Foundation
             _root.Q<Label>("pipeline-check").text = (pipelineOk ? "PASS" : "CHECK") + "  Universal Render Pipeline";
             _root.Q<Label>("samples-check").text = (samplesOk ? "PASS" : "CHECK") + "  Two bundled reference examples";
             _root.Q<Label>("setup-status").text = editorOk && pipelineOk && samplesOk
-                ? "Startup checks passed. Open the M2 diagnostic scene when ready."
+                ? "Startup checks passed. Open the M3 builder or M2 diagnostic scene."
                 : "Check the setup items above before running diagnostics.";
         }
 
         private void OnDisable()
         {
             StopAllCoroutines();
+            if (_workspace != null) Destroy(_workspace);
             if (_root != null)
             {
                 _root.Q<Button>("explosion-overview").clicked -= _showExplosion;
@@ -123,6 +147,8 @@ namespace CrowdSim.Unity.Foundation
                 _root.Q<Button>("reset-overview").clicked -= _reset;
                 _root.Q<Button>("run-checks").clicked -= _check;
                 _root.Q<Button>("open-parity").clicked -= _openParity;
+                _root.Q<Button>("open-explosion-workspace").clicked -= _openExplosion;
+                _root.Q<Button>("open-fume-workspace").clicked -= _openFume;
             }
             if (_document != null)
             {

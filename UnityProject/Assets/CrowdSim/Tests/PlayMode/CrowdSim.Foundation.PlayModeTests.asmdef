@@ -1,6 +1,13 @@
 {
   "name": "CrowdSim.Foundation.PlayModeTests",
-  "references": ["CrowdSim.Portable", "CrowdSim.Foundation", "CrowdSim.Diagnostics.Unity"],
-  "optionalUnityReferences": ["TestAssemblies"],
+  "references": [
+    "CrowdSim.Portable",
+    "CrowdSim.Foundation",
+    "CrowdSim.Diagnostics.Unity",
+    "CrowdSim.Workspace.Unity"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
   "autoReferenced": false
 }

@@ -4,7 +4,7 @@
 
 - Unity **6000.3.26f1**, URP **17.3.0**, API compatibility **.NET Standard 2.1**.
 - UI Toolkit runtime UI; Input System **1.14.2**, both input backends enabled.
-  Project input actions and simulator shortcuts remain M3 work.
+  M3 routes focus-aware keyboard and pointer events through UI Toolkit.
 - Unity Test Framework **1.4.6**; Unity Newtonsoft JSON package **3.2.2**.
 - Portable source uses C# 9, block namespaces and explicit imports. The cloud
   `Migration/Build/CrowdSim.Portable.csproj` compiles the same production files
@@ -16,7 +16,7 @@
 Pins were checked against
 [Unity's Editor source](https://github.com/Unity-Technologies/UnityCsReference/tree/6000.3.26f1)
 and [URP metadata](https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/package.json).
-M1 was accepted by the user. M2's new package/assembly wiring and frontend still
+M1 and M2 were accepted by the user. M3's new workspace assembly and frontend still
 require actual Editor import; a static lock check cannot establish resolution.
 
 ## M2 source and runtime adaptations
@@ -94,3 +94,42 @@ The cloud worker has no Unity Editor. C# 9 / netstandard2.1 compilation and all
 reported cloud tests ran; Editor frontend compilation/import, supplied Unity tests,
 visuals/input and standalone/IL2CPP builds did not. These checks must be executed
 locally, and [VALIDATION.md](VALIDATION.md) records the distinction.
+
+## M3 workspace boundary
+
+`Runtime/Workspace/WorkspaceSession` owns an instance of the accepted portable
+engine. Only session commands mutate it. Preview applies the same engine placement
+command to an independent authored-definition reconstruction, so hovering consumes
+neither the live RNG nor live undo history. Candidate geometry is detached before
+rendering, including exact population positions. Finalisation spawns at those starts;
+geometry/tuning/Hybrid setup then lock. Pause resets accumulated time; speed changes
+schedule fixed steps without changing model dt. The one-shot basic Explosion command
+retains the engine's event processing and requires an active run.
+
+The pure DashboardLayout and InspectorPanelState helpers retain their historical
+`CrowdSim.OpenGL.UI` namespace solely to link unchanged original tests. They do not
+reference OpenGL/ImGui/Unity assemblies. Layout is represented as a C#9 readonly
+struct; inspector behavior is unchanged. Workspace commands use that inspector
+state and the Unity adapter uses that layout. UI Toolkit event routing plus a pure
+shortcut policy replaces the old window-event adapter; no custom InputAction asset
+is required for this UI-driven milestone. Alt-modified keys and focused text-entry
+controls bypass simulator shortcuts.
+
+M3 adds planning snapshots via the optional `includePlanned` flag; M2's calls retain
+the existing default. Exit marker dimensions now use twice Exit.Size because that
+engine property is a half-width. This corrects presentation only and leaves physical
+openings, capacity, engine source and reference trace hashes unchanged.
+
+The world renderer owns pooled primitives/materials and never holds mutable agents.
+Room-grid overlays and selection remain presentation state when the inspector is
+hidden. Basic fitted isometric camera parameters are independent of model state.
+The common Fume builder deliberately keeps the source/cache finalisation guard;
+its full run-authoring workflow remains M7, while M2 diagnostics still run Fume.
+The discard confirmation on workspace exit pauses a running session; user file/
+replay/dirty-state workflows remain M5. No persistent user files are written by M3.
+
+The workspace UIDocument is a separate scene root with its own PanelSettings. It
+must not be parented under the startup UIDocument: Unity automatically inherits
+parent panels, which would hide the workspace with startup. The bootstrap controller
+owns destruction of this root on disable and the exit action. This rule was checked
+against the pinned UIDocument source; actual lifecycle tests remain unexecuted here.

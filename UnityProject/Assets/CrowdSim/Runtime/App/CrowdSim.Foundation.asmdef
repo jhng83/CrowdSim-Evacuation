@@ -1,6 +1,10 @@
 {
   "name": "CrowdSim.Foundation",
   "rootNamespace": "CrowdSim.Unity.Foundation",
-  "references": ["CrowdSim.Portable", "Unity.RenderPipelines.Universal.Runtime"],
+  "references": [
+    "CrowdSim.Portable",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "CrowdSim.Workspace.Unity"
+  ],
   "autoReferenced": true
 }

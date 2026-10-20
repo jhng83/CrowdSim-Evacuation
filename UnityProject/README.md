@@ -1,31 +1,38 @@
-# CrowdSim Unity migration — M2
+# CrowdSim Unity migration — M3
 
-Open this directory with **Unity 6000.3.26f1** (URP **17.3.0**, UI Toolkit,
-.NET Standard 2.1). No .NET SDK or original simulator process is required.
+Open **UnityProject/** with **Unity 6000.3.26f1** (URP 17.3.0). Then open
+**Assets/CrowdSim/Scenes/Bootstrap.unity**, enter Play Mode and choose
+**Build an Explosion scene**.
 
-1. Add `UnityProject/` in Unity Hub and allow packages to import.
-2. Open **Assets/CrowdSim/Scenes/Validation/SimulationParity.unity**.
-3. Enter Play Mode. Use the three presets, Hybrid switch, single-step, 1x playback,
-   pause/reset and **Run full 120-tick check**. Expect **PASS · 7/7 checkpoints**
-   and **Replay restored frame zero** in all six preset/mode combinations.
-4. Follow [the full M2 checklist](../docs/unity-migration/M2_LOCAL_TESTING.md),
-   including the supplied **9 EditMode / 2 PlayMode** tests.
+1. Set room size before placing anything.
+2. Place a boundary exit and people; add squares/circles as desired.
+3. Adjust behavior and Hybrid setup, then **Finalise scene**.
+4. **Start**, **Arm Explosion**, then click inside the room. Pause/Resume and change
+   playback speed with the fixed footer.
+5. Test camera controls, inspector/F4, undo before finalisation and input focus.
 
-The diagnostic camera/world are created at runtime. Simplified raised capsules and
-blocks consume detached portable-engine snapshots; Unity physics does not move
-the crowd. The preset event triggers between observations 10 and 11, and runs stop
-at tick120. Full builder, files workflow, hazard UI/graphics, humanoids, cameras,
-analysis and recording retain their [approved milestones](../docs/unity-migration/ROADMAP.md).
+Follow [the M3 acceptance checklist](../docs/unity-migration/M3_LOCAL_TESTING.md)
+for exact expected results and **13 EditMode / 3 PlayMode** supplied tests.
+M1 and M2 were accepted by the user; M3 awaits your actual Editor checks.
 
-The accepted M1 scene remains **Assets/CrowdSim/Scenes/Bootstrap.unity**, now with
-an **Open M2 parity** button. Return to startup is available in the diagnostic scene.
-The original source/tests remain under `../src/` and `../tests/`; portable production
-source lives under `Packages/com.crowdsim.core/Runtime/` and is also built/tested
-by the cloud .NET harness. The engine uses its own configured fixed step (0.15 s
-default), independent of Unity FixedUpdate and render cadence.
+The common builder is also accessible from the Toxic Fume entry, with a readiness
+explanation that source/precompute/run authoring arrives in M7. The accepted M2
+scene remains **Assets/CrowdSim/Scenes/Validation/SimulationParity.unity** and is
+reachable from startup; it runs all six bounded preset/Hybrid checks.
 
-Internet access to Unity's registry is needed for first import. M2 cloud validation
-passes 404 original tests, 376 linked portable tests, 32 foundation/diagnostic tests
-and exact six-case captures. **No Unity Editor is installed in cloud:** M2 import,
-frontend compilation, Unity tests, graphics/input and standalone builds were not
-executed. See [validation evidence](../docs/unity-migration/VALIDATION.md).
+M3 uses 3D capsules/blocks, not the full M8 humanoids/poses. Furniture authoring,
+file/replay workflows, detailed hazard controls/graphics, complete analysis and
+recording retain their [approved milestones](../docs/unity-migration/ROADMAP.md).
+No standalone player is delivered yet. No original .NET executable or SDK is needed
+locally; first import needs Internet access to Unity's package registry.
+
+Production simulation and workspace commands live under
+`Packages/com.crowdsim.core/Runtime/` and compile in the cloud harness too. All model
+changes pass through session commands; rendering consumes detached snapshots.
+Transport schedules the engine's configured fixed step independently of render FPS
+and Unity FixedUpdate. The original source/tests remain in the repository as the
+unchanged behavioral reference.
+
+The cloud has no Unity Editor. **M3 import, frontend compilation, Unity tests,
+input/picking/layout/graphics and player builds were not executed.** Cloud results
+are recorded separately in [VALIDATION.md](../docs/unity-migration/VALIDATION.md).
