@@ -1,13 +1,15 @@
-# Unity migration — Milestone 4
+# Unity migration — Milestone 5
 
-On `unity-migration`, open **UnityProject/** with **Unity 6000.3.26f1**, then open
-**Assets/CrowdSim/Scenes/Bootstrap.unity**. Press Play and choose **Build furnished
-example (26 people)**, or author your own room using the unified Asset picker.
-M4 adds all furniture kinds, seated/rising views, exact facing/rotation, barricade
-snapping and live physical furniture presentation. M1–M3 were tested successfully
-by the user. Follow the [M4 local checklist](docs/unity-migration/M4_LOCAL_TESTING.md)
-and [migration status](docs/unity-migration/STATUS.md). Actual M4 Unity checks await
-local execution. The original application/tests below remain the behavioral reference.
+On `unity-migration`, open **UnityProject/** with **Unity 6000.3.26f1**, then
+**Assets/CrowdSim/Scenes/Bootstrap.unity**. M5 adds Save/Save As, read-only imports,
+legacy schemas 1–4, dirty/overwrite decisions and finalized frame-zero replay,
+including the 205-person Fume scene. Start with **Build furnished example
+(26 people)** and open **Files**. M1–M4 were tested successfully by the user;
+M5 awaits local Unity testing. Follow the
+[M5 checklist](docs/unity-migration/M5_LOCAL_TESTING.md) and
+[migration status](docs/unity-migration/STATUS.md). Cloud validation passes;
+actual M5 Unity import/tests/input/rendering were not executed. The original
+application/tests below remain the behavioral reference.
 
 # Always-3D agents — current revision
 

@@ -1,40 +1,34 @@
-# CrowdSim Unity migration — M4
+# CrowdSim Unity migration — M5
 
-Open **UnityProject/** with **Unity 6000.3.26f1** (URP 17.3.0). Open
+Open **UnityProject/** with **Unity 6000.3.26f1** (URP 17.3.0), open
 **Assets/CrowdSim/Scenes/Bootstrap.unity**, press Play, and choose
-**Build furnished example (26 people)** or **Build an Explosion scene**.
+**Build furnished example (26 people)**.
 
-1. The editable example has all five furniture kinds, three obstacle choices,
-   26 people (11 seated), one exit and tick zero.
-2. In a blank scene, use the unified **Asset** picker for obstacles/furniture.
-   Set facing, inspect green/red previews, place and undo whole sets.
-3. Tables/stages use quarter turns. Barricades retain free/exact angles, +/-15°,
-   R/Shift+R over the viewport and optional parallel end snapping. Each asset
-   remembers its own facing; stages are limited to one.
-4. Finalise/start, arm an Explosion and click the room. Inspect seated/rising
-   people, moving/tipped furniture and destruction using pause and playback speed.
+1. Open **Files**, enter a name and **Save**. The displayed save directory is
+   `Application.persistentDataPath/scenarios`. Save As creates copies; replacing
+   another existing target asks for confirmation. Read-only sources are labelled.
+2. Run/trigger the example's Explosion, then **Replay from start**. Expect paused
+   frame zero, exact starts, 11 seated people and intact furniture. Runtime Save
+   always writes authored starts, excluding current damage/motion.
+3. Load the bundled schema 1–4 examples while paused. Loaded scenes open in the
+   builder; finalise before running. Fume205 finalises/precomputes its saved source;
+   Start > **Release saved Fume** > Replay restores 205 people, 80 seated and an
+   unreleased regenerated cache. Full Fume source/settings/preview UI remains M7.
+4. Test dirty Save/Discard/Keep decisions, New Scenario, failed imports and persistence
+   using [the full M5 checklist](../docs/unity-migration/M5_LOCAL_TESTING.md). Run
+   **25 EditMode / 7 PlayMode** supplied cases. M1–M4 were accepted by the user;
+   M5 awaits actual Unity testing.
 
-Follow [the full M4 checklist](../docs/unity-migration/M4_LOCAL_TESTING.md) for
-precise dimensions, expected counts, manual controls and **17 EditMode / 5 PlayMode**
-supplied tests. M1–M3 were accepted by the user; M4 awaits actual Unity testing.
-The original reference application and tests remain unchanged.
+All accepted furniture/build/run capabilities remain. The original reference
+application/tests are preserved. No .NET executable/SDK is required locally;
+first import needs Unity's package registry. Assets/Packages/ProjectSettings are
+inside this directory. This is an Editor project; standalone delivery remains M11.
+The accepted M2 diagnostics remain at
+**Assets/CrowdSim/Scenes/Validation/SimulationParity.unity** and on startup.
 
-Furniture positions, height, heading, states and occupancy come from detached
-portable-engine snapshots. The model retains seating/departure, pushing/chains,
-impacts/flight/support/landing, destruction and dynamic navigation; Unity physics
-does not move the crowd or furniture. Simple seated/rising parts complement the
-existing walking capsules. Full humanoids/animation/cameras remain M8.
-
-Files/replay, full hazard controls, complete analysis, recording and standalone
-acceptance retain their [approved milestones](../docs/unity-migration/ROADMAP.md).
-The common Toxic Fume builder includes furniture, while source/precompute/run
-authoring remains M7. The accepted M2 six-case diagnostics remain at
-**Assets/CrowdSim/Scenes/Validation/SimulationParity.unity** and are accessible
-from startup. No original .NET executable/SDK is needed locally; first import
-needs access to Unity's package registry.
-
-Cloud checks pass 404 original tests, 415 portable tests, 70 migration tests and
-both exact six-case captures. **M4 Unity import, frontend compilation, supplied
-Unity tests, input/picking/layout/graphics and player builds were not executed**;
-there is no Unity Editor installed in cloud. See
-[VALIDATION.md](../docs/unity-migration/VALIDATION.md).
+Cloud checks pass 404 original, 415 portable and 91 migration tests, both exact
+six-case captures, and five native/portable file interop cases. **M5 Unity import,
+frontend compilation, supplied Unity tests, native input/layout/rendering and
+player builds were not executed**; no Unity Editor is installed in cloud. See
+[VALIDATION.md](../docs/unity-migration/VALIDATION.md) and the
+[approved roadmap](../docs/unity-migration/ROADMAP.md) for remaining milestones.

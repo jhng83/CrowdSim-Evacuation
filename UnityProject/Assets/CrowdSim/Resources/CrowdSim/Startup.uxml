@@ -7,7 +7,7 @@
                 <ui:Label name="milestone-label" class="milestone" />
             </ui:VisualElement>
             <ui:Label text="Build a room. Observe the crowd." class="headline" />
-            <ui:Label text="Unity migration / Milestone 4" class="subtitle" />
+            <ui:Label text="Unity migration / Milestone 5" class="subtitle" />
             <ui:Button name="open-explosion-workspace" text="Build an Explosion scene" class="scenario-button" />
             <ui:Button name="open-furnished-workspace" text="Build furnished example (26 people)" class="scenario-button" />
             <ui:Button name="open-fume-workspace" text="Open common Toxic Fume builder (run controls in M7)" class="scenario-button" />
@@ -41,7 +41,7 @@
                 <ui:Button name="run-checks" text="Run startup checks" class="quiet-button" />
             </ui:VisualElement>
             <ui:VisualElement class="footer">
-                <ui:Label text="M4 FURNITURE / M5 FILES AND REPLAY NEXT" class="footer-label" />
+                <ui:Label text="M5 FILES AND REPLAY / M6 EXPLOSION NEXT" class="footer-label" />
                 <ui:Label name="editor-version" class="footer-label" />
             </ui:VisualElement>
         </ui:VisualElement>

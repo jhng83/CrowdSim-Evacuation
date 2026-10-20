@@ -24,9 +24,9 @@ namespace CrowdSim.Workspace
     }
 
     /// <summary>Authoritative command boundary for M3. UI receives snapshots; only commands mutate the model.</summary>
-    public sealed class WorkspaceSession
+    public sealed partial class WorkspaceSession
     {
-        private readonly Simulation _simulation;
+        private Simulation _simulation;
         private readonly BuilderAssetSelection _assets = new BuilderAssetSelection();
         private readonly InspectorPanelState _inspector = new InspectorPanelState();
         private readonly FixedStepScheduler _scheduler = new FixedStepScheduler();
@@ -46,7 +46,7 @@ namespace CrowdSim.Workspace
         public bool HasStage => _simulation.Environment.HasStage;
         public bool AssetUnavailable => SelectedAsset == BuilderAsset.Stage && HasStage;
         public int FurnitureCount => _simulation.Environment.Furniture.Count;
-        public int PlannedCount => _simulation.Environment.PlannedAgentCount;
+        public int PlannedCount => _simulation.Environment.PlannedAgentCount > 0 ? _simulation.Environment.PlannedAgentCount : _requestedAgentCount;
         public int ExitCount => _simulation.Environment.Exits.Count;
         public bool Hybrid => _simulation.Config.HybridEnabled;
         public ScenarioType Scenario => _simulation.ScenarioType;
@@ -61,9 +61,9 @@ namespace CrowdSim.Workspace
         public string Readiness => !IsBuilding ? "Scene finalised. Geometry and behaviour are locked."
             : ExitCount == 0 ? "At least one exit is required."
             : PlannedCount == 0 ? "Place at least one agent group."
-            : Scenario == ScenarioType.ToxicFume ? "Toxic Fume source and precomputation controls arrive in M7. Use the M2 diagnostic for fume runs."
+            : Scenario == ScenarioType.ToxicFume && _simulation.ToxicFumeSystem.SourcePosition == null ? "A saved toxic-fume source is required. Source authoring arrives in M7."
             : "Ready to finalise.";
-        public bool CanFinalise => IsBuilding && ExitCount > 0 && PlannedCount > 0 && Scenario == ScenarioType.Explosion;
+        public bool CanFinalise => IsBuilding && ExitCount > 0 && PlannedCount > 0 && (Scenario == ScenarioType.Explosion || _simulation.ToxicFumeSystem.SourcePosition != null);
 
         public WorkspaceSession(ScenarioType scenario = ScenarioType.Explosion, int seed = 42)
         {
@@ -72,9 +72,10 @@ namespace CrowdSim.Workspace
             Frame = PresentationFrame.Capture(_simulation, true);
         }
 
-        private void Changed(string message)
+        private void Changed(string message, bool authored = false)
         {
             Message = message;
+            if (authored) IsDirty = true;
             Revision++;
             Frame = PresentationFrame.Capture(_simulation, IsBuilding);
         }
@@ -85,7 +86,7 @@ namespace CrowdSim.Workspace
             { Message = "Resize rejected: use 10–160 m width / 10–120 m length in an empty builder."; return false; }
             bool result = _simulation.Environment.TryResizeRoom(width, length);
             _simulation.BuildWallGrid();
-            Changed("Room size updated in metres.");
+            Changed("Room size updated in metres.", true);
             return result;
         }
 
@@ -145,7 +146,7 @@ namespace CrowdSim.Workspace
             bool result = ApplyPlacement(_simulation, tool, point, option, _assets);
             if (!result) { Message = tool == PlacementTool.Asset && AssetUnavailable ? "Only one stage is allowed. Undo its placement before replacing it." : "Placement rejected: check boundary, overlap, occupancy and available floor."; return false; }
             _simulation.BuildWallGrid();
-            Changed(tool + " placed. Ctrl+Z undoes the last placement.");
+            Changed(tool + " placed. Ctrl+Z undoes the last placement.", true);
             return true;
         }
 
@@ -182,18 +183,20 @@ namespace CrowdSim.Workspace
         {
             if (!IsBuilding || !_simulation.Environment.UndoLast()) { Message = "Nothing can be undone here."; return false; }
             _simulation.BuildWallGrid();
-            Changed("Last placement undone.");
+            Changed("Last placement undone.", true);
             return true;
         }
 
         public bool Finalise()
         {
             if (!CanFinalise) { Message = Readiness; return false; }
-            _simulation.SpawnAgentsAtPositions(_simulation.Environment.GetPlannedAgentPositions());
-            _simulation.SetRunning(false);
+            FinalizedSceneCheckpoint checkpoint = FinalizedSceneCheckpoint.Capture(_simulation, PlannedCount, Name);
+            Simulation ready = checkpoint.CreateReadySimulation();
+            _simulation = ready;
+            _checkpoint = checkpoint;
             Phase = WorkspacePhase.Ready;
             _scheduler.Reset();
-            Changed("Scene finalised at frame zero. Start, then arm an Explosion and click the floor.");
+            Changed("Scene finalised at frame zero. Start, then trigger the selected hazard.");
             return true;
         }
 
@@ -240,7 +243,7 @@ namespace CrowdSim.Workspace
         {
             if (!IsBuilding) return false;
             _simulation.Config.HybridEnabled = enabled;
-            Changed("Hybrid " + (enabled ? "enabled" : "disabled") + "; individual navigation remains active in both modes.");
+            Changed("Hybrid " + (enabled ? "enabled" : "disabled") + "; individual navigation remains active in both modes.", true);
             return true;
         }
 
@@ -249,14 +252,14 @@ namespace CrowdSim.Workspace
         {
             if (!IsBuilding) return false;
             BehaviourControls.Set(_simulation.Config.Agent.Behavior, index, value);
-            Changed("Behaviour updated; values apply when finalised.");
+            Changed("Behaviour updated; values apply when finalised.", true);
             return true;
         }
         public bool ResetBehaviour()
         {
             if (!IsBuilding) return false;
             _simulation.Config.Agent.Behavior.Reset();
-            Changed("Behaviour defaults restored.");
+            Changed("Behaviour defaults restored.", true);
             return true;
         }
         public void ToggleInspector() => _inspector.ToggleVisibility();

@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.415
-      - name: Verify original and portable regressions, Unity contract and both seeded captures
+      - name: Verify regressions, Unity contract, seeded captures and native file interoperability
         run: bash Migration/Tools/validate.sh
       - name: Retain actual test results
         if: always()

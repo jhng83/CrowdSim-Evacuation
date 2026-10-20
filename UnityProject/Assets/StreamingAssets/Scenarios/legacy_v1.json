@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "name": "legacy",
+  "agentCount": 4,
+  "hybridEnabled": false,
+  "randomSeed": 42,
+  "roomWidth": 1383.5294,
+  "roomHeight": 840,
+  "scenarioType": 0,
+  "toxicFume": {
+    "hasSource": false,
+    "sourceX": 0,
+    "sourceY": 0,
+    "initialRadiusMeters": 0.6,
+    "dispersionSpeedMetersPerSecond": 0.3,
+    "maximumExtentMeters": 12,
+    "releaseDurationSeconds": 30,
+    "driftDirectionDegrees": 0,
+    "driftBias": 0,
+    "awarenessConcentration": 0.12,
+    "dangerConcentration": 0.55,
+    "impairmentExposure": 8,
+    "incapacitationExposure": 20
+  },
+  "blastZones": {
+    "kill": 39.035294,
+    "incapacitation": 78.07059,
+    "fallen": 155.8941,
+    "injury": 233.9647,
+    "panic": 449.89407
+  },
+  "behavior": {
+    "traitVariation": 0.65,
+    "reactionVariation": 0.75,
+    "stressSusceptibility": 1,
+    "stressPersistence": 1,
+    "crowdFollowing": 0.5,
+    "personalSpace": 1,
+    "panicSpaceCompression": 0.2,
+    "emergencyUrgency": 1,
+    "maxRunningSpeedMetersPerSecond": 4.0466666,
+    "helpingTendency": 0.5,
+    "routeFamiliarity": 0.5,
+    "bottleneckAssertiveness": 0.5,
+    "bottleneckPressureSensitivity": 1,
+    "bottleneckSpaceCompression": 0.18
+  },
+  "exits": [
+    {
+      "name": "West_1",
+      "x": 7.4117646,
+      "y": 420,
+      "size": 14.823529,
+      "side": "W"
+    }
+  ],
+  "blockages": [],
+  "furniture": [],
+  "circularBlockages": [],
+  "blueWalls": [
+    {
+      "x1": 696.7059,
+      "y1": 459.52942,
+      "x2": 756,
+      "y2": 518.8235
+    }
+  ],
+  "agentSpawnGroups": []
+}

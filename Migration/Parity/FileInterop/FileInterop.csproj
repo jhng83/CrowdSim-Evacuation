@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RuntimeFrameworkVersion>8.0.21</RuntimeFrameworkVersion>
+    <RollForward>Disable</RollForward>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../src/CrowdSim.Core/CrowdSim.Core.csproj" Aliases="reference" />
+    <ProjectReference Include="../../Build/CrowdSim.Portable.csproj" Aliases="portable" />
+  </ItemGroup>
+</Project>

@@ -65,3 +65,31 @@ the session too, but cannot substitute for Mono results. The scene reports up to
 12 mismatch paths with expected/actual values. A mismatch requires investigation,
 not golden regeneration or tolerance changes. Unity checks remain unexecuted until
 a real Editor runs them. Follow [the M2 checklist](../../docs/unity-migration/M2_LOCAL_TESTING.md).
+
+## M5 native/portable file interoperability
+
+`FileInterop/FileInterop.csproj` references the actual unchanged native engine and
+portable production assembly through extern aliases. Five cases cover generated
+v1 metric upgrades/blue walls/seeded random starts, the original v2 example,
+generated v3 default upgrade, furnished v4 with free-angle assets and original
+Fume205 v4. Each checks upgraded authored definitions, portable-to-native file
+writes/loads, native-to-portable writes/loads and atomic replacement/temp cleanup.
+Comparison uses native canonical serialization to compare actual schema values.
+
+From the repository root using the pinned SDK/runtime:
+
+```bash
+dotnet run --project Migration/Parity/FileInterop/FileInterop.csproj -c Release -- "$PWD"
+```
+
+Full validate.sh restores the committed lockfile and runs this command too. Normal
+runs verify the new bundled legacy_v1/legacy_v3 fixtures byte-for-byte against
+native-derived definitions and never rewrite them. `--write-fixtures` is explicit
+fixture authoring, used only to introduce those examples; it is not a way to make
+a regression pass and does not update M1 goldens or original v2/v4 data.
+
+All five cases pass in cloud on .NET 8. This does not execute Unity Mono, Editor
+frontend code or platform file permissions. The supplied Unity file/replay tests
+and [M5 checklist](../../docs/unity-migration/M5_LOCAL_TESTING.md) cover the actual
+host and await execution. Keep authored definitions separate from current damage,
+positions/exposure and the private finalized replay checkpoint.

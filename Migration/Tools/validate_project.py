@@ -103,6 +103,10 @@ def validate() -> None:
     workspace = PROJECT / "Assets/CrowdSim/Runtime/Workspace/WorkspaceController.cs"
     require('name = "asset-picker"' in workspace.read_text() and 'name = "asset-angle-exact"' in workspace.read_text(), "M4 picker/rotation bindings missing")
 
+    require((PROJECT / "Assets/CrowdSim/Runtime/Workspace/WorkspaceController.Files.cs").is_file(), "M5 file adapter missing")
+    for name in ["legacy_v1.json", "legacy_v3.json"]:
+        require((PROJECT / "Assets/StreamingAssets/Scenarios" / name).is_file(), "M5 legacy fixture missing: " + name)
+
     parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
     require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
     require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")

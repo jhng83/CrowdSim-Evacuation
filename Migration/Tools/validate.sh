@@ -20,3 +20,6 @@ cd "$crowdsim_root/Migration"
 "$crowdsim_dotnet" run --project Parity/ReferenceCapture/ReferenceCapture.csproj -c Release --no-restore -- --verify "$crowdsim_root"
 "$crowdsim_dotnet" restore Parity/PortableCapture/PortableCapture.csproj --locked-mode
 "$crowdsim_dotnet" run --project Parity/PortableCapture/PortableCapture.csproj -c Release --no-restore -- --verify "$crowdsim_root"
+
+"$crowdsim_dotnet" restore Parity/FileInterop/FileInterop.csproj --locked-mode
+"$crowdsim_dotnet" run --project Parity/FileInterop/FileInterop.csproj -c Release --no-restore -- "$crowdsim_root"

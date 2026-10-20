@@ -16,8 +16,8 @@
 Pins were checked against
 [Unity's Editor source](https://github.com/Unity-Technologies/UnityCsReference/tree/6000.3.26f1)
 and [URP metadata](https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/package.json).
-M1–M3 were accepted by the user. M4's new picker/presentation source and frontend still
-require actual Editor import; a static lock check cannot establish resolution.
+M1–M4 were accepted by the user. M5's new file/replay frontend still requires
+actual Editor import; a static lock check cannot establish resolution.
 
 ## M2 source and runtime adaptations
 
@@ -175,3 +175,55 @@ it is not a user-file loading/replay implementation. It has five furniture sets,
 26 people (15 floor, 11 seated), one exit and all obstacle choices. The existing
 Bootstrap scene hosts it using the M3 independent-panel lifecycle. M4 adds no new
 scene, Editor version change, file workflow or standalone target.
+
+## M5 files and finalized replay
+
+WorkspaceFiles coordinates a session and an injected ScenarioLibrary. The Unity
+adapter chooses `Path.Combine(Application.persistentDataPath, "scenarios")` as its
+sole write root and displays the resolved path in Files. Company/product identifiers
+are unchanged, so the per-user save directory is stable between project downloads.
+Read-only roots include `Application.streamingAssetsPath/Scenarios`, the native
+`ScenarioFileStore.DefaultDirectory` and `ScenarioFileStore.LegacyDirectory`.
+Desktop imports accept an explicit absolute JSON path as a read-only source unless
+it is directly within the designated writable directory. No native file-picker
+plugin is needed. Mobile/WebGL packaged StreamingAssets are outside this desktop
+milestone; standalone target acceptance remains M11.
+
+Duplicate basenames remain separate entries with source/path labels. Save names
+normalize whitespace, controls and cross-platform forbidden characters, trim edge
+dots/underscores, limit length and prefix reserved Windows device names with
+`scenario_`. The UI displays the actual normalized target before writing. Saves
+validate through ScenarioJson and use the existing atomic ScenarioFileStore path;
+Save As or a different existing target requires confirmation. Sources outside the
+write root are never write targets. Normal Save to the current writable entry
+updates it directly. IO/permission/schema errors retain the session and dirty state.
+
+Loading requires pause, then builds an independent config/layout-validated candidate
+before any dirty decision. Only confirmation replaces the session. Spawn/finalisation
+validation occurs when finalising; failure leaves the builder intact. Authored
+configuration/layout/behavior changes set dirty; camera, selection, preview, transport,
+runtime motion and damage do not. New/load/startup/diagnostics transitions use
+Save and continue / Discard / Keep working; a failed save cannot complete a pending
+transition. Loading opens a clean paused builder with no replay checkpoint. New
+starts empty. Runtime saves never convert injuries or current motion into starts.
+Stopping Editor Play Mode is controlled by Unity and does not present an application
+save dialog: save authored work through Files before stopping.
+
+Finalisation captures the existing FinalizedSceneCheckpoint privately and creates
+a validated ready simulation before replacing the old model. Runtime export reads
+its authored Definition. Replay reconstructs from that checkpoint into a temporary
+model before replacement, resets scheduler/selection, pauses at tick zero, restores
+furniture/seats and regenerates an unreleased Fume cache. Legacy files without exact
+positions preserve seeded random placement and requested agent count. Export is
+schema 4; original upgrade/default/numeric enum/unit/blue-wall behavior is retained.
+A saved Fume source is sufficient for M5 finalisation/precompute and the minimal
+Release saved Fume button. Source placement/settings/preview/plume UI remain M7.
+
+FileInterop runs both actual native and portable stores/codecs on .NET 8 using extern
+aliases and compares canonical authored definitions for five cases across schemas
+1–4. New v1/v3 examples are independently generated from native definitions and
+verified byte-for-byte; bundled original v2/v4 fixtures and M1 goldens are unchanged.
+Cloud interop is not a Unity Mono filesystem result. Eight new EditMode and two
+new PlayMode cases exercise the actual-host path using temporary save roots; none
+were run here. File.Replace permissions/platform behavior, real persistent storage,
+focus/modal/layout and package resolution still require local Unity acceptance.

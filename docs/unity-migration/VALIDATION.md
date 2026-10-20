@@ -1,47 +1,52 @@
-# M4 validation evidence
+# M5 validation evidence
 
 Executed in Codex cloud on 2026-10-20, Linux x64, SDK 8.0.415/runtime 8.0.21.
-The user reported M3 tested successfully before authorizing M4; no local Editor
-logs were supplied. Historical evidence is in [M3_VALIDATION.md](M3_VALIDATION.md).
+The user reported M4 tested successfully before authorizing M5; no local Editor
+logs were supplied. Historical evidence is in [M4_VALIDATION.md](M4_VALIDATION.md).
 
 | Check | Actual result |
 | --- | --- |
 | Original Release solution build | Passed |
 | Original regression suite | **404 passed, 0 failed, 0 skipped** |
-| Portable suite | **415 passed, 0 failed, 0 skipped**: all 404 unchanged original cases plus 11 new furniture presentation cases |
-| Migration suite | **70 passed, 0 failed, 0 skipped**: 57 existing plus 13 furniture command cases |
-| Production portable compilation | Passed, C#9/netstandard2.1: same engine, picker, session, snapshot and geometry source consumed by Unity |
-| Original and portable seeded captures | Both match all six unchanged traces and compatibility oracle exactly in pinned cloud runtime |
-| Static Unity contract | Passed: 121 unique GUIDs, startup/example entries, picker resource/assembly wiring, serialized references, exact bundled data and 106 unchanged original files |
+| Portable suite | **415 passed, 0 failed, 0 skipped**: all 404 unchanged original cases plus 11 presentation cases |
+| Migration suite | **91 passed, 0 failed, 0 skipped**: 70 existing plus 21 file/lifecycle/replay cases |
+| Production portable compilation | Passed, C#9/netstandard2.1, same production sources consumed by Unity |
+| Original and portable seeded captures | Both match all six unchanged traces and compatibility oracle exactly on pinned cloud runtime |
+| Native/portable file interop | **5 cases passed** using actual original System.Text.Json codec/file store and portable production codec/file store: v1 units/blue walls/random starts, original v2, v3 default upgrade, furnished v4/free angle, original v4 Fume205 |
+| Static Unity contract | Passed: 129 unique GUIDs, package/resource/assembly wiring, startup bindings, exact bundled reference copies and 106 unchanged original files |
 | Reference preservation | Original source/tests/scenarios/solution/dependency pins, M1 goldens and portable engine algorithms unchanged |
 | Shell syntax, whitespace, handoff links | Passed |
 | GitHub Actions remote run | **Not verified** |
-| Unity M4 import/UPM/frontend compilation | **Not executed — no Unity Editor installed** |
-| Unity EditMode | **17 supplied, not executed**: 13 existing + 4 furniture cases |
-| Unity PlayMode | **5 supplied, not executed**: 3 existing + 2 furniture interactions |
+| Unity M5 import/UPM/frontend compilation | **Not executed — no Unity Editor installed** |
+| Unity EditMode | **25 supplied, not executed**: 17 existing + 8 file/schema/replay cases |
+| Unity PlayMode | **7 supplied, not executed**: 5 existing + 2 Files/replay interactions |
 | Native input/picking/resizing/rendering | **Not executed** |
 | Standalone/IL2CPP build/run | **Not executed** |
 
-The remaining original picker and barricade-angle tests now link against the
-ported production helper. The original test sources/assertions are unchanged;
-none are excluded, disabled or skipped. Existing xUnit2031 in original rectangular
-table test source can emit an advisory; no original test was rewritten to silence it.
+The new migration tests cover portable names/device names/path containment,
+read-only versus writable identity, list/refresh, Save/Save As/overwrite/back,
+dirty load/new/leave decisions, failed writes/atomic cleanup, malformed schema and
+layout rejection with session retention, legacy random starts, authored exports
+after actual blast damage, and 205-person Fume replay in both Hybrid modes. Replay
+checks exact initial positions, 80 seated occupants, intact furniture, zero tick,
+zero exposure and a valid unreleased rebuilt cache. Existing tests retain all
+original simulation, defaults, enum, strict JSON and upgrade coverage.
 
-New workspace checks cover all five kinds, occupant counts, preview/commit geometry,
-whole-set undo, failed-placement atomicity, exact/per-asset angles, one-stage guards,
-parallel snapping on/off, example starts/seating, locks, both Hybrid modes and R
-focus/modifier policy. New presentation checks cover all chair states, detached
-body status/collections, live height/heading/position, actual timed seat departure,
-round/rectangular tipped profiles, precise quarter-turn table footprints and actual
-blast destruction/removal. The unchanged original suite retains pushing/chains,
-flight/impacts, support/landing, fixed-asset and dynamic navigation checks.
+The interop executable references both actual assemblies through extern aliases.
+Each input is upgraded/loaded by both engines, captured as an authored definition,
+written by the portable store (including existing-file atomic replacement), read
+by the unchanged native store, written by that native store and read by the port.
+Canonical native deserialization compares schema values rather than whitespace or
+float spelling. This is cloud .NET 8 interop evidence; Mono filesystem/codec behavior
+still needs the supplied Unity tests and manual checklist. No cloud result implies
+that Unity frontend source compiled.
 
-Supplied Unity interactions enter through actual Bootstrap buttons and operate the
-picker/angle/rotation/stage/undo/finalise/transport controls. Exact world positions
-are passed through the controller's world-click command. A pooled-view primitive
-replacement check is included. These tests do not establish screen picking or native
-R/Shift+R dispatch; manual tests remain required. No actual Editor result is inferred
-from cloud tests or from prior accepted milestones.
+Unity tests use temporary injected storage directories. New PlayMode cases operate
+actual Files controls, prompts, paused-load enablement, saved Fume release/replay,
+and failed import retention. They do not establish OS permissions, native pointer
+picking, visual layout or persistence across Editor restarts. Manual testing remains
+required. Existing xUnit2031 in original rectangular-table tests is an advisory;
+no assertions were changed to silence it.
 
 ## Reproduce
 
@@ -57,7 +62,7 @@ Private SDK example for this worker:
 DOTNET=/workspace/crowdsim-tools/dotnet/dotnet bash Migration/Tools/validate.sh
 ```
 
-Tooling restores use committed lockfiles. Captures verify without overwriting
-baselines. Actual TRX results are under ignored `Migration/artifacts/tests/` and
-are uploaded by the GitHub workflow when it executes. Follow
-[M4_LOCAL_TESTING.md](M4_LOCAL_TESTING.md) before accepting M4.
+Tooling restores use committed lockfiles. Captures and interop verify without
+rewriting baselines or fixtures. TRX results are under ignored
+`Migration/artifacts/tests/` and uploaded by the GitHub workflow when it executes.
+Follow [M5_LOCAL_TESTING.md](M5_LOCAL_TESTING.md) before accepting M5.

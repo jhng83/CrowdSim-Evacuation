@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using CrowdSim.Core.Persistence;
 using CrowdSim.Core.Model;
 using CrowdSim.Diagnostics;
 using CrowdSim.OpenGL.UI;
@@ -14,9 +16,10 @@ using ViewVector = System.Numerics.Vector3;
 namespace CrowdSim.Unity.Workspace
 {
     /// <summary>Common build/run and furniture workspace. All model changes pass through the testable session commands.</summary>
-    public sealed class WorkspaceController : MonoBehaviour
+    public sealed partial class WorkspaceController : MonoBehaviour
     {
-        public WorkspaceSession Session { get; private set; }
+        public WorkspaceFiles Files { get; private set; }
+        public WorkspaceSession Session => Files == null ? null : Files.Session;
         private WorkspaceWorldView _world;
         private UIDocument _document;
         private PanelSettings _settings;
@@ -43,10 +46,14 @@ namespace CrowdSim.Unity.Workspace
         private float _lastPreviewTime;
         private readonly List<ViewBody> _grid = new List<ViewBody>();
 
-        public void Open(ScenarioType scenario, Action exit = null, bool furnished = false)
+        public void Open(ScenarioType scenario, Action exit = null, bool furnished = false, string storageDirectory = null)
         {
             _exit = exit;
-            Session = furnished ? WorkspaceExamples.Furniture() : new WorkspaceSession(scenario);
+            Files = new WorkspaceFiles(furnished ? WorkspaceExamples.Furniture() : new WorkspaceSession(scenario),
+                new ScenarioLibrary(storageDirectory ?? Path.Combine(Application.persistentDataPath, "scenarios"),
+                    Path.Combine(Application.streamingAssetsPath, "Scenarios"), ScenarioFileStore.DefaultDirectory, ScenarioFileStore.LegacyDirectory));
+            _shownSession = Session;
+            _saveName = Session.Name;
             _document = gameObject.AddComponent<UIDocument>();
             _document.sortingOrder = 10;
             _settings = ScriptableObject.CreateInstance<PanelSettings>();
@@ -68,7 +75,7 @@ namespace CrowdSim.Unity.Workspace
         private void BuildInterface()
         {
             VisualElement top = Box(_root, "topbar");
-            Label(top, "CROWD / SIM  ·  " + Session.Scenario + "  ·  M4", "brand");
+            _brand = Label(top, "", "brand");
             _toggleInspector = Button(top, "Hide inspector (F4)", () => { Session.ToggleInspector(); Refresh(); });
             Button(top, "Return to startup", RequestExit);
             VisualElement body = Box(_root, "workspace-body");
@@ -109,9 +116,15 @@ namespace CrowdSim.Unity.Workspace
             _inspectorPage = inspectorScroll;
             _footer = Box(_root, "transport");
             VisualElement actions = Box(_footer, "actions");
-            _finalise = Button(actions, "Finalise scene", () => { Session.Finalise(); _tool = PlacementTool.Select; ClearPreview(); Refresh(); });
-            _transport = Button(actions, "Start", () => { Session.ToggleRunning(); ClearPreview(); Refresh(); });
-            _arm = Button(actions, "Arm Explosion", () => { _tool = PlacementTool.Explosion; Refresh(); });
+            _finalise = Button(actions, "Finalise scene", () => { if (Files.Finalise()) _tool = PlacementTool.Select; _operationStatus = Files.Message; ClearPreview(); Refresh(); });
+            _transport = Button(actions, "Start", () => { _operationStatus = ""; Session.ToggleRunning(); ClearPreview(); Refresh(); });
+            _arm = Button(actions, "Arm Explosion", () => { _operationStatus = ""; _tool = PlacementTool.Explosion; Refresh(); });
+            _replay = Button(actions, "Replay from start", () =>
+            {
+                if (Files.Replay()) _tool = PlacementTool.Select;
+                _operationStatus = Files.Message; ClearPreview(); Draw(); Refresh();
+            });
+            _releaseFume = Button(actions, "Release saved Fume", () => { Session.ReleaseSavedFume(); _operationStatus = ""; Refresh(); });
             _speed = new Slider("Playback speed", .25f, 4f) { value = 1, showInputField = true, name = "playback-speed" };
             _speed.RegisterValueChangedCallback(evt =>
             {
@@ -139,10 +152,7 @@ namespace CrowdSim.Unity.Workspace
             }
             if (_activePage == "Files")
             {
-                Label(_page, "Scenario files", "heading");
-                Label(_page, "Save, load, New Scenario and finalized replay arrive in M5. This workspace is an unsaved session.", "muted");
-                Button(_page, "Return to startup", RequestExit);
-                Button(_page, "Open M2 diagnostics", () => ShowExitPrompt(true));
+                BuildFilesPage();
                 return;
             }
             Label(_page, "Build / Run", "heading");
@@ -256,10 +266,12 @@ namespace CrowdSim.Unity.Workspace
                 else slider.SetValueWithoutNotify(initial);
             }); _page.Add(slider);
         }
-        private void SetTool(PlacementTool tool) { _tool = tool; ClearPreview(); Refresh(); }
+        private void SetTool(PlacementTool tool) { _operationStatus = ""; _tool = tool; ClearPreview(); Refresh(); }
         private int Option => _tool == PlacementTool.Exit ? _exitWidth : _people;
         public void HandleWorldClick(GroundPoint point)
         {
+            if (_modal != null) return;
+            _operationStatus = "";
             if (Session.IsBuilding)
             {
                 if (_tool != PlacementTool.Select) Session.Place(_tool, point, Option);
@@ -298,7 +310,7 @@ namespace CrowdSim.Unity.Workspace
             if (Session == null) return;
             try
             {
-                if (Session.Advance(Time.unscaledDeltaTime) > 0) Refresh();
+                if (_modal == null && Session.Advance(Time.unscaledDeltaTime) > 0) Refresh();
                 if (_drawnRevision != Session.Revision || _drawnGrid != Session.ShowGrid) Draw();
                 Layout();
             }
@@ -350,7 +362,13 @@ namespace CrowdSim.Unity.Workspace
         private void Refresh()
         {
             if (_status == null) return;
-            _status.text = Session.Message;
+            _status.text = string.IsNullOrEmpty(_operationStatus) ? Session.Message : _operationStatus;
+            string displayName = Session.Name.Length > 32 ? Session.Name.Substring(0, 32) + "…" : Session.Name;
+            _brand.text = "CROWD / SIM · " + Session.Scenario + " · " + displayName + (Session.IsDirty ? " *" : "") + " · M5";
+            _replay.SetEnabled(Session.CanReplay);
+            _releaseFume.style.display = Session.Scenario == ScenarioType.ToxicFume ? DisplayStyle.Flex : DisplayStyle.None;
+            _releaseFume.SetEnabled(Session.Running && Session.HasFumeCache && !Session.FumeReleased);
+            UpdateFilesState();
             _readiness.text = Session.Readiness;
             _finalise.SetEnabled(Session.CanFinalise);
             _transport.SetEnabled(!Session.IsBuilding);
@@ -360,7 +378,7 @@ namespace CrowdSim.Unity.Workspace
             _selection.text = Session.IsBuilding ? "Tool: " + _tool + " · green preview / red rejection · click floor" : _tool == PlacementTool.Explosion ? "Explosion armed · click inside the room once" : "Click a capsule to select · Show selected agent opens details";
             if (_activePage == "Build / Run")
             {
-                _metrics.text = Session.Phase + " · tick " + Session.Tick + " · " + (Session.Tick * .15f).ToString("F2") + " s\n" +
+                _metrics.text = (Session.UsesRandomStarts && Session.IsBuilding ? "Legacy random starts: " + Session.PlannedCount + " on finalisation\n" : "") + Session.Phase + " · tick " + Session.Tick + " · " + (Session.Tick * Session.StepSeconds).ToString("F2") + " s\n" +
                     Session.ExitCount + " exits · " + Session.PlannedCount + " planned · " + Session.Frame.Exited + " evacuated\n" +
                     Session.FurnitureCount + " furniture sets · seated " + Session.Frame.SeatedAgents + " · rising " + Session.Frame.RisingAgents;
                 _builder.SetEnabled(Session.IsBuilding);
@@ -398,11 +416,14 @@ namespace CrowdSim.Unity.Workspace
                 " · destroyed " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Destroyed) +
                 "\nEvacuated " + Session.Frame.Exited + "\nInjured " + Session.Frame.Injured + "\nDead " + Session.Frame.Dead + "\nHybrid " + Session.Hybrid
                 : tab == 1 ? "Hazard: " + Session.Scenario + "\n" + (Session.Frame.HazardReleased ? "Triggered" : "Waiting") +
-                    "\nExplosion: start, arm, then click the room. Detailed hazard controls arrive in M6/M7."
-                : tab == 2 ? Session.SelectedAgentSummary : "Grid spacing: 1.2 m\nFixed simulation step: 0.15 s\nSelection: " + (Session.SelectedAgentId?.ToString() ?? "none");
+                    (Session.Scenario == ScenarioType.Explosion ? "\nExplosion: start, arm, then click the room. Detailed controls arrive in M6."
+                        : "\nSaved Fume: finalise to precompute, start, then Release saved Fume. Cache ready: " + Session.HasFumeCache + ". Full authoring arrives in M7.")
+                : tab == 2 ? Session.SelectedAgentSummary : "Grid spacing: 1.2 m\nFixed simulation step: " + Session.StepSeconds.ToString("G") + " s\nSelection: " + (Session.SelectedAgentId?.ToString() ?? "none");
         }
         private void OnKey(KeyDownEvent evt)
         {
+            if (_modal != null) return;
+            _operationStatus = "";
             bool editing = false;
             VisualElement focus = _root.focusController?.focusedElement as VisualElement;
             while (focus != null)
@@ -425,20 +446,8 @@ namespace CrowdSim.Unity.Workspace
             }
             evt.StopPropagation(); evt.PreventDefault(); ClearPreview(); Refresh(); Repreview();
         }
-        private void RequestExit() => ShowExitPrompt(false);
-        private void ShowExitPrompt(bool diagnostics)
-        {
-            if (Session.Running) { Session.ToggleRunning(); Refresh(); }
-            _page.Clear(); _activePage = "Exit";
-            Label(_page, "Leave this unsaved session?", "heading");
-            Label(_page, "The authored layout and run will be discarded. File saving arrives in M5.", "muted");
-            Button(_page, "Keep working", () => { _activePage = "Build / Run"; BuildPage(); });
-            Button(_page, "Discard session and continue", () =>
-            {
-                if (diagnostics) SceneManager.LoadScene("SimulationParity");
-                else { _exit?.Invoke(); Destroy(gameObject); }
-            });
-        }
+        private void RequestExit() { Files.Leave(false); SyncFiles(); }
+        private void ShowExitPrompt(bool diagnostics) { Files.Leave(diagnostics); SyncFiles(); }
         private static VisualElement Box(VisualElement parent, string css)
         { VisualElement box = new VisualElement(); box.AddToClassList(css); parent.Add(box); return box; }
         private static Label Label(VisualElement parent, string text, string css)
