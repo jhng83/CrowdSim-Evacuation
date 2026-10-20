@@ -31,6 +31,7 @@ namespace CrowdSim.Workspace
             _requestedAgentCount = requested;
             Name = name;
             Frame = Diagnostics.PresentationFrame.Capture(model, true);
+            Blast = new Diagnostics.ExplosionFrame(model, _blastCache);
             Message = "Loaded paused in the builder. Review the authored layout, then finalise.";
         }
         /// <summary>Runtime save uses the private finalised definition, never current damage/positions.</summary>
@@ -54,6 +55,7 @@ namespace CrowdSim.Workspace
             Simulation ready = _checkpoint.CreateReadySimulation();
             _simulation = ready;
             SelectedAgentId = null;
+            ExplosionArmed = false;
             Phase = WorkspacePhase.Ready;
             _scheduler.Reset();
             Changed("Replay ready at finalised frame zero, paused, with intact furniture and unreleased hazard.");

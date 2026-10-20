@@ -1,52 +1,55 @@
-# M5 validation evidence
+# M6 validation evidence
 
-Executed in Codex cloud on 2026-10-20, Linux x64, SDK 8.0.415/runtime 8.0.21.
-The user reported M4 tested successfully before authorizing M5; no local Editor
-logs were supplied. Historical evidence is in [M4_VALIDATION.md](M4_VALIDATION.md).
+Executed in Codex cloud on 2026-10-21, Linux x64, SDK 8.0.415/runtime 8.0.21.
+The user reported M5 tested successfully before authorizing M6; no local Editor
+logs were supplied. Historical evidence is in [M5_VALIDATION.md](M5_VALIDATION.md).
 
 | Check | Actual result |
 | --- | --- |
 | Original Release solution build | Passed |
 | Original regression suite | **404 passed, 0 failed, 0 skipped** |
 | Portable suite | **415 passed, 0 failed, 0 skipped**: all 404 unchanged original cases plus 11 presentation cases |
-| Migration suite | **91 passed, 0 failed, 0 skipped**: 70 existing plus 21 file/lifecycle/replay cases |
+| Migration suite | **112 passed, 0 failed, 0 skipped**: 91 existing plus 21 Explosion command/presentation cases |
 | Production portable compilation | Passed, C#9/netstandard2.1, same production sources consumed by Unity |
-| Original and portable seeded captures | Both match all six unchanged traces and compatibility oracle exactly on pinned cloud runtime |
-| Native/portable file interop | **5 cases passed** using actual original System.Text.Json codec/file store and portable production codec/file store: v1 units/blue walls/random starts, original v2, v3 default upgrade, furnished v4/free angle, original v4 Fume205 |
-| Static Unity contract | Passed: 129 unique GUIDs, package/resource/assembly wiring, startup bindings, exact bundled reference copies and 106 unchanged original files |
+| Original and portable seeded captures | Both match all six unchanged traces and compatibility oracle exactly on pinned cloud runtime, covering both hazards and both Hybrid modes |
+| Native/portable file interop | **5 cases passed** across schemas 1–4 using actual original and portable codecs/file stores |
+| Static Unity contract | Passed: 136 unique GUIDs, package/resource/assembly wiring, startup bindings, exact bundled reference copies and 106 unchanged original files |
 | Reference preservation | Original source/tests/scenarios/solution/dependency pins, M1 goldens and portable engine algorithms unchanged |
 | Shell syntax, whitespace, handoff links | Passed |
 | GitHub Actions remote run | **Not verified** |
-| Unity M5 import/UPM/frontend compilation | **Not executed — no Unity Editor installed** |
-| Unity EditMode | **25 supplied, not executed**: 17 existing + 8 file/schema/replay cases |
-| Unity PlayMode | **7 supplied, not executed**: 5 existing + 2 Files/replay interactions |
-| Native input/picking/resizing/rendering | **Not executed** |
+| Unity M6 import/UPM/frontend compilation | **Not executed — no Unity Editor installed** |
+| Unity EditMode | **29 supplied, not executed**: 25 existing + 4 Explosion cases |
+| Unity PlayMode | **9 supplied, not executed**: 7 existing + 2 Explosion interactions |
+| Native text/pointer input, picking, resizing, rendering/shaders | **Not executed** |
 | Standalone/IL2CPP build/run | **Not executed** |
 
-The new migration tests cover portable names/device names/path containment,
-read-only versus writable identity, list/refresh, Save/Save As/overwrite/back,
-dirty load/new/leave decisions, failed writes/atomic cleanup, malformed schema and
-layout rejection with session retention, legacy random starts, authored exports
-after actual blast damage, and 205-person Fume replay in both Hybrid modes. Replay
-checks exact initial positions, 80 seated occupants, intact furniture, zero tick,
-zero exposure and a valid unreleased rebuilt cache. Existing tests retain all
-original simulation, defaults, enum, strict JSON and upgrade coverage.
+New migration cases cover finite/invariant text, neighbor ordering, increments,
+resets, pre-event edits in builder/ready/running, post-event locks, extreme float
+bounds, no-op dirty behavior, checkpoint rebasing after actual motion, save/replay
+with retained settings and original starts, arming/cancel/pause, square/circle/
+furniture/perimeter/outside/nonfinite placement rejection and the one-event guard.
+Geometry cases check actual room/static-wall/circle visibility, sampled vertices
+and outline midpoints, cache reuse/invalidation and replay cleanup. Model-time front
+and dust checks run at 0.15 and 0.075 s. Debris checks verify detached native prism
+sizes, live headings/energy and immutability. Paired furnished sessions in both
+Hybrid modes retain identical positions, states, furniture, hit counters and authored
+exports while display flags change. Existing original tests retain ordered physical
+outcomes, propagation, swept debris impacts, visibility/shielding and furniture damage.
 
-The interop executable references both actual assemblies through extern aliases.
-Each input is upgraded/loaded by both engines, captured as an authored definition,
-written by the portable store (including existing-file atomic replacement), read
-by the unchanged native store, written by that native store and read by the port.
-Canonical native deserialization compares schema values rather than whitespace or
-float spelling. This is cloud .NET 8 interop evidence; Mono filesystem/codec behavior
-still needs the supplied Unity tests and manual checklist. No cloud result implies
-that Unity frontend source compiled.
+The exact six-case captures still match unchanged M1 baselines on both engines.
+No reference test assertion, golden, scientific parameter, dependency pin or portable
+engine algorithm was changed. The original dense near-200 m float-clamp limitation
+was diagnosed; the UI command rejects unrepresentable edits transactionally instead
+of changing that algorithm. This is not a new physical model.
 
-Unity tests use temporary injected storage directories. New PlayMode cases operate
-actual Files controls, prompts, paused-load enablement, saved Fume release/replay,
-and failed import retention. They do not establish OS permissions, native pointer
-picking, visual layout or persistence across Editor restarts. Manual testing remains
-required. Existing xUnit2031 in original rectangular-table tests is an advisory;
-no assertions were changed to silence it.
+Supplied EditMode cases check invariant commits/replay, clipping/cache, blocked
+one-shot detonation and front/dust values on the actual host. PlayMode cases operate
+Bootstrap and the actual Hazard text/keyboard/blur/increment/reset/arming controls;
+inspect transparent mesh material/depth settings, locked fields, hidden-inspector
+visibility, paused noninterference, replay and exit cleanup. Synthetic events and
+explicit world coordinates do not establish native input or screen picking. These
+Unity tests have not run here. Actual shader blending/appearance, pointer caret,
+resize behavior and lifecycle require local testing.
 
 ## Reproduce
 
@@ -65,4 +68,6 @@ DOTNET=/workspace/crowdsim-tools/dotnet/dotnet bash Migration/Tools/validate.sh
 Tooling restores use committed lockfiles. Captures and interop verify without
 rewriting baselines or fixtures. TRX results are under ignored
 `Migration/artifacts/tests/` and uploaded by the GitHub workflow when it executes.
-Follow [M5_LOCAL_TESTING.md](M5_LOCAL_TESTING.md) before accepting M5.
+Original rectangular-table tests can emit the existing xUnit2031 advisory; no test
+was rewritten to silence it. Follow [M6_LOCAL_TESTING.md](M6_LOCAL_TESTING.md)
+before accepting M6.

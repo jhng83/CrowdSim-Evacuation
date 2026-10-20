@@ -24,3 +24,8 @@ Button:hover, Button:focus { background-color: rgb(48, 86, 115); }
 .file-path { font-size: 12px; white-space: normal; color: rgb(163, 190, 210); margin: 6px 0; }
 .modal-shade { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(5, 12, 20, 0.85); align-items: center; justify-content: center; }
 .modal-card { height: 80%; width: 520px; max-width: 90%; max-height: 90%; padding: 22px; background-color: rgb(22, 35, 49); border-color: rgb(74, 107, 132); border-width: 1px; border-radius: 7px; }
+
+.radius-row { flex-direction: row; align-items: center; flex-shrink: 0; }
+.radius-row Button { min-width: 56px; flex-shrink: 0; }
+.radius-text { flex-grow: 1; min-width: 50px; }
+.invalid-radius .unity-text-field__input { border-color: rgb(255, 105, 90); border-width: 1px; }

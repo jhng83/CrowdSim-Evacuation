@@ -25,12 +25,13 @@ namespace CrowdSim.Diagnostics
         public SeatingPosture Posture { get; }
         public float RiseProgress { get; }
         public ChairState MotionState { get; }
+        public float Energy { get; }
         public ViewBody(string id, ViewShape shape, ViewKind kind, Vector3 position, Vector3 size,
             float groundAngle = 0f, AgentState state = AgentState.Wandering,
-            SeatingPosture posture = SeatingPosture.Walking, float riseProgress = 0f, ChairState motionState = ChairState.Upright)
+            SeatingPosture posture = SeatingPosture.Walking, float riseProgress = 0f, ChairState motionState = ChairState.Upright, float energy = 1f)
         {
             Id = id; Shape = shape; Kind = kind; Position = position; Size = size; GroundAngle = groundAngle; State = state;
-            Posture = posture; RiseProgress = riseProgress; MotionState = motionState;
+            Posture = posture; RiseProgress = riseProgress; MotionState = motionState; Energy = energy;
         }
     }
 
@@ -114,8 +115,16 @@ namespace CrowdSim.Diagnostics
                 FurniturePresentation.AddSet(bodies, furniture, "furniture-" + index++);
             index = 0;
             foreach (Debris fragment in simulation.Debris)
-                bodies.Add(new ViewBody("debris-" + index++, ViewShape.Sphere, ViewKind.Debris,
-                    ToPresentation(fragment.Position, 0.2f), new Vector3(0.25f)));
+            {
+                float energy = Math.Clamp(fragment.Energy, 0, 1);
+                float halfWidth = Math.Max(.036f, fragment.Radius * (.18f + .12f * energy));
+                float halfLength = Math.Max(.073f, fragment.Radius * (.50f + .35f * energy));
+                float top = .061f + halfWidth * 2;
+                float angle = fragment.Velocity.LengthSquared() > 1e-6f ? MathF.Atan2(fragment.Velocity.Y, fragment.Velocity.X) : 0;
+                bodies.Add(new ViewBody("debris-" + index++, ViewShape.Box, ViewKind.Debris,
+                    ToPresentation(fragment.Position, (.02f + top) * .5f), new Vector3(halfLength * 2, top - .02f, halfWidth * 2),
+                    groundAngle: angle, energy: energy));
+            }
             if (simulation.Environment.Explosion is Explosion explosion)
                 bodies.Add(new ViewBody("event", ViewShape.Cylinder, ViewKind.Source,
                     ToPresentation(explosion.Position, 0.04f), new Vector3(1f, 0.08f, 1f)));

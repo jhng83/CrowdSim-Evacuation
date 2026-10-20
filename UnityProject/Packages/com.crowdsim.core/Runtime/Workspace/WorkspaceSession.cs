@@ -70,6 +70,7 @@ namespace CrowdSim.Workspace
             _simulation = new Simulation(randomSeed: seed);
             _simulation.SetScenarioType(scenario);
             Frame = PresentationFrame.Capture(_simulation, true);
+            Blast = new ExplosionFrame(_simulation, _blastCache);
         }
 
         private void Changed(string message, bool authored = false)
@@ -78,6 +79,7 @@ namespace CrowdSim.Workspace
             if (authored) IsDirty = true;
             Revision++;
             Frame = PresentationFrame.Capture(_simulation, IsBuilding);
+            Blast = new ExplosionFrame(_simulation, _blastCache);
         }
 
         public bool Resize(float width, float length)
@@ -195,6 +197,7 @@ namespace CrowdSim.Workspace
             _simulation = ready;
             _checkpoint = checkpoint;
             Phase = WorkspacePhase.Ready;
+            ExplosionArmed = false;
             _scheduler.Reset();
             Changed("Scene finalised at frame zero. Start, then trigger the selected hazard.");
             return true;
@@ -205,6 +208,7 @@ namespace CrowdSim.Workspace
             if (IsBuilding) { Message = "Finalise the scene first."; return false; }
             _simulation.SetRunning(!Running);
             Phase = _simulation.Running ? WorkspacePhase.Running : WorkspacePhase.Paused;
+            if (!Running) ExplosionArmed = false;
             _scheduler.Reset();
             Changed(Running ? "Simulation running." : "Simulation paused.");
             return true;
@@ -232,10 +236,12 @@ namespace CrowdSim.Workspace
         public bool TriggerExplosion(Vector2 point)
         {
             if (!Running || Scenario != ScenarioType.Explosion || _simulation.Environment.HasExplosion() ||
-                !float.IsFinite(point.X) || !float.IsFinite(point.Y) || point.X < 0 || point.Y < 0 || point.X > Frame.Width || point.Y > Frame.Length)
-            { Message = "Explosion requires a running Explosion scene, an inside-room point and no previous detonation."; return false; }
+                !float.IsFinite(point.X) || !float.IsFinite(point.Y) || point.X < 0 || point.Y < 0 || point.X > Frame.Width || point.Y > Frame.Length ||
+                _simulation.Environment.IsPointBlocked(point, _simulation.Config.Agent.Radius))
+            { Message = "Explosion requires a running Explosion scene, clear floor inside the room and no previous detonation."; return false; }
             _simulation.TriggerExplosion(point.X, point.Y);
-            Changed("Explosion triggered once. Pause to inspect; full hazard editing and overlays arrive in M6.");
+            ExplosionArmed = false;
+            Changed("Explosion triggered once. Radii are locked; analysis visibility remains adjustable.");
             return true;
         }
 
@@ -280,7 +286,11 @@ namespace CrowdSim.Workspace
             ? "Agent " + SelectedAgentId + "\nState: " + _simulation.Agents[SelectedAgentId.Value].State +
                 "\nPosture: " + _simulation.Agents[SelectedAgentId.Value].Posture +
                 "\nRise: " + _simulation.Agents[SelectedAgentId.Value].StandUpProgress.ToString("P0") +
-                "\nPanic: " + _simulation.Agents[SelectedAgentId.Value].PanicLevel.ToString("F2")
+                "\nPanic: " + _simulation.Agents[SelectedAgentId.Value].PanicLevel.ToString("F2") +
+                "\nShock hit: " + _simulation.Agents[SelectedAgentId.Value].ShockwaveHit +
+                " · hit tick " + _simulation.Agents[SelectedAgentId.Value].ShockwaveHitFrame +
+                "\nBlast shielded: " + _simulation.Agents[SelectedAgentId.Value].BlastShielded +
+                "\nVisibility: " + _simulation.Agents[SelectedAgentId.Value].VisibilityFactor.ToString("F2")
             : "No agent selected. Click a runtime capsule to select it.";
     }
 }

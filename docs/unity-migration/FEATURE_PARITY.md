@@ -1,10 +1,10 @@
 # Feature parity ledger
 
 Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24`. A reference test passing
-does not establish Unity parity. M1–M4 were accepted by the user; M5 awaits local Unity acceptance.
+does not establish Unity parity. M1–M5 were accepted by the user; M6 awaits local Unity acceptance.
 "Core" means programmatic behavior; "UI" means the complete Unity workflow.
 
-| ID | Existing capability / preservation requirement | Core / UI ownership | M5 status (cloud evidence; local acceptance pending) |
+| ID | Existing capability / preservation requirement | Core / UI ownership | M6 status (cloud evidence; local acceptance pending) |
 | --- | --- | --- | --- |
 | F01 | Seeded population; default 0.15 s and smaller fixed steps; units; finite guards; acceleration and physical speed ceilings | M2 / M3 | Core regression/trace checks pass; M3 fixed-step transport, exact starts and bounds supplied |
 | F02 | SFM, reaction delays, panic, social alarms, crowd awareness, heterogeneous traits | M2 / M3, M9 | Core parity retained; all behavior controls exposed; full analysis M9 |
@@ -21,27 +21,28 @@ does not establish Unity parity. M1–M4 were accepted by the user; M5 awaits lo
 | F13 | Fourteen behavior controls: traits, reactions, susceptibility, persistence, following, space, panic compression, urgency, running ceiling, helping, familiarity, assertiveness, pressure sensitivity/compression; resets | M2 / M3 | All 14 reference controls with bounds, numeric input and default reset implemented; locked after finalisation |
 | F14 | Scenario entry; Build/Run, Camera, Files; fixed transport; start/pause/resume; 0.25x–4x playback | M3 | Scenario entry/workspace/Start/Pause/Resume/0.25x–4x implemented; loaded saved-source Fume run/replay in M5; full source authoring M7 |
 | F15 | Hide/show inspector/F4; retained tab, flags and selection; viewport expansion; text focus and Alt+F4 | M3 / M8, M9 | Hide/show/F4, tab/grid/selection retention and expanding viewport implemented; focus/Alt+F4 policy tested; later overlay/camera extensions M8/M9 |
-| F16 | Save/Save As; sanitized names; listing/refresh; stable per-user storage; paused loading; dirty prompts; New Scenario; errors | M2 codec / M5 | Save/Save As, portable names, persistent directory, list/refresh/import, paused transactional load, dirty/overwrite/new/leave prompts and failure retention supplied; local checks pending |
-| F17 | Schemas v1–v4; metric upgrades; enum identities; defaults; authored state only; .NET/Unity round trips | M2 codec / M5 | Five actual native/portable codec/store round trips pass in cloud across v1–v4; bundled fixtures and actual-host Unity tests supplied, unrun |
-| F18 | Finalized frame-zero replay; initial starts; restored furniture; regenerated unreleased fume field | M2 / M5 | Workspace replay restores paused frame zero/starts/intact furniture/unreleased regenerated cache, including Fume205 in both modes; runtime exports exclude damage; Unity checks supplied, unrun |
-| F19 | Single armed explosion; ordered editable radii; numerical edit/commit/cancel/reset/locking; shock, shielding, debris, dust/visibility | M2 / M6 | Core parity retained; basic one-shot arm/click event in M3; full radii/effects/overlays M6 |
-| F20 | Persistent wall-clipped five-zone overlays and visibility toggles; no reapplication of damage | M6 | Planned |
+| F16 | Save/Save As; sanitized names; listing/refresh; stable per-user storage; paused loading; dirty prompts; New Scenario; errors | M2 codec / M5 | Save/Save As, portable names, persistent directory, list/refresh/import, paused transactional load, dirty/overwrite/new/leave prompts and failure retention implemented; M5 accepted by user |
+| F17 | Schemas v1–v4; metric upgrades; enum identities; defaults; authored state only; .NET/Unity round trips | M2 codec / M5 | Five actual native/portable codec/store round trips pass in cloud across v1–v4; M5 accepted by user, actual Editor test logs not supplied |
+| F18 | Finalized frame-zero replay; initial starts; restored furniture; regenerated unreleased fume field | M2 / M5 | Workspace replay restores paused frame zero/starts/intact furniture/unreleased regenerated cache, including Fume205 in both modes; runtime exports exclude damage; M5 accepted; M6 pre-event radius edits retain authored replay |
+| F19 | Single armed explosion; ordered editable radii; numerical edit/commit/cancel/reset/locking; shock, shielding, debris, dust/visibility | M2 / M6 | Complete radius text/commit/cancel/increment/reset, pre-event edits, post-event locks, clear-floor one-shot arming/cancel, timed front, energy/heading debris, dust/visibility and event/agent analysis supplied; local M6 checks pending |
+| F20 | Persistent wall-clipped five-zone overlays and visibility toggles; no reapplication of damage | M6 | Cached five colored bands/outlines, master/per-zone visibility, hidden-inspector persistence and replay cleanup supplied; both-mode noninterference tests pass; Unity meshes unrun |
 | F21 | Fume source; radius, speed, extent, duration, drift, thresholds and exposure controls; precompute/invalidate; preview; release; permanent incapacity; local risk-aware navigation | M2 / M7 | Saved-source finalise/precompute/release enables M5 Fume205 replay; full source/settings/preview UI M7 |
 | F22 | Fume plume/grid display, cache/readiness/compute statistics, exposure metrics and reset | M7 | Exposure metric/source marker only; plume/grid and full analysis remain M7 |
 | F23 | Volumetric humans at all zooms; near/far detail; walking/running/seated/stand-up/crawl/prone/help poses; state colors, outlines, panic/alarm/help indicators | M8 | Basic volumetric seated/rising representation added for furniture workflow; walking remains capsules; complete humanoids/poses/detail remain M8 |
 | F24 | Isometric rotation/elevation/zoom/reset; 0.45x–2.5x zoom; selection, Follow, head-height POV and exit cleanup | M3 basic / M8 complete | Basic azimuth/elevation/0.45x–2.5x zoom/reset implemented; runtime selection added; Follow/POV M8 |
-| F25 | Overview, all agent/navigation/help/hazard details; per-exit density/flow; legends and model descriptions | M3, M6, M7 / M9 complete | Basic seating/rise and furniture motion/destruction counts added; complete analysis retains M6/M7/M9 |
+| F25 | Overview, all agent/navigation/help/hazard details; per-exit density/flow; legends and model descriptions | M3, M6, M7 / M9 complete | Explosion timing/hits/shielding/casualties/debris/visibility/furniture metrics and selected-agent shock/clarity supplied in M6; complete Fume/general analysis M7/M9 |
 | F26 | Desired/avoidance/herd/SFM/blast vectors; vision cones; congestion; trails; overlays survive hidden inspector | M9 | Planned |
 | F27 | Frame/physics/draw/UI/record timing; allocations; visible/active and Hybrid counters; CPU benchmark comparisons | M2 harness / M9 | Core counters + seeded comparison harness available; full instrumentation/scale M9 |
 | F28 | Runtime complete-UI 1280x720/20 fps MJPEG AVI; arm/start/stop/path; bounded queue/drops; replay/quit cleanup | M10 | Standard-asset encoder probe only; runtime recorder remains M10 |
-| F29 | Startup/quit; examples; independent player; dependency notices; source downloads and final acceptance | M1 foundation / M11 complete | M1–M4 accepted; furnished and schema 1–4 examples available; dirty workspace leave implemented; independent player/distribution M11 |
+| F29 | Startup/quit; examples; independent player; dependency notices; source downloads and final acceptance | M1 foundation / M11 complete | M1–M5 accepted; furnished and schema 1–4 examples retained; independent player/distribution M11 |
 
 Future milestones must record cloud evidence and user acceptance against these IDs.
 Only an explicitly approved difference can close a parity item without equivalent behavior.
 
-M5 retains all 404 original cases against portable production source and 11
-presentation cases. Ninety-one migration tests include 21 new file/lifecycle/replay
-cases; five native/portable interop cases cover all four schema versions. A cloud
-pass does not certify native UI/input/graphics: 25 EditMode and 7 PlayMode cases
-are supplied but unexecuted, and the M5 local checklist awaits acceptance. Later
+M6 retains all 404 original cases against portable production source and 11
+presentation cases. The 112 migration cases include 21 new Explosion commands,
+checkpoint, clipping/cache, debris and noninterference cases. Both unchanged
+six-case trace captures and five native/portable file interop cases pass. A cloud
+pass does not certify native UI/input/graphics: 29 EditMode and 9 PlayMode cases
+are supplied but unexecuted, and the M6 local checklist awaits acceptance. Later
 milestone ownership above remains unchanged.

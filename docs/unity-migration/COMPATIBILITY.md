@@ -16,7 +16,7 @@
 Pins were checked against
 [Unity's Editor source](https://github.com/Unity-Technologies/UnityCsReference/tree/6000.3.26f1)
 and [URP metadata](https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/package.json).
-M1–M4 were accepted by the user. M5's new file/replay frontend still requires
+M1–M5 were accepted by the user. M6's Explosion frontend/effects still require
 actual Editor import; a static lock check cannot establish resolution.
 
 ## M2 source and runtime adaptations
@@ -227,3 +227,61 @@ Cloud interop is not a Unity Mono filesystem result. Eight new EditMode and two
 new PlayMode cases exercise the actual-host path using temporary save roots; none
 were run here. File.Replace permissions/platform behavior, real persistent storage,
 focus/modal/layout and package resolution still require local Unity acceptance.
+
+## M6 Explosion controls and detached analysis
+
+The Explosion inspector follows the reference's five radii, color legend, 0.10 m
+neighbor gap, 0.10 m increments and 200 m outer ceiling. UI Toolkit TextFields keep
+a normal caret and staged text. Invariant numeric text commits on Enter or blur;
+Escape restores the committed value. Failed commits keep the model and authored
+checkpoint intact. Visibility toggles remain independent of radius locking. The
+reference allows radii changes before detonation even after finalisation/start;
+M6 follows that rule instead of treating radii as locked builder geometry.
+
+An accepted runtime radius edit reconstructs the private authored checkpoint,
+changes only its radii and recaptures it before changing live radii. Current
+runtime positions, damage and panic never become authored starts. Replay therefore
+retains the latest pre-detonation settings with the original layout. No-op/invalid
+commits do not mark dirty; accepted configuration changes do. After detonation,
+commands and fields reject editing/reset until Replay or a new/loaded builder.
+The existing float setter can reject extremely packed radii near 200 m through
+nested clamp rounding. Neighbor bounds and a throwaway setter probe reject such
+inputs before touching live configuration; the engine algorithm is preserved.
+An old file whose config cannot be constructed still fails transactionally on load.
+
+Arming is explicit session state. Only an active Explosion run without a prior
+event can arm. Cancel/Escape/pause/replay clears it; rejected placement retains it.
+The Unity adapter applies only an armed click, checks finite/in-room coordinates
+and uses the same IsPointBlocked margin as the native UI before calling the engine.
+The underlying TriggerExplosion command remains available to programmatic tests.
+Physics, ordering, shielding, direct outcomes, debris hits and furniture damage are
+still computed by the unchanged portable engine; Unity adds no rigid-body driver.
+
+ExplosionFrame detaches event age/front radius, outcomes, shielding flags, average
+mobile visibility, debris counters, five zone meshes, transient front mesh and dust
+samples. The persistent annuli reproduce the native renderer's 128-sector fill,
+144-segment outlines, point/midpoint visibility tests and boundary inset. This is
+conservative sampled clipping, not an analytic Boolean geometry operation: whole
+sectors can be omitted near walls/room edges. Static rectangle/circle line-of-sight
+rules ignore furniture, including stage/barricade, exactly as the reference does.
+Physically transparent perimeter geometry remains in those tests. The cache keys
+model identity, wall layout version, event origin and radii; toggles change display
+only and never invoke event physics. Replay/new/load cannot reuse old event meshes.
+
+The front uses reference-step-scaled elapsed ticks and the native speed/end timing.
+Dust shading is an additional ground analysis view of the existing VisibilitySystem,
+sampled on a 1 m grid into eight opacity buckets with wall/room clipping. It is not
+a volumetric smoke solver. Dust builds/holds/decays on model time, freezes on pause,
+and is removed after the field's maximum lifetime. Hiding it leaves perception
+and routing untouched. Debris uses detached live position, velocity heading, energy
+and the native prism dimensions; Unity quantizes its display color into nine shades
+to bound material growth. These view changes do not alter physical debris.
+
+WorkspaceExplosionView owns reusable transparent URP Unlit meshes/materials with
+alpha blending, culling off, depth testing and depth writes off. Static geometry is
+uploaded only when its immutable reference changes. Dynamic meshes follow model
+snapshots; no render frame advances physical time. Materials/meshes are destroyed
+with the workspace. M6 adds no package dependency or Editor/project target change.
+Actual import/shader appearance, text focus, native input and resource lifecycle
+still require the supplied Unity tests/manual acceptance. Complete humanoids/cameras
+remain M8 and complete general overlays/scale/instrumentation remain M9.

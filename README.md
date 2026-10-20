@@ -1,14 +1,14 @@
-# Unity migration — Milestone 5
+# Unity migration — Milestone 6
 
 On `unity-migration`, open **UnityProject/** with **Unity 6000.3.26f1**, then
-**Assets/CrowdSim/Scenes/Bootstrap.unity**. M5 adds Save/Save As, read-only imports,
-legacy schemas 1–4, dirty/overwrite decisions and finalized frame-zero replay,
-including the 205-person Fume scene. Start with **Build furnished example
-(26 people)** and open **Files**. M1–M4 were tested successfully by the user;
-M5 awaits local Unity testing. Follow the
-[M5 checklist](docs/unity-migration/M5_LOCAL_TESTING.md) and
+**Assets/CrowdSim/Scenes/Bootstrap.unity**. Choose **Build furnished example
+(26 people)** and open **Hazard**. M6 adds the complete Explosion radius workflow,
+one-shot arming/cancel, persistent wall-clipped zones, timed shock/dust/debris views
+and event analysis, with authored settings retained through save/replay. M1–M5 were
+tested successfully by the user; M6 awaits local Unity testing. Follow the
+[M6 checklist](docs/unity-migration/M6_LOCAL_TESTING.md) and
 [migration status](docs/unity-migration/STATUS.md). Cloud validation passes;
-actual M5 Unity import/tests/input/rendering were not executed. The original
+actual M6 Unity import/tests/input/rendering were not executed. The original
 application/tests below remain the behavioral reference.
 
 # Always-3D agents — current revision

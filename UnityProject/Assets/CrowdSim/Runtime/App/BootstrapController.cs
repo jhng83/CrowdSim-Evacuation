@@ -64,7 +64,7 @@ namespace CrowdSim.Unity.Foundation
             _showExplosion = () => ShowOverview("Explosion",
                 "Shock, debris, shielding and crowd response",
                 "The original fixed-step model is preserved as the reference. " +
-                "The portable engine and executable presets are available in M2; full Explosion controls and analysis arrive in M6.");
+                "The portable engine and executable presets are available in M2; M6 adds complete Explosion controls and analysis in the Hazard inspector.");
             _showFume = () => ShowOverview("Toxic Fume",
                 "Precomputed plume, exposure and evacuation",
                 "The original obstacle-aware normalized fume model is the reference. " +
@@ -93,7 +93,7 @@ namespace CrowdSim.Unity.Foundation
         {
             if (_workspace != null) return;
             _root.style.display = DisplayStyle.None;
-            _workspace = new GameObject("CrowdSim M5 workspace");
+            _workspace = new GameObject("CrowdSim M6 workspace");
             // Keep this a scene root: nested UIDocuments inherit their parent's panel
             // and would disappear when the startup document is hidden. OnDisable owns cleanup.
             _workspace.AddComponent<WorkspaceController>().Open(scenario, () =>
@@ -111,8 +111,8 @@ namespace CrowdSim.Unity.Foundation
         private void ResetOverview()
         {
             ShowOverview("Welcome", "A new home for the same simulation",
-                "Build an Explosion scene in the M5 workspace, or open the accepted M2 preset checks. " +
-                "Author a room, save or load scenarios, finalise and run, then replay from the original starts.");
+                "Build an Explosion scene in the M6 workspace, or open the accepted M2 preset checks. " +
+                "Author a room, tune Explosion radii, run and inspect wall-clipped zones, then replay from the original starts.");
         }
 
         private void ShowOverview(string scenario, string title, string description)
@@ -135,7 +135,7 @@ namespace CrowdSim.Unity.Foundation
             _root.Q<Label>("pipeline-check").text = (pipelineOk ? "PASS" : "CHECK") + "  Universal Render Pipeline";
             _root.Q<Label>("samples-check").text = (samplesOk ? "PASS" : "CHECK") + "  Two bundled reference examples";
             _root.Q<Label>("setup-status").text = editorOk && pipelineOk && samplesOk
-                ? "Startup checks passed. Open the M5 workspace or M2 diagnostic scene."
+                ? "Startup checks passed. Open the M6 workspace or M2 diagnostic scene."
                 : "Check the setup items above before running diagnostics.";
         }
 

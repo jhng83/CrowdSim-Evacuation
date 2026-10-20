@@ -68,6 +68,7 @@ namespace CrowdSim.Unity.Workspace
             view.transform.SetParent(transform, false);
             _world = view.AddComponent<WorkspaceWorldView>();
             _world.Initialise();
+            _explosionView = view.AddComponent<WorkspaceExplosionView>();
             BuildInterface();
             Draw(); Refresh();
         }
@@ -118,7 +119,8 @@ namespace CrowdSim.Unity.Workspace
             VisualElement actions = Box(_footer, "actions");
             _finalise = Button(actions, "Finalise scene", () => { if (Files.Finalise()) _tool = PlacementTool.Select; _operationStatus = Files.Message; ClearPreview(); Refresh(); });
             _transport = Button(actions, "Start", () => { _operationStatus = ""; Session.ToggleRunning(); ClearPreview(); Refresh(); });
-            _arm = Button(actions, "Arm Explosion", () => { _operationStatus = ""; _tool = PlacementTool.Explosion; Refresh(); });
+            _arm = Button(actions, "Arm Explosion", () => { _operationStatus = ""; if (Session.ArmExplosion()) _tool = PlacementTool.Explosion; ClearPreview(); Refresh(); });
+            _cancelExplosion = Button(actions, "Cancel Explosion", () => { Session.CancelExplosion(); _tool = PlacementTool.Select; _operationStatus = ""; Refresh(); });
             _replay = Button(actions, "Replay from start", () =>
             {
                 if (Files.Replay()) _tool = PlacementTool.Select;
@@ -208,7 +210,7 @@ namespace CrowdSim.Unity.Workspace
                 Refresh();
             });
             Label(tuning, "Higher stress persistence slows recovery. Compression affects social spacing; physical guards remain active. Running speed is a ceiling, not a target.", "muted");
-            Label(_page, "Occupied furniture contributes to the planned population. Full hazard controls arrive in M6/M7. Select runtime agents by clicking their capsules.", "muted");
+            Label(_page, "Occupied furniture contributes to the planned population. Explosion controls are in the Hazard inspector; full Fume authoring arrives in M7. Select runtime agents by clicking their capsules.", "muted");
             Refresh();
         }
 
@@ -278,7 +280,7 @@ namespace CrowdSim.Unity.Workspace
             }
             else if (_tool == PlacementTool.Explosion)
             {
-                if (Session.TriggerExplosion(point)) _tool = PlacementTool.Select;
+                if (Session.ExplosionArmed && Session.TriggerExplosion(point)) _tool = PlacementTool.Select;
             }
             else Session.SelectAgent(point);
             ClearPreview(); Draw(); Refresh();
@@ -339,6 +341,7 @@ namespace CrowdSim.Unity.Workspace
         }
         private void Draw()
         {
+            _explosionView.Draw(Session);
             _world.Draw(Session.Frame.Bodies);
             if (_drawnGrid != Session.ShowGrid || _drawnRevision < 0 || Session.IsBuilding)
             {
@@ -364,7 +367,7 @@ namespace CrowdSim.Unity.Workspace
             if (_status == null) return;
             _status.text = string.IsNullOrEmpty(_operationStatus) ? Session.Message : _operationStatus;
             string displayName = Session.Name.Length > 32 ? Session.Name.Substring(0, 32) + "…" : Session.Name;
-            _brand.text = "CROWD / SIM · " + Session.Scenario + " · " + displayName + (Session.IsDirty ? " *" : "") + " · M5";
+            _brand.text = "CROWD / SIM · " + Session.Scenario + " · " + displayName + (Session.IsDirty ? " *" : "") + " · M6";
             _replay.SetEnabled(Session.CanReplay);
             _releaseFume.style.display = Session.Scenario == ScenarioType.ToxicFume ? DisplayStyle.Flex : DisplayStyle.None;
             _releaseFume.SetEnabled(Session.Running && Session.HasFumeCache && !Session.FumeReleased);
@@ -373,7 +376,11 @@ namespace CrowdSim.Unity.Workspace
             _finalise.SetEnabled(Session.CanFinalise);
             _transport.SetEnabled(!Session.IsBuilding);
             _transport.text = Session.Running ? "Pause" : Session.Phase == WorkspacePhase.Ready ? "Start" : "Resume";
-            _arm.SetEnabled(Session.Running && Session.Scenario == ScenarioType.Explosion && !Session.Frame.HazardReleased);
+            _arm.SetEnabled(Session.CanArmExplosion && !Session.ExplosionArmed);
+            _arm.style.display = Session.Scenario == ScenarioType.Explosion ? DisplayStyle.Flex : DisplayStyle.None;
+            _cancelExplosion.style.display = Session.ExplosionArmed ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_tool == PlacementTool.Explosion && !Session.ExplosionArmed) _tool = PlacementTool.Select;
+            _explosionView.Draw(Session);
             _toggleInspector.text = Session.InspectorVisible ? "Hide inspector (F4)" : "Show inspector (F4)";
             _selection.text = Session.IsBuilding ? "Tool: " + _tool + " · green preview / red rejection · click floor" : _tool == PlacementTool.Explosion ? "Explosion armed · click inside the room once" : "Click a capsule to select · Show selected agent opens details";
             if (_activePage == "Build / Run")
@@ -400,6 +407,8 @@ namespace CrowdSim.Unity.Workspace
             if (_inspectorPage.name != tag)
             {
                 _inspectorPage.Clear(); _inspectorPage.name = tag;
+                if (tab == 1 && Session.Scenario == ScenarioType.Explosion)
+                { _inspectorText = null; BuildExplosionInspector(); return; }
                 Label(_inspectorPage, new[] { "Overview", "Hazard", "Selected agent", "Debug" }[tab], "heading");
                 _inspectorText = Label(_inspectorPage, "", "metrics");
                 if (tab == 3)
@@ -409,6 +418,7 @@ namespace CrowdSim.Unity.Workspace
                     Label(_inspectorPage, "Overlay flags persist while the inspector is hidden. Force/vision/trail overlays arrive in M9.", "muted");
                 }
             }
+            if (tab == 1 && Session.Scenario == ScenarioType.Explosion) { UpdateExplosionInspector(); return; }
             _inspectorText.text = tab == 0 ? "Tick " + Session.Tick + "\nPopulation " + (Session.IsBuilding ? Session.PlannedCount : Session.Frame.Population) +
                 "\nSeated " + Session.Frame.SeatedAgents + " · rising " + Session.Frame.RisingAgents +
                 "\nFurniture airborne " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Airborne) +
@@ -438,7 +448,7 @@ namespace CrowdSim.Unity.Workspace
                 case WorkspaceShortcut.ToggleInspector: Session.ToggleInspector(); break;
                 case WorkspaceShortcut.Undo: Session.Undo(); break;
                 case WorkspaceShortcut.ToggleRunning: Session.ToggleRunning(); break;
-                case WorkspaceShortcut.CancelTool: _tool = PlacementTool.Select; break;
+                case WorkspaceShortcut.CancelTool: if (Session.ExplosionArmed) Session.CancelExplosion(); _tool = PlacementTool.Select; break;
                 case WorkspaceShortcut.RotateAsset:
                     if (_tool != PlacementTool.Asset || !Session.IsBuilding || !_overViewport) return;
                     Session.RotateAsset(evt.shiftKey); break;
