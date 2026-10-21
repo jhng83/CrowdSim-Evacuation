@@ -32,6 +32,7 @@ namespace CrowdSim.Workspace
             Name = name;
             Frame = Diagnostics.PresentationFrame.Capture(model, true);
             Blast = new Diagnostics.ExplosionFrame(model, _blastCache);
+            Fume = Diagnostics.FumeFrame.Capture(model, true);
             Message = "Loaded paused in the builder. Review the authored layout, then finalise.";
         }
         /// <summary>Runtime save uses the private finalised definition, never current damage/positions.</summary>
@@ -59,13 +60,6 @@ namespace CrowdSim.Workspace
             Phase = WorkspacePhase.Ready;
             _scheduler.Reset();
             Changed("Replay ready at finalised frame zero, paused, with intact furniture and unreleased hazard.");
-            return true;
-        }
-        public bool ReleaseSavedFume()
-        {
-            if (!Running || !_simulation.TriggerToxicFumeRelease())
-            { Message = "Start a finalised Toxic Fume scene with a valid saved source/cache before release."; return false; }
-            Changed("Saved toxic-fume field released. Full source/settings/preview authoring arrives in M7.");
             return true;
         }
     }

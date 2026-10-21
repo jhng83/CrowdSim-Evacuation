@@ -6,24 +6,26 @@
                 <ui:Label text="CROWD / SIM" class="brand" />
                 <ui:Label name="milestone-label" class="milestone" />
             </ui:VisualElement>
-            <ui:Label text="Build a room. Observe the crowd." class="headline" />
-            <ui:Label text="Unity migration / Milestone 6" class="subtitle" />
-            <ui:Button name="open-explosion-workspace" text="Build an Explosion scene" class="scenario-button" />
-            <ui:Button name="open-furnished-workspace" text="Build furnished example (26 people)" class="scenario-button" />
-            <ui:Button name="open-fume-workspace" text="Open common Toxic Fume builder (run controls in M7)" class="scenario-button" />
-            <ui:Button name="open-parity" text="Open M2 simulation parity scene" class="scenario-button" />
+            <ui:Label text="Design the space. Understand the response." class="headline" />
+            <ui:Label text="An evacuation research workspace • two scenarios, one familiar workflow" class="subtitle" />
             <ui:VisualElement class="cards">
                 <ui:VisualElement class="scenario-card explosion-card">
                     <ui:Label text="01 / EXPLOSION" class="card-kicker explosion-text" />
-                    <ui:Label text="A sudden event. Individual responses." class="card-title" />
-                    <ui:Label text="Shock, shielding, debris and evacuation remain grounded in the original simulation." class="body" />
-                    <ui:Button name="explosion-overview" text="Explore Explosion roadmap" class="scenario-button" />
+                    <ui:Label text="Explore a sudden event." class="card-title" />
+                    <ui:Label text="Configure a sudden event, inspect physical outcomes and compare evacuation." class="body" />
+                    <ui:Label text="BUILD → CONFIGURE → RUN → INSPECT" class="card-workflow" />
+                    <ui:Button name="open-explosion-workspace" text="Build an Explosion scene" class="scenario-button primary-explosion" />
+                    <ui:Button name="open-furnished-workspace" text="Build furnished example (26 people)" class="quiet-button" />
+                    <ui:Button name="explosion-overview" text="About this scenario" class="scenario-button" />
                 </ui:VisualElement>
                 <ui:VisualElement class="scenario-card fume-card">
                     <ui:Label text="02 / TOXIC FUME" class="card-kicker fume-text" />
-                    <ui:Label text="A spreading plume. A changing route." class="card-title" />
-                    <ui:Label text="Cached dispersion, local exposure and crowd movement retain their existing model." class="body" />
-                    <ui:Button name="fume-overview" text="Explore Toxic Fume roadmap" class="scenario-button" />
+                    <ui:Label text="Follow a spreading plume." class="card-title" />
+                    <ui:Label text="Preview a field around obstacles, then inspect exposure and evacuation after release." class="body" />
+                    <ui:Label text="SOURCE → COMPUTE → PREVIEW → RELEASE" class="card-workflow" />
+                    <ui:Button name="open-fume-workspace" text="Build a Toxic Fume scene" class="scenario-button primary-fume" />
+                    <ui:Button name="open-fume-example" text="Open 205-person Fume example" class="quiet-button" />
+                    <ui:Button name="fume-overview" text="About this scenario" class="scenario-button" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="overview">
@@ -32,16 +34,17 @@
                 <ui:Label name="overview-description" class="body" />
                 <ui:Button name="reset-overview" text="Return to welcome" class="quiet-button" />
             </ui:VisualElement>
-            <ui:VisualElement class="setup">
+            <ui:Foldout text="Validation and project diagnostics" value="false" class="setup">
+                <ui:Button name="open-parity" text="Open simulation validation" class="quiet-button" />
                 <ui:Label text="PROJECT CHECK" class="card-kicker" />
                 <ui:Label name="editor-check" class="check" />
                 <ui:Label name="pipeline-check" class="check" />
                 <ui:Label name="samples-check" class="check" />
                 <ui:Label name="setup-status" class="body" />
                 <ui:Button name="run-checks" text="Run startup checks" class="quiet-button" />
-            </ui:VisualElement>
+            </ui:Foldout>
             <ui:VisualElement class="footer">
-                <ui:Label text="M6 EXPLOSION / M7 TOXIC FUME NEXT" class="footer-label" />
+                <ui:Label text="CROWD / SIM • UNITY WORKSPACE" class="footer-label" />
                 <ui:Label name="editor-version" class="footer-label" />
             </ui:VisualElement>
         </ui:VisualElement>

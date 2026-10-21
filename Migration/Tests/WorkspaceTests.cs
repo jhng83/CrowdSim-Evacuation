@@ -181,14 +181,14 @@ public sealed class WorkspaceTests
     }
 
     [Fact]
-    public void FumeCommonBuilderKeepsReadinessGuardUntilTheApprovedSourceWorkflow()
+    public void FumeCommonBuilderKeepsReadinessGuardUntilAReleasePointExists()
     {
         WorkspaceSession session = new(ScenarioType.ToxicFume);
         Assert.True(session.Place(PlacementTool.Exit, new Vector2(0, 17), 1));
         Assert.True(session.Place(PlacementTool.Agents, new Vector2(25, 15), 5));
         Assert.False(session.CanFinalise);
         Assert.False(session.Finalise());
-        Assert.Contains("M7", session.Readiness);
+        Assert.Contains("release point", session.Readiness);
     }
     [Theory]
     [InlineData("F4", false, false, false, WorkspaceShortcut.ToggleInspector)]

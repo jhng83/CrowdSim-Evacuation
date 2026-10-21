@@ -16,8 +16,8 @@
 Pins were checked against
 [Unity's Editor source](https://github.com/Unity-Technologies/UnityCsReference/tree/6000.3.26f1)
 and [URP metadata](https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/package.json).
-M1–M5 were accepted by the user. M6's Explosion frontend/effects still require
-actual Editor import; a static lock check cannot establish resolution.
+M1–M6 were accepted by the user. M7's Fume frontend and presentation refinements
+still require actual Editor import; a static lock check cannot establish resolution.
 
 ## M2 source and runtime adaptations
 
@@ -285,3 +285,59 @@ with the workspace. M6 adds no package dependency or Editor/project target chang
 Actual import/shader appearance, text focus, native input and resource lifecycle
 still require the supplied Unity tests/manual acceptance. Complete humanoids/cameras
 remain M8 and complete general overlays/scale/instrumentation remain M9.
+
+## M7 Toxic Fume and requested presentation refinement
+
+WorkspaceSession owns source/config/compute/preview/release commands. FumeControls
+exposes all ten native controls and bounds: initial radius, dispersion speed, maximum
+extent, release duration, drift direction/bias, awareness/high-threat concentration
+and impairment/incapacitation exposure. SetValues retains the original dependency
+clamps and revision behavior. Nonfinite input is rejected at the command boundary.
+The fixed 0.50 m field grid and 24 s decay remain unchanged. Setup locks after
+finalisation. Source placement uses the native clear-floor/inset rule and additionally
+checks finiteness; resize cannot exclude an existing source. Source movement is not
+part of the environment's furniture/placement undo stack, matching the reference.
+
+Successful geometry/undo/resize/source/fume-setting edits invalidate the field and
+require explicit recomputation. Behavior/Hybrid/display changes do not alter the
+propagation cache. Compute runs the unchanged setup-time engine pass, catches errors
+and reports actual counts/bytes/arrival/CPU time. M5's tested unedited saved-source
+shortcut remains: Finalise can compute it automatically. A user can instead Compute
+to preview before finalising. Newly authored/edited sources require Compute. This
+preserves accepted M5 behavior while delivering the full M7 authoring workflow.
+
+Builder preview only changes the existing PreviewTimeSeconds and detached FumeFrame.
+It does not step, spawn, integrate exposure, dirty the definition or consume model
+randomness. Finalisation/replay regenerates the cache, returns preview/release time
+to zero and restores authored starts/furniture. Runtime release requires Running and
+a valid unreleased cache. Incapacity/perception/risk navigation remain engine-owned;
+there is no new chemical/CFD model. ReleaseSavedFume remains as a programmatic alias;
+the current UI says Release Toxic Fume.
+
+FumeFrame detaches actual cache status, source/radius, compute statistics, display/
+release time and native exposure/response metrics. Full 0.5 m cell samples at the
+reference's 0.025 display threshold are retained without stride aggregation, avoiding
+large display cells across thin obstacles. Quads use those cells and room bounds;
+color/opacity use eight concentration buckets with each bucket's average. This is
+a display approximation to the original green/yellow palette, not quantized physics.
+Grid lines are optional and the source marker remains when the plume is hidden.
+Ready-but-unreleased scenes show the initial field at time zero, as in the reference;
+labels distinguish preview, unreleased and live exposure. Hidden UI/field/grid flags
+never change the model. Each effect owns an independent child root for cleanup and
+component tests. The shared transparent overlay helper preserves M6 material/depth
+settings and supports UInt32 indices for large meshes.
+
+The user requested more professional, intuitive UX/assets with this milestone.
+Scenario cards expose both builders and direct examples; diagnostics are collapsible.
+Selected tabs, phase badges, action hierarchy, hazard accents and source/compute/
+preview/release guidance replace development-placeholder copy. Existing entry/control
+IDs remain where applicable. Lit URP materials add restrained wood grain, slate tile,
+safety stripes and dark metal; two owned directional lights reveal volumetric shapes.
+Tables/chairs/barricades use a shared chamfered box mesh with identical unit bounds;
+the fixed stage keeps its exact rectangular view. Floor, markers, physical source
+geometry and engine collision/placement dimensions remain unchanged. View surfaces,
+textures and lights are procedural/original and require no external asset license,
+new package, user file, model RNG or Unity physics. Meshes/materials/textures are
+owned and disposed with the workspace. Native appearance, shadows, import and GPU
+behavior still require local Editor review. Complete humanoids/poses/cameras remain
+M8; the current walking representation remains volumetric capsules at every zoom.

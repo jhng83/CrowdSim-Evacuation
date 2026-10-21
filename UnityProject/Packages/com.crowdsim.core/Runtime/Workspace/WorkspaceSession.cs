@@ -11,7 +11,7 @@ using CrowdSim.OpenGL.UI;
 
 namespace CrowdSim.Workspace
 {
-    public enum PlacementTool { Select, Exit, Square, Circle, Agents, Explosion, Asset }
+    public enum PlacementTool { Select, Exit, Square, Circle, Agents, Explosion, Asset, FumeSource }
     public enum WorkspacePhase { Building, Ready, Running, Paused }
 
     /// <summary>Detached candidate geometry. Preview uses a throwaway model and never consumes the live RNG/history.</summary>
@@ -61,9 +61,10 @@ namespace CrowdSim.Workspace
         public string Readiness => !IsBuilding ? "Scene finalised. Geometry and behaviour are locked."
             : ExitCount == 0 ? "At least one exit is required."
             : PlannedCount == 0 ? "Place at least one agent group."
-            : Scenario == ScenarioType.ToxicFume && _simulation.ToxicFumeSystem.SourcePosition == null ? "A saved toxic-fume source is required. Source authoring arrives in M7."
+            : Scenario == ScenarioType.ToxicFume && _simulation.ToxicFumeSystem.SourcePosition == null ? "Place a Toxic Fume release point, then compute dispersion."
+            : Scenario == ScenarioType.ToxicFume && _fumeNeedsCompute && !HasFumeCache ? FumeReadiness
             : "Ready to finalise.";
-        public bool CanFinalise => IsBuilding && ExitCount > 0 && PlannedCount > 0 && (Scenario == ScenarioType.Explosion || _simulation.ToxicFumeSystem.SourcePosition != null);
+        public bool CanFinalise => IsBuilding && ExitCount > 0 && PlannedCount > 0 && (Scenario == ScenarioType.Explosion || (_simulation.ToxicFumeSystem.SourcePosition != null && (!_fumeNeedsCompute || HasFumeCache)));
 
         public WorkspaceSession(ScenarioType scenario = ScenarioType.Explosion, int seed = 42)
         {
@@ -71,6 +72,7 @@ namespace CrowdSim.Workspace
             _simulation.SetScenarioType(scenario);
             Frame = PresentationFrame.Capture(_simulation, true);
             Blast = new ExplosionFrame(_simulation, _blastCache);
+            Fume = FumeFrame.Capture(_simulation, IsBuilding);
         }
 
         private void Changed(string message, bool authored = false)
@@ -80,14 +82,16 @@ namespace CrowdSim.Workspace
             Revision++;
             Frame = PresentationFrame.Capture(_simulation, IsBuilding);
             Blast = new ExplosionFrame(_simulation, _blastCache);
+            Fume = FumeFrame.Capture(_simulation, IsBuilding);
         }
 
         public bool Resize(float width, float length)
         {
-            if (!CanResize || !float.IsFinite(width) || !float.IsFinite(length) || width < 10 || width > 160 || length < 10 || length > 120)
-            { Message = "Resize rejected: use 10–160 m width / 10–120 m length in an empty builder."; return false; }
+            if (!CanResize || !float.IsFinite(width) || !float.IsFinite(length) || width < 10 || width > 160 || length < 10 || length > 120 || !SourceFitsRoom(width, length))
+            { Message = "Resize rejected: use 10–160 m width / 10–120 m length in an empty builder and keep the release point inside."; return false; }
             bool result = _simulation.Environment.TryResizeRoom(width, length);
             _simulation.BuildWallGrid();
+            InvalidateFumeForGeometry();
             Changed("Room size updated in metres.", true);
             return result;
         }
@@ -148,6 +152,7 @@ namespace CrowdSim.Workspace
             bool result = ApplyPlacement(_simulation, tool, point, option, _assets);
             if (!result) { Message = tool == PlacementTool.Asset && AssetUnavailable ? "Only one stage is allowed. Undo its placement before replacing it." : "Placement rejected: check boundary, overlap, occupancy and available floor."; return false; }
             _simulation.BuildWallGrid();
+            InvalidateFumeForGeometry();
             Changed(tool + " placed. Ctrl+Z undoes the last placement.", true);
             return true;
         }
@@ -185,6 +190,7 @@ namespace CrowdSim.Workspace
         {
             if (!IsBuilding || !_simulation.Environment.UndoLast()) { Message = "Nothing can be undone here."; return false; }
             _simulation.BuildWallGrid();
+            InvalidateFumeForGeometry();
             Changed("Last placement undone.", true);
             return true;
         }
@@ -287,10 +293,16 @@ namespace CrowdSim.Workspace
                 "\nPosture: " + _simulation.Agents[SelectedAgentId.Value].Posture +
                 "\nRise: " + _simulation.Agents[SelectedAgentId.Value].StandUpProgress.ToString("P0") +
                 "\nPanic: " + _simulation.Agents[SelectedAgentId.Value].PanicLevel.ToString("F2") +
-                "\nShock hit: " + _simulation.Agents[SelectedAgentId.Value].ShockwaveHit +
+                (Scenario == ScenarioType.Explosion
+                ? "\nShock hit: " + _simulation.Agents[SelectedAgentId.Value].ShockwaveHit +
                 " · hit tick " + _simulation.Agents[SelectedAgentId.Value].ShockwaveHitFrame +
                 "\nBlast shielded: " + _simulation.Agents[SelectedAgentId.Value].BlastShielded +
                 "\nVisibility: " + _simulation.Agents[SelectedAgentId.Value].VisibilityFactor.ToString("F2")
+                : "\nFume concentration: " + _simulation.Agents[SelectedAgentId.Value].CurrentToxicConcentration.ToString("F3") +
+                "\nPeak concentration: " + _simulation.Agents[SelectedAgentId.Value].PeakToxicConcentration.ToString("F3") +
+                "\nCumulative exposure: " + _simulation.Agents[SelectedAgentId.Value].CumulativeToxicExposure.ToString("F2") +
+                "\nFume status: " + _simulation.Agents[SelectedAgentId.Value].ToxicExposureStatus +
+                " · mobility " + _simulation.Agents[SelectedAgentId.Value].ToxicMobilityFactor.ToString("F2"))
             : "No agent selected. Click a runtime capsule to select it.";
     }
 }

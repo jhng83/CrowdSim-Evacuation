@@ -22,7 +22,7 @@ namespace CrowdSim.Unity.Tests
                 Assert.That(controller.SelectedOverview, Is.EqualTo("Welcome"));
                 Click(root.Q<Button>("explosion-overview"));
                 Assert.That(controller.SelectedOverview, Is.EqualTo("Explosion"));
-                Assert.That(root.Q<Label>("overview-description").text, Does.Contain("M6"));
+                Assert.That(root.Q<Label>("overview-description").text, Does.Contain("five zone radii"));
                 Click(root.Q<Button>("fume-overview"));
                 Assert.That(controller.SelectedOverview, Is.EqualTo("Toxic Fume"));
                 Click(root.Q<Button>("reset-overview"));

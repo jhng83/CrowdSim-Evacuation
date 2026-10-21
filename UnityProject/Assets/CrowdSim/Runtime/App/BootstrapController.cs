@@ -27,6 +27,7 @@ namespace CrowdSim.Unity.Foundation
         private Action _openExplosion;
         private Action _openFurnished;
         private Action _openFume;
+        private Action _openFumeExample;
         private GameObject _workspace;
 
         /// <summary>The currently displayed scenario overview, for integration tests.</summary>
@@ -63,12 +64,10 @@ namespace CrowdSim.Unity.Foundation
 
             _showExplosion = () => ShowOverview("Explosion",
                 "Shock, debris, shielding and crowd response",
-                "The original fixed-step model is preserved as the reference. " +
-                "The portable engine and executable presets are available in M2; M6 adds complete Explosion controls and analysis in the Hazard inspector.");
+                "Tune five zone radii, run a one-shot event, and inspect shock, debris, shielding and evacuation. Adjust overlays without changing physical outcomes.");
             _showFume = () => ShowOverview("Toxic Fume",
                 "Precomputed plume, exposure and evacuation",
-                "The original obstacle-aware normalized fume model is the reference. " +
-                "The portable engine is available in M2; source placement, precomputation, preview and release controls arrive in M7.");
+                "Place a source, compute dispersion, preview the timeline, then start and release. Inspect concentration and cumulative exposure as the crowd responds.");
             _reset = ResetOverview;
             _check = RunStartupChecks;
             _openParity = () => SceneManager.LoadScene("SimulationParity");
@@ -83,6 +82,12 @@ namespace CrowdSim.Unity.Foundation
             _root.Q<Button>("open-explosion-workspace").clicked += _openExplosion;
             _root.Q<Button>("open-furnished-workspace").clicked += _openFurnished;
             _root.Q<Button>("open-fume-workspace").clicked += _openFume;
+            _openFumeExample = () =>
+            {
+                OpenWorkspace(ScenarioType.ToxicFume);
+                _workspace.GetComponent<WorkspaceController>().OpenScenarioFile(Path.Combine(Application.streamingAssetsPath, "Scenarios", "toxic_fume_205.json"));
+            };
+            _root.Q<Button>("open-fume-example").clicked += _openFumeExample;
             _root.Q<Label>("editor-version").text = "EDITOR  " + Application.unityVersion;
             _root.Q<Label>("milestone-label").text = MigrationContract.Milestone;
             ResetOverview();
@@ -93,7 +98,7 @@ namespace CrowdSim.Unity.Foundation
         {
             if (_workspace != null) return;
             _root.style.display = DisplayStyle.None;
-            _workspace = new GameObject("CrowdSim M6 workspace");
+            _workspace = new GameObject("CrowdSim workspace");
             // Keep this a scene root: nested UIDocuments inherit their parent's panel
             // and would disappear when the startup document is hidden. OnDisable owns cleanup.
             _workspace.AddComponent<WorkspaceController>().Open(scenario, () =>
@@ -111,8 +116,7 @@ namespace CrowdSim.Unity.Foundation
         private void ResetOverview()
         {
             ShowOverview("Welcome", "A new home for the same simulation",
-                "Build an Explosion scene in the M6 workspace, or open the accepted M2 preset checks. " +
-                "Author a room, tune Explosion radii, run and inspect wall-clipped zones, then replay from the original starts.");
+                "Choose a scenario or open a furnished example. Build your layout, configure an event, then run and inspect individual responses. Save your experiment and replay from the original starts.");
         }
 
         private void ShowOverview(string scenario, string title, string description)
@@ -135,7 +139,7 @@ namespace CrowdSim.Unity.Foundation
             _root.Q<Label>("pipeline-check").text = (pipelineOk ? "PASS" : "CHECK") + "  Universal Render Pipeline";
             _root.Q<Label>("samples-check").text = (samplesOk ? "PASS" : "CHECK") + "  Two bundled reference examples";
             _root.Q<Label>("setup-status").text = editorOk && pipelineOk && samplesOk
-                ? "Startup checks passed. Open the M6 workspace or M2 diagnostic scene."
+                ? "Project ready. Choose a scenario or an example to begin."
                 : "Check the setup items above before running diagnostics.";
         }
 
@@ -153,6 +157,7 @@ namespace CrowdSim.Unity.Foundation
                 _root.Q<Button>("open-explosion-workspace").clicked -= _openExplosion;
                 _root.Q<Button>("open-furnished-workspace").clicked -= _openFurnished;
                 _root.Q<Button>("open-fume-workspace").clicked -= _openFume;
+                _root.Q<Button>("open-fume-example").clicked -= _openFumeExample;
             }
             if (_document != null)
             {

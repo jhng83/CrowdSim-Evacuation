@@ -29,3 +29,35 @@ Button:hover, Button:focus { background-color: rgb(48, 86, 115); }
 .radius-row Button { min-width: 56px; flex-shrink: 0; }
 .radius-text { flex-grow: 1; min-width: 50px; }
 .invalid-radius .unity-text-field__input { border-color: rgb(255, 105, 90); border-width: 1px; }
+
+/* Shared workspace hierarchy: graphite surfaces, blue actions and an emerald fume accent. */
+.topbar { height: 60px; padding: 9px 12px; background-color: rgb(15, 23, 33); border-bottom-width: 1px; border-bottom-color: rgb(48, 64, 80); }
+.brand { font-size: 15px; letter-spacing: 0.5px; }
+.phase-badge { font-size: 10px; -unity-font-style: bold; color: rgb(179, 199, 216); background-color: rgb(31, 45, 60); padding: 6px 10px; border-radius: 12px; margin-right: 12px; }
+.phase-badge.is-running { color: rgb(119, 235, 190); background-color: rgb(22, 62, 51); }
+.controls, .inspector { background-color: rgb(20, 29, 40); padding: 10px; }
+.tabs { padding-bottom: 9px; margin-bottom: 5px; border-bottom-width: 1px; border-bottom-color: rgb(47, 61, 76); }
+.tabs Button { background-color: rgb(25, 36, 49); border-color: rgb(25, 36, 49); font-size: 12px; }
+.tabs Button.tab-selected { color: rgb(156, 215, 255); background-color: rgb(34, 57, 78); border-bottom-color: rgb(98, 189, 245); border-bottom-width: 2px; }
+.heading { font-size: 23px; -unity-font-style: bold; margin-top: 10px; margin-bottom: 8px; }
+.section-title { font-size: 15px; -unity-font-style: bold; margin-top: 18px; margin-bottom: 6px; }
+.eyebrow { font-size: 10px; -unity-font-style: bold; letter-spacing: 1px; color: rgb(133, 170, 198); margin-bottom: 6px; }
+.metrics, .data-card { background-color: rgb(26, 39, 53); border-radius: 8px; padding: 12px; font-size: 13px; white-space: normal; margin: 7px 0; }
+.workflow-card, .state-card { padding: 13px; margin: 9px 0; background-color: rgb(24, 44, 49); border-width: 1px; border-color: rgb(53, 95, 92); border-radius: 8px; white-space: normal; }
+.state-card { color: rgb(242, 205, 140); border-color: rgb(116, 90, 52); background-color: rgb(49, 40, 30); }
+.state-card.is-ready { color: rgb(140, 232, 196); border-color: rgb(48, 113, 92); background-color: rgb(23, 52, 45); }
+.workflow-steps { font-size: 10px; color: rgb(142, 176, 193); white-space: normal; margin-bottom: 8px; }
+Button { min-height: 33px; border-radius: 6px; font-size: 12px; padding: 5px 9px; background-color: rgb(34, 49, 66); border-color: rgb(58, 79, 99); }
+Button.primary-button { background-color: rgb(40, 95, 139); border-color: rgb(74, 146, 195); -unity-font-style: bold; }
+Button.primary-button:hover, Button.primary-button:focus { background-color: rgb(50, 118, 164); }
+.scenario-fume Button.primary-button { background-color: rgb(29, 99, 79); border-color: rgb(58, 151, 118); }
+.scenario-fume Button.primary-button:hover, .scenario-fume Button.primary-button:focus { background-color: rgb(32, 121, 94); }
+Button:disabled { color: rgb(117, 139, 156); background-color: rgb(28, 39, 51); border-color: rgb(43, 56, 70); }
+.unity-base-field { margin-top: 8px; margin-bottom: 8px; }
+.unity-base-field__label { color: rgb(182, 202, 219); font-size: 12px; }
+.transport { padding: 10px 14px; border-top-width: 1px; border-top-color: rgb(52, 71, 91); }
+.viewport-label { border-radius: 7px; padding: 9px 12px; font-size: 12px; background-color: rgba(13, 24, 36, .92); }
+.concentration-legend { height: 12px; flex-direction: row; margin-bottom: 9px; }
+.legend-swatch { flex-grow: 1; }
+
+Button.tool-active { border-color: rgb(113, 219, 179); border-width: 2px; color: rgb(162, 242, 209); }

@@ -10,36 +10,39 @@ Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24`.
 | M3 — Common builder/workspace | Delivered in `3e55f9c992ac8260cce714970b71631a1b3b601a` | [M3 evidence](M3_VALIDATION.md) | User reported successful testing; accepted |
 | M4 — Furniture | Delivered in `bbc7a3ad64817ccd46d540c695a96831346af817` | [M4 evidence](M4_VALIDATION.md) | User reported successful testing; accepted |
 | M5 — Files and replay | Delivered in `a0fdb72f067bb2116861dcaa78e580da0c904b98` | [M5 evidence](M5_VALIDATION.md) | User reported successful testing; accepted |
-| M6 — Explosion | Implemented | [Current evidence](VALIDATION.md) | Awaiting user testing |
-| M7 — Toxic Fume | Planned | Unrun | Unrun |
+| M6 — Explosion | Delivered in `03137845c858c6d2fd9f85a1bfb73152f724a06b` | [M6 evidence](M6_VALIDATION.md) | User reported successful testing; accepted |
+| M7 — Toxic Fume + requested UX/assets refinement | Implemented | [Current evidence](VALIDATION.md) | Awaiting user testing |
 | M8 — Humanoids/cameras | Planned | Unrun | Unrun |
 | M9 — Diagnostics/scale | Planned | Unrun | Unrun |
 | M10 — Recording | Planned | Unrun | Unrun |
 | M11 — Complete replacement | Planned | Unrun | Unrun |
 
-M6 adds the full Explosion inspector: five ordered metric radii with caret text,
-Enter/blur commit, Escape cancel, 0.10 m increments, validation and reset. Radii
-remain editable until detonation, including during a run; pre-event runtime edits
-rebase the authored replay checkpoint without capturing moved people/furniture.
-A running scene may arm one Explosion, cancel it, or click clear floor once.
-Blocked/outside/nonfinite points are rejected; pausing cancels arming.
+M7 completes source placement/movement, all ten fume settings with native clamps,
+explicit compute/recompute and readiness, preview scrubbing/reset, release, batched
+concentration/grid views, field statistics and exposure/selected-agent metrics.
+New/edited sources, geometry and fume settings require recomputation before
+finalisation. Preview never moves people, changes authored data, consumes model RNG
+or accumulates exposure. Saved unedited sources retain M5's automatic finalise/cache
+shortcut; Compute exposes the full preview workflow. Replay rebuilds an unreleased
+cache and restores starts/furniture/exposure at paused frame zero.
 
-Detached presentation now includes cached persistent wall-clipped zone bands and
-outlines, a timed shock front, a sampled dust/visibility field, reference-shaped
-moving debris and Explosion metrics/selected-agent details. Master/per-zone and
-shock/dust visibility remain adjustable after detonation and survive inspector
-hiding. Visibility never reapplies damage. Replay removes the event/effects, restores
-starts/furniture, preserves pre-event radii and unlocks editing. Full Fume authoring
-remains M7; M7 has not started.
+The user additionally requested more professional, intuitive UI/assets. Startup now
+uses scenario cards with direct examples; the workspace adds selected navigation,
+phase badges, clear action hierarchy, a source/compute/preview/release guide and a
+concentration legend. Owned procedural surfaces add lit furniture/people, wood/tile/
+barrier finishes, soft edges on chairs/tables/barricades and key/fill lighting.
+Dimensions, static stage geometry, simulation physics and authoring guards are
+preserved. These presentation changes apply to both scenarios. Complete humanoid
+poses/detail/cameras remain M8; M8 has not started.
 
-Cloud validation passes 404 original, 415 portable and 112 migration tests, unchanged
-six-case traces/oracle on both engines, and five native/portable file round trips.
-Static checks cover 136 GUIDs and 106 unchanged reference files. Original source,
-tests, fixtures, dependency pins, M1 goldens and portable engine algorithms are
-unchanged. Main and the approved Editor/dependency versions remain unchanged.
+Cloud validation passes 404 original, 415 portable and 135 migration tests, unchanged
+six-case traces/oracle on both engines and five native/portable file round trips.
+Static checks cover 146 GUIDs and 106 unchanged reference files. Original source,
+tests, fixtures, dependency pins, M1 goldens and portable engine algorithms remain
+unchanged. Main and Editor/dependency pins remain unchanged.
 
-Next action: [M6_LOCAL_TESTING.md](M6_LOCAL_TESTING.md). Actual M6 Unity import,
-frontend compilation, 29 supplied EditMode and 9 PlayMode cases, native input,
-layout/rendering and player builds were not executed in cloud. GitHub Actions
-remote execution is unverified. Fix any M6 issue before M7. Desktop OS/player target
-confirmation remains pending before target-specific work.
+Next action: [M7_LOCAL_TESTING.md](M7_LOCAL_TESTING.md). Actual M7 Unity import,
+frontend compilation, 34 supplied EditMode and 12 PlayMode cases, native input,
+layout, material/lighting/shader appearance and player builds were not executed in
+cloud. GitHub Actions remote execution is unverified. Fix M7 issues before M8.
+Desktop OS/player target confirmation remains pending before target-specific work.

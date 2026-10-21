@@ -57,7 +57,7 @@ namespace CrowdSim.Unity.Tests
             world.Draw(new[] { new ViewBody("shape", ViewShape.Box, ViewKind.Table, System.Numerics.Vector3.Zero, System.Numerics.Vector3.One) }, "probe-");
             yield return null;
             Transform probe = world.GetComponentsInChildren<Transform>().Single(t => t.name == "probe-shape");
-            Assert.That(probe.GetComponent<MeshFilter>().sharedMesh.name, Is.EqualTo("Cube"));
+            Assert.That(probe.GetComponent<MeshFilter>().sharedMesh.name, Is.EqualTo("CrowdSim / chamfered box"));
             world.Draw(new ViewBody[0], "probe-");
             LogAssert.NoUnexpectedReceived();
             yield return SceneManager.LoadSceneAsync("Bootstrap");

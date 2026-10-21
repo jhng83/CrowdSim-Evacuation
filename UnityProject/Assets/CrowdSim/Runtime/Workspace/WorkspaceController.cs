@@ -25,7 +25,9 @@ namespace CrowdSim.Unity.Workspace
         private PanelSettings _settings;
         private Action _exit;
         private VisualElement _root, _left, _right, _viewport, _page, _inspectorPage, _builder, _footer;
-        private Label _status, _metrics, _readiness, _selection, _inspectorText;
+        private Label _status, _metrics, _readiness, _selection, _inspectorText, _phaseBadge;
+        private readonly List<Button> _navigation = new List<Button>();
+        private readonly List<Button> _inspectorNavigation = new List<Button>();
         private Button _finalise, _transport, _undo, _arm, _toggleInspector;
         private FloatField _width, _length;
         private Slider _speed;
@@ -68,7 +70,10 @@ namespace CrowdSim.Unity.Workspace
             view.transform.SetParent(transform, false);
             _world = view.AddComponent<WorkspaceWorldView>();
             _world.Initialise();
-            _explosionView = view.AddComponent<WorkspaceExplosionView>();
+            GameObject blastHost = new GameObject("Explosion overlays"); blastHost.transform.SetParent(view.transform, false);
+            _explosionView = blastHost.AddComponent<WorkspaceExplosionView>();
+            GameObject fumeHost = new GameObject("Fume overlays"); fumeHost.transform.SetParent(view.transform, false);
+            _fumeView = fumeHost.AddComponent<WorkspaceFumeView>();
             BuildInterface();
             Draw(); Refresh();
         }
@@ -77,6 +82,7 @@ namespace CrowdSim.Unity.Workspace
         {
             VisualElement top = Box(_root, "topbar");
             _brand = Label(top, "", "brand");
+            _phaseBadge = Label(top, "", "phase-badge");
             _toggleInspector = Button(top, "Hide inspector (F4)", () => { Session.ToggleInspector(); Refresh(); });
             Button(top, "Return to startup", RequestExit);
             VisualElement body = Box(_root, "workspace-body");
@@ -85,7 +91,8 @@ namespace CrowdSim.Unity.Workspace
             foreach (string tab in new[] { "Build / Run", "Camera", "Files" })
             {
                 string name = tab;
-                Button(tabs, name, () => { _activePage = name; BuildPage(); });
+                Button navigation = Button(tabs, name, () => { _activePage = name; BuildPage(); });
+                navigation.userData = name; _navigation.Add(navigation);
             }
             ScrollView scroll = new ScrollView(ScrollViewMode.Vertical); scroll.AddToClassList("page-scroll"); _left.Add(scroll);
             _page = scroll;
@@ -111,7 +118,8 @@ namespace CrowdSim.Unity.Workspace
             for (int i = 0; i < inspectorNames.Length; i++)
             {
                 int index = i;
-                Button(inspectorTabs, inspectorNames[i], () => { Session.SelectInspectorTab(index); Refresh(); });
+                Button navigation = Button(inspectorTabs, inspectorNames[i], () => { Session.SelectInspectorTab(index); Refresh(); });
+                navigation.userData = index; _inspectorNavigation.Add(navigation);
             }
             ScrollView inspectorScroll = new ScrollView(ScrollViewMode.Vertical); inspectorScroll.AddToClassList("page-scroll"); _right.Add(inspectorScroll);
             _inspectorPage = inspectorScroll;
@@ -126,7 +134,7 @@ namespace CrowdSim.Unity.Workspace
                 if (Files.Replay()) _tool = PlacementTool.Select;
                 _operationStatus = Files.Message; ClearPreview(); Draw(); Refresh();
             });
-            _releaseFume = Button(actions, "Release saved Fume", () => { Session.ReleaseSavedFume(); _operationStatus = ""; Refresh(); });
+            _releaseFume = Button(actions, "Release Toxic Fume", () => { Session.ReleaseFume(); _operationStatus = ""; Refresh(); });
             _speed = new Slider("Playback speed", .25f, 4f) { value = 1, showInputField = true, name = "playback-speed" };
             _speed.RegisterValueChangedCallback(evt =>
             {
@@ -134,6 +142,7 @@ namespace CrowdSim.Unity.Workspace
                 _speed.SetValueWithoutNotify((float)Session.Speed);
             });
             actions.Add(_speed);
+            foreach (Button action in new[] { _finalise, _transport, _arm, _releaseFume }) action.AddToClassList("primary-button");
             _readiness = Label(_footer, "", "readiness");
             _status = Label(_footer, "", "status");
             BuildPage();
@@ -142,6 +151,7 @@ namespace CrowdSim.Unity.Workspace
         private void BuildPage()
         {
             _page.Clear(); _behaviour.Clear(); _builder = null;
+            foreach (Button navigation in _navigation) navigation.EnableInClassList("tab-selected", (string)navigation.userData == _activePage);
             if (_activePage == "Camera")
             {
                 Label(_page, "Camera", "heading");
@@ -149,7 +159,7 @@ namespace CrowdSim.Unity.Workspace
                 CameraSlider("Elevation", 18, 70, _world.Elevation, value => _world.Elevation = value);
                 CameraSlider("Zoom", .45f, 2.5f, _world.Zoom, value => _world.Zoom = value);
                 Button(_page, "Reset camera", () => { _world.ResetCamera(); BuildPage(); });
-                Label(_page, "Follow and head-height POV arrive in M8.", "muted");
+                Label(_page, "Adjust the view without changing simulation state.", "muted");
                 return;
             }
             if (_activePage == "Files")
@@ -159,6 +169,7 @@ namespace CrowdSim.Unity.Workspace
             }
             Label(_page, "Build / Run", "heading");
             _metrics = Label(_page, "", "metrics");
+            if (Session.Scenario == ScenarioType.ToxicFume) BuildFumeShortcut();
             _builder = Box(_page, "builder");
             _width = new FloatField("Room width (m)") { value = Session.Frame.Width, isDelayed = true, name = "room-width" };
             _length = new FloatField("Room length (m)") { value = Session.Frame.Length, isDelayed = true, name = "room-length" };
@@ -210,7 +221,7 @@ namespace CrowdSim.Unity.Workspace
                 Refresh();
             });
             Label(tuning, "Higher stress persistence slows recovery. Compression affects social spacing; physical guards remain active. Running speed is a ceiling, not a target.", "muted");
-            Label(_page, "Occupied furniture contributes to the planned population. Explosion controls are in the Hazard inspector; full Fume authoring arrives in M7. Select runtime agents by clicking their capsules.", "muted");
+            Label(_page, "Occupied furniture contributes to the planned population. Use the Hazard inspector to configure, preview and inspect the selected event. Select runtime agents by clicking their capsules.", "muted");
             Refresh();
         }
 
@@ -276,7 +287,8 @@ namespace CrowdSim.Unity.Workspace
             _operationStatus = "";
             if (Session.IsBuilding)
             {
-                if (_tool != PlacementTool.Select) Session.Place(_tool, point, Option);
+                if (_tool == PlacementTool.FumeSource) Session.PlaceFumeSource(point);
+                else if (_tool != PlacementTool.Select) Session.Place(_tool, point, Option);
             }
             else if (_tool == PlacementTool.Explosion)
             {
@@ -299,6 +311,13 @@ namespace CrowdSim.Unity.Workspace
             if (!Session.IsBuilding || Time.unscaledTime - _lastPreviewTime < .08f) return;
             _lastPreviewTime = Time.unscaledTime;
             if (!WorldPoint(point, out GroundPoint ground)) { ClearPreview(); return; }
+            if (_tool == PlacementTool.FumeSource)
+            {
+                bool valid = Session.CanPlaceFumeSource(ground); float diameter = Session.FumeValues[0] * 2;
+                _world.Draw(new[] { new ViewBody("fume-source", ViewShape.Cylinder, ViewKind.Source,
+                    new ViewVector(ground.X, .04f, ground.Y), new ViewVector(diameter, .08f, diameter)) }, "preview-", valid ? new Color(.20f, .90f, .65f) : Color.red);
+                _selection.text = "Release point · " + ground.X.ToString("F1") + ", " + ground.Y.ToString("F1") + " m · " + (valid ? "clear floor" : "blocked / outside room"); return;
+            }
             PlacementPreview preview = Session.Preview(_tool, ground, Option);
             if (preview.Bodies.Count > 0) _world.Draw(preview.Bodies, "preview-", preview.Valid ? new Color(.2f, 1, .7f) : Color.red);
             else _world.Draw(new[] { new ViewBody("invalid", ViewShape.Box, ViewKind.Block,
@@ -342,6 +361,7 @@ namespace CrowdSim.Unity.Workspace
         private void Draw()
         {
             _explosionView.Draw(Session);
+            _fumeView.Draw(Session);
             _world.Draw(Session.Frame.Bodies);
             if (_drawnGrid != Session.ShowGrid || _drawnRevision < 0 || Session.IsBuilding)
             {
@@ -367,11 +387,16 @@ namespace CrowdSim.Unity.Workspace
             if (_status == null) return;
             _status.text = string.IsNullOrEmpty(_operationStatus) ? Session.Message : _operationStatus;
             string displayName = Session.Name.Length > 32 ? Session.Name.Substring(0, 32) + "…" : Session.Name;
-            _brand.text = "CROWD / SIM · " + Session.Scenario + " · " + displayName + (Session.IsDirty ? " *" : "") + " · M6";
+            _brand.text = "CROWD / SIM · " + Session.Scenario + " · " + displayName + (Session.IsDirty ? " *" : "");
+            _phaseBadge.text = Session.Phase.ToString().ToUpperInvariant();
+            _phaseBadge.EnableInClassList("is-running", Session.Running);
+            _root.EnableInClassList("scenario-fume", Session.Scenario == ScenarioType.ToxicFume);
+            foreach (Button navigation in _inspectorNavigation) navigation.EnableInClassList("tab-selected", (int)navigation.userData == Session.InspectorTab);
             _replay.SetEnabled(Session.CanReplay);
             _releaseFume.style.display = Session.Scenario == ScenarioType.ToxicFume ? DisplayStyle.Flex : DisplayStyle.None;
             _releaseFume.SetEnabled(Session.Running && Session.HasFumeCache && !Session.FumeReleased);
             UpdateFilesState();
+            UpdateFumeInspector();
             _readiness.text = Session.Readiness;
             _finalise.SetEnabled(Session.CanFinalise);
             _transport.SetEnabled(!Session.IsBuilding);
@@ -381,8 +406,9 @@ namespace CrowdSim.Unity.Workspace
             _cancelExplosion.style.display = Session.ExplosionArmed ? DisplayStyle.Flex : DisplayStyle.None;
             if (_tool == PlacementTool.Explosion && !Session.ExplosionArmed) _tool = PlacementTool.Select;
             _explosionView.Draw(Session);
+            _fumeView.Draw(Session);
             _toggleInspector.text = Session.InspectorVisible ? "Hide inspector (F4)" : "Show inspector (F4)";
-            _selection.text = Session.IsBuilding ? "Tool: " + _tool + " · green preview / red rejection · click floor" : _tool == PlacementTool.Explosion ? "Explosion armed · click inside the room once" : "Click a capsule to select · Show selected agent opens details";
+            _selection.text = Session.IsBuilding ? "Tool: " + (_tool == PlacementTool.FumeSource ? "Place release point" : _tool == PlacementTool.Agents ? "Place people" : _tool == PlacementTool.Exit ? "Place exit" : _tool == PlacementTool.Asset ? BuilderAssetSelection.Label(Session.SelectedAsset, 1.2f) : _tool.ToString()) + " · green preview / red rejection · click floor" : _tool == PlacementTool.Explosion ? "Explosion armed · click inside the room once" : "Click a capsule to select · Show selected agent opens details";
             if (_activePage == "Build / Run")
             {
                 _metrics.text = (Session.UsesRandomStarts && Session.IsBuilding ? "Legacy random starts: " + Session.PlannedCount + " on finalisation\n" : "") + Session.Phase + " · tick " + Session.Tick + " · " + (Session.Tick * Session.StepSeconds).ToString("F2") + " s\n" +
@@ -391,6 +417,7 @@ namespace CrowdSim.Unity.Workspace
                 _builder.SetEnabled(Session.IsBuilding);
                 _width.SetEnabled(Session.CanResize); _length.SetEnabled(Session.CanResize);
                 _placeAsset.SetEnabled(Session.IsBuilding && !Session.AssetUnavailable);
+                _placeAsset.EnableInClassList("tool-active", _tool == PlacementTool.Asset);
                 _assetControls.SetEnabled(Session.IsBuilding && !Session.AssetUnavailable);
                 _assetHint.text = Session.AssetUnavailable ? "Stage already placed (1/1). Undo its placement before replacing it." : Session.AssetHint;
                 _angleSlider?.SetValueWithoutNotify(Session.AssetRotationDegrees);
@@ -407,6 +434,8 @@ namespace CrowdSim.Unity.Workspace
             if (_inspectorPage.name != tag)
             {
                 _inspectorPage.Clear(); _inspectorPage.name = tag;
+                if (tab == 1 && Session.Scenario == ScenarioType.ToxicFume)
+                { _inspectorText = null; BuildFumeInspector(); return; }
                 if (tab == 1 && Session.Scenario == ScenarioType.Explosion)
                 { _inspectorText = null; BuildExplosionInspector(); return; }
                 Label(_inspectorPage, new[] { "Overview", "Hazard", "Selected agent", "Debug" }[tab], "heading");
@@ -415,9 +444,10 @@ namespace CrowdSim.Unity.Workspace
                 {
                     Toggle grid = new Toggle("Show room grid") { value = Session.ShowGrid };
                     grid.RegisterValueChangedCallback(evt => { Session.ShowGrid = evt.newValue; }); _inspectorPage.Add(grid);
-                    Label(_inspectorPage, "Overlay flags persist while the inspector is hidden. Force/vision/trail overlays arrive in M9.", "muted");
+                    Label(_inspectorPage, "The room grid remains visible while the inspector is hidden.", "muted");
                 }
             }
+            if (tab == 1 && Session.Scenario == ScenarioType.ToxicFume) { UpdateFumeInspector(); return; }
             if (tab == 1 && Session.Scenario == ScenarioType.Explosion) { UpdateExplosionInspector(); return; }
             _inspectorText.text = tab == 0 ? "Tick " + Session.Tick + "\nPopulation " + (Session.IsBuilding ? Session.PlannedCount : Session.Frame.Population) +
                 "\nSeated " + Session.Frame.SeatedAgents + " · rising " + Session.Frame.RisingAgents +
@@ -425,9 +455,6 @@ namespace CrowdSim.Unity.Workspace
                 " · fallen " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Fallen) +
                 " · destroyed " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Destroyed) +
                 "\nEvacuated " + Session.Frame.Exited + "\nInjured " + Session.Frame.Injured + "\nDead " + Session.Frame.Dead + "\nHybrid " + Session.Hybrid
-                : tab == 1 ? "Hazard: " + Session.Scenario + "\n" + (Session.Frame.HazardReleased ? "Triggered" : "Waiting") +
-                    (Session.Scenario == ScenarioType.Explosion ? "\nExplosion: start, arm, then click the room. Detailed controls arrive in M6."
-                        : "\nSaved Fume: finalise to precompute, start, then Release saved Fume. Cache ready: " + Session.HasFumeCache + ". Full authoring arrives in M7.")
                 : tab == 2 ? Session.SelectedAgentSummary : "Grid spacing: 1.2 m\nFixed simulation step: " + Session.StepSeconds.ToString("G") + " s\nSelection: " + (Session.SelectedAgentId?.ToString() ?? "none");
         }
         private void OnKey(KeyDownEvent evt)

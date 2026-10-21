@@ -21,3 +21,14 @@
 .check { color: rgb(142, 215, 181); font-size: 14px; margin-bottom: 6px; white-space: normal; }
 .footer { flex-direction: row; justify-content: space-between; flex-wrap: wrap; margin-top: 24px; }
 .footer-label { font-size: 11px; color: rgb(123, 148, 170); white-space: normal; }
+
+.headline { font-size: 39px; max-width: 800px; margin-top: 12px; }
+.scenario-card { padding: 26px; border-radius: 14px; background-color: rgb(20, 31, 44); }
+.explosion-card { border-top-color: rgb(218, 150, 75); border-top-width: 3px; }
+.fume-card { border-top-color: rgb(68, 190, 145); border-top-width: 3px; }
+.card-workflow { font-size: 10px; letter-spacing: 1px; color: rgb(133, 162, 184); margin: 12px 0 6px 0; white-space: normal; }
+.primary-explosion { background-color: rgb(106, 69, 38); border-color: rgb(179, 123, 64); -unity-font-style: bold; }
+.primary-fume { background-color: rgb(26, 96, 74); border-color: rgb(58, 153, 117); -unity-font-style: bold; }
+.scenario-card .quiet-button { align-self: stretch; margin-top: 10px; min-height: 36px; }
+.scenario-card .scenario-button { margin-top: 8px; }
+.overview, .setup { border-radius: 12px; }

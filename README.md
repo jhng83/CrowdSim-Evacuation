@@ -1,15 +1,15 @@
-# Unity migration — Milestone 6
+# Unity migration — Milestone 7
 
 On `unity-migration`, open **UnityProject/** with **Unity 6000.3.26f1**, then
-**Assets/CrowdSim/Scenes/Bootstrap.unity**. Choose **Build furnished example
-(26 people)** and open **Hazard**. M6 adds the complete Explosion radius workflow,
-one-shot arming/cancel, persistent wall-clipped zones, timed shock/dust/debris views
-and event analysis, with authored settings retained through save/replay. M1–M5 were
-tested successfully by the user; M6 awaits local Unity testing. Follow the
-[M6 checklist](docs/unity-migration/M6_LOCAL_TESTING.md) and
-[migration status](docs/unity-migration/STATUS.md). Cloud validation passes;
-actual M6 Unity import/tests/input/rendering were not executed. The original
-application/tests below remain the behavioral reference.
+**Assets/CrowdSim/Scenes/Bootstrap.unity**. M7 completes Toxic Fume source/settings,
+compute/preview/release, plume/grid, exposure inspection and replay. Choose **Open
+205-person Fume example** for a ready authored scene. The requested UX/assets polish
+adds scenario cards, navigation/readiness guidance, lit surfaces and refined furniture.
+M1–M6 were tested successfully by the user; M7 awaits local Unity testing. Follow the
+[M7 checklist](docs/unity-migration/M7_LOCAL_TESTING.md) and
+[migration status](docs/unity-migration/STATUS.md). Cloud validation passes; actual
+M7 Unity import/tests/input/rendering were not executed. The original application/
+tests below remain the behavioral reference.
 
 # Always-3D agents — current revision
 

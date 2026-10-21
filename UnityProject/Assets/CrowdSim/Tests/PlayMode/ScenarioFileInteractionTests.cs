@@ -80,7 +80,7 @@ namespace CrowdSim.Unity.Tests
                 Click(root, "Files"); root.Q<TextField>("import-path").value = source; Click(root, "Import path (paused)");
                 Assert.That(controller.Files.CurrentEntry.ReadOnly, Is.True);
                 Assert.That(controller.Session.PlannedCount, Is.EqualTo(205));
-                Click(root, "Finalise scene"); Click(root, "Start"); Click(root, "Release saved Fume");
+                Click(root, "Finalise scene"); Click(root, "Start"); Click(root, "Release Toxic Fume");
                 Assert.That(controller.Session.FumeReleased, Is.True);
                 Click(root, "Replay from start");
                 Assert.That(controller.Session.HasFumeCache && !controller.Session.FumeReleased, Is.True);

@@ -110,6 +110,10 @@ def validate() -> None:
     for name in ["WorkspaceController.Explosion.cs", "WorkspaceExplosionView.cs"]:
         require((PROJECT / "Assets/CrowdSim/Runtime/Workspace" / name).is_file(), "M6 Explosion adapter missing: " + name)
 
+    require("open-fume-example" in names, "M7 ready-to-load Fume example missing")
+    for name in ["WorkspaceController.Fume.cs", "WorkspaceFumeView.cs", "GroundOverlayLayer.cs", "WorkspaceSurfaceLibrary.cs"]:
+        require((PROJECT / "Assets/CrowdSim/Runtime/Workspace" / name).is_file(), "M7 adapter/asset library missing: " + name)
+
     parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
     require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
     require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")

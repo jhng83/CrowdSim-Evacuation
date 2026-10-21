@@ -116,6 +116,12 @@ downloadable project, exact scene, tests and acceptance checklist. Bootstrap mea
 - Local: compute the 205-person fixture, scrub preview, invalidate/recompute, release/replay.
 - Complete when: the complete workflow and exposure outcomes agree with the reference.
 
+The user additionally authorized intuitive professional UX/UI and asset refinement
+with M7 after accepting M6. This includes scenario entry/cards, navigation/action
+hierarchy, readiness/preview guidance and owned surface/mesh/lighting refinements
+for both scenarios. Physics/dimensions are preserved. Complete humanoid poses,
+zoom detail and camera features remain in M8 below.
+
 ### M8 — Humanoids, selection and cameras
 
 - Capability: complete current agent presentation and camera operation.
