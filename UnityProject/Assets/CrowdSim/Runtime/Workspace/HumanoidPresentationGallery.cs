@@ -59,8 +59,16 @@ namespace CrowdSim.Unity.Workspace
                 _text = new GUIStyle(GUI.skin.label) { font = font, fontSize = 16, wordWrap = true };
                 _button = new GUIStyle(GUI.skin.button) { font = font, fontSize = 14 };
                 _toggle = new GUIStyle(GUI.skin.toggle) { font = font, fontSize = 14 };
+                foreach (GUIStyleState state in new[] { _button.normal, _button.hover, _button.active, _button.focused, _button.onNormal, _button.onHover, _button.onActive, _button.onFocused })
+                { state.textColor = Color.black; state.background = Texture2D.whiteTexture; }
+                foreach (GUIStyleState state in new[] { _toggle.normal, _toggle.hover, _toggle.active, _toggle.focused, _toggle.onNormal, _toggle.onHover, _toggle.onActive, _toggle.onFocused })
+                    state.textColor = Color.black;
             }
-            _text.normal.textColor = new Color(.92f, .95f, 1);
+            Color saved = GUI.color; GUI.color = new Color(.965f, .96f, .935f);
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height * .3f), Texture2D.whiteTexture); GUI.color = saved;
+            _text.normal.textColor = Color.black;
+            _button.normal.textColor = Color.black; _button.normal.background = Texture2D.whiteTexture;
+            _toggle.normal.textColor = Color.black;
             GUI.Label(new Rect(20, 8, Screen.width - 40, 28), "M8 · Humanoid pose reference — presentation fixtures, no simulation", _text);
             GUI.Label(new Rect(20, 38, Screen.width - 40, 28), (_selected + 1) + " / " + _names.Length + " · " + _names[_selected], _text);
             if (GUI.Button(new Rect(20, 72, 100, 30), "Previous", _button)) _selected = (_selected + _names.Length - 1) % _names.Length;

@@ -79,6 +79,7 @@ namespace CrowdSim.Unity.Workspace
             { Files.AcknowledgeTransition(); SceneManager.LoadScene("SimulationParity"); return; }
             if (!ReferenceEquals(_shownSession, Session))
             {
+                ResetPerformance();
                 _shownSession = Session;
                 _tool = PlacementTool.Exit; _exitWidth = 1; _people = 1;
                 _saveName = Files.CurrentEntry == null ? Session.Name : Files.CurrentEntry.Name + (Files.CurrentEntry.ReadOnly ? "_copy" : "");

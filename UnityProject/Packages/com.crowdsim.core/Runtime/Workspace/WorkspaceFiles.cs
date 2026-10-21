@@ -51,6 +51,7 @@ namespace CrowdSim.Workspace
             catch (Exception exception) { Message = "Import failed: " + exception.Message; return false; }
         }
         public bool New(ScenarioType scenario) => Request(FileTransition.New, new WorkspaceSession(scenario), null);
+        public bool NewScale(int count, bool furnished, bool hybrid) => Request(FileTransition.New, WorkspaceSession.ScaleExample(count, furnished, hybrid, Session.Scenario), null);
         public bool Leave(bool diagnostics) => Request(diagnostics ? FileTransition.Diagnostics : FileTransition.Startup, null, null);
         private bool Request(FileTransition transition, WorkspaceSession? prepared, ScenarioEntry? entry)
         {

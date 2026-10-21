@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using GroundPoint = System.Numerics.Vector2;
 using ViewVector = System.Numerics.Vector3;
+using Stopwatch = System.Diagnostics.Stopwatch;
 
 namespace CrowdSim.Unity.Workspace
 {
@@ -75,6 +76,8 @@ namespace CrowdSim.Unity.Workspace
             _explosionView = blastHost.AddComponent<WorkspaceExplosionView>();
             GameObject fumeHost = new GameObject("Fume overlays"); fumeHost.transform.SetParent(view.transform, false);
             _fumeView = fumeHost.AddComponent<WorkspaceFumeView>();
+            GameObject diagnosticHost = new GameObject("Diagnostic overlays"); diagnosticHost.transform.SetParent(view.transform, false);
+            _diagnosticView = diagnosticHost.AddComponent<WorkspaceDiagnosticView>();
             BuildInterface();
             Draw(); Refresh();
         }
@@ -149,7 +152,7 @@ namespace CrowdSim.Unity.Workspace
             _cancelExplosion = Button(actions, "Cancel Explosion", () => { Session.CancelExplosion(); _tool = PlacementTool.Select; _operationStatus = ""; Refresh(); });
             _replay = Button(actions, "Replay from start", () =>
             {
-                if (Files.Replay()) _tool = PlacementTool.Select;
+                if (Files.Replay()) { _tool = PlacementTool.Select; ResetPerformance(); }
                 _operationStatus = Files.Message; ClearPreview(); Draw(); Refresh();
             });
             _releaseFume = Button(actions, "Release Toxic Fume", () => { Session.ReleaseFume(); _operationStatus = ""; Refresh(); });
@@ -351,12 +354,23 @@ namespace CrowdSim.Unity.Workspace
             if (Session == null) return;
             try
             {
-                if (_modal == null && Session.Advance(Time.unscaledDeltaTime) > 0) Refresh();
+                long allocated = GC.GetAllocatedBytesForCurrentThread();
+                long bytes = _previousAllocated == 0 ? 0 : Math.Max(0, allocated - _previousAllocated); _previousAllocated = allocated;
+                long started = Stopwatch.GetTimestamp();
+                int steps = _modal == null ? Session.Advance(Time.unscaledDeltaTime) : 0;
+                double physics = (Stopwatch.GetTimestamp() - started) * 1000d / Stopwatch.Frequency;
+                started = Stopwatch.GetTimestamp();
+                if (steps > 0) Refresh();
+                double ui = (Stopwatch.GetTimestamp() - started) * 1000d / Stopwatch.Frequency;
+                started = Stopwatch.GetTimestamp();
                 if (_drawnRevision != Session.Revision || _drawnGrid != Session.ShowGrid) Draw();
                 _world.Humans.IndicatorsVisible = _modal == null;
                 _world.Humans.Render(Session, Time.unscaledDeltaTime, _modal == null);
-                Layout();
-                UpdateCameraActions();
+                _diagnosticView.Draw(Session);
+                Layout(); UpdateCameraActions();
+                double world = (Stopwatch.GetTimestamp() - started) * 1000d / Stopwatch.Frequency;
+                _performance.Add(Time.unscaledDeltaTime * 1000d, physics, world, ui, bytes);
+                UpdatePerformanceText();
             }
             catch (Exception exception)
             {
@@ -398,7 +412,7 @@ namespace CrowdSim.Unity.Workspace
                         _grid.Add(new ViewBody("z-" + z, ViewShape.Box, ViewKind.Block,
                             new ViewVector(Session.Frame.Width / 2, .01f, z), new ViewVector(Session.Frame.Width, .015f, .025f)));
                 }
-                _world.Draw(_grid, "grid-", new Color(.42f, .5f, .56f));
+                _world.Draw(_grid, "grid-", new Color(.63f, .64f, .61f));
             }
             _drawnRevision = Session.Revision; _drawnGrid = Session.ShowGrid;
         }
@@ -466,18 +480,18 @@ namespace CrowdSim.Unity.Workspace
                 {
                     Toggle grid = new Toggle("Show room grid") { value = Session.ShowGrid };
                     grid.RegisterValueChangedCallback(evt => { Session.ShowGrid = evt.newValue; }); _inspectorPage.Add(grid);
-                    Label(_inspectorPage, "The room grid remains visible while the inspector is hidden.", "muted");
+                    Label(_inspectorPage, "The 1.2 m room grid remains visible while the inspector is hidden.", "muted");
+                    BuildDiagnosticControls();
                 }
             }
             if (tab == 1 && Session.Scenario == ScenarioType.ToxicFume) { UpdateFumeInspector(); return; }
             if (tab == 1 && Session.Scenario == ScenarioType.Explosion) { UpdateExplosionInspector(); return; }
-            _inspectorText.text = tab == 0 ? "Tick " + Session.Tick + "\nPopulation " + (Session.IsBuilding ? Session.PlannedCount : Session.Frame.Population) +
-                "\nSeated " + Session.Frame.SeatedAgents + " · rising " + Session.Frame.RisingAgents +
-                "\nFurniture airborne " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Airborne) +
-                " · fallen " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Fallen) +
-                " · destroyed " + Session.Frame.FurnitureBodies.Count(b => b.State == ChairState.Destroyed) +
-                "\nEvacuated " + Session.Frame.Exited + "\nInjured " + Session.Frame.Injured + "\nDead " + Session.Frame.Dead + "\nHybrid " + Session.Hybrid
-                : tab == 2 ? Session.SelectedAgentSummary : "Grid spacing: 1.2 m\nFixed simulation step: " + Session.StepSeconds.ToString("G") + " s\nSelection: " + (Session.SelectedAgentId?.ToString() ?? "none");
+            _inspectorText.text = tab == 0 ? OverviewDiagnostics()
+                : tab == 2 ? (Session.SelectedAgentId.HasValue ? "Agent " + Session.SelectedAgentId + " · " + Session.SelectedVisual?.Pose + "\n" +
+                    "Rise " + Session.SelectedVisual?.Rise.ToString("P0") + " · " + Session.SelectedVisual?.Indicator + "\n\n" +
+                    string.Join("\n", Session.Diagnostics.Selected.Select(r => r.Label + ": " + r.Value)) : Session.SelectedAgentSummary)
+                : "Fixed simulation step: " + Session.StepSeconds.ToString("G") + " s\nGrid: 1.2 m · live frame timings below";
+            UpdateDiagnosticText();
         }
         private void OnKey(KeyDownEvent evt)
         {

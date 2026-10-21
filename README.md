@@ -1,18 +1,19 @@
-# Unity migration — Milestone 8
+# Unity migration — Milestone 9
 
 On `unity-migration`, open **UnityProject/** (containing **Assets/**, **Packages/**,
 **ProjectSettings/**) with **Unity 6000.3.26f1**, then
-**Assets/CrowdSim/Scenes/Bootstrap.unity**. M8 adds complete volumetric humanoid
-poses/animation/indicators, rendered-body selection, Follow and head-height POV.
-A separate **Assets/CrowdSim/Scenes/Validation/HumanoidPresentation.unity** scene
-shows 14 deterministic pose fixtures. The bundled Atkinson Hyperlegible font,
-larger text, focus boundaries and checked text contrast support the requested design.
+**Assets/CrowdSim/Scenes/Bootstrap.unity**. M9 adds complete diagnostic metrics,
+eight batched overlays, paused Hybrid switching, performance readouts and seeded
+220/500/1000-person comparisons. The requested light architectural theme uses
+black text, off-white outlined pillars and an off-white gridded floor.
 
-M1–M7 were accepted by the user; M8 awaits local testing. Follow the numbered
-[M8 checklist](docs/unity-migration/M8_LOCAL_TESTING.md) and
+M1–M8 were accepted by the user; M9 awaits local testing. Follow the numbered
+[M9 checklist](docs/unity-migration/M9_LOCAL_TESTING.md),
+[CPU comparison evidence](docs/unity-migration/M9_BENCHMARK.md) and
 [migration status](docs/unity-migration/STATUS.md). Cloud passes 404 original,
-415 portable and 159 migration tests; actual M8 Unity import/tests/input/rendering
-were not executed. The original application/tests below remain the behavioural reference.
+415 portable and 191 migration tests; actual M9 Unity import/tests/input/rendering/
+graphical performance were not executed. The original application/tests below
+remain the behavioural reference.
 
 # Always-3D agents — current revision
 

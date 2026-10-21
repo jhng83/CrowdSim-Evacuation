@@ -57,7 +57,7 @@ namespace CrowdSim.Workspace
         public int? SelectedAgentId { get; private set; }
         public bool InspectorVisible => _inspector.IsVisible;
         public int InspectorTab => (int)_inspector.ActiveTab;
-        public bool ShowGrid { get; set; }
+        public bool ShowGrid { get; set; } = true;
         public string Readiness => !IsBuilding ? "Scene finalised. Geometry and behaviour are locked."
             : ExitCount == 0 ? "At least one exit is required."
             : PlannedCount == 0 ? "Place at least one agent group."
@@ -78,6 +78,7 @@ namespace CrowdSim.Workspace
         private void Changed(string message, bool authored = false)
         {
             Message = message;
+            _diagnostics = null;
             if (authored) IsDirty = true;
             Revision++;
             Frame = PresentationFrame.Capture(_simulation, IsBuilding);

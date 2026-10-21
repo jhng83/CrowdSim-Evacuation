@@ -25,7 +25,10 @@ and stop for the user's results. Fix reported problems before advancing.
 
 The user requires user-centred colours and typography in subsequent milestones.
 Use the bundled OFL Atkinson Hyperlegible face, readable text sizes, high-contrast
-text/surfaces and visible keyboard focus. Pair state colours with labels, shapes
+text/surfaces and visible keyboard focus. The M9 user request explicitly requires
+black text on light surfaces, off-white square/circular architectural pillars with
+black outlines and an off-white floor with a default-on metric grid. Keep the
+workspace UI root transparent so the simulation camera stays visible. Pair state colours with labels, shapes
 or poses; keep state meaning consistent across legends and views. Preserve
 scrolling and the expanded viewport when the inspector is hidden. Verify actual
 font import, wrapping, contrast and input locally when Unity is available.

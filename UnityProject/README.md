@@ -1,32 +1,29 @@
-# CrowdSim Unity migration — M8
+# CrowdSim Unity migration — M9
 
-Open **UnityProject/** with **Unity 6000.3.26f1** (URP 17.3.0), then
-**Assets/CrowdSim/Scenes/Bootstrap.unity** and press Play.
+Open **UnityProject/** with **Unity 6000.3.26f1**, URP **17.3.0**, then
+**Assets/CrowdSim/Scenes/Bootstrap.unity** and press Play. Assets, Packages and
+ProjectSettings are all inside UnityProject. No original .NET SDK/executable is
+needed locally; first import needs Unity package-registry access.
 
-M8 adds pooled volumetric humanoids with all state/posture/assistance poses,
-near/far detail, animation, dark silhouettes, panic/alarm/help/selection indicators,
-rendered-body picking, Follow and head-height POV. Camera/selection cleanup follows
-exit/replay/new/load. Inspector hiding retains selection and camera mode.
-The bundled Atkinson Hyperlegible font, larger text, focus boundaries and checked
-text contrast carry the user's design preference into both scenarios.
+M9 completes overview/agent/navigation/assistance/exit diagnostics, eight batched
+vector/vision/congestion/trail overlays, paused Hybrid switching, distinct CPU/FPS/
+managed-allocation readouts and seeded 220/500/1000-person comparison layouts.
+The requested professional architectural theme uses black text, pale panels,
+off-white square/circular pillars with black outlines and an off-white floor with
+a default-on 1.2 m grid. Physical dimensions and simulation algorithms are preserved.
 
-1. Choose **Open furnished example**, Finalise and Start, then inspect Explosion
-   responses, low poses, selection, Follow/POV and zoom 0.45×/1×/2.5×.
-2. Choose **Open 205-person Fume example**, Compute dispersion, Finalise, Start and
-   Release Toxic Fume. Repeat camera/picking/pause/hidden-inspector checks.
-3. For deterministic visual checks, open
-   **Assets/CrowdSim/Scenes/Validation/HumanoidPresentation.unity**. It uses the same
-   production renderer for 14 pose/state fixtures; no simulation is run there.
+1. Try the furnished Explosion and 205-person Fume examples. Open Overview, Agent
+   and Debug; exercise every overlay with the inspector hidden and Follow/POV.
+2. Debug → Reproducible crowd comparisons creates exact-size open/furnished layouts
+   for both hazards. Use replay and the paused Hybrid checkbox for comparisons.
+3. Follow the numbered [M9 checklist](../docs/unity-migration/M9_LOCAL_TESTING.md),
+   including **49 EditMode / 19 PlayMode** supplied cases and native visual/input review.
 
-Follow the complete numbered [M8 checklist](../docs/unity-migration/M8_LOCAL_TESTING.md).
-M1–M7 were accepted by the user; M8 awaits local testing. **41 EditMode / 15 PlayMode**
-cases are supplied, unexecuted in cloud. First import needs Unity package-registry
-access; no original .NET SDK/executable is needed locally. Saves remain in the
-persistent directory displayed on Files.
-
-Cloud passes 404 original, 415 portable and 159 migration tests, both exact six-case
-captures and five file round trips. **Actual M8 Unity import/frontend compilation,
-font/shader rendering, Unity tests, native input/layout and player builds were not
-executed** (no Editor installed). See [validation](../docs/unity-migration/VALIDATION.md),
-[design/font license](../docs/unity-migration/DESIGN.md) and
-[roadmap](../docs/unity-migration/ROADMAP.md). M9 and later remain unimplemented.
+M1–M8 were accepted by the user; M9 awaits local testing. Cloud passes 404 original,
+415 portable and 191 migration tests, unchanged traces/oracle, five file round trips
+and [24 CPU comparison cases](../docs/unity-migration/M9_BENCHMARK.md).
+**Unity import/frontend compilation, Unity tests, font/shader rendering, native
+input, graphical scale/FPS/GPU checks and player builds were not executed** here.
+See [validation](../docs/unity-migration/VALIDATION.md),
+[design](../docs/unity-migration/DESIGN.md) and [status](../docs/unity-migration/STATUS.md).
+Recording remains M10, final standalone acceptance M11.

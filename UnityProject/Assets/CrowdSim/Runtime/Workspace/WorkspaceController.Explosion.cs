@@ -28,7 +28,8 @@ namespace CrowdSim.Unity.Workspace
                 int index = i;
                 Toggle visibility = new Toggle(_zoneNames[i] + " (m)") { value = Session.ZoneVisibility[i], name = "blast-zone-" + i };
                 System.Numerics.Vector4 color = BlastGeometry.ZoneColor(i);
-                visibility.style.color = new Color(color.X, color.Y, color.Z, 1);
+                visibility.style.color = Color.black;
+                visibility.style.borderLeftColor = new Color(color.X, color.Y, color.Z, 1); visibility.style.borderLeftWidth = 3;
                 visibility.RegisterValueChangedCallback(evt => { Session.SetZoneVisible(index, evt.newValue); _explosionView.Draw(Session); });
                 _inspectorPage.Add(visibility);
                 VisualElement row = Box(_inspectorPage, "radius-row"); _radiusInputs[i] = row;
@@ -61,8 +62,10 @@ namespace CrowdSim.Unity.Workspace
             Label(_inspectorPage, "Zone legend", "heading");
             for (int i = 0; i < 5; i++)
             {
-                Label legend = Label(_inspectorPage, _zoneNames[i], "muted"); System.Numerics.Vector4 color = BlastGeometry.ZoneColor(i);
-                legend.style.color = new Color(color.X, color.Y, color.Z, 1);
+                VisualElement row = Box(_inspectorPage, "agent-legend-row");
+                VisualElement swatch = Box(row, "agent-legend-swatch"); System.Numerics.Vector4 color = BlastGeometry.ZoneColor(i);
+                swatch.style.backgroundColor = new Color(color.X, color.Y, color.Z, 1);
+                Label(row, _zoneNames[i], "agent-legend-text");
             }
             Label(_inspectorPage, "Physical outcomes / event analysis", "heading");
             _blastMetrics = Label(_inspectorPage, "", "metrics"); _blastMetrics.name = "blast-metrics";

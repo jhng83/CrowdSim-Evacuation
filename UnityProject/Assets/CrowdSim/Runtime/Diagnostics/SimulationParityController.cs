@@ -76,6 +76,7 @@ namespace CrowdSim.Unity.Diagnostics
             _document.panelSettings = _panelSettings;
             _document.visualTreeAsset = null;
             VisualElement root = _document.rootVisualElement;
+            root.style.unityFontDefinition = FontDefinition.FromFont(Resources.Load<Font>("CrowdSim/Fonts/AtkinsonHyperlegible-Regular"));
             root.Clear();
             root.pickingMode = PickingMode.Ignore;
             root.styleSheets.Add(style);
@@ -117,7 +118,7 @@ namespace CrowdSim.Unity.Diagnostics
             _metrics = AddLabel(scroll, "", "metrics");
             _result = AddLabel(scroll, "", "result");
             AddLabel(scroll, "Event at tick 10; seven reference checkpoints and replay. Floats use documented tolerances; states/counts are exact.", "muted");
-            AddLabel(scroll, "Capsules and blocks are diagnostic views. Full builder, humanoids, plume graphics and analysis arrive in later milestones.", "muted");
+            AddLabel(scroll, "Capsules and blocks are bounded trace views. Return to startup for the full builder, humanoids, hazard views and analysis.", "muted");
             AddButton(scroll, "Return to startup", () => SceneManager.LoadScene("Bootstrap"));
         }
 

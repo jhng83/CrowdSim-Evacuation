@@ -1,10 +1,16 @@
-.diagnostic-panel { position: absolute; left: 12px; top: 12px; bottom: 12px; width: 366px; background-color: rgb(17, 26, 37); color: rgb(225, 234, 242); border-width: 1px; border-color: rgb(54, 78, 98); border-radius: 7px; padding: 16px; }
+.diagnostic-panel { position: absolute; left: 12px; top: 12px; bottom: 12px; width: 366px; background-color: rgb(246, 245, 240); color: rgb(0, 0, 0); border-width: 1px; border-color: rgb(54, 78, 98); border-radius: 7px; padding: 16px; }
 .diagnostic-panel > ScrollView { flex-grow: 1; }
-.brand { color: rgb(100, 198, 246); font-size: 17px; -unity-font-style: bold; margin-bottom: 8px; }
+.brand { color: rgb(0, 0, 0); font-size: 17px; -unity-font-style: bold; margin-bottom: 8px; }
 .title { font-size: 22px; white-space: normal; margin-bottom: 8px; }
-.muted { font-size: 13px; color: rgb(160, 184, 204); white-space: normal; margin-top: 10px; margin-bottom: 12px; }
-.case-label { color: rgb(125, 205, 241); white-space: normal; margin: 10px 0; }
+.muted { font-size: 13px; color: rgb(0, 0, 0); white-space: normal; margin-top: 10px; margin-bottom: 12px; }
+.case-label { color: rgb(0, 0, 0); white-space: normal; margin: 10px 0; }
 .metrics { font-size: 14px; white-space: normal; margin: 14px 0; }
-.result { font-size: 15px; color: rgb(246, 201, 117); white-space: normal; margin-bottom: 12px; }
-Button { min-height: 33px; background-color: rgb(36, 61, 81); color: rgb(225, 238, 247); border-radius: 4px; border-color: rgb(74, 107, 132); border-width: 1px; margin-top: 5px; margin-bottom: 5px; white-space: normal; }
-Button:hover, Button:focus { background-color: rgb(48, 86, 115); }
+.result { font-size: 15px; color: rgb(0, 0, 0); white-space: normal; margin-bottom: 12px; }
+Button { min-height: 33px; background-color: rgb(246, 245, 240); color: rgb(0, 0, 0); border-radius: 4px; border-color: rgb(74, 107, 132); border-width: 1px; margin-top: 5px; margin-bottom: 5px; white-space: normal; }
+Button:hover, Button:focus { background-color: rgb(246, 245, 240); }
+
+.diagnostic-panel * { color: rgb(0, 0, 0); }
+Button:hover, Button:focus { background-color: rgb(211, 229, 239); border-color: rgb(20, 60, 85); }
+.unity-base-text-field__input, .unity-base-popup-field__input { background-color: rgb(255, 254, 249); color: rgb(0, 0, 0); }
+
+.diagnostic-panel .unity-text-element, .diagnostic-panel .unity-button:hover, .diagnostic-panel .unity-button:focus, .diagnostic-panel .unity-button:disabled, .diagnostic-panel .unity-disabled .unity-text-element, .diagnostic-panel .unity-base-field__input:focus { color: rgb(0, 0, 0); }

@@ -30,9 +30,9 @@ namespace CrowdSim.Workspace
             _simulation = model;
             _requestedAgentCount = requested;
             Name = name;
-            Frame = Diagnostics.PresentationFrame.Capture(model, true);
+            Frame = CrowdSim.Diagnostics.PresentationFrame.Capture(model, true);
             Blast = new Diagnostics.ExplosionFrame(model, _blastCache);
-            Fume = Diagnostics.FumeFrame.Capture(model, true);
+            Fume = CrowdSim.Diagnostics.FumeFrame.Capture(model, true);
             Message = "Loaded paused in the builder. Review the authored layout, then finalise.";
         }
         /// <summary>Runtime save uses the private finalised definition, never current damage/positions.</summary>
@@ -56,7 +56,7 @@ namespace CrowdSim.Workspace
             Simulation ready = _checkpoint.CreateReadySimulation();
             _simulation = ready;
             SelectedAgentId = null;
-            CameraMode = Diagnostics.AgentCameraMode.Overview;
+            CameraMode = CrowdSim.Diagnostics.AgentCameraMode.Overview;
             ExplosionArmed = false;
             Phase = WorkspacePhase.Ready;
             _scheduler.Reset();

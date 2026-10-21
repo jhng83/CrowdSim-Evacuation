@@ -26,12 +26,13 @@ namespace CrowdSim.Diagnostics
         public float RiseProgress { get; }
         public ChairState MotionState { get; }
         public float Energy { get; }
+        public bool IsPillar { get; }
         public ViewBody(string id, ViewShape shape, ViewKind kind, Vector3 position, Vector3 size,
             float groundAngle = 0f, AgentState state = AgentState.Wandering,
-            SeatingPosture posture = SeatingPosture.Walking, float riseProgress = 0f, ChairState motionState = ChairState.Upright, float energy = 1f)
+            SeatingPosture posture = SeatingPosture.Walking, float riseProgress = 0f, ChairState motionState = ChairState.Upright, float energy = 1f, bool isPillar = false)
         {
             Id = id; Shape = shape; Kind = kind; Position = position; Size = size; GroundAngle = groundAngle; State = state;
-            Posture = posture; RiseProgress = riseProgress; MotionState = motionState; Energy = energy;
+            Posture = posture; RiseProgress = riseProgress; MotionState = motionState; Energy = energy; IsPillar = isPillar;
         }
     }
 
@@ -94,10 +95,10 @@ namespace CrowdSim.Diagnostics
             foreach (Wall wall in simulation.Environment.Blockages.Concat(simulation.Environment.BlueWalls))
                 bodies.Add(new ViewBody("wall-" + index++, ViewShape.Box, ViewKind.Wall,
                     new Vector3((wall.X1 + wall.X2) / 2f, 1f, (wall.Y1 + wall.Y2) / 2f),
-                    new Vector3(wall.X2 - wall.X1, 2f, wall.Y2 - wall.Y1)));
+                    new Vector3(wall.X2 - wall.X1, 2f, wall.Y2 - wall.Y1), isPillar: simulation.Environment.Blockages.Contains(wall)));
             foreach (CircleBlockage circle in simulation.Environment.CircularBlockages.Where(c => !c.IsFurniture))
                 bodies.Add(new ViewBody("circle-" + index++, ViewShape.Cylinder, ViewKind.Block,
-                    ToPresentation(circle.Center, 1f), new Vector3(circle.Diameter, 2f, circle.Diameter)));
+                    ToPresentation(circle.Center, 1f), new Vector3(circle.Diameter, 2f, circle.Diameter), isPillar: true));
             foreach (Exit exit in simulation.Environment.Exits)
             {
                 bool vertical = exit.Side == "E" || exit.Side == "W";

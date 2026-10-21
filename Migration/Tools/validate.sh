@@ -23,3 +23,7 @@ cd "$crowdsim_root/Migration"
 
 "$crowdsim_dotnet" restore Parity/FileInterop/FileInterop.csproj --locked-mode
 "$crowdsim_dotnet" run --project Parity/FileInterop/FileInterop.csproj -c Release --no-restore -- "$crowdsim_root"
+
+# Build the CPU comparison adapter without imposing a wall-clock benchmark on routine validation.
+"$crowdsim_dotnet" restore Benchmarks/CrowdSim.Scale.csproj --locked-mode
+"$crowdsim_dotnet" build Benchmarks/CrowdSim.Scale.csproj -c Release --no-restore

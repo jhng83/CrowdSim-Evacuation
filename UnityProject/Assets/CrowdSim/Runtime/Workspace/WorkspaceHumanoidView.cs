@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using CrowdSim.Diagnostics;
+using CrowdSim.Core.Model;
+using UnityEngine.Rendering;
 using CrowdSim.Workspace;
 using UnityEngine;
 
@@ -13,6 +15,9 @@ namespace CrowdSim.Unity.Workspace
         {
             public GameObject Root;
             public readonly List<Transform> Parts = new List<Transform>();
+            public readonly List<MeshRenderer> Renderers = new List<MeshRenderer>();
+            public float LastPhase = float.NaN, LastRise = float.NaN, LastPanic = float.NaN;
+            public bool LastDetail; public AgentState LastState; public HumanPose LastPose;
             public readonly List<HumanPart> Geometry = new List<HumanPart>(16);
             public LineRenderer Selection, Panic;
             public HumanMotion Motion;
@@ -23,13 +28,15 @@ namespace CrowdSim.Unity.Workspace
         private readonly Stack<Human> _pool = new Stack<Human>();
         private readonly List<int> _stale = new List<int>();
         private readonly HashSet<int> _active = new HashSet<int>();
-        private readonly Dictionary<string, Material> _materials = new Dictionary<string, Material>();
+        private readonly Dictionary<(AgentState, int), Material> _materials = new Dictionary<(AgentState, int), Material>();
         private Camera _camera;
         private Mesh _box;
         private Material _outline, _white, _orange;
         private WorkspaceSession _session;
         private GUIStyle _label;
         private int? _selected;
+        private readonly Plane[] _frustum = new Plane[6];
+        public int VisibleCount { get; private set; }
         public int ActiveCount => _humans.Count;
         public bool IndicatorsVisible { get; set; } = true;
 
@@ -39,7 +46,7 @@ namespace CrowdSim.Unity.Workspace
             Shader outline = Resources.Load<Shader>("CrowdSim/HumanOutline");
             if (outline == null) throw new InvalidOperationException("Human outline shader is missing.");
             _outline = new Material(outline);
-            _white = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { color = new Color(.88f, .96f, 1) };
+            _white = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { color = Color.black };
             _orange = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { color = new Color(1, .37f, .10f) };
         }
 
@@ -58,7 +65,8 @@ namespace CrowdSim.Unity.Workspace
         public void RenderSamples(IReadOnlyList<AgentVisualFrame> samples, int tick, float elapsed, bool animate,
             float speed, float stepSeconds, int? selected, AgentCameraMode mode)
         {
-            _selected = selected;
+            _selected = selected; VisibleCount = 0;
+            GeometryUtility.CalculateFrustumPlanes(_camera, _frustum);
             _active.Clear();
             foreach (AgentVisualFrame agent in samples)
             {
@@ -67,35 +75,59 @@ namespace CrowdSim.Unity.Workspace
                 {
                     human = _pool.Count > 0 ? _pool.Pop() : Create();
                     human.Motion = new HumanMotion(agent.Id);
+                    human.LastPhase = float.NaN; human.LastPanic = float.NaN;
                     human.Root.name = "Human " + agent.Id;
                     _humans.Add(agent.Id, human);
                 }
                 human.Snapshot = agent;
                 human.Motion.Observe(tick, agent.Position, agent.Rise);
                 human.Motion.Advance(elapsed, animate, speed, stepSeconds, agent.Attending ? .3f : agent.SpeedRatio);
-                human.Visible = !(mode == AgentCameraMode.Pov && agent.Id == _selected);
-                human.Root.SetActive(human.Visible);
+                Vector3 anchor = new Vector3(human.Motion.Position.X, .85f, human.Motion.Position.Y);
+                bool inView = _camera.transform.position.y < 2 || GeometryUtility.TestPlanesAABB(_frustum, new Bounds(anchor, new Vector3(2, 2, 2)));
+                human.Visible = inView && !(mode == AgentCameraMode.Pov && agent.Id == _selected);
+                if (human.Root.activeSelf != human.Visible) human.Root.SetActive(human.Visible);
+                if (!human.Visible) continue;
+                VisibleCount++;
                 Vector2 ground = new Vector2(human.Motion.Position.X, human.Motion.Position.Y);
                 human.Root.transform.localPosition = new Vector3(ground.x, 0, ground.y);
                 human.Root.transform.localRotation = Quaternion.Euler(0, -Mathf.Atan2(agent.Heading.Y, agent.Heading.X) * Mathf.Rad2Deg, 0);
                 Vector3 foot = _camera.WorldToScreenPoint(human.Root.transform.position);
                 Vector3 head = _camera.WorldToScreenPoint(human.Root.transform.position + Vector3.up * 1.7f);
                 bool detail = agent.Id == _selected || Vector2.Distance(foot, head) >= 48;
-                HumanGeometry.Build(agent, detail, human.Motion.Phase, human.Geometry, human.Motion.Rise);
-                for (int i = 0; i < human.Geometry.Count; i++)
+                bool rebuild = human.Parts.Count == 0 || human.LastPhase != human.Motion.Phase || human.LastRise != human.Motion.Rise ||
+                    human.LastDetail != detail || human.LastState != agent.State || human.LastPose != agent.Pose;
+                if (rebuild)
                 {
-                    if (i == human.Parts.Count) human.Parts.Add(CreatePart(human.Root.transform));
-                    Transform part = human.Parts[i]; HumanPart geometry = human.Geometry[i];
-                    part.gameObject.SetActive(true);
-                    part.localPosition = Vector(geometry.Center); part.localScale = Vector(geometry.Size);
-                    part.localRotation = new Quaternion(geometry.Rotation.X, geometry.Rotation.Y, geometry.Rotation.Z, geometry.Rotation.W);
-                    part.GetComponent<MeshRenderer>().sharedMaterial = Material(agent, geometry.Shade);
+                    HumanGeometry.Build(agent, detail, human.Motion.Phase, human.Geometry, human.Motion.Rise);
+                    for (int i = 0; i < human.Geometry.Count; i++)
+                    {
+                        if (i == human.Parts.Count)
+                        {
+                            Transform created = CreatePart(human.Root.transform); human.Parts.Add(created);
+                            human.Renderers.Add(created.GetComponent<MeshRenderer>());
+                        }
+                        Transform part = human.Parts[i]; HumanPart geometry = human.Geometry[i];
+                        if (!part.gameObject.activeSelf) part.gameObject.SetActive(true);
+                        part.localPosition = Vector(geometry.Center); part.localScale = Vector(geometry.Size);
+                        part.localRotation = new Quaternion(geometry.Rotation.X, geometry.Rotation.Y, geometry.Rotation.Z, geometry.Rotation.W);
+                        if (human.LastState != agent.State || human.Renderers[i].sharedMaterial == null)
+                            human.Renderers[i].sharedMaterial = Material(agent, geometry.Shade);
+                    }
+                    for (int i = human.Geometry.Count; i < human.Parts.Count; i++)
+                        if (human.Parts[i].gameObject.activeSelf) human.Parts[i].gameObject.SetActive(false);
+                    // Part indices can change meaning/shade when a pose/detail level changes.
+                    if (human.LastDetail != detail || human.LastPose != agent.Pose)
+                        for (int i = 0; i < human.Geometry.Count; i++) human.Renderers[i].sharedMaterial = Material(agent, human.Geometry[i].Shade);
+                    human.LastPhase = human.Motion.Phase; human.LastRise = human.Motion.Rise;
+                    human.LastDetail = detail; human.LastState = agent.State; human.LastPose = agent.Pose;
                 }
-                for (int i = human.Geometry.Count; i < human.Parts.Count; i++) human.Parts[i].gameObject.SetActive(false);
                 human.Selection.enabled = agent.Id == _selected;
-                Ring(human.Selection, .57f, .035f);
                 human.Panic.enabled = agent.ShowPanic;
-                if (agent.ShowPanic) Ring(human.Panic, .32f + agent.Panic * .52f, .018f);
+                if (human.LastPanic != agent.Panic)
+                {
+                    if (agent.ShowPanic) Ring(human.Panic, .32f + agent.Panic * .52f, .018f);
+                    human.LastPanic = agent.Panic;
+                }
             }
             _stale.Clear();
             foreach (int id in _humans.Keys) if (!_active.Contains(id)) _stale.Add(id);
@@ -136,12 +168,13 @@ namespace CrowdSim.Unity.Workspace
         private Human Create()
         {
             GameObject root = new GameObject("Human"); root.transform.SetParent(transform, false);
-            return new Human { Root = root, Selection = Line(root.transform, "Selection ring", _white), Panic = Line(root.transform, "Panic ring", _orange) };
+            Human human = new Human { Root = root, Selection = Line(root.transform, "Selection ring", _white), Panic = Line(root.transform, "Panic ring", _orange) };
+            Ring(human.Selection, .57f, .035f); return human;
         }
         private Transform CreatePart(Transform parent)
         {
             GameObject part = new GameObject("Body part"); part.transform.SetParent(parent, false);
-            part.AddComponent<MeshFilter>().sharedMesh = _box; part.AddComponent<MeshRenderer>();
+            part.AddComponent<MeshFilter>().sharedMesh = _box; part.AddComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.Off;
             GameObject hull = new GameObject("Dark silhouette"); hull.transform.SetParent(part.transform, false);
             hull.transform.localScale = Vector3.one * 1.075f;
             hull.AddComponent<MeshFilter>().sharedMesh = _box; hull.AddComponent<MeshRenderer>().sharedMaterial = _outline;
@@ -149,7 +182,7 @@ namespace CrowdSim.Unity.Workspace
         }
         private Material Material(AgentVisualFrame agent, float shade)
         {
-            string key = agent.State + "/" + shade.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+            (AgentState, int) key = (agent.State, Mathf.RoundToInt(shade * 100));
             if (_materials.TryGetValue(key, out Material material)) return material;
             System.Numerics.Vector3 rgb = AgentPalette.Color(agent.State) * shade;
             material = new Material(Shader.Find("Universal Render Pipeline/Lit")) { color = new Color(rgb.X, rgb.Y, rgb.Z) };
@@ -175,7 +208,7 @@ namespace CrowdSim.Unity.Workspace
             if (!IndicatorsVisible || _camera == null || Event.current.type != EventType.Repaint) return;
             if (_label == null) _label = new GUIStyle(GUI.skin.label)
             { font = Resources.Load<Font>("CrowdSim/Fonts/AtkinsonHyperlegible-Regular"), fontSize = 14, alignment = TextAnchor.MiddleCenter, padding = new RectOffset(6, 6, 3, 3) };
-            _label.normal.textColor = new Color(.93f, .96f, 1);
+            _label.normal.textColor = Color.black;
             Rect pixel = _camera.pixelRect;
             Rect clip = new Rect(pixel.x, Screen.height - pixel.yMax, pixel.width, pixel.height);
             GUI.BeginGroup(clip);
@@ -191,7 +224,7 @@ namespace CrowdSim.Unity.Workspace
                 if (point.z <= 0 || !_camera.pixelRect.Contains(point)) continue;
                 Vector2 size = _label.CalcSize(new GUIContent(text));
                 Rect rect = new Rect(point.x - clip.x - size.x / 2, Screen.height - point.y - clip.y - size.y, size.x, size.y);
-                Color saved = GUI.color; GUI.color = new Color(.035f, .06f, .09f, .94f);
+                Color saved = GUI.color; GUI.color = new Color(.98f, .975f, .95f, .96f);
                 GUI.DrawTexture(rect, Texture2D.whiteTexture); GUI.color = saved; GUI.Label(rect, text, _label);
             }
             GUI.EndGroup();

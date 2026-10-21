@@ -25,7 +25,7 @@ namespace CrowdSim.Unity.Workspace
             for (int i = 0; i < triangles.Length; i++) triangles[i] = data.Triangles[i];
             Box = new Mesh { name = "CrowdSim / chamfered box", vertices = vertices, normals = normals, uv = uv, triangles = triangles };
             Box.RecalculateBounds();
-            Wood = Pattern("Warm ash grain", 0); Floor = Pattern("Slate tile", 1); Barrier = Pattern("Safety stripe", 2);
+            Wood = Pattern("Warm ash grain", 0); Floor = Pattern("Warm mineral floor", 1); Barrier = Pattern("Safety stripe", 2);
         }
         private static Texture2D Pattern(string name, int mode)
         {
@@ -36,7 +36,7 @@ namespace CrowdSim.Unity.Workspace
             for (int x = 0; x < size; x++)
             {
                 float grain = .94f + .04f * Mathf.Sin(y * .7f + Mathf.Sin(x * .14f));
-                if (mode == 1) grain = x < 2 || y < 2 ? .84f : .98f;
+                if (mode == 1) grain = .995f + .004f * Mathf.Sin(x * .4f) * Mathf.Sin(y * .3f);
                 colors[y * size + x] = mode == 2 ? ((x + y) / 12 % 2 == 0 ? new Color(.95f, .78f, .36f) : new Color(.24f, .29f, .33f)) : new Color(grain, grain, grain);
             }
             texture.SetPixels(colors); texture.Apply(true, true); return texture;

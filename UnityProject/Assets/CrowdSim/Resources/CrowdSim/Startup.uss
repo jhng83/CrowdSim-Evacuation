@@ -1,34 +1,34 @@
-.startup-scroll { flex-grow: 1; background-color: rgb(12, 18, 26); color: rgb(222, 231, 239); }
+.startup-scroll { flex-grow: 1; background-color: rgb(246, 245, 240); color: rgb(0, 0, 0); }
 .page { max-width: 1180px; width: 100%; align-self: center; padding: 36px 32px 28px 32px; }
 .header { flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; }
-.brand { font-size: 20px; -unity-font-style: bold; color: rgb(100, 198, 246); letter-spacing: 2px; }
-.milestone { font-size: 13px; color: rgb(151, 172, 191); }
+.brand { font-size: 20px; -unity-font-style: bold; color: rgb(0, 0, 0); letter-spacing: 2px; }
+.milestone { font-size: 13px; color: rgb(0, 0, 0); }
 .headline { font-size: 36px; -unity-font-style: bold; white-space: normal; margin-bottom: 4px; }
-.subtitle { font-size: 15px; color: rgb(151, 172, 191); margin-bottom: 25px; }
+.subtitle { font-size: 15px; color: rgb(0, 0, 0); margin-bottom: 25px; }
 .cards { flex-direction: row; flex-wrap: wrap; margin-left: -7px; margin-right: -7px; }
-.scenario-card { flex-grow: 1; flex-basis: 340px; margin: 7px; padding: 23px; background-color: rgb(22, 31, 43); border-width: 1px; border-color: rgb(48, 65, 83); border-radius: 9px; }
-.card-kicker { font-size: 12px; -unity-font-style: bold; letter-spacing: 1px; color: rgb(127, 190, 222); margin-bottom: 10px; }
-.explosion-text { color: rgb(247, 178, 82); }
-.fume-text { color: rgb(102, 218, 173); }
+.scenario-card { flex-grow: 1; flex-basis: 340px; margin: 7px; padding: 23px; background-color: rgb(246, 245, 240); border-width: 1px; border-color: rgb(48, 65, 83); border-radius: 9px; }
+.card-kicker { font-size: 12px; -unity-font-style: bold; letter-spacing: 1px; color: rgb(0, 0, 0); margin-bottom: 10px; }
+.explosion-text { color: rgb(0, 0, 0); }
+.fume-text { color: rgb(0, 0, 0); }
 .card-title { font-size: 22px; -unity-font-style: bold; white-space: normal; margin-bottom: 10px; }
-.body { font-size: 15px; color: rgb(174, 194, 211); white-space: normal; margin-bottom: 12px; }
-.scenario-button { height: 39px; margin-top: 12px; background-color: rgb(39, 64, 85); border-width: 1px; border-color: rgb(78, 112, 142); border-radius: 5px; color: rgb(231, 241, 249); }
-.scenario-button:hover, .scenario-button:focus, .scenario-button.selected { background-color: rgb(52, 91, 120); border-color: rgb(124, 194, 236); }
-.overview, .setup { background-color: rgb(17, 26, 37); border-width: 1px; border-color: rgb(43, 61, 78); border-radius: 8px; padding: 20px 24px; margin-top: 18px; }
+.body { font-size: 15px; color: rgb(0, 0, 0); white-space: normal; margin-bottom: 12px; }
+.scenario-button { height: 39px; margin-top: 12px; background-color: rgb(211, 229, 239); border-width: 1px; border-color: rgb(78, 112, 142); border-radius: 5px; color: rgb(0, 0, 0); }
+.scenario-button:hover, .scenario-button:focus, .scenario-button.selected { background-color: rgb(211, 229, 239); border-color: rgb(124, 194, 236); }
+.overview, .setup { background-color: rgb(246, 245, 240); border-width: 1px; border-color: rgb(43, 61, 78); border-radius: 8px; padding: 20px 24px; margin-top: 18px; }
 .overview-title { font-size: 23px; white-space: normal; margin-bottom: 8px; }
-.quiet-button { min-height: 33px; align-self: flex-start; padding-left: 15px; padding-right: 15px; background-color: rgb(29, 45, 61); color: rgb(211, 230, 244); border-color: rgb(66, 96, 120); border-width: 1px; border-radius: 4px; }
-.quiet-button:hover, .quiet-button:focus { background-color: rgb(43, 67, 87); }
-.check { color: rgb(142, 215, 181); font-size: 14px; margin-bottom: 6px; white-space: normal; }
+.quiet-button { min-height: 33px; align-self: flex-start; padding-left: 15px; padding-right: 15px; background-color: rgb(246, 245, 240); color: rgb(0, 0, 0); border-color: rgb(66, 96, 120); border-width: 1px; border-radius: 4px; }
+.quiet-button:hover, .quiet-button:focus { background-color: rgb(211, 229, 239); }
+.check { color: rgb(0, 0, 0); font-size: 14px; margin-bottom: 6px; white-space: normal; }
 .footer { flex-direction: row; justify-content: space-between; flex-wrap: wrap; margin-top: 24px; }
-.footer-label { font-size: 11px; color: rgb(123, 148, 170); white-space: normal; }
+.footer-label { font-size: 11px; color: rgb(0, 0, 0); white-space: normal; }
 
 .headline { font-size: 39px; max-width: 800px; margin-top: 12px; }
-.scenario-card { padding: 26px; border-radius: 14px; background-color: rgb(20, 31, 44); }
+.scenario-card { padding: 26px; border-radius: 14px; background-color: rgb(246, 245, 240); }
 .explosion-card { border-top-color: rgb(218, 150, 75); border-top-width: 3px; }
 .fume-card { border-top-color: rgb(68, 190, 145); border-top-width: 3px; }
-.card-workflow { font-size: 10px; letter-spacing: 1px; color: rgb(133, 162, 184); margin: 12px 0 6px 0; white-space: normal; }
-.primary-explosion { background-color: rgb(106, 69, 38); border-color: rgb(179, 123, 64); -unity-font-style: bold; }
-.primary-fume { background-color: rgb(26, 96, 74); border-color: rgb(58, 153, 117); -unity-font-style: bold; }
+.card-workflow { font-size: 10px; letter-spacing: 1px; color: rgb(0, 0, 0); margin: 12px 0 6px 0; white-space: normal; }
+.primary-explosion { background-color: rgb(245, 227, 191); border-color: rgb(179, 123, 64); -unity-font-style: bold; }
+.primary-fume { background-color: rgb(205, 231, 216); border-color: rgb(58, 153, 117); -unity-font-style: bold; }
 .scenario-card .quiet-button { align-self: stretch; margin-top: 10px; min-height: 36px; }
 .scenario-card .scenario-button { margin-top: 8px; }
 .overview, .setup { border-radius: 12px; }
@@ -36,3 +36,11 @@
 .card-workflow, .footer-label, .card-kicker { font-size: 13px; letter-spacing: 0; }
 .scenario-button, .quiet-button { font-size: 15px; }
 .scenario-button:focus, .quiet-button:focus { border-width: 2px; border-color: rgb(161, 219, 255); }
+
+/* M9 user request: black type on light, warm architectural surfaces. */
+.startup-scroll { background-color: rgb(239, 239, 233); color: rgb(0, 0, 0); }
+.startup-scroll * { color: rgb(0, 0, 0); }
+Button:focus, .unity-base-field:focus { border-color: rgb(20, 60, 85); }
+.unity-text-field__input, .unity-base-popup-field__input, .unity-base-text-field__input { background-color: rgb(255, 254, 249); color: rgb(0, 0, 0); }
+
+.startup-scroll .unity-text-element, .startup-scroll .unity-button:hover, .startup-scroll .unity-button:focus, .startup-scroll .unity-button:disabled, .startup-scroll .unity-disabled .unity-text-element, .startup-scroll .unity-base-field__input:focus { color: rgb(0, 0, 0); }

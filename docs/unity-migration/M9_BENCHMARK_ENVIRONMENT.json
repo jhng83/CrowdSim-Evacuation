@@ -1,0 +1,12 @@
+{
+  "Utc": "2026-10-21T17:03:54.6562119Z",
+  "Runtime": ".NET 8.0.21",
+  "OS": "Debian GNU/Linux 13 (trixie)",
+  "Architecture": "X64",
+  "LogicalProcessors": 4,
+  "WarmupTicks": 12,
+  "MeasuredTicks": 60,
+  "Seed": 731,
+  "StepSeconds": 0.15,
+  "Note": "CPU-only engine and pure diagnostic/geometry commands. No Unity, GPU, application FPS or recording measured."
+}

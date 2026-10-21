@@ -82,7 +82,7 @@ namespace CrowdSim.Unity.Workspace
                 Label(row, label, "agent-legend-text");
             }
             Label(legend, "Body colour means physical state. The selected label also names that state; low poses identify casualties. Temporary and permanent incapacity share the native prone pose and colour; inspect the state label to distinguish them.", "muted");
-            Label(legend, "White ring + #ID = selected person\nOrange ground ring = panic ≥ 20% (selected label gives %)\n! ALARM = waiting / reaction freeze\nGOING TO HELP + target ID = approaching casualty\n+ HELPING + target ID = timed kneeling assistance", "muted");
+            Label(legend, "Black ring + #ID = selected person\nOrange ground ring = panic ≥ 20% (selected label gives %)\n! ALARM = waiting / reaction freeze\nGOING TO HELP + target ID = approaching casualty\n+ HELPING + target ID = timed kneeling assistance", "muted");
         }
     }
 }

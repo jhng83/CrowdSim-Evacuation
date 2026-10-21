@@ -1,6 +1,6 @@
 # Unity presentation design
 
-User requirement, continued from M7/M8: professional, intuitive presentation with
+User requirement, continued from M7–M9: professional, intuitive presentation with
 user-centred colours and typography in subsequent milestones. Keep these choices
 consistent through diagnostics, recording and final acceptance.
 
@@ -8,8 +8,10 @@ consistent through diagnostics, recording and final acceptance.
   startup, workspace and world labels. Distinct letter/number shapes aid inspection.
   Body/control text is normally 14–16 px; secondary labels are at least 13 px;
   headings establish hierarchy. Do not depend on a font installed on the user's PC.
-- Graphite surfaces reduce visual clutter. Pale ink supplies readable contrast;
-  restrained blue marks actions, emerald the Fume workflow, amber event/readiness.
+- M9 explicitly changes text to **black**, including hazard/agent legends, world
+  labels, input/hover/focus states and validation panels. Warm pale surfaces support
+  readable contrast; restrained pale blue marks actions, pale emerald the Fume
+  workflow, pale amber event/readiness. Coloured swatches retain state meaning.
   Primary-button solid text/normal/hover/focus combinations pass at least 4.5:1.
   Static checks cover selected authored colour pairs; local review must check actual
   glyph rendering, wrapping, disabled/focus states, lighting and translucent overlays.
@@ -25,6 +27,15 @@ consistent through diagnostics, recording and final acceptance.
 - Keep keyboard focus visible, actions labelled, dense information scrollable and
   the inspector optional. Selection retains the user's hidden-panel choice.
   Follow/POV always display the mode and an in-viewport way to leave it.
+- Square and circular authored blockages represent off-white architectural pillars:
+  use lit mineral surfaces with black feature edges/silhouettes and preserve exact
+  metric dimensions. Distinguish existing blue internal walls. Use an off-white
+  floor, subtle finish and default-on 1.2 m grid. Its visibility remains adjustable
+  on Debug. Grid/outline geometry never becomes model collision geometry.
+  The workspace root stays transparent; only actual panels have opaque surfaces.
+- On the light floor, selection uses a black ring plus black ID/state text on a
+  pale label plate. Panic remains orange; bodies retain their state palette and
+  dark outlines. Planning people also retain silhouettes for contrast.
 - Humanoids stay volumetric at every zoom. Added detail is cosmetic; rendered
   picking and animation do not affect physical hitboxes, time, randomness or saves.
 

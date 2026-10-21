@@ -397,3 +397,77 @@ solid text/background pairs, including primary hover/focus, pass 4.5:1. This sta
 check does not certify actual font import, lighting, translucent overlay contrast,
 layout, native input, Unity compilation or accessibility; local review is required.
 No Editor/.NET target/UPM dependency pin or simulation algorithm changed.
+
+
+## M9 diagnostics, scale and the requested architectural theme
+
+PopulationMetrics translates the actual native UiMetrics.Capture body into C#9
+without changing its denominators. In-room counts all active people; mobile excludes
+fatal/fallen/temporary/permanent incapacity but includes crawling. Panic/visibility/
+congestion/intent averages use that mobile denominator, with native empty defaults.
+Fume exposure counts/mean include exited people's accumulated exposure. Exit density
+is the active count within ten agent radii (2 m by default); flow is admitted count
+per most recent dt, not a long-term rate or people/m². DiagnosticFrame exposes native
+Hybrid/group/shared-field and engine/furniture/route counters without inferring
+performance. AgentInspection translates the native selected-agent/model readouts,
+including conditional navigation, slow-blocker, assistance and casualty-helper rows.
+Speeds divide per-reference-step velocity/desired speed by 0.15 for m/s. The portable
+boundary captures immutable numbers/strings/vectors/collections; no Agent escapes.
+Snapshots are lazy-cached until model/selection changes, and capture is read-only.
+
+Eight DiagnosticOverlay flags are session-owned. Pure geometry builds batched layers
+for desired/avoidance/herd/SFM/blast arrows, vision cones, purple congestion disks and
+trajectory trails. Arrows retain native 32/30/28/45-cap/26 legacy-unit metre scaling,
+force scaling /160, and the 1.78 m display height. Vision uses native range/half-angle
+and 18 arc segments at 0.3 m, without occlusion clipping. Panic remains independent.
+Congestion uses actual LocalCongestion above 0.08 with world-space disk radius and
+uniform layer opacity, rather than reproducing OpenGL screen-space circles exactly.
+Trails sample every third tick, cap forty points, remove exited people and reset on
+replay/new/load; uniform layer opacity is a cosmetic difference from native fade.
+POV excludes its own agent. Existing GroundOverlayLayer uploads one owned line/fill
+mesh per enabled category with 32-bit indices as needed; hiding the inspector never
+disables the view. No overlay invokes a simulation command or consumes seeded RNG.
+
+SetPausedHybrid permits changes only while not Running. For a finalised scene it
+rebases only the Hybrid flag on the private authored checkpoint, changes the live
+configuration and marks it dirty. Tick, live positions, damage, RNG/order, furniture,
+exposure and numerical guards are untouched. Replay/save therefore use the latest
+flag with original authored starts. The existing builder-only SetHybrid API remains
+compatible. Hybrid off still uses native SFM and navigation; cross-mode trajectories
+can differ as before. Same-mode original/portable traces remain unchanged.
+
+CrowdScaleLayout shares seed-731 authored fixtures between the Unity Debug workflow
+and a locked net8 cloud CLI: four five-person exits, 220/500/1000 total people,
+open/eight-table furnished rooms with 80 seats included, both hazards and modes.
+Independent layout RNG fixes coordinates across modes without consuming model trait
+randomness. Scenario files/checkpoints use existing schema 4 and codecs. Comparison
+creation uses the existing save/discard/keep-working transition, not an unguarded
+session replacement. Timed CLI results exclude setup/precompute/warm-up and report
+step CPU/allocations separately from pure snapshot/geometry CPU/allocations. They
+establish no Unity/GPU/FPS or calibrated physical performance. See M9_BENCHMARK.md.
+
+The Unity controller reports observed wall-frame interval/FPS and bounded 120-frame
+p50/p95, CPU spent in physics commands (including session snapshot work), native last
+tick/furniture/route CPU, world-command CPU and UI-command CPU (excluding UI Toolkit
+paint). Main-thread managed bytes are measured between updates; they are not total
+process/GPU memory. GPU timing is explicitly unmeasured and recorder integration is
+M10 pending. Replay/new/load resets measurement history. View optimisations cull
+posing outside the camera frustum, cache renderers/material keys/unchanged poses,
+reuse rings and pooled people, and disable small-part shadow casting. Geometry stays
+volumetric at all zooms and rendering never changes engine update order or bodies.
+Actual graphical scale acceptance is local; no FPS threshold is invented.
+
+After accepting M8 the user explicitly requested black text, off-white square/round
+pillars with black outlines, and an off-white gridded floor. Startup/workspace/
+validation styles and world/pose-gallery labels now use black type on pale surfaces;
+hazard colours move to swatches and border cues. Higher-specificity input/hover/
+focus/disabled rules retain black text. The workspace root remains transparent to
+avoid masking the camera. Square Blockages gain detached IsPillar metadata; legacy
+blue walls remain separate. Pillars retain original mesh bounds and get owned black
+edge meshes and a front-culled silhouette hull; outline geometry is view-only, with
+no collider/model geometry. The mineral-finish off-white floor has the existing
+1.2 m grid enabled by default and still adjustable on Debug. Key/fill lighting is
+restrained for pale surfaces. A black selection ring and pale label plates preserve
+contrast; state-body colours/poses remain meaningful. Planning people get silhouettes.
+No simulation/scientific parameter, original reference file, Engine algorithm,
+Editor/.NET target, schema or UPM dependency pin changed. Package version is 0.9.0.

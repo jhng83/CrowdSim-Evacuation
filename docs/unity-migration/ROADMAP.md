@@ -195,3 +195,11 @@ subsequent steps. Apply the shared DESIGN.md conventions throughout M8–M11:
 bundled readable type, consistent labelled states, sufficient text contrast, visible
 focus and intuitive navigation. M8 includes these refinements with humanoid/camera
 presentation. Milestone ownership and one-milestone acceptance gates are unchanged.
+
+
+## M9 authorized architectural theme
+
+After accepting M8, the user requested black fonts, off-white square/circular pillar
+assets with black outlines, and an off-white gridded simulation floor. M9 applies
+that presentation change with the diagnostic/scale work. Physical blockage geometry,
+room containment, simulation ordering and the remaining M10/M11 gates are unchanged.

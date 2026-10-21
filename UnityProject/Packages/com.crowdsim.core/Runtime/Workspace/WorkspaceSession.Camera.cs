@@ -30,6 +30,7 @@ namespace CrowdSim.Workspace
         {
             Agent? selected = id.HasValue ? _simulation.Agents.FirstOrDefault(a => a.AgentId == id && a.IsActive) : null;
             SelectedAgentId = selected?.AgentId;
+            _diagnostics = null;
             if (selected == null) CameraMode = AgentCameraMode.Overview;
             else _inspector.SelectTab(CrowdSim.OpenGL.UI.InspectorTab.Agent);
             Message = selected == null ? "Selection cleared; room overview active." : "Selected agent " + id + ". Open its details for state, Follow and POV.";

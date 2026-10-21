@@ -146,6 +146,16 @@ def validate() -> None:
         ratio = contrast(style(ink, ink_prop), style(paper, "background-color"))
         require(ratio >= 4.5, f"Small UI text contrast below 4.5:1: {ink} on {paper}: {ratio:.2f}")
 
+    for name in ["WorkspaceController.Diagnostics.cs", "WorkspaceDiagnosticView.cs", "WorkspacePillarOutline.cs"]:
+        require((PROJECT / "Assets/CrowdSim/Runtime/Workspace" / name).is_file(), "M9 adapter missing: " + name)
+    for name in ["Workspace", "Startup", "Parity"]:
+        sheet = (PROJECT / "Assets/CrowdSim/Resources/CrowdSim" / (name + ".uss")).read_text()
+        for value in re.findall(r"(?<![\w-])color:\s*rgb\(([^)]+)\)", sheet):
+            require(tuple(int(v.strip()) for v in value.split(",")) == (0, 0, 0), "M9 requires black authored text: " + name)
+    require(".workspace { background-color: rgba(0, 0, 0, 0);" in css, "Opaque workspace UI would obscure the camera viewport")
+    require((ROOT / "Migration/Benchmarks/CrowdSim.Scale.csproj").is_file() and
+            (ROOT / "Migration/Benchmarks/packages.lock.json").is_file(), "M9 benchmark adapter/lock missing")
+
     parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
     require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
     require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")
