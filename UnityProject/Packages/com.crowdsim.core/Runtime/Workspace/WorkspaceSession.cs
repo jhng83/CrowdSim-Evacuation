@@ -233,8 +233,8 @@ namespace CrowdSim.Workspace
             int count = _scheduler.Advance(elapsed, _simulation.Config.Agent.Dt, _speed, _simulation.Step, () => false);
             if (count > 0)
             {
-                if (SelectedAgentId.HasValue && _simulation.Agents[SelectedAgentId.Value].State == AgentState.Exited) SelectedAgentId = null;
-                Changed("Simulation running.");
+                bool exited = ValidateCameraSelection();
+                Changed(exited ? "Selected agent exited. Selection, Follow and POV ended automatically." : "Simulation running.");
             }
             return count;
         }
@@ -285,14 +285,16 @@ namespace CrowdSim.Workspace
         {
             Agent? selected = _simulation.Agents.Where(a => a.IsActive && Vector2.Distance(a.Position, point) <= 1.2f)
                 .OrderBy(a => Vector2.DistanceSquared(a.Position, point)).FirstOrDefault();
-            SelectedAgentId = selected?.AgentId;
-            if (selected != null) _inspector.SelectTab(CrowdSim.OpenGL.UI.InspectorTab.Agent);
+            SelectAgentById(selected?.AgentId);
         }
         public string SelectedAgentSummary => SelectedAgentId.HasValue
             ? "Agent " + SelectedAgentId + "\nState: " + _simulation.Agents[SelectedAgentId.Value].State +
                 "\nPosture: " + _simulation.Agents[SelectedAgentId.Value].Posture +
                 "\nRise: " + _simulation.Agents[SelectedAgentId.Value].StandUpProgress.ToString("P0") +
                 "\nPanic: " + _simulation.Agents[SelectedAgentId.Value].PanicLevel.ToString("F2") +
+                "\nVisual pose: " + SelectedVisual?.Pose +
+                "\nIndicator: " + (string.IsNullOrEmpty(SelectedVisual?.Indicator) ? "none" : SelectedVisual?.Indicator) +
+                "\nActive alarm source: " + _simulation.Agents[SelectedAgentId.Value].IsActiveAlarmSource(Tick) +
                 (Scenario == ScenarioType.Explosion
                 ? "\nShock hit: " + _simulation.Agents[SelectedAgentId.Value].ShockwaveHit +
                 " · hit tick " + _simulation.Agents[SelectedAgentId.Value].ShockwaveHitFrame +
@@ -303,6 +305,6 @@ namespace CrowdSim.Workspace
                 "\nCumulative exposure: " + _simulation.Agents[SelectedAgentId.Value].CumulativeToxicExposure.ToString("F2") +
                 "\nFume status: " + _simulation.Agents[SelectedAgentId.Value].ToxicExposureStatus +
                 " · mobility " + _simulation.Agents[SelectedAgentId.Value].ToxicMobilityFactor.ToString("F2"))
-            : "No agent selected. Click a runtime capsule to select it.";
+            : "No agent selected. Click a runtime person to select them.";
     }
 }

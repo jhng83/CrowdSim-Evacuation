@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CrowdSim/Scenes/Validation/SimulationParity.unity
     guid: 0404fa2ca7d453659158b04536864f38
+  - enabled: 1
+    path: Assets/CrowdSim/Scenes/Validation/HumanoidPresentation.unity
+    guid: cc4bb367125f5226a382abf5288405f4
   m_configObjects: {}

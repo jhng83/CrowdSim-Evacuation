@@ -1,15 +1,18 @@
-# Unity migration — Milestone 7
+# Unity migration — Milestone 8
 
-On `unity-migration`, open **UnityProject/** with **Unity 6000.3.26f1**, then
-**Assets/CrowdSim/Scenes/Bootstrap.unity**. M7 completes Toxic Fume source/settings,
-compute/preview/release, plume/grid, exposure inspection and replay. Choose **Open
-205-person Fume example** for a ready authored scene. The requested UX/assets polish
-adds scenario cards, navigation/readiness guidance, lit surfaces and refined furniture.
-M1–M6 were tested successfully by the user; M7 awaits local Unity testing. Follow the
-[M7 checklist](docs/unity-migration/M7_LOCAL_TESTING.md) and
-[migration status](docs/unity-migration/STATUS.md). Cloud validation passes; actual
-M7 Unity import/tests/input/rendering were not executed. The original application/
-tests below remain the behavioral reference.
+On `unity-migration`, open **UnityProject/** (containing **Assets/**, **Packages/**,
+**ProjectSettings/**) with **Unity 6000.3.26f1**, then
+**Assets/CrowdSim/Scenes/Bootstrap.unity**. M8 adds complete volumetric humanoid
+poses/animation/indicators, rendered-body selection, Follow and head-height POV.
+A separate **Assets/CrowdSim/Scenes/Validation/HumanoidPresentation.unity** scene
+shows 14 deterministic pose fixtures. The bundled Atkinson Hyperlegible font,
+larger text, focus boundaries and checked text contrast support the requested design.
+
+M1–M7 were accepted by the user; M8 awaits local testing. Follow the numbered
+[M8 checklist](docs/unity-migration/M8_LOCAL_TESTING.md) and
+[migration status](docs/unity-migration/STATUS.md). Cloud passes 404 original,
+415 portable and 159 migration tests; actual M8 Unity import/tests/input/rendering
+were not executed. The original application/tests below remain the behavioural reference.
 
 # Always-3D agents — current revision
 

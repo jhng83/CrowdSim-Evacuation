@@ -56,6 +56,7 @@ namespace CrowdSim.Workspace
             Simulation ready = _checkpoint.CreateReadySimulation();
             _simulation = ready;
             SelectedAgentId = null;
+            CameraMode = Diagnostics.AgentCameraMode.Overview;
             ExplosionArmed = false;
             Phase = WorkspacePhase.Ready;
             _scheduler.Reset();

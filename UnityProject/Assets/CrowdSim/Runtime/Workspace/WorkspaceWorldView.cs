@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CrowdSim.Core.Model;
 using CrowdSim.Diagnostics;
+using CrowdSim.Workspace;
 using UnityEngine;
 
 namespace CrowdSim.Unity.Workspace
@@ -15,6 +16,7 @@ namespace CrowdSim.Unity.Workspace
         private readonly Dictionary<string, Material> _materials = new Dictionary<string, Material>();
         private WorkspaceSurfaceLibrary _surfaces;
         public Camera ViewCamera { get; private set; }
+        public WorkspaceHumanoidView Humans { get; private set; }
         public float Azimuth { get; set; } = -35f;
         public float Elevation { get; set; } = 34f;
         public float Zoom { get; set; } = 1f;
@@ -34,12 +36,16 @@ namespace CrowdSim.Unity.Workspace
             ViewCamera.orthographic = true;
             ViewCamera.clearFlags = CameraClearFlags.SolidColor;
             ViewCamera.backgroundColor = new Color(.055f, .075f, .10f);
+            GameObject people = new GameObject("Humanoid presentation"); people.transform.SetParent(transform, false);
+            Humans = people.AddComponent<WorkspaceHumanoidView>(); Humans.Initialise(ViewCamera, _surfaces.Box);
         }
         public void Draw(IEnumerable<ViewBody> bodies, string prefix = "", Color? overrideColor = null)
         {
             HashSet<string> active = new HashSet<string>();
             foreach (ViewBody body in bodies)
             {
+                // Runtime anchors remain in the portable frame for existing diagnostics, not as duplicate capsules.
+                if (prefix.Length == 0 && body.Id.StartsWith("agent-", StringComparison.Ordinal)) continue;
                 string id = prefix + body.Id;
                 active.Add(id);
                 if (_views.TryGetValue(id, out GameObject previous) && _shapes[id] != body.Shape)
@@ -98,29 +104,24 @@ namespace CrowdSim.Unity.Workspace
             }
         }
 
-        public void Fit(float width, float length, Rect viewport)
+        public void Fit(float width, float length, Rect viewport, WorkspaceSession session = null)
         {
             ViewCamera.rect = viewport;
-            Vector3 target = new Vector3(width / 2, 0, length / 2);
-            float elevation = Elevation * Mathf.Deg2Rad, azimuth = Azimuth * Mathf.Deg2Rad;
-            Vector3 direction = new Vector3(Mathf.Cos(elevation) * Mathf.Cos(azimuth), Mathf.Sin(elevation), Mathf.Cos(elevation) * Mathf.Sin(azimuth));
-            ViewCamera.transform.position = target + direction * 200;
-            ViewCamera.transform.LookAt(target, Vector3.up);
-            float horizontal = 0, vertical = 0;
-            for (int x = -1; x <= 1; x += 2)
-            for (int z = -1; z <= 1; z += 2)
-            {
-                Vector3 corner = new Vector3(x * width / 2, 0, z * length / 2);
-                horizontal = Mathf.Max(horizontal, Mathf.Abs(Vector3.Dot(corner, ViewCamera.transform.right)));
-                vertical = Mathf.Max(vertical, Mathf.Abs(Vector3.Dot(corner, ViewCamera.transform.up)));
-            }
             float aspect = Mathf.Max(.1f, Screen.width * viewport.width / Mathf.Max(1, Screen.height * viewport.height));
-            ViewCamera.orthographicSize = Mathf.Max(vertical + 3, (horizontal + 3) / aspect) * 1.08f / Mathf.Clamp(Zoom, .45f, 2.5f);
+            AgentCameraFrame frame = AgentCameraRig.Calculate(width, length, aspect, Azimuth, Elevation, Zoom,
+                session == null ? AgentCameraMode.Overview : session.CameraMode, session?.SelectedVisual,
+                Humans.RenderedPosition(session?.SelectedAgentId));
+            ViewCamera.orthographic = frame.Orthographic;
+            ViewCamera.fieldOfView = AgentCameraFrame.FieldOfView;
+            ViewCamera.nearClipPlane = AgentCameraFrame.NearPlane;
+            ViewCamera.transform.position = new Vector3(frame.Eye.X, frame.Eye.Y, frame.Eye.Z);
+            ViewCamera.transform.LookAt(new Vector3(frame.Target.X, frame.Target.Y, frame.Target.Z), Vector3.up);
+            ViewCamera.orthographicSize = frame.Size;
         }
         public bool GroundPoint(Vector2 screenPoint, out System.Numerics.Vector2 point, float height = 0)
         {
             point = default;
-            if (!ViewCamera.pixelRect.Contains(screenPoint)) return false;
+            if (!ViewCamera.orthographic || !ViewCamera.pixelRect.Contains(screenPoint)) return false;
             Ray ray = ViewCamera.ScreenPointToRay(screenPoint);
             if (!new Plane(Vector3.up, new Vector3(0, height, 0)).Raycast(ray, out float distance)) return false;
             Vector3 hit = ray.GetPoint(distance);
@@ -132,18 +133,8 @@ namespace CrowdSim.Unity.Workspace
         {
             if (body.Kind == ViewKind.Agent || body.Kind == ViewKind.AgentDetail)
             {
-                switch (body.State)
-                {
-                    case AgentState.Evacuating: return new Color(0.15f, 0.85f, 0.35f);
-                    case AgentState.WaitingToReact: return new Color(1f, 0.7f, 0.15f);
-                    case AgentState.Injured: return new Color(0.15f, 0.4f, 1f);
-                    case AgentState.Dead: return Color.gray;
-                    case AgentState.Crawling: return Color.yellow;
-                    case AgentState.Fallen: return Color.red;
-                    case AgentState.Incapacitated:
-                    case AgentState.TempIncap: return new Color(0.5f, 0.1f, 0.1f);
-                    default: return new Color(0.92f, 0.94f, 0.96f);
-                }
+                System.Numerics.Vector3 color = AgentPalette.Color(body.State);
+                return new Color(color.X, color.Y, color.Z);
             }
             switch (body.Kind)
             {

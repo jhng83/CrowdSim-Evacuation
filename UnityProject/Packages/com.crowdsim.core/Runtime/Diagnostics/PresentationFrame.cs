@@ -49,6 +49,7 @@ namespace CrowdSim.Diagnostics
         public int OpenSpaceAgents { get; }
         public bool HazardReleased { get; }
         public IReadOnlyList<ViewBody> Bodies { get; }
+        public IReadOnlyList<AgentVisualFrame> Agents { get; }
         public IReadOnlyList<FurnitureBodyFrame> FurnitureBodies { get; }
         public int SeatedAgents { get; }
         public int RisingAgents { get; }
@@ -62,6 +63,8 @@ namespace CrowdSim.Diagnostics
             OpenSpaceAgents = simulation.HybridMovement.OpenSpaceAgents;
             HazardReleased = simulation.Environment.HasExplosion() || simulation.ToxicFumeSystem.IsReleased;
             Bodies = new ReadOnlyCollection<ViewBody>(bodies);
+            Dictionary<int, Agent> agents = simulation.Agents.ToDictionary(a => a.AgentId);
+            Agents = Array.AsReadOnly(simulation.Agents.Where(a => a.IsActive).Select(a => AgentVisualFrame.Capture(a, simulation.FrameIndex, agents)).ToArray());
             FurnitureBodies = Array.AsReadOnly(simulation.Environment.Furniture.SelectMany((set, i) => FurniturePresentation.Status(set, "furniture-" + i)).ToArray());
             SeatedAgents = simulation.Agents.Count == 0 ? simulation.Environment.Furniture.Sum(set => set.Chairs.Count)
                 : simulation.Agents.Count(a => a.Posture == SeatingPosture.Seated);

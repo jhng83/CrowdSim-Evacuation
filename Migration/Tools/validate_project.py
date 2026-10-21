@@ -114,6 +114,38 @@ def validate() -> None:
     for name in ["WorkspaceController.Fume.cs", "WorkspaceFumeView.cs", "GroundOverlayLayer.cs", "WorkspaceSurfaceLibrary.cs"]:
         require((PROJECT / "Assets/CrowdSim/Runtime/Workspace" / name).is_file(), "M7 adapter/asset library missing: " + name)
 
+    for name in ["WorkspaceHumanoidView.cs", "WorkspaceController.Agents.cs", "HumanoidPresentationGallery.cs"]:
+        require((PROJECT / "Assets/CrowdSim/Runtime/Workspace" / name).is_file(), "M8 presentation adapter missing: " + name)
+    human_scene = "Assets/CrowdSim/Scenes/Validation/HumanoidPresentation.unity"
+    require((PROJECT / human_scene).is_file() and human_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "M8 pose reference scene missing from build settings")
+    font = PROJECT / "Assets/CrowdSim/Resources/CrowdSim/Fonts/AtkinsonHyperlegible-Regular.ttf"
+    require(font.read_bytes()[:4] == b"\x00\x01\x00\x00", "Bundled font is not a TrueType font")
+    require("SIL OPEN FONT LICENSE" in font.with_name("OFL.txt").read_text(), "Bundled font license missing")
+    require((PROJECT / "Assets/CrowdSim/Resources/CrowdSim/HumanOutline.shader").is_file(), "M8 outline shader must be bundled for player inclusion")
+
+    # Check actual authored solid text/background colours (not rendered/material contrast).
+    css = (PROJECT / "Assets/CrowdSim/Resources/CrowdSim/Workspace.uss").read_text()
+    def style(selector: str, prop: str) -> tuple[float, ...]:
+        values = []
+        for selectors, declarations in re.findall(r"([^{}]+)\{([^{}]+)\}", re.sub(r"/\*.*?\*/", "", css, flags=re.S)):
+            if selector in [s.strip() for s in selectors.split(",")]:
+                values += re.findall(r"(?<![\w-])" + re.escape(prop) + r"\s*:\s*rgb\(([^)]+)\)", declarations)
+        require(bool(values), "Missing design colour: " + selector + "/" + prop)
+        return tuple(float(v.strip()) / 255 for v in values[-1].split(","))
+    def luminance(rgb: tuple[float, ...]) -> float:
+        linear = [v / 12.92 if v <= .04045 else ((v + .055) / 1.055) ** 2.4 for v in rgb]
+        return sum(a * b for a, b in zip(linear, (.2126, .7152, .0722)))
+    def contrast(ink: tuple[float, ...], paper: tuple[float, ...]) -> float:
+        a, b = sorted([luminance(ink), luminance(paper)])
+        return (b + .05) / (a + .05)
+    for ink, ink_prop, paper in [(".workspace", "color", ".controls"), (".muted", "color", ".controls"),
+                                  ("Button", "color", "Button.primary-button"), ("Button", "color", ".scenario-fume Button.primary-button"),
+                                  (".agent-legend-text", "color", ".inspector"),
+                                  ("Button", "color", "Button.primary-button:hover"), ("Button", "color", "Button.primary-button:focus"),
+                                  ("Button", "color", ".scenario-fume Button.primary-button:hover"), ("Button", "color", ".scenario-fume Button.primary-button:focus")]:
+        ratio = contrast(style(ink, ink_prop), style(paper, "background-color"))
+        require(ratio >= 4.5, f"Small UI text contrast below 4.5:1: {ink} on {paper}: {ratio:.2f}")
+
     parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
     require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
     require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")

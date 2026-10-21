@@ -49,9 +49,9 @@ Button:hover, Button:focus { background-color: rgb(48, 86, 115); }
 .workflow-steps { font-size: 10px; color: rgb(142, 176, 193); white-space: normal; margin-bottom: 8px; }
 Button { min-height: 33px; border-radius: 6px; font-size: 12px; padding: 5px 9px; background-color: rgb(34, 49, 66); border-color: rgb(58, 79, 99); }
 Button.primary-button { background-color: rgb(40, 95, 139); border-color: rgb(74, 146, 195); -unity-font-style: bold; }
-Button.primary-button:hover, Button.primary-button:focus { background-color: rgb(50, 118, 164); }
+Button.primary-button:hover, Button.primary-button:focus { background-color: rgb(44, 104, 149); }
 .scenario-fume Button.primary-button { background-color: rgb(29, 99, 79); border-color: rgb(58, 151, 118); }
-.scenario-fume Button.primary-button:hover, .scenario-fume Button.primary-button:focus { background-color: rgb(32, 121, 94); }
+.scenario-fume Button.primary-button:hover, .scenario-fume Button.primary-button:focus { background-color: rgb(30, 115, 91); }
 Button:disabled { color: rgb(117, 139, 156); background-color: rgb(28, 39, 51); border-color: rgb(43, 56, 70); }
 .unity-base-field { margin-top: 8px; margin-bottom: 8px; }
 .unity-base-field__label { color: rgb(182, 202, 219); font-size: 12px; }
@@ -61,3 +61,17 @@ Button:disabled { color: rgb(117, 139, 156); background-color: rgb(28, 39, 51); 
 .legend-swatch { flex-grow: 1; }
 
 Button.tool-active { border-color: rgb(113, 219, 179); border-width: 2px; color: rgb(162, 242, 209); }
+
+/* M8: readable bundled sans serif, labelled states and a visible keyboard-focus boundary. */
+.workspace { font-size: 14px; }
+.muted, .readiness, .status, .file-path, .tabs Button, .unity-base-field__label, .viewport-label { font-size: 14px; }
+.phase-badge, .eyebrow, .workflow-steps { font-size: 13px; letter-spacing: 0; }
+Button { font-size: 14px; min-height: 36px; }
+Button:focus { border-color: rgb(161, 219, 255); border-width: 2px; }
+Button:disabled { color: rgb(159, 178, 194); }
+.camera-card { background-color: rgb(26, 39, 53); padding: 10px; border-radius: 8px; margin: 8px 0; }
+.camera-badge { position: absolute; bottom: 58px; left: 8px; padding: 6px 10px; color: rgb(225, 238, 247); background-color: rgba(13, 24, 36, .94); font-size: 14px; border-radius: 6px; }
+.leave-camera { position: absolute; bottom: 10px; left: 8px; }
+.agent-legend-row { flex-direction: row; align-items: center; margin: 5px 0; }
+.agent-legend-swatch { width: 16px; height: 16px; flex-shrink: 0; margin-right: 9px; border-color: rgb(173, 193, 208); border-width: 1px; border-radius: 3px; }
+.agent-legend-text { color: rgb(225, 234, 242); font-size: 14px; white-space: normal; flex-shrink: 1; }

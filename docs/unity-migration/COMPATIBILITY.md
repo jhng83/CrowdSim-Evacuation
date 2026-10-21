@@ -341,3 +341,59 @@ new package, user file, model RNG or Unity physics. Meshes/materials/textures ar
 owned and disposed with the workspace. Native appearance, shadows, import and GPU
 behavior still require local Editor review. Complete humanoids/poses/cameras remain
 M8; the current walking representation remains volumetric capsules at every zoom.
+
+
+## M8 humanoids, cameras and ongoing user-centred design
+
+AgentVisualFrame is an immutable value snapshot with position, normalised facing,
+velocity/base-speed ratio (both per reference step), health, posture/rise, panic,
+assistance target/attendance and the reference WaitingToReact alarm cue. Heading
+uses velocity, desired direction, exit, then +X fallback; seated people use chair
+start heading; helpers face active targets. No Agent or mutable collection escapes.
+Existing Bodies remain diagnostic anchors for accepted portable/M2 tests; Bootstrap
+suppresses those runtime capsules and renders the detached Agents collection.
+Builder planning markers remain separate. The M2 SimulationParity viewer stays a
+primitive trace diagnostic, not the M8 application presentation.
+
+HumanGeometry builds positive-volume boxes in local X-forward/Y-up/Z-left coordinates.
+Unity maps ground XY to XZ and reverses ground yaw. Health takes priority over seat/
+help posture: dead/incapacitated/temporary/fallen are prone, crawling is low, then
+seated/rising, timed assistance and upright locomotion. Near detail includes neck,
+pelvis/feet and articulated low limbs; far figures retain solid torso/head/four limbs.
+Selections retain detail. This reproduces the reference low-poly pose meanings,
+not its exact OpenGL rasterisation. HumanMotion interpolates only between detached
+render positions/rise progress without extrapolation; render-only gait scales with playback,
+freezes on pause/modal and resets on replay. Physics still advances solely through
+the fixed-step session scheduler and seeded engine, never a view or Unity physics.
+
+Unity views reuse people/parts, cached state/shade materials and owned bevel meshes.
+An included URP front-culled hull shader adds dark silhouettes. Rendered oriented-box
+picking supports low/seated bodies without colliders; it does not alter physical
+collision radii. Panic/selection have separate ground rings; alarm/help/ID/state
+labels are clipped to the camera viewport and use pale text on dark panels.
+Panic does not recolour a body. State hue meanings are preserved with restrained
+Unity palette values; labels, poses and symbols supplement colour. Ring dimensions,
+outline thickness and the 48-pixel near threshold are cosmetic Unity choices.
+Resources are released with the world; inactive pooled people retire from picking,
+labels, and drawing. Large-crowd optimisation/timings remain M9.
+
+AgentCameraRig is pure math shared by tests and the actual Camera adapter. Overview
+retains M3 room fitting/azimuth/elevation/0.45–2.5 zoom. Follow centres the selected
+render position with the reference 1.35x follow multiplier. POV uses the native
+72° vertical FOV, 0.04 m near plane, fixed 1.496 m eye and heading/downward pitch,
+including for low poses; its own body/indicators are hidden. Floor picking/wheel zoom
+are disabled in POV, as in the native camera. Explicit Exit POV returns to Follow;
+clear/agent exit/replay/new/load return to overview. Entering Follow/POV cancels the
+armed Explosion tool. Hiding inspector never clears selection/mode or forces reveal.
+The in-viewport mode/leave controls remain available. Camera operations are view-only
+and never dirty authored definitions or recapture runtime damage into checkpoints.
+
+The separate HumanoidPresentation scene feeds 14 deterministic fixtures into the
+same production renderer; it instantiates no Simulation and is not hazard evidence.
+The bundled unmodified OFL Atkinson Hyperlegible Regular is loaded into both UI
+Toolkit roots and world labels, avoiding local font installation. See DESIGN.md for
+source/hash/license and the user's ongoing font/colour convention. Key authored
+solid text/background pairs, including primary hover/focus, pass 4.5:1. This static
+check does not certify actual font import, lighting, translucent overlay contrast,
+layout, native input, Unity compilation or accessibility; local review is required.
+No Editor/.NET target/UPM dependency pin or simulation algorithm changed.

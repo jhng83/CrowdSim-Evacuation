@@ -186,3 +186,12 @@ Confirm local OS and the proposed Windows x64/Mono player target before target-s
 work. Hardware is useful before setting performance gates. Actual Unity compilation,
 Mono numeric behavior, package resolution and recording integration remain checks,
 not assumptions. IL2CPP or additional platform acceptance needs an explicit target.
+
+
+## Ongoing visual design requirement (M8 authorization)
+
+After accepting M7, the user requested user-centred GUI colours and typography in
+subsequent steps. Apply the shared DESIGN.md conventions throughout M8–M11:
+bundled readable type, consistent labelled states, sufficient text contrast, visible
+focus and intuitive navigation. M8 includes these refinements with humanoid/camera
+presentation. Milestone ownership and one-milestone acceptance gates are unchanged.

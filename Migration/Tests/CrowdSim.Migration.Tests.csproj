@@ -4,6 +4,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../src/CrowdSim.OpenGL/Rendering/Camera3D.cs" Link="ReferenceCamera3D.cs" />
     <ProjectReference Include="../Build/CrowdSim.Portable.csproj" />
     <ProjectReference Include="../Compatibility/RecordingDependencyProbe.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />

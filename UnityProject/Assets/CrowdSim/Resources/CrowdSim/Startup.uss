@@ -32,3 +32,7 @@
 .scenario-card .quiet-button { align-self: stretch; margin-top: 10px; min-height: 36px; }
 .scenario-card .scenario-button { margin-top: 8px; }
 .overview, .setup { border-radius: 12px; }
+
+.card-workflow, .footer-label, .card-kicker { font-size: 13px; letter-spacing: 0; }
+.scenario-button, .quiet-button { font-size: 15px; }
+.scenario-button:focus, .quiet-button:focus { border-width: 2px; border-color: rgb(161, 219, 255); }

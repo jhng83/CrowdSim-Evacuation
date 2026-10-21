@@ -63,6 +63,7 @@ namespace CrowdSim.Unity.Workspace
             _settings.scaleMode = PanelScaleMode.ConstantPixelSize;
             _document.panelSettings = _settings;
             _root = _document.rootVisualElement;
+            _root.style.unityFontDefinition = FontDefinition.FromFont(Resources.Load<Font>("CrowdSim/Fonts/AtkinsonHyperlegible-Regular"));
             _root.styleSheets.Add(Resources.Load<StyleSheet>("CrowdSim/Workspace"));
             _root.AddToClassList("workspace");
             _root.RegisterCallback<KeyDownEvent>(OnKey);
@@ -100,6 +101,9 @@ namespace CrowdSim.Unity.Workspace
             _viewport.focusable = true;
             _selection = Label(_viewport, "Click the floor to place the active tool.", "viewport-label");
             _selection.pickingMode = PickingMode.Ignore;
+            _cameraBadge = Label(_viewport, "Room overview", "camera-badge"); _cameraBadge.pickingMode = PickingMode.Ignore;
+            _leaveCamera = Button(_viewport, "Exit POV", () => ChangeCamera(Session.CameraMode == AgentCameraMode.Pov ? AgentCameraMode.Follow : AgentCameraMode.Overview));
+            _leaveCamera.AddToClassList("leave-camera");
             Button(_viewport, "Show selected agent", () => { Session.ShowAgentInspector(); Refresh(); }).AddToClassList("agent-open");
             _viewport.RegisterCallback<PointerMoveEvent>(evt => Preview(evt.position));
             _viewport.RegisterCallback<PointerEnterEvent>(evt => { _overViewport = true; });
@@ -108,9 +112,23 @@ namespace CrowdSim.Unity.Workspace
             {
                 if (evt.button != 0 || evt.target != _viewport) return;
                 _viewport.Focus();
-                if (WorldPoint(evt.position, out GroundPoint point, !Session.IsBuilding && _tool != PlacementTool.Explosion ? .85f : 0))
-                    HandleWorldClick(point);
+                if (!Session.IsBuilding && _tool != PlacementTool.Explosion)
+                {
+                    if (Session.CameraMode != AgentCameraMode.Pov)
+                    {
+                        Session.SelectAgentById(_world.Humans.Pick(ScreenPoint(evt.position)));
+                        _operationStatus = ""; Draw(); Refresh();
+                    }
+                }
+                else if (WorldPoint(evt.position, out GroundPoint point)) HandleWorldClick(point);
                 evt.StopPropagation();
+            });
+            _viewport.RegisterCallback<WheelEvent>(evt =>
+            {
+                if (_modal != null || Session.CameraMode == AgentCameraMode.Pov) return;
+                _world.Zoom = Mathf.Clamp(_world.Zoom * Mathf.Pow(1.1f, -evt.delta.y), .45f, 2.5f);
+                _zoomSlider?.SetValueWithoutNotify(_world.Zoom);
+                evt.StopPropagation(); evt.PreventDefault();
             });
             _right = Box(body, "inspector");
             VisualElement inspectorTabs = Box(_right, "tabs");
@@ -150,16 +168,17 @@ namespace CrowdSim.Unity.Workspace
 
         private void BuildPage()
         {
-            _page.Clear(); _behaviour.Clear(); _builder = null;
+            _page.Clear(); _behaviour.Clear(); _builder = null; _zoomSlider = null;
             foreach (Button navigation in _navigation) navigation.EnableInClassList("tab-selected", (string)navigation.userData == _activePage);
             if (_activePage == "Camera")
             {
                 Label(_page, "Camera", "heading");
                 CameraSlider("Azimuth", -180, 180, _world.Azimuth, value => _world.Azimuth = value);
                 CameraSlider("Elevation", 18, 70, _world.Elevation, value => _world.Elevation = value);
-                CameraSlider("Zoom", .45f, 2.5f, _world.Zoom, value => _world.Zoom = value);
-                Button(_page, "Reset camera", () => { _world.ResetCamera(); BuildPage(); });
-                Label(_page, "Adjust the view without changing simulation state.", "muted");
+                _zoomSlider = CameraSlider("Zoom", .45f, 2.5f, _world.Zoom, value => _world.Zoom = value);
+                Button(_page, "Reset camera", () => { Session.SetCameraMode(AgentCameraMode.Overview); _world.ResetCamera(); BuildPage(); Refresh(); });
+                BuildCameraActions(_page);
+                Label(_page, "Azimuth, elevation and wheel zoom adjust the isometric view. POV uses movement heading at head height; floor picking and Explosion arming resume after leaving POV.", "muted");
                 return;
             }
             if (_activePage == "Files")
@@ -221,7 +240,7 @@ namespace CrowdSim.Unity.Workspace
                 Refresh();
             });
             Label(tuning, "Higher stress persistence slows recovery. Compression affects social spacing; physical guards remain active. Running speed is a ceiling, not a target.", "muted");
-            Label(_page, "Occupied furniture contributes to the planned population. Use the Hazard inspector to configure, preview and inspect the selected event. Select runtime agents by clicking their capsules.", "muted");
+            Label(_page, "Occupied furniture contributes to the planned population. Use the Hazard inspector to configure, preview and inspect the selected event. Select runtime agents by clicking their 3D bodies.", "muted");
             Refresh();
         }
 
@@ -270,14 +289,14 @@ namespace CrowdSim.Unity.Workspace
             _lastPreviewTime = -100; Preview(_pointerPosition);
         }
 
-        private void CameraSlider(string name, float min, float max, float initial, Action<float> changed)
+        private Slider CameraSlider(string name, float min, float max, float initial, Action<float> changed)
         {
             Slider slider = new Slider(name, min, max) { value = initial, showInputField = true };
             slider.RegisterValueChangedCallback(evt =>
             {
                 if (float.IsFinite(evt.newValue)) changed(Mathf.Clamp(evt.newValue, min, max));
                 else slider.SetValueWithoutNotify(initial);
-            }); _page.Add(slider);
+            }); _page.Add(slider); return slider;
         }
         private void SetTool(PlacementTool tool) { _operationStatus = ""; _tool = tool; ClearPreview(); Refresh(); }
         private int Option => _tool == PlacementTool.Exit ? _exitWidth : _people;
@@ -298,12 +317,13 @@ namespace CrowdSim.Unity.Workspace
             ClearPreview(); Draw(); Refresh();
         }
 
-        private bool WorldPoint(Vector3 panelPoint, out GroundPoint ground, float height = 0)
+        private Vector2 ScreenPoint(Vector3 panelPoint)
         {
             float panelHeight = Mathf.Max(1, _root.resolvedStyle.height), panelWidth = Mathf.Max(1, _root.resolvedStyle.width);
-            Vector2 screen = new Vector2(panelPoint.x * Screen.width / panelWidth, (panelHeight - panelPoint.y) * Screen.height / panelHeight);
-            return _world.GroundPoint(screen, out ground, height);
+            return new Vector2(panelPoint.x * Screen.width / panelWidth, (panelHeight - panelPoint.y) * Screen.height / panelHeight);
         }
+        private bool WorldPoint(Vector3 panelPoint, out GroundPoint ground, float height = 0)
+            => _world.GroundPoint(ScreenPoint(panelPoint), out ground, height);
         private void Preview(Vector3 point)
         {
             _pointerPosition = point; _hasPointer = true;
@@ -333,7 +353,10 @@ namespace CrowdSim.Unity.Workspace
             {
                 if (_modal == null && Session.Advance(Time.unscaledDeltaTime) > 0) Refresh();
                 if (_drawnRevision != Session.Revision || _drawnGrid != Session.ShowGrid) Draw();
+                _world.Humans.IndicatorsVisible = _modal == null;
+                _world.Humans.Render(Session, Time.unscaledDeltaTime, _modal == null);
                 Layout();
+                UpdateCameraActions();
             }
             catch (Exception exception)
             {
@@ -356,7 +379,7 @@ namespace CrowdSim.Unity.Workspace
             Rect rect = _viewport.worldBound;
             if (rect.width <= 0 || rect.height <= 0) return;
             _world.Fit(Session.Frame.Width, Session.Frame.Length,
-                new Rect(rect.x / width, 1 - rect.yMax / height, rect.width / width, rect.height / height));
+                new Rect(rect.x / width, 1 - rect.yMax / height, rect.width / width, rect.height / height), Session);
         }
         private void Draw()
         {
@@ -377,9 +400,6 @@ namespace CrowdSim.Unity.Workspace
                 }
                 _world.Draw(_grid, "grid-", new Color(.42f, .5f, .56f));
             }
-            ViewBody selected = Session.Frame.Bodies.FirstOrDefault(b => b.Id == "agent-" + Session.SelectedAgentId);
-            _world.Draw(selected == null ? Array.Empty<ViewBody>() : new[] {
-                new ViewBody("agent", ViewShape.Cylinder, ViewKind.Agent, new ViewVector(selected.Position.X, .04f, selected.Position.Z), new ViewVector(.9f, .06f, .9f)) }, "selection-", Color.cyan);
             _drawnRevision = Session.Revision; _drawnGrid = Session.ShowGrid;
         }
         private void Refresh()
@@ -401,14 +421,14 @@ namespace CrowdSim.Unity.Workspace
             _finalise.SetEnabled(Session.CanFinalise);
             _transport.SetEnabled(!Session.IsBuilding);
             _transport.text = Session.Running ? "Pause" : Session.Phase == WorkspacePhase.Ready ? "Start" : "Resume";
-            _arm.SetEnabled(Session.CanArmExplosion && !Session.ExplosionArmed);
+            _arm.SetEnabled(Session.CanArmExplosion && !Session.ExplosionArmed && Session.CameraMode != AgentCameraMode.Pov);
             _arm.style.display = Session.Scenario == ScenarioType.Explosion ? DisplayStyle.Flex : DisplayStyle.None;
             _cancelExplosion.style.display = Session.ExplosionArmed ? DisplayStyle.Flex : DisplayStyle.None;
             if (_tool == PlacementTool.Explosion && !Session.ExplosionArmed) _tool = PlacementTool.Select;
             _explosionView.Draw(Session);
             _fumeView.Draw(Session);
             _toggleInspector.text = Session.InspectorVisible ? "Hide inspector (F4)" : "Show inspector (F4)";
-            _selection.text = Session.IsBuilding ? "Tool: " + (_tool == PlacementTool.FumeSource ? "Place release point" : _tool == PlacementTool.Agents ? "Place people" : _tool == PlacementTool.Exit ? "Place exit" : _tool == PlacementTool.Asset ? BuilderAssetSelection.Label(Session.SelectedAsset, 1.2f) : _tool.ToString()) + " · green preview / red rejection · click floor" : _tool == PlacementTool.Explosion ? "Explosion armed · click inside the room once" : "Click a capsule to select · Show selected agent opens details";
+            _selection.text = Session.IsBuilding ? "Tool: " + (_tool == PlacementTool.FumeSource ? "Place release point" : _tool == PlacementTool.Agents ? "Place people" : _tool == PlacementTool.Exit ? "Place exit" : _tool == PlacementTool.Asset ? BuilderAssetSelection.Label(Session.SelectedAsset, 1.2f) : _tool.ToString()) + " · green preview / red rejection · click floor" : _tool == PlacementTool.Explosion ? "Explosion armed · click inside the room once" : "Click a person to select · Wheel to zoom · Show selected agent opens details";
             if (_activePage == "Build / Run")
             {
                 _metrics.text = (Session.UsesRandomStarts && Session.IsBuilding ? "Legacy random starts: " + Session.PlannedCount + " on finalisation\n" : "") + Session.Phase + " · tick " + Session.Tick + " · " + (Session.Tick * Session.StepSeconds).ToString("F2") + " s\n" +
@@ -424,6 +444,7 @@ namespace CrowdSim.Unity.Workspace
                 _exactAngle?.SetValueWithoutNotify(Session.AssetRotationDegrees);
             }
             BuildInspector();
+            UpdateCameraActions();
             Layout();
         }
         private void BuildInspector()
@@ -440,6 +461,7 @@ namespace CrowdSim.Unity.Workspace
                 { _inspectorText = null; BuildExplosionInspector(); return; }
                 Label(_inspectorPage, new[] { "Overview", "Hazard", "Selected agent", "Debug" }[tab], "heading");
                 _inspectorText = Label(_inspectorPage, "", "metrics");
+                if (tab == 2) { BuildCameraActions(_inspectorPage); BuildAgentLegend(_inspectorPage); }
                 if (tab == 3)
                 {
                     Toggle grid = new Toggle("Show room grid") { value = Session.ShowGrid };

@@ -60,6 +60,7 @@ namespace CrowdSim.Unity.Foundation
             _document.panelSettings = _panel;
             _document.visualTreeAsset = layout;
             _root = _document.rootVisualElement;
+            _root.style.unityFontDefinition = FontDefinition.FromFont(Resources.Load<Font>("CrowdSim/Fonts/AtkinsonHyperlegible-Regular"));
             _root.style.display = DisplayStyle.Flex;
 
             _showExplosion = () => ShowOverview("Explosion",

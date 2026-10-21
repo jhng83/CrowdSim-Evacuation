@@ -1,32 +1,32 @@
-# CrowdSim Unity migration — M7
+# CrowdSim Unity migration — M8
 
 Open **UnityProject/** with **Unity 6000.3.26f1** (URP 17.3.0), then
 **Assets/CrowdSim/Scenes/Bootstrap.unity** and press Play.
 
-1. Choose **Build a Toxic Fume scene**, author exits/people, open **Hazard**, and
-   **Set / move release point** on clear floor. Adjust the four basic and six advanced
-   settings; geometry/source/settings changes require recomputation.
-2. **Compute dispersion**, inspect cache statistics, then scrub the preview. People,
-   time, exposure and authored data remain unchanged. Plume/grid visibility is independent.
-3. Finalise/start and **Release Toxic Fume**. Inspect concentration/exposure, then
-   replay to paused frame zero with restored starts, furniture and an unreleased cache.
-4. For a ready example choose **Open 205-person Fume example** at startup. Expect
-   205 people, 80 seated and the same counts/zero exposure after replay.
+M8 adds pooled volumetric humanoids with all state/posture/assistance poses,
+near/far detail, animation, dark silhouettes, panic/alarm/help/selection indicators,
+rendered-body picking, Follow and head-height POV. Camera/selection cleanup follows
+exit/replay/new/load. Inspector hiding retains selection and camera mode.
+The bundled Atkinson Hyperlegible font, larger text, focus boundaries and checked
+text contrast carry the user's design preference into both scenarios.
 
-The requested visual refinement adds scenario cards, clear action/navigation states,
-phase/readiness badges, a concentration legend, lit materials, procedural finishes,
-softened furniture edges and owned studio lighting. Both scenarios retain original
-physical dimensions/behavior; full humanoid poses/cameras remain M8.
+1. Choose **Open furnished example**, Finalise and Start, then inspect Explosion
+   responses, low poses, selection, Follow/POV and zoom 0.45×/1×/2.5×.
+2. Choose **Open 205-person Fume example**, Compute dispersion, Finalise, Start and
+   Release Toxic Fume. Repeat camera/picking/pause/hidden-inspector checks.
+3. For deterministic visual checks, open
+   **Assets/CrowdSim/Scenes/Validation/HumanoidPresentation.unity**. It uses the same
+   production renderer for 14 pose/state fixtures; no simulation is run there.
 
-Follow [M7_LOCAL_TESTING.md](../docs/unity-migration/M7_LOCAL_TESTING.md), including
-**34 EditMode / 12 PlayMode** supplied cases, visual/input review and both Hybrid
-modes. M1–M6 were accepted by the user; M7 awaits actual local Unity acceptance.
-Saved files remain in the displayed persistent directory. No original .NET executable/
-SDK is needed locally; first import needs access to Unity's package registry.
+Follow the complete numbered [M8 checklist](../docs/unity-migration/M8_LOCAL_TESTING.md).
+M1–M7 were accepted by the user; M8 awaits local testing. **41 EditMode / 15 PlayMode**
+cases are supplied, unexecuted in cloud. First import needs Unity package-registry
+access; no original .NET SDK/executable is needed locally. Saves remain in the
+persistent directory displayed on Files.
 
-Cloud checks pass 404 original, 415 portable and 135 migration tests, both exact
-six-case captures and five file interop cases. **M7 Unity import/frontend compilation,
-Unity tests, input/layout/material/light/shader rendering and player builds were
-not executed**; no Unity Editor is installed in cloud. See
-[VALIDATION.md](../docs/unity-migration/VALIDATION.md) and the
-[approved roadmap](../docs/unity-migration/ROADMAP.md). Standalone acceptance remains M11.
+Cloud passes 404 original, 415 portable and 159 migration tests, both exact six-case
+captures and five file round trips. **Actual M8 Unity import/frontend compilation,
+font/shader rendering, Unity tests, native input/layout and player builds were not
+executed** (no Editor installed). See [validation](../docs/unity-migration/VALIDATION.md),
+[design/font license](../docs/unity-migration/DESIGN.md) and
+[roadmap](../docs/unity-migration/ROADMAP.md). M9 and later remain unimplemented.
