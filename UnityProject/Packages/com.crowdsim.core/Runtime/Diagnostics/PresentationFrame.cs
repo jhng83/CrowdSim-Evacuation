@@ -10,7 +10,7 @@ using CrowdSim.Core.Model;
 namespace CrowdSim.Diagnostics
 {
     public enum ViewShape { Box, Cylinder, Capsule, Sphere }
-    public enum ViewKind { Floor, Wall, Block, Exit, Agent, Table, Chair, Stage, Barricade, Debris, Fume, Source, AgentDetail }
+    public enum ViewKind { Floor, Wall, Block, Exit, Agent, Table, Chair, Stage, Barricade, Debris, Fume, Source, AgentDetail, StageDetail }
 
     /// <summary>Detached value description. Coordinates map (ground X,Y,height) to Unity X,Y,Z.</summary>
     public sealed class ViewBody

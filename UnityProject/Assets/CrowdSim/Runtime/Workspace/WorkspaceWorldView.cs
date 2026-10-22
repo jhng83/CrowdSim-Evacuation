@@ -89,8 +89,8 @@ namespace CrowdSim.Unity.Workspace
                     if (view.GetComponent<WorkspacePillarOutline>() == null)
                         view.AddComponent<WorkspacePillarOutline>().Initialise(body.Shape == ViewShape.Cylinder, _pillarInk, _pillarHull);
                 }
-                bool flat = overrideColor.HasValue || body.Kind == ViewKind.Source || body.Kind == ViewKind.Exit;
-                bool metal = body.Id.Contains("-leg-") || body.Id.EndsWith("-pedestal", StringComparison.Ordinal);
+                bool flat = overrideColor.HasValue || body.Kind == ViewKind.Source || body.Kind == ViewKind.Exit || (body.Kind == ViewKind.StageDetail && (body.Id.Contains("-led-") || body.Id.Contains("-lens-")));
+                bool metal = body.Kind == ViewKind.StageDetail && body.Id.Contains("-truss-") || body.Id.Contains("-leg-") || body.Id.EndsWith("-pedestal", StringComparison.Ordinal);
                 string surface = !flat && body.Kind == ViewKind.Floor ? "floor" : !flat && body.Kind == ViewKind.Barricade ? "barrier"
                     : !flat && body.Kind == ViewKind.Table && !metal ? "wood" : "plain";
                 if (!overrideColor.HasValue && metal && (body.Kind == ViewKind.Table || body.Kind == ViewKind.Chair)) color = new Color(.22f, .29f, .34f);
@@ -160,7 +160,14 @@ namespace CrowdSim.Unity.Workspace
                 case ViewKind.Source: if (body.Id == "source") return new Color(.2f, .95f, .65f); return new Color(1f, 0.45f, 0.1f);
                 case ViewKind.Table: return new Color(.66f, .49f, .31f);
                 case ViewKind.Chair: return new Color(.24f, .47f, .49f);
-                case ViewKind.Stage: return new Color(.31f, .37f, .44f);
+                case ViewKind.Stage: return new Color(.15f, .18f, .21f);
+                case ViewKind.StageDetail:
+                    if (body.Id.Contains("-led-bar-")) return new Color(.40f, .38f, .85f);
+                    if (body.Id.Contains("-led-screen")) return new Color(.06f, .09f, .16f);
+                    if (body.Id.Contains("-lens-")) return new Color(.95f, .77f, .43f);
+                    if (body.Id.Contains("-speaker-grille-")) return new Color(.24f, .27f, .30f);
+                    if (body.Id.Contains("-speaker-") || body.Id.Contains("-screen-frame") || body.Id.Contains("-lamp-")) return new Color(.09f, .11f, .14f);
+                    return new Color(.66f, .70f, .73f);
                 case ViewKind.Debris: return Color.Lerp(new Color(.43f, .29f, .18f), new Color(1, .58f, .16f), Mathf.Round(Mathf.Clamp01(body.Energy) * 8) / 8);
                 default: return new Color(0.2f, 0.5f, 0.7f);
             }

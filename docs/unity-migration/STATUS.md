@@ -13,37 +13,38 @@ Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24` (main unchanged).
 | M6 — Explosion | `03137845c858c6d2fd9f85a1bfb73152f724a06b` | [M6](M6_VALIDATION.md) | Accepted by user |
 | M7 — Toxic Fume + design | `4fc21756b1d2b97e28a3d5b5236b9276df4da47f` | [M7](M7_VALIDATION.md) | Accepted by user |
 | M8 — Humanoids/cameras | `55652fc407d3eb96527f836e57067da42dc41459` | [M8](M8_VALIDATION.md) | User reported successful testing; accepted |
-| M9 — Diagnostics/scale + requested light architecture theme | Implemented | [Current validation](VALIDATION.md), [CPU comparisons](M9_BENCHMARK.md) | Awaiting user testing |
-| M10 — Recording | Planned | Unrun | Unrun |
+| M9 — Diagnostics/scale + requested light architecture theme | `86ae9d16d8a7f928b6d004d84fd8b639bc7f5ad2` | [M9](M9_VALIDATION.md), [CPU comparisons](M9_BENCHMARK.md) | Accepted by user |
+| M10 — Recording + requested adjustable concert stage | This milestone commit | [Current validation](VALIDATION.md) | Awaiting user testing |
 | M11 — Complete replacement | Planned | Unrun | Unrun |
 
-M9 completes native population/overview, selected-agent/navigation/assistance/model
-and per-exit metrics, all eight direction/force/vision/congestion/trail layers,
-retained overlays with hidden inspector, paused Hybrid switching with authored
-checkpoint rebasing, distinct performance/allocation readouts and deterministic
-220/500/1000-person comparison fixtures for both hazards/open/furnished rooms.
-Cloud CPU comparisons cover 24 combinations. View optimisations add frustum culling,
-pose/material/part caches, retained pooled bodies and unchanged-ring reuse without
-changing simulation order or replacing distant people with sprites.
+M10 supplies runtime complete-window/UI 1280×720/20 fps MJPEG AVI capture, next-Start
+arming, manual start/stop, path/folder/status, bounded three-frame encoding queue,
+drop/capture/encoding counters, resize letterboxing and lifecycle finalization.
+It uses Unity's native JPEG API on a worker and a portable indexed AVI muxer;
+no Editor-only recording tool or new external runtime codec binary is needed.
 
-The additional user request changes text to black on pale surfaces throughout
-startup, workspace, hazard/agent legends, world labels, pose reference and legacy
-validation panels. Square/circular blockages render as off-white architectural
-pillars with black feature edges and silhouettes; blue internal walls retain their
-identity. Floor is warm off-white with a subtle mineral finish and default-on 1.2 m
-grid. Lighting is restrained; physical dimensions/colliders/navigation are unchanged.
-Black selection rings keep contrast against the new floor. See [DESIGN.md](DESIGN.md).
+The additional user request supplies editable stage length/depth (also in-place,
+builder-only), rotated room/perimeter/overlap guards, exact preview/collision/save/
+replay geometry and a concert deck/truss/LED/speakers/lamp appearance. Stage stays
+fixed/unoccupied/non-walkable; the rig is visual only. Optional custom dimensions
+use explicit Unity schema v5, which the original app rejects. Default-size stages
+and ordinary saves remain v4; v1–v4 imports/interoperability are preserved.
 
-Cloud passes 404 original, 415 portable and 191 migration cases, both exact six-case
-captures/oracle and five schema interop cases. Static checks cover 173 GUIDs, black
-text/contrast/transparent viewport, packages and 106 unchanged reference files.
-Original source/tests/scenarios/pins, portable Engine algorithms and golden traces
-are unchanged. Portable package is 0.9.0; Editor/UPM pins remain unchanged.
+Cloud passes 404 original, 415 portable and 217 migration cases, both exact six-case
+captures/oracle, five original schema interop cases, v5 Unity round trip/native
+rejection and independent FFmpeg decode. Static contract covers 181 unique GUIDs
+and 106 unchanged original files. Portable package is 0.10.0. Editor/URP pins stay
+fixed; only the required built-in imageconversion/screencapture modules are added.
+Original source/tests/scenarios/pins, main and golden baselines remain unchanged.
+The portable engine has the narrow, user-authorized stage sizing/persistence
+extension described in COMPATIBILITY.md; default simulation traces remain exact.
 
-No Unity Editor is installed: M9 Unity import/frontend compilation, 49 supplied
-EditMode and 19 PlayMode cases, actual shader/font/layout/input checks and graphical
-scale/player/GPU checks were not executed. Remote CI execution is unverified.
+No Unity Editor is installed: frontend compilation/import, 51 supplied EditMode and
+21 PlayMode cases, complete UI capture/orientation, concert appearance, graphics
+resizing, native controls and player builds were not executed. Remote CI is
+unverified. Cloud AVI evidence tests the production muxer/worker with a cloud-only
+JPEG encoder; it does not establish Unity capture or its JPEG API's native result.
 
-Next: [M9_LOCAL_TESTING.md](M9_LOCAL_TESTING.md). Stop for user results; fix M9
-problems before M10. Recording is M10; final standalone acceptance M11. OS/player
-target confirmation remains pending before platform-specific work.
+Next: [M10_LOCAL_TESTING.md](M10_LOCAL_TESTING.md). Stop for user results and fix
+M10 problems before M11. Supported desktop OS/player target confirmation belongs
+to M11's platform-specific build/acceptance work.

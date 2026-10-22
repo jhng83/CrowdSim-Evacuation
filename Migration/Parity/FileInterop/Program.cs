@@ -74,6 +74,18 @@ try
         if (Directory.EnumerateFiles(portableDirectory, "*.tmp").Any()) throw new InvalidOperationException("Temporary save leaked.");
         Console.WriteLine("PASS native/portable file round trips: " + item.Key);
     }
+    Session sized = new(); sized.SelectAsset(portable::CrowdSim.OpenGL.UI.BuilderAsset.Stage);
+    if (!sized.SetStageSize(8, 4) || !sized.Place(portable::CrowdSim.Workspace.PlacementTool.Asset, new System.Numerics.Vector2(20, 15), 0))
+        throw new InvalidOperationException("Sized stage fixture setup failed.");
+    string customDirectory = Path.Combine(temporary, "sized-stage");
+    Library customLibrary = new(customDirectory); customLibrary.Save(sized.ExportAuthoredJson("custom"), "custom");
+    bool nativeRejected = false;
+    try { RefStore.Load("custom", customDirectory); }
+    catch (InvalidDataException) { nativeRejected = true; }
+    if (!nativeRejected) throw new InvalidOperationException("Native must explicitly reject v5, never silently use a default-sized stage.");
+    Session loaded = Session.FromJson(File.ReadAllText(Path.Combine(customDirectory, "custom.json")));
+    if (loaded.StageLength != 8 || loaded.StageWidth != 4) throw new InvalidOperationException("Unity v5 stage dimensions were lost.");
+    Console.WriteLine("PASS sized-stage v5 Unity round trip and explicit unchanged-native rejection.");
     Console.WriteLine("All five schema/fixture interop cases pass against the unchanged native codec.");
 }
 finally { Directory.Delete(temporary, true); }

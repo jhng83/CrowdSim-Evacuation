@@ -1,5 +1,6 @@
 #nullable enable
 // M2 import of reference 01b4355; see docs/unity-migration/COMPATIBILITY.md.
+// M10 user-authorized stage sizing extension; defaults retain reference behavior.
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -649,11 +650,11 @@ namespace CrowdSim.Core.Model
         }
 
         /// <summary>Check candidate against all current walls and exits; edge-touching is allowed.</summary>
-        public bool WallOverlapsAny(Wall candidate)
+        public bool WallOverlapsAny(Wall candidate, Wall? ignored = null)
         {
             foreach (Wall other in Walls)
             {
-                if (PlacementRectanglesOverlap(candidate, other)) return true;
+                if (!ReferenceEquals(other, ignored) && PlacementRectanglesOverlap(candidate, other)) return true;
             }
 
             foreach (CircleBlockage circle in CircularBlockages)

@@ -1,5 +1,6 @@
 #nullable enable
 // M2 import of reference 01b4355; see docs/unity-migration/COMPATIBILITY.md.
+// M10 user-authorized stage sizing extension; defaults retain reference behavior.
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,12 +28,14 @@ namespace CrowdSim.Core.Model
         public bool HasStage => Furniture.Any(set => set.Kind == FurnitureKind.Stage);
 
         /// <summary>Validate exact rectangular footprints, or the existing seated-set clearance.</summary>
-        public bool CanPlaceFurniture(FurnitureKind kind, Vector2 center, float rotation = 0f)
+        public bool CanPlaceFurniture(FurnitureKind kind, Vector2 center, float rotation = 0f,
+            float stageLength = FurnitureSet.StageLength, float stageWidth = FurnitureSet.StageWidth)
         {
             if (!Enum.IsDefined(typeof(FurnitureKind), kind) || !float.IsFinite(center.X) || !float.IsFinite(center.Y) || !float.IsFinite(rotation)) return false;
             if (kind == FurnitureKind.Stage && HasStage) return false;
             if (PlannedAgentCount + FurnitureSet.GetSeatCount(kind) > 5000) return false;
-            FurnitureSet set = new(kind, center, rotation);
+            if (!ValidStageDimensions(stageLength, stageWidth)) return false;
+            FurnitureSet set = new(kind, center, rotation, stageLength, stageWidth);
             if (set.StaticObstacle is Wall rectangle)
             {
                 if (!RectangleIsInsideRoom(rectangle) || WallOverlapsAny(rectangle)) return false;
@@ -88,20 +91,23 @@ namespace CrowdSim.Core.Model
         }
 
         /// <summary>One undo item owns its table, chairs and all seated occupants.</summary>
-        public bool AddFurniture(FurnitureKind kind, Vector2 center, float rotation = 0f)
+        public bool AddFurniture(FurnitureKind kind, Vector2 center, float rotation = 0f,
+            float stageLength = FurnitureSet.StageLength, float stageWidth = FurnitureSet.StageWidth)
         {
-            if (!CanPlaceFurniture(kind, center, rotation)) return false;
-            FurnitureSet set = new(kind, center, rotation);
+            if (!CanPlaceFurniture(kind, center, rotation, stageLength, stageWidth)) return false;
+            FurnitureSet set = new(kind, center, rotation, stageLength, stageWidth);
             InsertFurniture(set);
             return true;
         }
 
         /// <summary>Restore actual saved footprints without reapplying the builder's empty-space reservation.</summary>
-        internal bool RestoreFurniture(FurnitureKind kind, Vector2 center, float rotation)
+        internal bool RestoreFurniture(FurnitureKind kind, Vector2 center, float rotation,
+            float stageLength = FurnitureSet.StageLength, float stageWidth = FurnitureSet.StageWidth)
         {
             if (!Enum.IsDefined(typeof(FurnitureKind), kind) || !float.IsFinite(center.X) || !float.IsFinite(center.Y) ||
                 !float.IsFinite(rotation) || (kind == FurnitureKind.Stage && HasStage)) return false;
-            FurnitureSet set = new(kind, center, rotation);
+            if (!ValidStageDimensions(stageLength, stageWidth)) return false;
+            FurnitureSet set = new(kind, center, rotation, stageLength, stageWidth);
             if (set.StaticObstacle is Wall rectangle)
             {
                 if (!RectangleIsInsideRoom(rectangle) || WallOverlapsAny(rectangle)) return false;
@@ -119,6 +125,28 @@ namespace CrowdSim.Core.Model
                     return false;
             }
             InsertFurniture(set);
+            return true;
+        }
+
+        private static bool ValidStageDimensions(float length, float width) =>
+            float.IsFinite(length) && float.IsFinite(width) && length >= 1f && width >= 1f;
+
+        /// <summary>Resize a fixed stage without moving its centre or changing placement undo order.
+        /// Candidate validation excludes only the old footprint; all other guards remain active.</summary>
+        public bool ResizeStage(float length, float width)
+        {
+            FurnitureSet? old = Furniture.FirstOrDefault(f => f.Kind == FurnitureKind.Stage);
+            if (old == null || !ValidStageDimensions(length, width)) return false;
+            FurnitureSet replacement = new(FurnitureKind.Stage, old.Center, old.Rotation, length, width);
+            Wall rectangle = replacement.StaticObstacle!;
+            if (!RectangleIsInsideRoom(rectangle) || WallOverlapsAny(rectangle, old.StaticObstacle) ||
+                Furniture.Any(other => other.StaticObstacle is null && rectangle.OverlapsCircle(other.Center, other.PlacementRadius))) return false;
+            Furniture[Furniture.IndexOf(old)] = replacement;
+            (string Kind, object Item)[] history = _undoStack.ToArray();
+            _undoStack.Clear();
+            for (int i = history.Length - 1; i >= 0; i--)
+                _undoStack.Push((history[i].Kind, ReferenceEquals(history[i].Item, old) ? replacement : history[i].Item));
+            RebuildWalls();
             return true;
         }
 

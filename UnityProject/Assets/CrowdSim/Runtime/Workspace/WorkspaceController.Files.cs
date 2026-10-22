@@ -74,11 +74,12 @@ namespace CrowdSim.Unity.Workspace
             CloseModal();
             _operationStatus = Files.Message;
             if (Files.Completed == FileTransition.Startup)
-            { Files.AcknowledgeTransition(); _exit?.Invoke(); Destroy(gameObject); return; }
+            { StopRecording("Saved before leaving workspace."); Files.AcknowledgeTransition(); _exit?.Invoke(); Destroy(gameObject); return; }
             if (Files.Completed == FileTransition.Diagnostics)
-            { Files.AcknowledgeTransition(); SceneManager.LoadScene("SimulationParity"); return; }
+            { StopRecording("Saved before opening diagnostics."); Files.AcknowledgeTransition(); SceneManager.LoadScene("SimulationParity"); return; }
             if (!ReferenceEquals(_shownSession, Session))
             {
+                StopRecording("Saved before scenario replacement.");
                 ResetPerformance();
                 _shownSession = Session;
                 _tool = PlacementTool.Exit; _exitWidth = 1; _people = 1;

@@ -158,6 +158,17 @@ zoom detail and camera features remain in M8 below.
 - Complete when: output is valid and correctly oriented, memory bounded, lifecycle safe,
   and fixed-tick simulation behavior unchanged.
 
+The user additionally authorized adjustable stage width/length and a concert-style
+asset with M10 after accepting M9. Include builder fields for the next/placed single
+stage, rotated usable-room/perimeter bounds and overlap rejection; keep preview,
+physical footprint, authored save/load and replay consistent. Preserve the native
+15×6 m default and stage's fixed/non-walkable/unoccupied behavior. Custom dimensions
+use explicit Unity v5 files; v1–v4 imports/default v4 exports remain compatible and
+the original app explicitly rejects v5. Concert rig details remain visual and inside
+the footprint. Validate geometry/guards/persistence/undo in cloud; locally test fields,
+quarter turns, small rooms, conflicts, appearance, save/load/replay and both hazards.
+This is the user-requested extension to M10, not implementation of M11.
+
 ### M11 — Complete replacement acceptance and distribution
 
 - Capability: all supported workflows in an independent Unity standalone application.

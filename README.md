@@ -1,19 +1,22 @@
-# Unity migration — Milestone 9
+# Unity migration — Milestone 10
 
 On `unity-migration`, open **UnityProject/** (containing **Assets/**, **Packages/**,
 **ProjectSettings/**) with **Unity 6000.3.26f1**, then
-**Assets/CrowdSim/Scenes/Bootstrap.unity**. M9 adds complete diagnostic metrics,
-eight batched overlays, paused Hybrid switching, performance readouts and seeded
-220/500/1000-person comparisons. The requested light architectural theme uses
-black text, off-white outlined pillars and an off-white gridded floor.
+**Assets/CrowdSim/Scenes/Bootstrap.unity**. M10 adds full-window/UI MJPEG AVI recording
+at 1280×720/20 fps, arm/start/stop/path/counters and safe replay/exit finalization.
+The stage now has editable room-bounded dimensions and a concert deck, truss,
+LED backdrop, speakers and lamps. Black text, off-white outlined pillars and the
+off-white gridded floor remain.
 
-M1–M8 were accepted by the user; M9 awaits local testing. Follow the numbered
-[M9 checklist](docs/unity-migration/M9_LOCAL_TESTING.md),
-[CPU comparison evidence](docs/unity-migration/M9_BENCHMARK.md) and
+M1–M9 were accepted by the user; M10 awaits local testing. Follow the numbered
+[M10 checklist](docs/unity-migration/M10_LOCAL_TESTING.md),
+[validation evidence](docs/unity-migration/VALIDATION.md) and
 [migration status](docs/unity-migration/STATUS.md). Cloud passes 404 original,
-415 portable and 191 migration tests; actual M9 Unity import/tests/input/rendering/
-graphical performance were not executed. The original application/tests below
-remain the behavioural reference.
+415 portable and 217 migration tests, unchanged simulation traces and independent
+FFmpeg AVI decoding. **Actual Unity import/tests/capture/orientation/rendering and
+player builds were not executed.** Custom stage sizes use Unity schema v5;
+ordinary/default-size files retain native-compatible v4. The original application,
+tests and main remain the behavioural reference; final player acceptance is M11.
 
 # Always-3D agents — current revision
 

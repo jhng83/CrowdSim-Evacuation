@@ -11,7 +11,7 @@ cd "$crowdsim_root/Migration"
 "$crowdsim_dotnet" test ../tests/CrowdSim.Tests/CrowdSim.Tests.csproj -c Release --no-build --no-restore \
     --logger 'trx;LogFileName=reference.trx' --results-directory "$crowdsim_root/Migration/artifacts/tests"
 "$crowdsim_dotnet" restore Tests/CrowdSim.Migration.Tests.csproj --locked-mode
-"$crowdsim_dotnet" test Tests/CrowdSim.Migration.Tests.csproj -c Release --no-restore \
+CROWDSIM_RECORDING_ARTIFACT="$crowdsim_root/Migration/artifacts/m10-known-frames.avi" "$crowdsim_dotnet" test Tests/CrowdSim.Migration.Tests.csproj -c Release --no-restore \
     --logger 'trx;LogFileName=foundation.trx' --results-directory "$crowdsim_root/Migration/artifacts/tests"
 "$crowdsim_dotnet" restore PortableTests/CrowdSim.Portable.Tests.csproj --locked-mode
 "$crowdsim_dotnet" test PortableTests/CrowdSim.Portable.Tests.csproj -c Release --no-restore \
@@ -27,3 +27,10 @@ cd "$crowdsim_root/Migration"
 # Build the CPU comparison adapter without imposing a wall-clock benchmark on routine validation.
 "$crowdsim_dotnet" restore Benchmarks/CrowdSim.Scale.csproj --locked-mode
 "$crowdsim_dotnet" build Benchmarks/CrowdSim.Scale.csproj -c Release --no-restore
+
+# Independent container/decoder check; Unity end-of-frame capture still needs the Editor.
+if command -v ffprobe >/dev/null && command -v ffmpeg >/dev/null; then
+    python3 "$crowdsim_root/Migration/Tools/verify_recording.py" "$crowdsim_root/Migration/artifacts/m10-known-frames.avi"
+else
+    echo "SKIP: ffprobe/ffmpeg unavailable; independent AVI decode was not executed."
+fi

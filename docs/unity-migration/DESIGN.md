@@ -46,5 +46,17 @@ Unmodified downloaded regular TTF SHA-256:
 The complete SIL Open Font License 1.1 and copyright are bundled beside it in
 [OFL.txt](../../UnityProject/Assets/CrowdSim/Resources/CrowdSim/Fonts/OFL.txt).
 Procedural human/furniture geometry, surfaces and the outline shader are project
-source; no external model, material, font package or new NuGet/UPM dependency is used.
+source; no external model, material, font package or new third-party NuGet/UPM dependency is used.
 The project does not claim complete accessibility certification from these checks.
+
+M10 continues these choices in Recording and stage controls. The single stage has
+labelled metre fields and dynamic room-based maximum guidance; rejected edits retain
+the last valid footprint and explain the conflict. A matte charcoal raised deck,
+slim metal front lip, twin-column truss, LED blue/purple equalizer backdrop, speaker
+stacks and warm lamp lenses establish a concert identity without obscuring metres
+or introducing an off-footprint platform. The rig is procedural source and remains
+visual; the deck's original low-obstacle rules are preserved. Recording state is
+always labelled in the header, with path/folder, frames/drops/queue/capture/encode
+values together on the scrollable Recording page. Text remains black on pale panels.
+Only Unity's built-in imageconversion/screencapture modules are added for capture;
+there is no added third-party asset or runtime codec dependency.

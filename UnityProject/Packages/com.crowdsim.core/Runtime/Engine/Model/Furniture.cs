@@ -1,5 +1,6 @@
 #nullable enable
 // M2 import of reference 01b4355; see docs/unity-migration/COMPATIBILITY.md.
+// M10 user-authorized stage sizing extension; defaults retain reference behavior.
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,13 +47,17 @@ namespace CrowdSim.Core.Model
         public const float BarricadeWidth = 0.40f;
         public const float BarricadeHeight = 1.00f;
 
-        public FurnitureSet(FurnitureKind kind, Vector2 center, float rotation = 0f)
+        public FurnitureSet(FurnitureKind kind, Vector2 center, float rotation = 0f,
+            float stageLength = StageLength, float stageWidth = StageWidth)
         {
             if (!Enum.IsDefined(typeof(FurnitureKind), kind)) throw new ArgumentOutOfRangeException(nameof(kind));
             if (!float.IsFinite(center.X) || !float.IsFinite(center.Y))
                 throw new ArgumentOutOfRangeException(nameof(center));
             if (!float.IsFinite(rotation)) throw new ArgumentOutOfRangeException(nameof(rotation));
 
+            if (!float.IsFinite(stageLength) || !float.IsFinite(stageWidth) || stageLength < 1f || stageWidth < 1f)
+                throw new ArgumentOutOfRangeException(nameof(stageLength), "Stage dimensions must be finite and at least 1 m.");
+            AuthoredStageLength = stageLength; AuthoredStageWidth = stageWidth;
             Kind = kind;
             Center = center;
             Rotation = kind == FurnitureKind.Barricade ? NormalizeRotation(rotation)
@@ -70,7 +75,7 @@ namespace CrowdSim.Core.Model
             {
                 (float length, float width) = kind switch
                 {
-                    FurnitureKind.Stage => (StageLength, StageWidth),
+                    FurnitureKind.Stage => (AuthoredStageLength, AuthoredStageWidth),
                     FurnitureKind.Barricade => (BarricadeLength, BarricadeWidth),
                     _ => (RectangularTableLength, RectangularTableWidth),
                 };
@@ -100,6 +105,9 @@ namespace CrowdSim.Core.Model
             }
         }
 
+        /// <summary>Local X length and local Y depth; quarter turns exchange their world axes.</summary>
+        public float AuthoredStageLength { get; }
+        public float AuthoredStageWidth { get; }
         public FurnitureKind Kind { get; }
         public Vector2 Center { get; }
         public float Rotation { get; }
@@ -108,7 +116,7 @@ namespace CrowdSim.Core.Model
             FurnitureKind.RoundTableSet => 2.25f,
             FurnitureKind.SingleChair => 1.05f,
             FurnitureKind.RectangularTable => MathF.Sqrt(10f) * 0.5f,
-            FurnitureKind.Stage => MathF.Sqrt(StageLength * StageLength + StageWidth * StageWidth) * 0.5f,
+            FurnitureKind.Stage => MathF.Sqrt(AuthoredStageLength * AuthoredStageLength + AuthoredStageWidth * AuthoredStageWidth) * 0.5f,
             FurnitureKind.Barricade => MathF.Sqrt(BarricadeLength * BarricadeLength + BarricadeWidth * BarricadeWidth) * 0.5f,
             _ => throw new InvalidOperationException("Unsupported furniture kind."),
         };

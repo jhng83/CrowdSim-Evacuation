@@ -38,7 +38,7 @@ namespace CrowdSim.Workspace
         public float StepSeconds => _simulation.Config.Agent.Dt;
         public int Tick => _simulation.FrameIndex;
         public BuilderAsset SelectedAsset => _assets.Selected;
-        public float AssetRotationDegrees => _assets.RotationDegrees;
+        public float AssetRotationDegrees => SelectedAsset == BuilderAsset.Stage && Stage != null ? Stage.Rotation * 180f / MathF.PI : _assets.RotationDegrees;
         public bool AssetSupportsRotation => _assets.SupportsRotation;
         public bool AssetUsesQuarterTurns => _assets.UsesQuarterTurns;
         public bool SnapBarricadeEnds => _assets.SnapBarricadeEnds;
@@ -92,6 +92,7 @@ namespace CrowdSim.Workspace
             { Message = "Resize rejected: use 10–160 m width / 10–120 m length in an empty builder and keep the release point inside."; return false; }
             bool result = _simulation.Environment.TryResizeRoom(width, length);
             _simulation.BuildWallGrid();
+            FitStageSelection();
             InvalidateFumeForGeometry();
             Changed("Room size updated in metres.", true);
             return result;
@@ -111,7 +112,7 @@ namespace CrowdSim.Workspace
                     {
                         if (kind == FurnitureKind.Barricade && assets.SnapBarricadeEnds)
                             point = simulation.Environment.SnapBarricadePlacement(point, assets.RotationRadians);
-                        return simulation.Environment.AddFurniture(kind, point, assets.RotationRadians);
+                        return simulation.Environment.AddFurniture(kind, point, assets.RotationRadians, assets.StageLength, assets.StageWidth);
                     }
                     return assets.Selected == BuilderAsset.CircularBlock
                         ? simulation.Environment.AddCircularBlockageFromClick(point.X, point.Y)
@@ -128,9 +129,9 @@ namespace CrowdSim.Workspace
                 if (!float.IsFinite(point.X) || !float.IsFinite(point.Y)) return new PlacementPreview(false, Array.Empty<ViewBody>());
                 Vector2 snapped = kind == FurnitureKind.Barricade && _assets.SnapBarricadeEnds
                     ? _simulation.Environment.SnapBarricadePlacement(point, _assets.RotationRadians) : point;
-                bool fits = _simulation.Environment.CanPlaceFurniture(kind, snapped, _assets.RotationRadians);
+                bool fits = _simulation.Environment.CanPlaceFurniture(kind, snapped, _assets.RotationRadians, _assets.StageLength, _assets.StageWidth);
                 List<ViewBody> bodies = new List<ViewBody>();
-                FurnitureSet proposed = new FurnitureSet(kind, snapped, _assets.RotationRadians);
+                FurnitureSet proposed = new FurnitureSet(kind, snapped, _assets.RotationRadians, _assets.StageLength, _assets.StageWidth);
                 FurniturePresentation.AddSet(bodies, proposed, "candidate");
                 int seat = 0;
                 foreach (FurnitureChair chair in proposed.Chairs)
@@ -163,6 +164,7 @@ namespace CrowdSim.Workspace
         {
             if (!IsBuilding) return false;
             _assets.Select(asset);
+            FitStageSelection();
             Message = _assets.Hint;
             return true;
         }
@@ -170,6 +172,7 @@ namespace CrowdSim.Workspace
         {
             if (!IsBuilding || AssetUnavailable) return false;
             _assets.SetRotation(degrees);
+            FitStageSelection();
             Message = "Next placement: " + _assets.RotationDegrees.ToString("F1") + " degrees. Existing assets are unchanged.";
             return true;
         }
@@ -177,6 +180,7 @@ namespace CrowdSim.Workspace
         {
             if (!IsBuilding || !AssetSupportsRotation || AssetUnavailable) return false;
             _assets.RotateStep(reverse);
+            FitStageSelection();
             Message = "Next placement: " + _assets.RotationDegrees.ToString("F1") + " degrees. Existing assets are unchanged.";
             return true;
         }
@@ -192,6 +196,7 @@ namespace CrowdSim.Workspace
             if (!IsBuilding || !_simulation.Environment.UndoLast()) { Message = "Nothing can be undone here."; return false; }
             _simulation.BuildWallGrid();
             InvalidateFumeForGeometry();
+            FitStageSelection();
             Changed("Last placement undone.", true);
             return true;
         }

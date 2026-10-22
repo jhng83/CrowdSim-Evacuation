@@ -16,8 +16,8 @@
 Pins were checked against
 [Unity's Editor source](https://github.com/Unity-Technologies/UnityCsReference/tree/6000.3.26f1)
 and [URP metadata](https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/package.json).
-M1–M6 were accepted by the user. M7's Fume frontend and presentation refinements
-still require actual Editor import; a static lock check cannot establish resolution.
+M1–M9 were accepted by the user. M10 recording and stage extensions require
+local Editor acceptance; a static lock check cannot establish package resolution.
 
 ## M2 source and runtime adaptations
 
@@ -82,18 +82,45 @@ hashes are compared in cloud. No bitwise cross-runtime guarantee is claimed.
 A Unity checkpoint failure blocks acceptance and must be investigated without
 rewriting goldens or weakening assertions. See [the capture contract](../../Migration/Parity/README.md).
 
-## Recording probe and limits
+## M10 runtime recording and limits
 
 The unchanged reference pins SharpAvi 3.0.1, SharpAvi.ImageSharp 3.0.0 and transitive
-ImageSharp 1.0.4. M1's Standard-compatible probe encodes two 64x64 frames at 20 fps,
-using `WriteFrame(bool, byte[], int, int)`. No recording codec binary or Unity
-capture implementation is delivered yet; end-of-frame whole-UI capture, bounded
-queues, distribution notices and Mono/player recording remain M10 work.
+ImageSharp 1.0.4. The M1 probe remains a cloud-only compatibility/known-frame test;
+none of those codec binaries/dependencies are added to the Unity runtime.
 
-The cloud worker has no Unity Editor. C# 9 / netstandard2.1 compilation and all
-reported cloud tests ran; Editor frontend compilation/import, supplied Unity tests,
-visuals/input and standalone/IL2CPP builds did not. These checks must be executed
-locally, and [VALIDATION.md](VALIDATION.md) records the distinction.
+M10 instead uses Unity's **thread-safe `ImageConversion.EncodeArrayToJPG`**, quality
+78, with RGBA32 input, and the production portable **MjpegAviWriter**. The exact
+[6000.3.26f1 API declaration](https://github.com/Unity-Technologies/UnityCsReference/blob/6000.3.26f1/Modules/ImageConversion/ScriptBindings/ImageConversion.bindings.cs)
+was checked. This avoids an Editor-only recorder or an extra managed codec/plugin.
+Built-in **imageconversion** and **screencapture 1.0.0** modules are explicitly
+included in manifest/lock. Editor/URP/other pins and the original project stay fixed.
+
+An end-of-frame coroutine captures the complete composed screen into a source
+RenderTexture, fits it with letterboxing into 1280×720, reads RGBA pixels on the
+main thread and queues at most three buffers for worker encoding/muxing. One worker
+can own one additional active buffer. Texture/GPU APIs never run on that worker.
+Source texture is recreated on resize and bounded to ≤16,777,216 pixels, ≤8192 per
+side; output/readback dimensions stay fixed. Whole-window composition/native JPEG
+orientation across graphics APIs remain actual Editor/player acceptance checks.
+No Editor Recorder dependency, shader-based physics, model random calls or video
+clock inputs to simulation are introduced.
+
+Capture cadence is real-time 20 Hz independent of model dt/playback speed. Missed
+slots and full-queue frames are dropped/counted; accepted frames play at 20 fps,
+so overloaded recordings are shorter than wall time, matching the reference's
+best-effort capture semantics. Video includes paused controls and has no audio.
+Start/arm/stop/path/status/folder and capture/encode/queue/drop diagnostics are
+supplied. Replay/new/load/leave/disable/quit drain accepted frames and finalize the
+AVI/index; failures are surfaced. A 1 GiB AVI 1.0 limit and 100,000-frame index bound
+stop recording with an explanation and preserve accepted frames when storage works.
+OpenDML/multisegment recording is not supplied. Synchronous GPU readback can cost
+frame time; forced termination/disk-full can prevent finalization. Editor capture
+can suspend if Game view switches to Scene. Mono/IL2CPP/platform results are unrun.
+
+Cloud injects the existing ImageSharp probe for known-frame JPEG encoding and
+independently decodes the production worker/muxer's output with ffprobe/ffmpeg.
+That does not execute Unity's capture or native JPEG encoder. **No Unity Editor is
+installed**: [VALIDATION.md](VALIDATION.md) distinguishes all checks actually run.
 
 ## M3 workspace boundary
 
@@ -471,3 +498,39 @@ restrained for pale surfaces. A black selection ring and pale label plates prese
 contrast; state-body colours/poses remain meaningful. Planning people get silhouettes.
 No simulation/scientific parameter, original reference file, Engine algorithm,
 Editor/.NET target, schema or UPM dependency pin changed. Package version is 0.9.0.
+
+## M10 user-authorized stage extension
+
+The user explicitly requested editable stage width/length constrained by the room,
+and a concert appearance after accepting M9. Only portable `Furniture.cs`,
+`SimulationEnvironment.Furniture.cs`, the overlap helper in `SimulationEnvironment.cs`
+and `ScenarioDefinition.cs` extend the imported engine for that request. The original
+`src/`, tests/examples/pins and main are unchanged. Default-size scenarios retain
+all exact trace hashes and the original 15×6×0.8 m stage behavior.
+
+Length is stage-local X and depth/width stage-local Y; quarter turns exchange world
+axes. UI maxima follow the rotated usable room spans, including the original 0.6 m
+perimeter inset, and both dimensions must be finite and ≥1 m. Placement and existing
+stage resizing use exact rectangles and retain all boundary/exit/obstacle/planned-
+person/occupied-set reservation guards. Existing resizing replaces only that stage,
+retains centre/facing, rebuilds wall/navigation/fume dependencies, marks authored
+state dirty and preserves original placement undo order. Finalisation locks edits.
+The stage stays single, fixed, non-walkable and unoccupied. Truss/screens/speakers/
+lamps are read-only visuals inside the footprint; no new hazard-shielding geometry.
+
+Ordinary saves, including default-size stages, retain schema **v4** and omit optional
+stage fields. Custom-size stages use explicit **v5** with paired `stageLength` and
+`stageWidth` values. Unity imports v1–v4 with unchanged legacy defaults and reads/writes
+v5; its checkpoints/save/load/replay preserve custom dimensions. The original codec
+rejects v5 rather than silently restoring 15×6 m. V4 carrying custom fields, unpaired/
+nonfinite/too-small fields and fields on non-stage furniture are rejected by Unity.
+
+The cloud trace harness's System.Text.Json resolver honors the production codec's
+omission of those two zero/default extension fields only. All existing fields,
+nonzero custom values, ordered physical hashes/checkpoints and unchanged goldens
+are retained. The real-codec interop harness still runs all five v1–v4 cases and
+additionally verifies v5 Unity round-trip plus native rejection.
+
+Readback RGBA buffers use ArrayPool to avoid a full managed image allocation on
+every frame. Ownership returns after encode, rejection, worker failure and stop
+drain. Native JPEG allocations and actual graphics memory still require profiling.

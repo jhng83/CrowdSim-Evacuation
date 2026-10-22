@@ -79,6 +79,7 @@ namespace CrowdSim.Unity.Workspace
             GameObject diagnosticHost = new GameObject("Diagnostic overlays"); diagnosticHost.transform.SetParent(view.transform, false);
             _diagnosticView = diagnosticHost.AddComponent<WorkspaceDiagnosticView>();
             BuildInterface();
+            StartCoroutine(CaptureEndOfFrames());
             Draw(); Refresh();
         }
 
@@ -87,12 +88,13 @@ namespace CrowdSim.Unity.Workspace
             VisualElement top = Box(_root, "topbar");
             _brand = Label(top, "", "brand");
             _phaseBadge = Label(top, "", "phase-badge");
+            _recordBadge = Label(top, "VIDEO IDLE", "phase-badge"); _recordBadge.name = "recording-badge";
             _toggleInspector = Button(top, "Hide inspector (F4)", () => { Session.ToggleInspector(); Refresh(); });
             Button(top, "Return to startup", RequestExit);
             VisualElement body = Box(_root, "workspace-body");
             _left = Box(body, "controls");
             VisualElement tabs = Box(_left, "tabs");
-            foreach (string tab in new[] { "Build / Run", "Camera", "Files" })
+            foreach (string tab in new[] { "Build / Run", "Camera", "Files", "Recording" })
             {
                 string name = tab;
                 Button navigation = Button(tabs, name, () => { _activePage = name; BuildPage(); });
@@ -147,11 +149,12 @@ namespace CrowdSim.Unity.Workspace
             _footer = Box(_root, "transport");
             VisualElement actions = Box(_footer, "actions");
             _finalise = Button(actions, "Finalise scene", () => { if (Files.Finalise()) _tool = PlacementTool.Select; _operationStatus = Files.Message; ClearPreview(); Refresh(); });
-            _transport = Button(actions, "Start", () => { _operationStatus = ""; Session.ToggleRunning(); ClearPreview(); Refresh(); });
+            _transport = Button(actions, "Start", () => { _operationStatus = ""; ToggleTransport(); ClearPreview(); Refresh(); });
             _arm = Button(actions, "Arm Explosion", () => { _operationStatus = ""; if (Session.ArmExplosion()) _tool = PlacementTool.Explosion; ClearPreview(); Refresh(); });
             _cancelExplosion = Button(actions, "Cancel Explosion", () => { Session.CancelExplosion(); _tool = PlacementTool.Select; _operationStatus = ""; Refresh(); });
             _replay = Button(actions, "Replay from start", () =>
             {
+                if (Session.CanReplay) StopRecording("Saved before replay.");
                 if (Files.Replay()) { _tool = PlacementTool.Select; ResetPerformance(); }
                 _operationStatus = Files.Message; ClearPreview(); Draw(); Refresh();
             });
@@ -184,6 +187,7 @@ namespace CrowdSim.Unity.Workspace
                 Label(_page, "Azimuth, elevation and wheel zoom adjust the isometric view. POV uses movement heading at head height; floor picking and Explosion arming resume after leaving POV.", "muted");
                 return;
             }
+            if (_activePage == "Recording") { BuildRecordingPage(); return; }
             if (_activePage == "Files")
             {
                 BuildFilesPage();
@@ -249,7 +253,8 @@ namespace CrowdSim.Unity.Workspace
 
         private void BuildAssetControls()
         {
-            _assetControls.Clear(); _angleSlider = null; _exactAngle = null;
+            _assetControls.Clear(); _angleSlider = null; _exactAngle = null; _stageLength = _stageWidth = null; _stageLimit = null;
+            if (Session.SelectedAsset == BuilderAsset.Stage) BuildStageControls();
             if (Session.AssetSupportsRotation)
             {
                 _angleSlider = new Slider(Session.AssetUsesQuarterTurns ? "Facing (quarter turns)" : "Facing (degrees)", 0, 359.9f)
@@ -354,6 +359,7 @@ namespace CrowdSim.Unity.Workspace
             if (Session == null) return;
             try
             {
+                PollRecording();
                 long allocated = GC.GetAllocatedBytesForCurrentThread();
                 long bytes = _previousAllocated == 0 ? 0 : Math.Max(0, allocated - _previousAllocated); _previousAllocated = allocated;
                 long started = Stopwatch.GetTimestamp();
@@ -452,12 +458,16 @@ namespace CrowdSim.Unity.Workspace
                 _width.SetEnabled(Session.CanResize); _length.SetEnabled(Session.CanResize);
                 _placeAsset.SetEnabled(Session.IsBuilding && !Session.AssetUnavailable);
                 _placeAsset.EnableInClassList("tool-active", _tool == PlacementTool.Asset);
-                _assetControls.SetEnabled(Session.IsBuilding && !Session.AssetUnavailable);
-                _assetHint.text = Session.AssetUnavailable ? "Stage already placed (1/1). Undo its placement before replacing it." : Session.AssetHint;
+                _assetControls.SetEnabled(Session.IsBuilding);
+                foreach (VisualElement child in _assetControls.Children())
+                    if (child != _stageLength && child != _stageWidth && child != _stageLimit) child.SetEnabled(!Session.AssetUnavailable);
+                UpdateStageControls();
+                _assetHint.text = Session.AssetUnavailable ? "Stage placed (1/1). Adjust its dimensions here. Facing and centre stay fixed; Undo removes its placement." : Session.AssetHint;
                 _angleSlider?.SetValueWithoutNotify(Session.AssetRotationDegrees);
                 _exactAngle?.SetValueWithoutNotify(Session.AssetRotationDegrees);
             }
             BuildInspector();
+            UpdateRecordingText();
             UpdateCameraActions();
             Layout();
         }
@@ -510,7 +520,7 @@ namespace CrowdSim.Unity.Workspace
             {
                 case WorkspaceShortcut.ToggleInspector: Session.ToggleInspector(); break;
                 case WorkspaceShortcut.Undo: Session.Undo(); break;
-                case WorkspaceShortcut.ToggleRunning: Session.ToggleRunning(); break;
+                case WorkspaceShortcut.ToggleRunning: ToggleTransport(); break;
                 case WorkspaceShortcut.CancelTool: if (Session.ExplosionArmed) Session.CancelExplosion(); _tool = PlacementTool.Select; break;
                 case WorkspaceShortcut.RotateAsset:
                     if (_tool != PlacementTool.Asset || !Session.IsBuilding || !_overViewport) return;
@@ -529,6 +539,7 @@ namespace CrowdSim.Unity.Workspace
         { Button button = new Button(action) { text = text }; parent.Add(button); return button; }
         private void OnDestroy()
         {
+            StopRecording("Saved when workspace destroyed.");
             if (_document != null) _document.panelSettings = null;
             if (_settings != null) Destroy(_settings);
         }

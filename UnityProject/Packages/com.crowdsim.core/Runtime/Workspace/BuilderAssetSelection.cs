@@ -27,6 +27,9 @@ namespace CrowdSim.OpenGL.UI
             Array.AsReadOnly((BuilderAsset[])Enum.GetValues(typeof(BuilderAsset)));
         private readonly float[] _rotations = new float[Options.Count];
 
+        public float StageLength { get; set; } = FurnitureSet.StageLength;
+        public float StageWidth { get; set; } = FurnitureSet.StageWidth;
+
         public BuilderAsset Selected { get; private set; } = BuilderAsset.SquareBlock;
         public int BlockageCells => Selected == BuilderAsset.LargeSquareBlock ? 2 : 1;
         public float RotationDegrees => _rotations[(int)Selected];
@@ -83,7 +86,7 @@ namespace CrowdSim.OpenGL.UI
             BuilderAsset.RoundTableSet => "Round table + 10 seated people",
             BuilderAsset.SingleChair => "Single chair + 1 seated person",
             BuilderAsset.RectangularTable => "Table - 3 x 1 m (unoccupied)",
-            BuilderAsset.Stage => "Stage - 15 x 6 m (max 1)",
+            BuilderAsset.Stage => "Concert stage - adjustable (max 1)",
             BuilderAsset.Barricade => "Orange barricade - 1.5 m long",
             _ => throw new ArgumentOutOfRangeException(nameof(asset)),
         };
@@ -96,7 +99,7 @@ namespace CrowdSim.OpenGL.UI
             BuilderAsset.RoundTableSet => "One table, ten chairs and ten seated people. Reserve space for people to stand up.",
             BuilderAsset.SingleChair => "One chair and one seated person. Rotation changes their starting facing direction.",
             BuilderAsset.RectangularTable => "3 m long x 1 m wide. No occupants. Movable and destructible in Explosion.",
-            BuilderAsset.Stage => "15 m long x 6 m wide. Fixed, non-walkable; one stage per scenario. No occupants.",
+            BuilderAsset.Stage => "Adjust length and depth in metres. Fixed, non-walkable; one stage per scenario. No occupants.",
             BuilderAsset.Barricade => "1.5 m long x 0.4 m wide x 1 m high. Any angle; fixed, non-walkable. No occupants.",
             _ => string.Empty,
         };

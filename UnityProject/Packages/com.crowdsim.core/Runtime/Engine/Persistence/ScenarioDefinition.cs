@@ -1,5 +1,6 @@
 #nullable enable
 // M2 import of reference 01b4355; see docs/unity-migration/COMPATIBILITY.md.
+// M10 user-authorized stage sizing extension; defaults retain reference behavior.
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +22,8 @@ namespace CrowdSim.Core.Persistence
     public sealed class ScenarioDefinition
     {
         public const int CurrentVersion = 4;
+        /// <summary>Unity custom-stage extension; ordinary/default-size files remain native-compatible v4.</summary>
+        public const int SizedStageVersion = 5;
         public const float LegacyMetersPerUnit = AgentConfig.HeightMeters / 42f;
 
         public int Version { get; init; } = CurrentVersion;
@@ -58,6 +61,8 @@ namespace CrowdSim.Core.Persistence
 
             return new ScenarioDefinition
             {
+                Version = simulation.Environment.Furniture.Any(set => set.Kind == FurnitureKind.Stage &&
+                    (set.AuthoredStageLength != FurnitureSet.StageLength || set.AuthoredStageWidth != FurnitureSet.StageWidth)) ? SizedStageVersion : CurrentVersion,
                 Name = string.IsNullOrWhiteSpace(name) ? "Scenario" : name.Trim(),
                 AgentCount = count,
                 RandomSeed = simulation.RandomSeed,
@@ -95,7 +100,9 @@ namespace CrowdSim.Core.Persistence
                     })
                     .ToList(),
                 Furniture = simulation.Environment.Furniture.Select(set => new FurnitureScenario
-                { Kind = set.Kind, X = set.Center.X, Y = set.Center.Y, Rotation = set.Rotation }).ToList(),
+                { Kind = set.Kind, X = set.Center.X, Y = set.Center.Y, Rotation = set.Rotation,
+                    StageLength = set.Kind == FurnitureKind.Stage && (set.AuthoredStageLength != FurnitureSet.StageLength || set.AuthoredStageWidth != FurnitureSet.StageWidth) ? set.AuthoredStageLength : 0f,
+                    StageWidth = set.Kind == FurnitureKind.Stage && (set.AuthoredStageLength != FurnitureSet.StageLength || set.AuthoredStageWidth != FurnitureSet.StageWidth) ? set.AuthoredStageWidth : 0f }).ToList(),
                 CircularBlockages = simulation.Environment.CircularBlockages.Where(circle => !circle.IsFurniture)
                     .Select(circle => new CircleBlockageScenario
                     {
@@ -191,7 +198,8 @@ namespace CrowdSim.Core.Persistence
             simulation.Environment.ReplaceLayout(exits, blockages, circularBlockages, blueWalls);
             foreach (FurnitureScenario set in Furniture)
             {
-                if (!simulation.Environment.RestoreFurniture(set.Kind, new System.Numerics.Vector2(set.X, set.Y), set.Rotation))
+                if (!simulation.Environment.RestoreFurniture(set.Kind, new System.Numerics.Vector2(set.X, set.Y), set.Rotation,
+                    set.StageLength == 0f ? FurnitureSet.StageLength : set.StageLength, set.StageWidth == 0f ? FurnitureSet.StageWidth : set.StageWidth))
                     throw new InvalidOperationException("Saved furniture physically overlaps geometry or room bounds.");
             }
             foreach (AgentSpawnGroup group in spawnGroups)
@@ -342,10 +350,10 @@ namespace CrowdSim.Core.Persistence
 
         public void ValidateBasic()
         {
-            if (Version != CurrentVersion)
+            if (Version != CurrentVersion && Version != SizedStageVersion)
             {
                 throw new InvalidDataException(
-                    $"Unsupported scenario version {Version}. Expected {CurrentVersion}.");
+                    $"Unsupported scenario version {Version}. Expected {CurrentVersion} or {SizedStageVersion}.");
             }
 
             if (AgentCount is < 0 or > 5000)
@@ -372,6 +380,10 @@ namespace CrowdSim.Core.Persistence
             {
                 if (set is null || !Enum.IsDefined(typeof(FurnitureKind), set.Kind) || !float.IsFinite(set.X) || !float.IsFinite(set.Y) || !float.IsFinite(set.Rotation))
                     throw new InvalidDataException("Scenario contains invalid furniture.");
+                if (!float.IsFinite(set.StageLength) || !float.IsFinite(set.StageWidth) ||
+                    ((set.StageLength != 0f || set.StageWidth != 0f) &&
+                        (Version != SizedStageVersion || set.Kind != FurnitureKind.Stage || set.StageLength < 1f || set.StageWidth < 1f)))
+                    throw new InvalidDataException("Custom stage dimensions require version 5, a stage, and two finite dimensions of at least 1 m.");
                 if (set.Kind == FurnitureKind.Stage && ++stageCount > 1)
                     throw new InvalidDataException("A scenario may contain at most one stage.");
                 plannedCount += FurnitureSet.GetSeatCount(set.Kind);
@@ -707,5 +719,9 @@ namespace CrowdSim.Core.Persistence
         public float X { get; init; }
         public float Y { get; init; }
         public float Rotation { get; init; }
+        [Newtonsoft.Json.JsonProperty(DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore)]
+        public float StageLength { get; init; }
+        [Newtonsoft.Json.JsonProperty(DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore)]
+        public float StageWidth { get; init; }
     }
 }

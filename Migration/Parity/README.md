@@ -93,3 +93,15 @@ frontend code or platform file permissions. The supplied Unity file/replay tests
 and [M5 checklist](../../docs/unity-migration/M5_LOCAL_TESTING.md) cover the actual
 host and await execution. Keep authored definitions separate from current damage,
 positions/exposure and the private finalized replay checkpoint.
+
+## M10 custom-stage extension
+
+Default stage geometry and v4 authored files remain native-compatible. Optional
+stageLength/stageWidth custom values explicitly select Unity schema v5; the file
+interop executable additionally checks Unity v5 round-trip and rejection by the
+actual unchanged native codec. It never permits silently loading a default footprint.
+The trace DTO serializer honors the production Newtonsoft codec's omission of just
+the new zero/default extension fields. All original fields, nonzero custom values,
+ordered physical hashes and M1 baselines remain unchanged. Temporary differential
+capture confirmed the initial mismatch contained only those DTO fields, with no
+physics/checkpoint/replay difference. No golden regeneration is required.

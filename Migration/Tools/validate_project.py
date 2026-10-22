@@ -156,6 +156,17 @@ def validate() -> None:
     require((ROOT / "Migration/Benchmarks/CrowdSim.Scale.csproj").is_file() and
             (ROOT / "Migration/Benchmarks/packages.lock.json").is_file(), "M9 benchmark adapter/lock missing")
 
+    for module in ["imageconversion", "screencapture"]:
+        require(manifest["com.unity.modules." + module] == "1.0.0", "M10 runtime capture module missing: " + module)
+    recorder = (PROJECT / "Assets/CrowdSim/Runtime/Workspace/WorkspaceController.Recording.cs").read_text()
+    require("WaitForEndOfFrame" in recorder and "CaptureScreenshotIntoRenderTexture" in recorder,
+            "M10 must capture the complete composed window at end of frame")
+    require("EncodeArrayToJPG" in recorder and "UnityEditor" not in re.sub(r"//[^\n]*", "", recorder),
+            "M10 encoder must work independently of Editor tools")
+    for name in ["Recording/MjpegAviWriter.cs", "Recording/VideoRecording.cs", "Workspace/WorkspaceSession.Stage.cs"]:
+        require((PROJECT / "Packages/com.crowdsim.core/Runtime" / name).is_file(), "M10 runtime contract missing: " + name)
+    require((PROJECT / "Assets/CrowdSim/Runtime/Workspace/WorkspaceController.Stage.cs").is_file(), "M10 stage controls missing")
+
     parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
     require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
     require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")

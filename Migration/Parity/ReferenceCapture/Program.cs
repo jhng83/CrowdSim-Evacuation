@@ -1,6 +1,7 @@
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using CrowdSim.Core;
 using CrowdSim.Core.Model;
 using CrowdSim.Core.Persistence;
@@ -18,7 +19,22 @@ internal static class Program
     private const string ReferenceCommit = "01b435568f211f5c8ddf99b32b05e7ceb1ad3a24";
     private const int EventTick = 10;
     private const int LastTick = 120;
-    private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true, IncludeFields = true };
+    private static readonly JsonSerializerOptions JsonOptions = CaptureJsonOptions();
+
+    private static JsonSerializerOptions CaptureJsonOptions()
+    {
+        // Honor the production Newtonsoft codec's omission of the two zero/default M10
+        // extension fields. Preserve every original field and all ordered physics hashes.
+        DefaultJsonTypeInfoResolver resolver = new();
+        resolver.Modifiers.Add(info =>
+        {
+            if (info.Type != typeof(FurnitureScenario)) return;
+            foreach (JsonPropertyInfo property in info.Properties)
+                if (property.Name is "StageLength" or "StageWidth")
+                    property.ShouldSerialize = (_, value) => value is float dimension && dimension != 0f;
+        });
+        return new JsonSerializerOptions { WriteIndented = true, IncludeFields = true, TypeInfoResolver = resolver };
+    }
 
     public static int Main(string[] args)
     {

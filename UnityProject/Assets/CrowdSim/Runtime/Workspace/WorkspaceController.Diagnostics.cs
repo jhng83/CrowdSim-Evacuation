@@ -93,7 +93,9 @@ namespace CrowdSim.Unity.Workspace
                 "World commands CPU " + _performance.WorldCommandsMilliseconds.ToString("F2") + " ms\nUI commands CPU " + _performance.UiCommandsMilliseconds.ToString("F2") + " ms (toolkit paint excluded)\n" +
                 "Managed main-thread bytes/frame " + _performance.ManagedBytes.ToString("N0") + "\nVisible / active " + _world.Humans.VisibleCount + " / " + _world.Humans.ActiveCount +
                 "\nHybrid open/detailed " + d.Open + " / " + d.Detailed + " · grouped " + d.Grouped + " in " + d.Groups + " groups\nShared field builds " + d.FieldBuilds + " · geometry refreshes " + d.GeometryRefreshes +
-                "\nGPU time: not measured · recording: M10 pending";
+                "\nGPU time: not measured · recording " + (IsRecording ? "active" : "idle") +
+                "\nCapture CPU " + _captureMilliseconds.ToString("F2") + " ms · encode/write " + (_recording?.LastEncodingMilliseconds ?? _encodeMilliseconds).ToString("F2") +
+                " ms · queue " + (_recording?.QueueCount ?? 0) + "/3 · dropped " + (_recording?.DroppedFrames ?? _lastDropped);
         }
     }
 }
