@@ -1,4 +1,31 @@
-# M10 performance update 2 — current validation
+# M10 Editor menu correction — current validation
+
+Base: `b127185bfd1e8e9b620dd6d2d341a0e85c9a708f`. Executed 2026-10-22
+(Asia/Singapore). The uploaded log records a successful compile followed by a
+native Mono unload-thread crash during optimization-triggered assembly reload.
+The recorded call is UseDebug; both Release and Debug switching commands are
+withdrawn. The remaining menu only reads the current mode and logs it. Runtime
+status and current instructions no longer direct users to change modes.
+
+The same log has 149 distinct missing package paths, all 260–320 characters long.
+This strongly suggests a Windows path-length import issue; recovery requires a
+fresh short-path extraction. The native root cause and successful local restart
+are not established by this analysis. [Diagnosis/recovery](M10_EDITOR_RELOAD_RECOVERY.md).
+The uploaded raw log/dump/local paths are not committed.
+
+| Check | Actual result |
+| --- | --- |
+| Regression guard | Old menu setters are rejected; current source has one status-only command, no optimization setter/debug toggle/compilation request/auto-load hook |
+| Static asset/source contract | Passed: 190 GUIDs, complete package graph, Editor-only helper assembly and 106 original files unchanged |
+| Full regression/parity/persistence/AVI validation | Rerun passed: **404 original / 415 portable / 239 migration** cases, zero failures/skips; Release/C#9/Standard2.1 builds, both six-trace captures/oracle, five legacy interop cases, v5 stage round trip/native rejection and independent FFmpeg AVI decode pass |
+| Physics/performance scope | Portable production and CPU/GPU/world renderer sources are unchanged from b127185; portable source contents match that commit, preserving prior state/benchmark evidence without a new timing claim. Rebuilt DLL hashes can differ with Git/build metadata; the original measured hash remains recorded in the benchmark environment |
+| Unity Editor restart/import, menu execution, native crash absence, 52 EditMode/24 PlayMode tests, actual rendering/recording/player | **Not executed in cloud — no Unity Editor** |
+
+The correction removes the known trigger in CrowdSim; it does not claim to patch
+Mono, automatically reset the Editor setting, fix every package failure or prove
+crash recovery locally. M10 testing continues and M11 remains pending.
+
+# M10 performance update 2 — validation at b127185
 
 Executed 2026-10-22 (Asia/Singapore), Linux x64, SDK 8.0.415/runtime 8.0.21.
 Base: `38ab7420478fe7f9b47a478a294eb77a625187c5`. The user reports the import bug

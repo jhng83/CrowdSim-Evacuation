@@ -14,9 +14,11 @@ remain included. Physics stays on the CPU with the original rules.
 Update 2 builds on `38ab742`, whose import bug the user reports fixed and whose lag
 is much better. It reduces wall-query/force overhead and allocations, retains
 unchanged furniture views/materials and shares orthographic detail projections.
-Startup says **PERFORMANCE UPDATE 2**. Debug reports Editor C# optimization mode;
-while stopped, **CrowdSim → Performance → Use Release Code Optimization** is an
-explicit option, with a Debug restore menu. Nothing changes automatically on import.
+Startup says **PERFORMANCE UPDATE 2 · MENU CORRECTION**. Debug reports Editor C#
+optimization mode. **CrowdSim → Performance → Show Editor Optimization Status**
+is read-only; the previous mode-switch commands were removed after a native Mono
+reload crash. Keep the current mode and extract to a short path such as
+`C:\Unity\CrowdSimM10`; see [crash recovery](docs/unity-migration/M10_EDITOR_RELOAD_RECOVERY.md).
 
 Cloud passes **404 original, 415 portable and 239 migration tests**, unchanged
 traces/file interop/AVI decoding, and 24 exact paired CPU comparison hashes against

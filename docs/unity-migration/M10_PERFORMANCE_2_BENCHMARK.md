@@ -1,5 +1,9 @@
 # M10 performance update 2 — CPU evidence
 
+The subsequent menu correction retains this exact portable implementation. Editor
+mode-switching instructions are withdrawn after a native reload crash; the helper
+is now read-only. None of the measurements below depended on that Unity setting.
+
 Measured 2026-10-22, Linux x64, .NET 8.0.21/SDK 8.0.415, 4 reported CPUs.
 Baseline is **38ab7420478fe7f9b47a478a294eb77a625187c5**, the already optimized M10
 build the user tested. Candidate is this iteration's production portable source.

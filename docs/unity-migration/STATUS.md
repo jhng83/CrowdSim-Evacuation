@@ -17,10 +17,22 @@ Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24` (main unchanged).
 | M10 — Recording + requested adjustable concert stage | `6343f9d52ceb5a7e980e97bd1c7e04310ce37808` | [M10](M10_VALIDATION.md) | Awaiting retest with performance fix |
 | M10 fix — CPU performance + GPU-instanced crowd | `dbe40329d1f47634fb1d086742aa60123720d907` | [Current validation](VALIDATION.md), [CPU comparison](M10_PERFORMANCE_BENCHMARK.md) | User reports lag much better after namespace correction; further improvement requested |
 | M10 fix — Recording namespace/import recovery | `38ab7420478fe7f9b47a478a294eb77a625187c5` | [Current validation](VALIDATION.md), [import recovery](M10_IMPORT_RECOVERY.md) | User reports bug fixed; M10 testing continues |
-| M10 performance update 2 — repeated CPU work and retained views | This iteration, based on `38ab742` | [Validation](VALIDATION.md), [new CPU comparison](M10_PERFORMANCE_2_BENCHMARK.md) | Awaiting local retest |
+| M10 performance update 2 — repeated CPU work and retained views | `b127185bfd1e8e9b620dd6d2d341a0e85c9a708f` | [Validation](VALIDATION.md), [new CPU comparison](M10_PERFORMANCE_2_BENCHMARK.md) | Native crash reported after optimization menu switch |
+| M10 menu correction / reload recovery | This iteration, based on `b127185` | [Validation](VALIDATION.md), [recovery](M10_EDITOR_RELOAD_RECOVERY.md) | Awaiting clean short-path restart and M10 testing |
 | M11 — Complete replacement | Planned | Unrun | Unrun |
 
-The latest M10 screenshots show the GPU checkbox enabled, no recording, Hybrid off,
+The uploaded Editor.log shows compilation success followed by a native Mono
+`unload_thread_main` crash during assembly reload after a menu optimization switch.
+The recorded menu call is `UseDebug`, despite the requested Release action; the
+correction removes **both** mode-changing commands. The remaining command/status
+readout only reads the setting. No automatic restore or scripted reload is added.
+The same log has 149 distinct missing package paths, all 260–320 characters long,
+strongly suggesting a Windows path-length import problem. A fresh short-path
+extraction is required for the local retest. The exact underlying native fault is
+not proven; the correction removes its known trigger and preserves all CPU/GPU/
+view improvements. See M10_EDITOR_RELOAD_RECOVERY.md. M11 remains pending.
+
+The earlier M10 screenshots show the GPU checkbox enabled, no recording, Hybrid off,
 and ongoing engine CPU stalls: dense 800/32 tables at tick 190 reports 123.87 ms
 engine, 16.72 ms response, 99.35 ms movement (38.10 ms SFM/30.96 ms move-collision)
 and 5.40 ms world commands. Open 1000 at tick 110 reports 65.69 ms engine and
@@ -34,11 +46,10 @@ The Unity view retains exact unchanged furniture/floor/stage/pillar descriptors,
 reuses draw scratch collections and per-part materials, and shares orthographic
 LOD projections except near the existing threshold. Perspective/selected detail,
 all poses, guards, contacts, dt/RNG/order, recording and stage behavior remain.
-Startup identifies **PERFORMANCE UPDATE 2**, portable package **0.10.2**. Follow
+Startup identifies **PERFORMANCE UPDATE 2 · MENU CORRECTION**, portable package **0.10.2**. Follow
 [the new local checklist](M10_PERFORMANCE_2_LOCAL_TESTING.md); M11 remains pending.
-An explicit Editor menu can switch C# optimization to Release while stopped; Debug
-reports the active setting. It never changes on import and has a Debug restore menu.
-Actual Unity/Mono benefit from that setting is unmeasured in cloud.
+The Performance menu now has only **Show Editor Optimization Status**. Mode-switching
+instructions are withdrawn; Debug reports the current mode without changing it.
 
 An earlier local report identified a real recording compiler error, CS0234 at
 WorkspaceController.Recording.cs:150: `Unity.Collections` bound to `CrowdSim.Unity`.

@@ -6,15 +6,15 @@ work and repeated Unity view updates. Keep the prior extraction for comparison.
 
 1. **Open a fresh extraction's UnityProject/** in **Unity 6000.3.26f1** through Hub.
    Open **Assets/CrowdSim/Scenes/Bootstrap.unity**, then Play. Expect **PERFORMANCE
-   UPDATE 2**, the same black text/off-white architecture/grid and all M10 features.
+   UPDATE 2 · MENU CORRECTION**, the same black text/off-white architecture/grid and all M10 features.
    Committed package version is 0.10.2; URP remains 17.3.0. Import should compile
    without the fixed recording CS0234. For registry failures use M10_IMPORT_RECOVERY.md.
-   In Debug, note **Editor C# optimization**. If it reads Debug, stop Play, choose
-   **CrowdSim → Performance → Use Release Code Optimization**, wait for recompilation
-   and reenter Play. Expect the readout to say **Release**. This explicitly changes
-   the Editor's compilation/debugging setting; nothing changes automatically on
-   import. To restore script debugging, stop and choose **Use Debug Code Optimization**.
-   Compare builds using the same setting, and record whether Release alone helps.
+   First follow [crash recovery](M10_EDITOR_RELOAD_RECOVERY.md) if the previous menu
+   crashed Unity. Use a short path, for example `C:\Unity\CrowdSimM10\UnityProject`.
+   Note **Editor C# optimization** in Debug but **keep the current mode**. Earlier
+   instructions to switch modes are withdrawn. The only Performance menu command
+   is **Show Editor Optimization Status**: expect a status message with no setting
+   change or compilation request. No Release setting is required to test M10.
 2. **Repeat both supplied comparison scenes.** Debug → Reproducible crowd comparisons:
    create **New dense 800-person layout (32 tables)**, then separately population
    **1000**, furnished unchecked → **New comparison layout**. These are generated
@@ -55,8 +55,8 @@ work and repeated Unity view updates. Keep the prior extraction for comparison.
    invalidation and crowd material shades across poses/zoom. Existing GPU
    instancing/picking/POV/fallback cases remain. Report errors/test XML and before/
    after Debug screenshots, CPU/GPU model, OS, tick/hazard/layout/Hybrid/speed/backend.
-   Include the Editor C# optimization mode. The supplied menu is disabled during
-   Play/compilation and must not change the setting merely by opening the project.
+   Include the Editor C# optimization mode as context. Neither the menu nor opening
+   the project should change it or request an optimization-related recompilation.
 
 Cloud executed .NET regression/parity/CPU checks documented in VALIDATION.md and
 M10_PERFORMANCE_2_BENCHMARK.md. **No Unity Editor is installed: frontend/shader

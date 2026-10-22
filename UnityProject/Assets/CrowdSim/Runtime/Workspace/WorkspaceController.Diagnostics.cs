@@ -19,7 +19,7 @@ namespace CrowdSim.Unity.Workspace
         {
 #if UNITY_EDITOR
             return "Editor C# optimization: " + global::UnityEditor.Compilation.CompilationPipeline.codeOptimization +
-                " (change while stopped: CrowdSim > Performance)";
+                " (status only; keep current mode)";
 #else
             return "Standalone player";
 #endif

@@ -87,6 +87,10 @@ def validate() -> None:
     require(assemblies["CrowdSim.Portable"]["noEngineReferences"], "Portable core permits UnityEngine references")
     require(assemblies["CrowdSim.Editor"].get("includePlatforms") == ["Editor"],
             "Editor performance menus must be excluded from player platforms")
+    for file in (PROJECT / "Assets/CrowdSim").rglob("*.cs"):
+        source = re.sub(r"//[^\n]*|/\*.*?\*/", "", file.read_text(), flags=re.S)
+        require(not re.search(r"\bcodeOptimization\s*=(?!=)|\b(?:EnableScriptDebugInfo|DisableScriptDebugInfo|RequestScriptCompilation)\s*\(", source),
+                "CrowdSim must not change Editor optimization or request its reload: " + str(file.relative_to(PROJECT)))
     core_assembly = assemblies["CrowdSim.Portable"]
     require(core_assembly.get("overrideReferences") and
             "Newtonsoft.Json.dll" in core_assembly.get("precompiledReferences", []),

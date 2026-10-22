@@ -13,6 +13,12 @@ Current cloud validation is recorded in VALIDATION.md; actual Unity performance,
 view/colour/cache invalidation, recording and M10 acceptance require the
 [new local checklist](M10_PERFORMANCE_2_LOCAL_TESTING.md). M11 remains pending.
 
+The user subsequently supplied a native Mono reload crash after using the Editor
+optimization menu. Both mode-changing commands are withdrawn; the remaining command
+only reports status. No simulation/rendering feature or CPU optimization is removed.
+Use [short-path recovery](M10_EDITOR_RELOAD_RECOVERY.md) before resuming M10 tests;
+the native fault's root cause and successful local restart remain unverified.
+
 | ID | Existing capability / preservation requirement | Core / UI ownership | Current status (M10 + performance fix; local acceptance pending) |
 | --- | --- | --- | --- |
 | F01 | Seeded population; default 0.15 s and smaller fixed steps; units; finite guards; acceleration and physical speed ceilings | M2 / M3 | Core regressions/unchanged traces pass; exact CPU sight/force/contact optimizations retain dt/RNG/order/guards, with 24 paired dense/open state hashes; transport/starts/bounds retained |
@@ -66,5 +72,6 @@ including seven new strict-ray/exact-view/no-allocation/scalar-force checks, unc
 captures/file interop/AVI decode and a second 24-pair CPU comparison against `38ab742`.
 Static checks cover **190 GUIDs** and the 106 original files. **52 EditMode / 24
 PlayMode** cases are supplied and unrun; two new PlayMode cases exercise world-view
-invalidation and cached body-material shades. Local acceptance and Editor Release/
-Debug compilation/performance checks remain pending; no parity feature is removed.
+invalidation and cached body-material shades. Local acceptance remains pending.
+Editor mode is recorded as context only; mode-switch tests are withdrawn. No parity
+feature is removed.

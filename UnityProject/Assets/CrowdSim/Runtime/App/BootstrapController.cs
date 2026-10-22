@@ -90,7 +90,7 @@ namespace CrowdSim.Unity.Foundation
             };
             _root.Q<Button>("open-fume-example").clicked += _openFumeExample;
             _root.Q<Label>("editor-version").text = "EDITOR  " + Application.unityVersion;
-            _root.Q<Label>("milestone-label").text = MigrationContract.Milestone + " · PERFORMANCE UPDATE 2";
+            _root.Q<Label>("milestone-label").text = MigrationContract.Milestone + " · PERFORMANCE UPDATE 2 · MENU CORRECTION";
             ResetOverview();
             StartCoroutine(CheckAfterFirstFrame());
         }

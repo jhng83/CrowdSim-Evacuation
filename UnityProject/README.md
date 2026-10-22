@@ -5,7 +5,8 @@ Open **UnityProject/** with **Unity 6000.3.26f1**, URP **17.3.0**, then
 and **ProjectSettings/** are all inside UnityProject. No original .NET executable
 or SDK is required locally; first import needs Unity package-registry access.
 
-This update uses M10 fix `38ab742` as its base. Startup says **PERFORMANCE UPDATE 2**.
+This update retains the M10 performance changes from `b127185`. Startup says
+**PERFORMANCE UPDATE 2 · MENU CORRECTION**.
 Default GPU instancing batches volumetric crowd bodies, outlines and selection/panic
 rings without per-body-part Unity renderers. Debug's **GPU instanced crowd rendering**
 checkbox allows comparison with the compatibility renderer. Matrix-based picking,
@@ -15,10 +16,11 @@ Debug supplies exclusive phase/nested SFM/collision readouts and a valid dense
 800-person/32-table layout. Package version is **0.10.2**. Update 2 also removes
 wall-query/force overhead and temporary closures, reuses unchanged world views and
 crowd materials, and shares orthographic detail projections. Debug adds updated/
-reused scene counters and the current Editor C# optimization mode. While stopped,
-**CrowdSim → Performance → Use Release Code Optimization** explicitly switches the
-Editor setting and recompiles; **Use Debug Code Optimization** restores script
-debugging. Opening the project never changes the setting automatically.
+reused scene counters and the current Editor C# optimization mode. The only
+**CrowdSim → Performance** command is **Show Editor Optimization Status**. It reads
+the current setting and does not change it or request recompilation. Earlier
+mode-switch commands were removed after a native Mono reload crash. Keep the current
+mode; use a fresh short-path extraction and [recovery steps](../docs/unity-migration/M10_EDITOR_RELOAD_RECOVERY.md).
 
 Use the numbered [new checklist](../docs/unity-migration/M10_PERFORMANCE_2_LOCAL_TESTING.md).
 Cloud passes **404 original / 415 portable / 239 migration** cases, unchanged goldens,

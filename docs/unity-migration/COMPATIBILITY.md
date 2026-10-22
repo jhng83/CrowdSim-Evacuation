@@ -629,19 +629,24 @@ dense 800/32 tables 123.87 ms/tick and open 1000 65.69 ms/tick. This iteration:
   within 0.01 pixels of the 48-pixel boundary, and in perspective, original per-agent
   projection remains. Selected agents still force detailed volumes. Pose building,
   interpolation, outlines/rings, culling, picking and backend fallback stay active.
-- An Editor-only assembly adds explicit **CrowdSim → Performance → Use Release
-  Code Optimization** / **Use Debug Code Optimization** menus. These call the
-  pinned Editor's `CompilationPipeline.codeOptimization` property; the API/enum
-  was checked against 6000.3.26f1 reference source. Nothing runs on import, and menu
-  validation disallows Play/compilation. The Debug panel reports the active Editor
-  mode through a UNITY_EDITOR-guarded, globally qualified API; player output simply
-  says Standalone player. Release changes the Editor compilation/debugging setting
-  and requires recompilation; Debug restores script debugging. This may affect
-  Editor CPU cost, but its performance effect and actual Unity compilation have
-  not been measured here. The assembly is excluded from player platforms.
+- An Editor-only assembly supplies **CrowdSim → Performance → Show Editor
+  Optimization Status**. It only reads `CompilationPipeline.codeOptimization` and
+  logs the mode; the Debug panel also reads it under UNITY_EDITOR. Player output
+  simply says Standalone player, and the helper assembly is excluded from player
+  platforms. The earlier Release/Debug switching commands were removed after the
+  user's native Mono reload crash. No setter, script-debug toggle, compilation
+  request, auto-load hook or automatic restore is supplied. Existing Editor mode
+  is retained; M10 requires no mode switch. Static validation rejects reintroducing
+  optimization setters/debug toggles/compilation requests in CrowdSim frontend code.
 
 Package 0.10.2 adds no dependencies or assembly references. Unity 6000.3.26f1/URP
 17.3.0 pins, fixed dt, RNG, agent ordering, actual contacts, routing, exposure,
 custom-stage persistence and recording remain. No background worker, Jobs, Burst,
 GPU simulation or changed Hybrid default is introduced. Cloud tests/benchmarks do
 not establish actual Unity Mono/GPU/FPS; see the new benchmark and local checklist.
+
+The crash log recorded a successful build, a `UseDebug` menu call, forced assembly
+reload and a native `mono-2.0-bdwgc!unload_thread_main` fault. This identifies the
+trigger/phase, not a proven native root cause. It also contains 149 distinct missing
+package paths, all 260–320 characters long. A new short-path import is recommended
+instead of changing package pins or adding DLLs. See M10_EDITOR_RELOAD_RECOVERY.md.
