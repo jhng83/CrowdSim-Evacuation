@@ -248,9 +248,10 @@ namespace CrowdSim.Core
                 foreach (CircleBlockage circle in Environment.CircularBlockages)
                 {
                     if (agent.Posture != SeatingPosture.Walking && ReferenceEquals(circle, agent.Chair?.Obstacle)) continue;
+                    float minimumDistance = circle.Radius + radius;
+                    if (!CircleGeometry.CouldTouch(agent.Position, circle.Center, minimumDistance)) continue;
                     Vector2 offset = agent.Position - circle.Center;
                     float distance = offset.Length();
-                    float minimumDistance = circle.Radius + radius;
                     if (!float.IsFinite(distance) || distance >= minimumDistance)
                     {
                         continue;
@@ -587,6 +588,13 @@ namespace CrowdSim.Core
         /// <summary>Move one agent with sub-step tunnelling protection and final blockage containment.</summary>
         public void MoveAgent(Agent agent)
         {
+            long started = System.Diagnostics.Stopwatch.GetTimestamp();
+            MoveAgentCore(agent);
+            LastCollisionMilliseconds += ReferenceClock.ElapsedMilliseconds(started);
+        }
+
+        private void MoveAgentCore(Agent agent)
+        {
             PushChairInMovementDirection(agent);
             Vector2 newPosition = agent.Position + agent.Velocity * Config.Agent.StepScale;
             float speed = agent.Velocity.Length();
@@ -743,9 +751,10 @@ namespace CrowdSim.Core
             foreach (CircleBlockage circle in Environment.CircularBlockages)
             {
                 if (agent.Posture != SeatingPosture.Walking && ReferenceEquals(circle, agent.Chair?.Obstacle)) continue;
+                float minimumDistance = circle.Radius + radius;
+                if (!CircleGeometry.CouldTouch(agent.Position, circle.Center, minimumDistance)) continue;
                 Vector2 offset = agent.Position - circle.Center;
                 float distance = offset.Length();
-                float minimumDistance = circle.Radius + radius;
                 if (!float.IsFinite(distance) || distance >= minimumDistance)
                 {
                     continue;

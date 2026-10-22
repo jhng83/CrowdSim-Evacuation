@@ -4,9 +4,9 @@ Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24`. A reference test passing
 does not establish Unity parity. M1–M9 were accepted by the user; M10 awaits local Unity acceptance.
 "Core" means programmatic behavior; "UI" means the complete Unity workflow.
 
-| ID | Existing capability / preservation requirement | Core / UI ownership | Current status (M10 cloud evidence; M10 local acceptance pending) |
+| ID | Existing capability / preservation requirement | Core / UI ownership | Current status (M10 + performance fix; local acceptance pending) |
 | --- | --- | --- | --- |
-| F01 | Seeded population; default 0.15 s and smaller fixed steps; units; finite guards; acceleration and physical speed ceilings | M2 / M3 | Core regression/trace checks pass; M3 fixed-step transport, exact starts and bounds supplied |
+| F01 | Seeded population; default 0.15 s and smaller fixed steps; units; finite guards; acceleration and physical speed ceilings | M2 / M3 | Core regressions/unchanged traces pass; exact CPU sight/force/contact optimizations retain dt/RNG/order/guards, with 24 paired dense/open state hashes; transport/starts/bounds retained |
 | F02 | SFM, reaction delays, panic, social alarms, crowd awareness, heterogeneous traits | M2 / M3, M9 | Core parity retained; all behaviour controls exposed; M9 population/stimulus/intent/alarm/model diagnostics supplied; M9 accepted |
 | F03 | Exit choice/capacity; sight; routes; natural recovery; casualties/crawlers; doorway yield, gap and pressure modes | M2 / M9 | Core regressions/traces retained; M9 selected route/waypoint/recovery/stuck/exit-reconsideration/local block/bypass/bottleneck diagnostics supplied; native per-exit density/flow exposed |
 | F04 | Injured/crawling movement; bounded assistance slots, progress, pauses and abandonment | M2 / M8, M9 | M8 poses/help indicators accepted; M9 approach/attendance/target/side/recovery/progress/timeout/helper-count and population assistance metrics supplied |
@@ -28,24 +28,26 @@ does not establish Unity parity. M1–M9 were accepted by the user; M10 awaits l
 | F20 | Persistent wall-clipped five-zone overlays and visibility toggles; no reapplication of damage | M6 | Cached five colored bands/outlines, master/per-zone visibility, hidden-inspector persistence and replay cleanup supplied; both-mode noninterference tests pass; M6/M7 accepted; shared mesh renderer retained; M8 accepted by user; no Editor logs supplied |
 | F21 | Fume source; radius, speed, extent, duration, drift, thresholds and exposure controls; precompute/invalidate; preview; release; permanent incapacity; local risk-aware navigation | M2 / M7 | Source/move, ten settings/dependencies/reset, cache compute/invalidation/readiness, isolated timeline preview, release and replay implemented; original exposure/permanent incapacity/local risk navigation retained; M7 accepted by user |
 | F22 | Fume plume/grid display, cache/readiness/compute statistics, exposure metrics and reset | M7 | Batched full-resolution concentration/grid, source radius, normalized legend, cache/grid/arrival/size/compute metrics, release time, exposure counts/mean/peak and selected-agent concentration/status/mobility supplied |
-| F23 | Volumetric humans at all zooms; near/far detail; walking/running/seated/stand-up/crawl/prone/help poses; state colors, outlines, panic/alarm/help indicators | M8 | M8 accepted; M9 adds frustum culling, cached parts/materials/poses/rings and light-theme labels/selection without a flat fallback; M9 accepted |
-| F24 | Isometric rotation/elevation/zoom/reset; 0.45x–2.5x zoom; selection, Follow, head-height POV and exit cleanup | M3 basic / M8 complete | M8 accepted; rotation/elevation/zoom/reset, body picking, Follow/POV and exit/clear/replay/new/load cleanup retained; black selection ring and pale label plate support new floor contrast |
+| F23 | Volumetric humans at all zooms; near/far detail; walking/running/seated/stand-up/crawl/prone/help poses; state colors, outlines, panic/alarm/help indicators | M8 | M8/M9 accepted; M10 fix adds default GPU-instanced volumetric bodies/outlines/rings, bounded matrix blocks, state shades, CPU frustum/POV hiding and compatibility toggle; same poses/labels/picking, actual Unity/GPU visual acceptance pending |
+| F24 | Isometric rotation/elevation/zoom/reset; 0.45x–2.5x zoom; selection, Follow, head-height POV and exit cleanup | M3 basic / M8 complete | M8 accepted; rotation/elevation/zoom/reset, body picking, Follow/POV and exit/clear/replay/new/load cleanup retained; black selection ring/pale label plate retained; M10 fix uses matrix-based volume picking for instanced and compatibility bodies, with Follow/POV/cleanup retained |
 | F25 | Overview, all agent/navigation/help/hazard details; per-exit density/flow; legends and model descriptions | M3, M6, M7 / M9 complete | Complete native overview/selected navigation/help/model/per-exit metrics supplied alongside M6/M7 hazard analysis; native mobile/exposure denominators and m/s conversions retained; M9 accepted |
 | F26 | Desired/avoidance/herd/SFM/blast vectors; vision cones; congestion; trails; overlays survive hidden inspector | M9 | All eight batched desired/avoidance/herd/SFM/blast/vision/congestion/trail layers supplied, including three-tick/40-point history, POV self exclusion, hidden-inspector persistence and replay/new/load cleanup; M9 accepted |
-| F27 | Frame/physics/draw/UI/record timing; allocations; visible/active and Hybrid counters; CPU benchmark comparisons | M2 harness / M9 | Distinct wall FPS/frame p50/p95, physics commands/native last step/furniture/routes, world/UI commands, main-thread allocations and visible/active/Hybrid counters supplied; 24 CPU comparison cases executed; actual Unity/GPU scale testing unrun; M10 capture/worker encode/write milliseconds, bounded queue and drops supplied; actual graphics overhead unrun |
+| F27 | Frame/physics/draw/UI/record timing; allocations; visible/active and Hybrid counters; CPU benchmark comparisons | M2 harness / M9 | Distinct wall FPS/frame p50/p95, physics commands/native last step/furniture/routes, world/UI commands, main-thread allocations and visible/active/Hybrid counters supplied; 24 CPU comparison cases executed; actual Unity/GPU scale testing unrun; M10 capture/worker counters retained; fix adds exclusive engine phases, nested SFM/collision/route, actual backend/instanced submissions and valid dense-800 fixture; 24 paired CPU hashes with 1.6–1.9× dense cloud improvement; Unity/GPU/FPS unrun |
 | F28 | Runtime complete-UI 1280x720/20 fps MJPEG AVI; arm/start/stop/path; bounded queue/drops; replay/quit cleanup | M10 | Implemented: runtime full-window end-of-frame capture, next-Start/manual start/stop/path/folder, native JPEG worker/indexed AVI, 3-frame queue/drops, letterboxing and replay/new/exit cleanup; cloud production worker/muxer known frames + independent FFmpeg decode pass; actual Unity capture/encoder/orientation/player pending |
 | F29 | Startup/quit; examples; independent player; dependency notices; source downloads and final acceptance | M1 foundation / M11 complete | M1–M9 accepted; M10 recording and requested stage extension supplied; independent player/distribution M11 |
 
 Future milestones must record cloud evidence and user acceptance against these IDs.
 Only an explicitly approved difference can close a parity item without equivalent behavior.
 
-M10 retains all 404 original cases against portable production source plus 11 furniture
-presentation cases (415 total). Migration tests pass 217 cases, including 19 stage
-and 7 recording cases. Both unchanged six-case traces/oracle, five native/portable
-v1–v4 file round trips and v5 custom-stage Unity round trip/native rejection pass.
-Independent FFmpeg decodes correctly oriented known frames from the production AVI
-worker/muxer. Static checks cover 181 GUIDs, black text/contrast/transparent viewport,
-recording wiring and unchanged original files. 51 EditMode and 21 PlayMode cases are
-supplied but unexecuted. Actual Unity capture/native encoder/orientation, stage
-appearance/controls, rendering and player builds remain local. M11 final acceptance
-and distribution ownership is unchanged. See VALIDATION.md and M10_LOCAL_TESTING.md.
+The M10 performance fix retains all 404 original cases against portable production
+source plus 11 presentation cases (415 total). Migration tests pass 232 cases,
+including 15 new instancing-plan/conservative-contact/valid dense authoring/sight-
+lifetime/detached phase contracts. Both unchanged six-case captures/oracle, five
+legacy interop cases, v5 stage round trip/native rejection and AVI decoding pass.
+Three paired CPU trials produce 24 exact full-population observed hashes and dense
+.NET mean-step ratios of 1.62–1.91×; these are not actual Unity/GPU/FPS measurements.
+Static checks cover 187 GUIDs, shader inclusion, black text/contrast/transparent
+viewport and unchanged original files. 52 EditMode / 22 PlayMode cases are supplied,
+unexecuted. M10 recording/stage acceptance and GPU/Mono/performance checks remain
+local; M11 final player/distribution ownership is unchanged. See VALIDATION.md and
+M10_PERFORMANCE_LOCAL_TESTING.md.

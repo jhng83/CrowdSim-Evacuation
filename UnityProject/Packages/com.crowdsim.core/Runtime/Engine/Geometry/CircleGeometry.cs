@@ -14,6 +14,15 @@ namespace CrowdSim.Core.Geometry
     /// <summary>Allocation-free helpers for metric circular obstacle geometry.</summary>
     public static class CircleGeometry
     {
+        /// <summary>Conservative axis rejection before expensive distance/normal calculations.
+        /// Padding retains boundary rounding; unordered comparisons defer to the exact guard.</summary>
+        public static bool CouldTouch(Vector2 point, Vector2 center, float reach)
+        {
+            float x = point.X - center.X, y = point.Y - center.Y;
+            float extent = reach + .0001f;
+            return !(x > extent || x < -extent || y > extent || y < -extent);
+        }
+
         public static bool SegmentIntersectsCircle(
             Vector2 start,
             Vector2 end,

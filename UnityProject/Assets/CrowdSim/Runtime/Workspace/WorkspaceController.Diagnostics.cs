@@ -23,6 +23,9 @@ namespace CrowdSim.Unity.Workspace
             _runtimeHybrid = new Toggle("Hybrid crowd mode (pause to change)") { value = Session.Hybrid, name = "runtime-hybrid" };
             _runtimeHybrid.RegisterValueChangedCallback(evt => { Session.SetPausedHybrid(evt.newValue); Refresh(); });
             _inspectorPage.Add(_runtimeHybrid);
+            Toggle gpu = new Toggle("GPU instanced crowd rendering") { value = _world.Humans.PreferGpuInstancing, name = "gpu-instancing" };
+            gpu.RegisterValueChangedCallback(evt => _world.Humans.PreferGpuInstancing = evt.newValue); _inspectorPage.Add(gpu);
+            Label(_inspectorPage, "Batches volumetric bodies, outlines and rings on supported GPUs. Turn off for a comparison. Simulation stays on the CPU with the same rules.", "muted");
             _performanceText = Label(_inspectorPage, "Collecting frame measurements…", "diagnostic-card"); _performanceText.name = "performance-metrics";
             Foldout overlays = new Foldout { text = "Diagnostic overlays", value = true }; _inspectorPage.Add(overlays);
             DiagnosticOverlay[] flags = { DiagnosticOverlay.Desired, DiagnosticOverlay.Avoidance, DiagnosticOverlay.Herd, DiagnosticOverlay.Sfm,
@@ -43,6 +46,7 @@ namespace CrowdSim.Unity.Workspace
             DropdownField count = new DropdownField("Population", new System.Collections.Generic.List<string> { "220", "500", "1000" }, 0);
             Toggle furniture = new Toggle("Furnished comparison (80 seated)"); scale.Add(count); scale.Add(furniture);
             Button(scale, "New comparison layout", () => { Files.NewScale(int.Parse(count.value), furniture.value, Session.Hybrid); SyncFiles(); });
+            Button(scale, "New dense 800-person layout (32 tables)", () => { Files.NewDense(); SyncFiles(); });
             Label(scale, "Creates an editable layout with seed 731 and four exits. Save/discard prompts protect the current scene. Finalise and trigger the hazard, then replay between Hybrid comparisons. Compare identical layouts/speed/zoom and warmed runs; results depend on hardware. CPU timings are not application FPS or realism validation.", "muted");
             Foldout model = new Foldout { text = "Simulation model and parameters" }; _inspectorPage.Add(model);
             _modelText = Label(model, "", "diagnostic-card");
@@ -89,10 +93,15 @@ namespace CrowdSim.Unity.Workspace
                 "Frame p50/p95 " + _performance.Percentile(.5).ToString("F2") + " / " + _performance.Percentile(.95).ToString("F2") + " ms (last ≤120 frames)\n" +
                 "Physics commands CPU " + _performance.PhysicsCommandsMilliseconds.ToString("F2") + " ms\n" +
                 "Last engine tick CPU " + d.PhysicsMilliseconds.ToString("F2") + " ms · furniture " + d.FurnitureMilliseconds.ToString("F2") + " ms\n" +
+                "Phases ms · grid " + d.GridMilliseconds.ToString("F2") + " · hazard " + d.HazardMilliseconds.ToString("F2") +
+                " · response " + d.ResponseMilliseconds.ToString("F2") + " · preparation " + d.PreparationMilliseconds.ToString("F2") +
+                "\nMovement " + d.MovementMilliseconds.ToString("F2") + " · contacts " + d.ContactsMilliseconds.ToString("F2") + " · exits " + d.ExitMilliseconds.ToString("F2") +
+                "\nMovement subsets · SFM " + d.SfmMilliseconds.ToString("F2") + " · move/collision " + d.CollisionMilliseconds.ToString("F2") + " ms (do not add to phases)\n" +
                 "Route CPU " + d.RouteMilliseconds.ToString("F2") + " ms · " + d.RouteRequests + " requests\n" +
                 "World commands CPU " + _performance.WorldCommandsMilliseconds.ToString("F2") + " ms\nUI commands CPU " + _performance.UiCommandsMilliseconds.ToString("F2") + " ms (toolkit paint excluded)\n" +
                 "Managed main-thread bytes/frame " + _performance.ManagedBytes.ToString("N0") + "\nVisible / active " + _world.Humans.VisibleCount + " / " + _world.Humans.ActiveCount +
                 "\nHybrid open/detailed " + d.Open + " / " + d.Detailed + " · grouped " + d.Grouped + " in " + d.Groups + " groups\nShared field builds " + d.FieldBuilds + " · geometry refreshes " + d.GeometryRefreshes +
+                "\nCrowd rendering: " + _world.Humans.RenderBackend + " · GPU instances " + _world.Humans.GpuInstances + " · submissions " + _world.Humans.GpuDraws +
                 "\nGPU time: not measured · recording " + (IsRecording ? "active" : "idle") +
                 "\nCapture CPU " + _captureMilliseconds.ToString("F2") + " ms · encode/write " + (_recording?.LastEncodingMilliseconds ?? _encodeMilliseconds).ToString("F2") +
                 " ms · queue " + (_recording?.QueueCount ?? 0) + "/3 · dropped " + (_recording?.DroppedFrames ?? _lastDropped);

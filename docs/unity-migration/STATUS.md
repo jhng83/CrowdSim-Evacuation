@@ -14,37 +14,43 @@ Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24` (main unchanged).
 | M7 — Toxic Fume + design | `4fc21756b1d2b97e28a3d5b5236b9276df4da47f` | [M7](M7_VALIDATION.md) | Accepted by user |
 | M8 — Humanoids/cameras | `55652fc407d3eb96527f836e57067da42dc41459` | [M8](M8_VALIDATION.md) | User reported successful testing; accepted |
 | M9 — Diagnostics/scale + requested light architecture theme | `86ae9d16d8a7f928b6d004d84fd8b639bc7f5ad2` | [M9](M9_VALIDATION.md), [CPU comparisons](M9_BENCHMARK.md) | Accepted by user |
-| M10 — Recording + requested adjustable concert stage | This milestone commit | [Current validation](VALIDATION.md) | Awaiting user testing |
+| M10 — Recording + requested adjustable concert stage | `6343f9d52ceb5a7e980e97bd1c7e04310ce37808` | [M10](M10_VALIDATION.md) | Awaiting retest with performance fix |
+| M10 fix — CPU performance + GPU-instanced crowd | This fix commit, based on M10 | [Current validation](VALIDATION.md), [CPU comparison](M10_PERFORMANCE_BENCHMARK.md) | Awaiting user testing |
 | M11 — Complete replacement | Planned | Unrun | Unrun |
 
-M10 supplies runtime complete-window/UI 1280×720/20 fps MJPEG AVI capture, next-Start
-arming, manual start/stop, path/folder/status, bounded three-frame encoding queue,
-drop/capture/encoding counters, resize letterboxing and lifecycle finalization.
-It uses Unity's native JPEG API on a worker and a portable indexed AVI muxer;
-no Editor-only recording tool or new external runtime codec binary is needed.
+The user reported ~3.5 FPS/~300 ms simulation CPU with about 800 people in a furnished
+Unity Editor scene and explicitly requested performance work using M10 as the base,
+including GPU rendering. Their screenshot's `recording: M10 pending` was from M9;
+this iteration retains all of M10 and addresses the reported class of slowdown.
 
-The additional user request supplies editable stage length/depth (also in-place,
-builder-only), rotated room/perimeter/overlap guards, exact preview/collision/save/
-replay geometry and a concert deck/truss/LED/speakers/lamp appearance. Stage stays
-fixed/unoccupied/non-walkable; the rig is visual only. Optional custom dimensions
-use explicit Unity schema v5, which the original app rejects. Default-size stages
-and ordinary saves remain v4; v1–v4 imports/interoperability are preserved.
+The fix adds default GPU-instanced batches for volumetric body parts, outlines and
+rings, reuses bounded matrix blocks (≤256 instances/submission), preserves geometric
+picking/poses/cameras/labels, retains shaders for player builds and supplies a Debug
+compatibility toggle/actual backend/submission counters. Lightweight roots remain;
+GPU mode has no per-part MeshRenderers or ring LineRenderers. Actual GPU execution
+is unverified in cloud. There is no Jobs/Burst or compute-shader simulation change.
 
-Cloud passes 404 original, 415 portable and 217 migration cases, both exact six-case
-captures/oracle, five original schema interop cases, v5 Unity round trip/native
-rejection and independent FFmpeg decode. Static contract covers 181 unique GUIDs
-and 106 unchanged original files. Portable package is 0.10.0. Editor/URP pins stay
-fixed; only the required built-in imageconversion/screencapture modules are added.
-Original source/tests/scenarios/pins, main and golden baselines remain unchanged.
-The portable engine has the narrow, user-authorized stage sizing/persistence
-extension described in COMPATIBILITY.md; default simulation traces remain exact.
+Exact CPU optimizations filter already-transparent furniture from per-tick sight
+queries, hoist repeated clamped circle-force exponentials, bypass unnecessary small-
+force square roots and reject distant circular contact/steering candidates before
+the original exact tests. No force/guard/physical rule/agent ordering is removed.
+New phase timers and a valid 800-person/32-table fixture support local diagnosis.
 
-No Unity Editor is installed: frontend compilation/import, 51 supplied EditMode and
-21 PlayMode cases, complete UI capture/orientation, concert appearance, graphics
-resizing, native controls and player builds were not executed. Remote CI is
-unverified. Cloud AVI evidence tests the production muxer/worker with a cloud-only
-JPEG encoder; it does not establish Unity capture or its JPEG API's native result.
+Cloud passes 404 original, 415 portable and 232 migration cases, unchanged six-case
+captures/oracle, five legacy schema interop cases, v5 round trip/native rejection
+and independent AVI decode. Three paired baseline/candidate CPU trials produce
+24 exact matched case hashes (5,760 measured ticks across both versions). Dense
+.NET mean-step comparisons improve 1.6–1.9×; this does not measure Unity Mono/FPS/GPU.
+Static validation covers 187 GUIDs, shader/package/source wiring and 106 unchanged
+original files. Package is 0.10.1; Editor/URP/other dependencies remain pinned.
 
-Next: [M10_LOCAL_TESTING.md](M10_LOCAL_TESTING.md). Stop for user results and fix
-M10 problems before M11. Supported desktop OS/player target confirmation belongs
-to M11's platform-specific build/acceptance work.
+No Unity Editor is installed: frontend/shader compilation, 52 EditMode/22 PlayMode
+cases, actual instancing/Frame Debugger/FPS/GPU/Mono/visual/input/recording checks and
+standalone builds were not executed. Main, original source/tests/scenarios/pins and
+M1 goldens remain unchanged. The portable performance changes are explicitly scoped
+in COMPATIBILITY.md. Remote GitHub Actions execution is unverified.
+
+Next: [M10_PERFORMANCE_LOCAL_TESTING.md](M10_PERFORMANCE_LOCAL_TESTING.md). Stop for
+local results; fix remaining M10/performance issues before M11. M10 stage schema v5,
+recording limits and original/native compatibility remain as documented. Supported
+player-target confirmation and standalone acceptance remain M11 work.

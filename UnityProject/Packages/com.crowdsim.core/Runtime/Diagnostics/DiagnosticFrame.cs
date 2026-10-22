@@ -51,6 +51,15 @@ namespace CrowdSim.Diagnostics
         public int GeometryRefreshes { get; }
         public double PhysicsMilliseconds { get; }
         public double FurnitureMilliseconds { get; }
+        public double GridMilliseconds { get; }
+        public double HazardMilliseconds { get; }
+        public double ResponseMilliseconds { get; }
+        public double PreparationMilliseconds { get; }
+        public double MovementMilliseconds { get; }
+        public double ContactsMilliseconds { get; }
+        public double ExitMilliseconds { get; }
+        public double SfmMilliseconds { get; }
+        public double CollisionMilliseconds { get; }
         public double RouteMilliseconds { get; }
         public int RouteRequests { get; }
         public float VisionRange { get; }
@@ -71,6 +80,11 @@ namespace CrowdSim.Diagnostics
             Grouped = model.HybridMovement.GroupedAgents; Groups = model.HybridMovement.GroupCount;
             FieldBuilds = model.HybridMovement.Fields.FieldBuilds; GeometryRefreshes = model.HybridMovement.Fields.GeometryRefreshes;
             PhysicsMilliseconds = model.LastStepMilliseconds; FurnitureMilliseconds = model.LastFurnitureMilliseconds;
+            GridMilliseconds = model.LastGridMilliseconds; HazardMilliseconds = model.LastHazardMilliseconds;
+            ResponseMilliseconds = model.LastResponseMilliseconds; PreparationMilliseconds = model.LastPreparationMilliseconds;
+            MovementMilliseconds = model.LastMovementMilliseconds; ContactsMilliseconds = model.LastContactsMilliseconds;
+            ExitMilliseconds = model.LastExitMilliseconds; SfmMilliseconds = model.LastSfmMilliseconds;
+            CollisionMilliseconds = model.LastCollisionMilliseconds;
             RouteMilliseconds = model.LastRoutePlanningMilliseconds; RouteRequests = model.LastRoutePlanRequests;
             VisionRange = model.Config.Agent.VisionRange; VisionHalfAngle = model.Config.Agent.VisionHalfAngleDeg;
             BlastOrigin = model.Environment.Explosion?.Position; BlastActive = BlastOrigin.HasValue && !model.BlastOver();

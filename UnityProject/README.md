@@ -1,9 +1,27 @@
-# CrowdSim Unity migration — M10
+# CrowdSim Unity migration — M10 performance update
 
 Open **UnityProject/** with **Unity 6000.3.26f1**, URP **17.3.0**, then
 **Assets/CrowdSim/Scenes/Bootstrap.unity** and press Play. **Assets/**, **Packages/**
 and **ProjectSettings/** are all inside UnityProject. No original .NET executable
 or SDK is required locally; first import needs Unity package-registry access.
+
+This performance fix uses M10 `6343f9d` as its base. Startup adds **PERFORMANCE UPDATE**.
+Default GPU instancing batches volumetric crowd bodies, outlines and selection/panic
+rings without per-body-part Unity renderers. Debug's **GPU instanced crowd rendering**
+checkbox allows comparison with the compatibility renderer. Matrix-based picking,
+poses, state colours, labels, hidden inspector, Follow and POV remain available.
+Physics stays on the CPU; exact sight/force/contact optimizations preserve behavior.
+Debug supplies exclusive phase/nested SFM/collision readouts and a valid dense
+800-person/32-table layout. Package version is **0.10.1**.
+
+Use the numbered [performance checklist](../docs/unity-migration/M10_PERFORMANCE_LOCAL_TESTING.md).
+Cloud passes **404 original / 415 portable / 232 migration** cases, unchanged goldens,
+AVI decode and **24 exact paired CPU comparison hashes**. Dense .NET CPU steps improve
+**1.6–1.9×** in cloud; **Unity Mono/GPU/FPS and frontend/shader compilation were not
+executed**. **52 EditMode / 22 PlayMode** cases are supplied but unrun.
+[CPU evidence](../docs/unity-migration/M10_PERFORMANCE_BENCHMARK.md) distinguishes
+these measurements from actual Unity rendering performance. All M10 features below
+remain included; M11 is not implemented.
 
 M10 adds full-window recording including the application UI: **1280×720, 20 fps,
 MJPEG AVI**, arm/start/stop, output folder, queue/drop/timing counters, letterboxing
@@ -19,7 +37,7 @@ LED backdrop, speaker stacks and warm lamp lenses provide the concert appearance
 2. Finalise an example, open **Recording**, arm **Record next Start** and Start,
    or choose **Start recording now**. Stop and use **Open recording folder**.
 3. Follow the numbered [M10 checklist](../docs/unity-migration/M10_LOCAL_TESTING.md),
-   including **51 EditMode / 21 PlayMode** supplied cases and actual video review.
+   including **52 EditMode / 22 PlayMode** supplied cases and actual video review.
 
 Custom-size stages use **schema v5**: Unity reads/writes it; the original .NET app
 explicitly rejects it. Older v1–v4 imports and default-size v4 exports are preserved.
@@ -28,7 +46,7 @@ physical or hazard-shielding effect. Black fonts, off-white outlined pillars,
 off-white metric-grid floor, volumetric people and all previous tools remain.
 
 M1–M9 were accepted; M10 awaits local testing. Cloud passes 404 original, 415 portable
-and 217 migration cases, exact unchanged simulation traces/oracle, five legacy file
+and 232 migration cases, exact unchanged simulation traces/oracle, five legacy file
 round trips plus v5 explicit native rejection, and independent FFmpeg known-frame
 decoding. **Unity import/frontend compilation, Unity tests, full-window capture,
 orientation, visual/input checks and standalone/IL2CPP builds were not executed.**

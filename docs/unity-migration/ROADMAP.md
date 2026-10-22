@@ -169,6 +169,16 @@ the footprint. Validate geometry/guards/persistence/undo in cloud; locally test 
 quarter turns, small rooms, conflicts, appearance, save/load/replay and both hazards.
 This is the user-requested extension to M10, not implementation of M11.
 
+After M10 delivery, the user requested a performance fix using M10 as the base,
+including GPU rendering, in response to a slow furnished Editor scene. This fix
+iteration adds exact CPU optimizations and phase profiling, GPU-instanced volumetric
+crowd/outline/ring batches with compatibility fallback, and a valid dense comparison
+fixture. Preserve all M10 features and physical behavior. Gate it on unchanged
+regressions/traces, paired baseline state hashes and honest CPU timing evidence;
+locally verify actual shaders/instancing/picking/POV/recording/FPS on the user's
+hardware. This fixes the current stage before M11 and does not implement M11 or
+imply GPU simulation, Jobs/Burst acceleration or a guaranteed frame rate.
+
 ### M11 — Complete replacement acceptance and distribution
 
 - Capability: all supported workflows in an independent Unity standalone application.

@@ -14,6 +14,7 @@ namespace CrowdSim.Unity.Workspace
         private sealed class Human
         {
             public GameObject Root;
+            public readonly Matrix4x4[] LocalMatrices = new Matrix4x4[16];
             public readonly List<Transform> Parts = new List<Transform>();
             public readonly List<MeshRenderer> Renderers = new List<MeshRenderer>();
             public float LastPhase = float.NaN, LastRise = float.NaN, LastPanic = float.NaN;
@@ -32,6 +33,15 @@ namespace CrowdSim.Unity.Workspace
         private Camera _camera;
         private Mesh _box;
         private Material _outline, _white, _orange;
+        private Shader _instancedShader;
+        private Mesh _ringMesh;
+        private readonly CrowdInstanceBatch _gpu = new CrowdInstanceBatch();
+        private bool _gpuActive;
+        public bool PreferGpuInstancing { get; set; } = true;
+        public bool UsingGpuInstancing => _gpuActive;
+        public int GpuInstances => _gpuActive ? _gpu.InstanceCount : 0;
+        public int GpuDraws => _gpuActive ? _gpu.DrawCount : 0;
+        public string RenderBackend => _gpuActive ? "GPU instancing" : "Compatibility renderers";
         private WorkspaceSession _session;
         private GUIStyle _label;
         private int? _selected;
@@ -45,7 +55,9 @@ namespace CrowdSim.Unity.Workspace
             _camera = camera; _box = box;
             Shader outline = Resources.Load<Shader>("CrowdSim/HumanOutline");
             if (outline == null) throw new InvalidOperationException("Human outline shader is missing.");
-            _outline = new Material(outline);
+            _outline = new Material(outline) { enableInstancing = true };
+            _instancedShader = Resources.Load<Shader>("CrowdSim/CrowdInstanced");
+            _ringMesh = CreateRingMesh();
             _white = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { color = Color.black };
             _orange = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { color = new Color(1, .37f, .10f) };
         }
@@ -65,6 +77,9 @@ namespace CrowdSim.Unity.Workspace
         public void RenderSamples(IReadOnlyList<AgentVisualFrame> samples, int tick, float elapsed, bool animate,
             float speed, float stepSeconds, int? selected, AgentCameraMode mode)
         {
+            bool gpu = PreferGpuInstancing && SystemInfo.supportsInstancing && _instancedShader != null && _instancedShader.isSupported;
+            if (gpu != _gpuActive) ChangeBackend(gpu);
+            _gpu.Reset();
             _selected = selected; VisibleCount = 0;
             GeometryUtility.CalculateFrustumPlanes(_camera, _frustum);
             _active.Clear();
@@ -94,19 +109,23 @@ namespace CrowdSim.Unity.Workspace
                 Vector3 foot = _camera.WorldToScreenPoint(human.Root.transform.position);
                 Vector3 head = _camera.WorldToScreenPoint(human.Root.transform.position + Vector3.up * 1.7f);
                 bool detail = agent.Id == _selected || Vector2.Distance(foot, head) >= 48;
-                bool rebuild = human.Parts.Count == 0 || human.LastPhase != human.Motion.Phase || human.LastRise != human.Motion.Rise ||
+                bool rebuild = human.Geometry.Count == 0 || human.LastPhase != human.Motion.Phase || human.LastRise != human.Motion.Rise ||
                     human.LastDetail != detail || human.LastState != agent.State || human.LastPose != agent.Pose;
                 if (rebuild)
                 {
                     HumanGeometry.Build(agent, detail, human.Motion.Phase, human.Geometry, human.Motion.Rise);
                     for (int i = 0; i < human.Geometry.Count; i++)
                     {
+                        HumanPart geometry = human.Geometry[i];
+                        human.LocalMatrices[i] = Matrix4x4.TRS(Vector(geometry.Center),
+                            new Quaternion(geometry.Rotation.X, geometry.Rotation.Y, geometry.Rotation.Z, geometry.Rotation.W), Vector(geometry.Size));
+                        if (_gpuActive) continue;
                         if (i == human.Parts.Count)
                         {
                             Transform created = CreatePart(human.Root.transform); human.Parts.Add(created);
                             human.Renderers.Add(created.GetComponent<MeshRenderer>());
                         }
-                        Transform part = human.Parts[i]; HumanPart geometry = human.Geometry[i];
+                        Transform part = human.Parts[i];
                         if (!part.gameObject.activeSelf) part.gameObject.SetActive(true);
                         part.localPosition = Vector(geometry.Center); part.localScale = Vector(geometry.Size);
                         part.localRotation = new Quaternion(geometry.Rotation.X, geometry.Rotation.Y, geometry.Rotation.Z, geometry.Rotation.W);
@@ -116,10 +135,23 @@ namespace CrowdSim.Unity.Workspace
                     for (int i = human.Geometry.Count; i < human.Parts.Count; i++)
                         if (human.Parts[i].gameObject.activeSelf) human.Parts[i].gameObject.SetActive(false);
                     // Part indices can change meaning/shade when a pose/detail level changes.
-                    if (human.LastDetail != detail || human.LastPose != agent.Pose)
+                    if (!_gpuActive && (human.LastDetail != detail || human.LastPose != agent.Pose))
                         for (int i = 0; i < human.Geometry.Count; i++) human.Renderers[i].sharedMaterial = Material(agent, human.Geometry[i].Shade);
                     human.LastPhase = human.Motion.Phase; human.LastRise = human.Motion.Rise;
                     human.LastDetail = detail; human.LastState = agent.State; human.LastPose = agent.Pose;
+                }
+                if (_gpuActive)
+                {
+                    Matrix4x4 rootMatrix = human.Root.transform.localToWorldMatrix;
+                    for (int i = 0; i < human.Geometry.Count; i++)
+                    {
+                        Matrix4x4 matrix = rootMatrix * human.LocalMatrices[i];
+                        _gpu.Add(Material(agent, human.Geometry[i].Shade), _box, matrix);
+                        _gpu.Add(_outline, _box, matrix * Matrix4x4.Scale(Vector3.one * 1.075f));
+                    }
+                    if (agent.Id == _selected) AddGpuRing(human, _white, .57f);
+                    if (agent.ShowPanic) AddGpuRing(human, _orange, .32f + agent.Panic * .52f);
+                    continue;
                 }
                 human.Selection.enabled = agent.Id == _selected;
                 human.Panic.enabled = agent.ShowPanic;
@@ -136,6 +168,7 @@ namespace CrowdSim.Unity.Workspace
                 Human human = _humans[id]; human.Root.SetActive(false); human.Snapshot = null;
                 _pool.Push(human); _humans.Remove(id);
             }
+            if (_gpuActive) _gpu.Draw(_camera);
         }
         public System.Numerics.Vector2? RenderedPosition(int? id)
             => id.HasValue && _humans.TryGetValue(id.Value, out Human human) ? human.Motion.Position : (System.Numerics.Vector2?)null;
@@ -150,15 +183,16 @@ namespace CrowdSim.Unity.Workspace
             {
                 Human human = pair.Value;
                 if (!human.Visible) continue;
-                foreach (Transform part in human.Parts)
+                Matrix4x4 rootMatrix = human.Root.transform.localToWorldMatrix;
+                for (int i = 0; i < human.Geometry.Count; i++)
                 {
-                    if (!part.gameObject.activeSelf) continue;
-                    // Transform the ray into the oriented box, rather than using a broad world AABB.
-                    Vector3 origin = part.InverseTransformPoint(ray.origin);
-                    Vector3 direction = part.InverseTransformVector(ray.direction);
-                    if (new Bounds(Vector3.zero, Vector3.one).IntersectRay(new Ray(origin, direction.normalized), out float localDistance))
+                    Matrix4x4 matrix = rootMatrix * human.LocalMatrices[i];
+                    Matrix4x4 inverse = matrix.inverse;
+                    Vector3 origin = inverse.MultiplyPoint3x4(ray.origin);
+                    Vector3 direction = inverse.MultiplyVector(ray.direction).normalized;
+                    if (new Bounds(Vector3.zero, Vector3.one).IntersectRay(new Ray(origin, direction), out float localDistance))
                     {
-                        float distance = Vector3.Distance(ray.origin, part.TransformPoint(origin + direction.normalized * localDistance));
+                        float distance = Vector3.Distance(ray.origin, matrix.MultiplyPoint3x4(origin + direction * localDistance));
                         if (distance < nearest) { nearest = distance; selected = pair.Key; }
                     }
                 }
@@ -168,8 +202,53 @@ namespace CrowdSim.Unity.Workspace
         private Human Create()
         {
             GameObject root = new GameObject("Human"); root.transform.SetParent(transform, false);
-            Human human = new Human { Root = root, Selection = Line(root.transform, "Selection ring", _white), Panic = Line(root.transform, "Panic ring", _orange) };
-            Ring(human.Selection, .57f, .035f); return human;
+            Human human = new Human { Root = root };
+            if (!_gpuActive)
+            {
+                human.Selection = Line(root.transform, "Selection ring", _white); human.Panic = Line(root.transform, "Panic ring", _orange);
+                Ring(human.Selection, .57f, .035f);
+            }
+            return human;
+        }
+        private void ChangeBackend(bool gpu)
+        {
+            foreach (Human human in _humans.Values) { human.Root.SetActive(false); Destroy(human.Root); }
+            foreach (Human human in _pool) { human.Root.SetActive(false); Destroy(human.Root); }
+            _humans.Clear(); _pool.Clear(); _gpu.Clear();
+            foreach (Material material in _materials.Values) Destroy(material);
+            _materials.Clear(); _gpuActive = gpu;
+            if (_white != null) Destroy(_white); if (_orange != null) Destroy(_orange);
+            _white = new Material(gpu ? _instancedShader : Shader.Find("Universal Render Pipeline/Unlit"));
+            _orange = new Material(gpu ? _instancedShader : Shader.Find("Universal Render Pipeline/Unlit"));
+            if (gpu)
+            {
+                _white.SetColor("_BaseColor", Color.black); _orange.SetColor("_BaseColor", new Color(1, .37f, .10f));
+                _white.SetFloat("_Unlit", 1); _orange.SetFloat("_Unlit", 1);
+            }
+            else { _white.color = Color.black; _orange.color = new Color(1, .37f, .10f); }
+        }
+        private void AddGpuRing(Human human, Material material, float radius)
+        {
+            Vector3 p = human.Root.transform.position; p.y = material == _white ? .035f : .018f;
+            _gpu.Add(material, _ringMesh, Matrix4x4.TRS(p, Quaternion.identity, new Vector3(radius, 1, radius)));
+        }
+        private static Mesh CreateRingMesh()
+        {
+            const int segments = 32;
+            Vector3[] vertices = new Vector3[segments * 2]; Vector3[] normals = new Vector3[vertices.Length];
+            int[] triangles = new int[segments * 6];
+            for (int i = 0; i < segments; i++)
+            {
+                float a = i * Mathf.PI * 2 / segments;
+                Vector3 p = new Vector3(Mathf.Cos(a), 0, Mathf.Sin(a));
+                vertices[i * 2] = p * .975f; vertices[i * 2 + 1] = p * 1.025f;
+                normals[i * 2] = normals[i * 2 + 1] = Vector3.up;
+                int n = ((i + 1) % segments) * 2, at = i * 6;
+                triangles[at] = i * 2; triangles[at + 1] = n; triangles[at + 2] = i * 2 + 1;
+                triangles[at + 3] = i * 2 + 1; triangles[at + 4] = n; triangles[at + 5] = n + 1;
+            }
+            Mesh mesh = new Mesh { name = "Crowd / instanced indicator ring" };
+            mesh.vertices = vertices; mesh.normals = normals; mesh.triangles = triangles; mesh.RecalculateBounds(); return mesh;
         }
         private Transform CreatePart(Transform parent)
         {
@@ -185,8 +264,10 @@ namespace CrowdSim.Unity.Workspace
             (AgentState, int) key = (agent.State, Mathf.RoundToInt(shade * 100));
             if (_materials.TryGetValue(key, out Material material)) return material;
             System.Numerics.Vector3 rgb = AgentPalette.Color(agent.State) * shade;
-            material = new Material(Shader.Find("Universal Render Pipeline/Lit")) { color = new Color(rgb.X, rgb.Y, rgb.Z) };
-            material.SetFloat("_Smoothness", .2f);
+            material = new Material(_gpuActive ? _instancedShader : Shader.Find("Universal Render Pipeline/Lit"));
+            if (_gpuActive) material.SetColor("_BaseColor", new Color(rgb.X, rgb.Y, rgb.Z));
+            else material.color = new Color(rgb.X, rgb.Y, rgb.Z);
+            if (!_gpuActive) material.SetFloat("_Smoothness", .2f);
             _materials.Add(key, material); return material;
         }
         private static LineRenderer Line(Transform parent, string name, Material material)
@@ -232,6 +313,8 @@ namespace CrowdSim.Unity.Workspace
         private void OnDestroy()
         {
             foreach (Material material in _materials.Values) Destroy(material);
+            if (_ringMesh != null) Destroy(_ringMesh);
+            _gpu.Clear();
             if (_outline != null) Destroy(_outline); if (_white != null) Destroy(_white); if (_orange != null) Destroy(_orange);
         }
     }

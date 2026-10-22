@@ -9,8 +9,11 @@ GraphicsSettings:
   m_TransparencySortAxis: {x: 0, y: 0, z: 1}
   m_DefaultRenderingPath: 1
   m_DefaultMobileRenderingPath: 1
-  m_AlwaysIncludedShaders: []
+  m_AlwaysIncludedShaders:
+  - {fileID: 4800000, guid: 0ee91e80424455d5a3959bd252f08102, type: 3}
+  - {fileID: 4800000, guid: 5b995919e41e503fa2076e37a145eaad, type: 3}
   m_PreloadedShaders: []
+  m_InstancingStripping: 2
   m_LightsUseLinearIntensity: 1
   m_LightsUseColorTemperature: 1
   m_LogWhenShaderIsCompiled: 0

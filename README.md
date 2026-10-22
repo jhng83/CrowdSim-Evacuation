@@ -1,22 +1,27 @@
-# Unity migration — Milestone 10
+# Unity migration — M10 performance update
 
-On `unity-migration`, open **UnityProject/** (containing **Assets/**, **Packages/**,
-**ProjectSettings/**) with **Unity 6000.3.26f1**, then
-**Assets/CrowdSim/Scenes/Bootstrap.unity**. M10 adds full-window/UI MJPEG AVI recording
-at 1280×720/20 fps, arm/start/stop/path/counters and safe replay/exit finalization.
-The stage now has editable room-bounded dimensions and a concert deck, truss,
-LED backdrop, speakers and lamps. Black text, off-white outlined pillars and the
-off-white gridded floor remain.
+This fix uses M10 `6343f9d` as its base. On `unity-migration`, extract the delivered
+commit ZIP, open **UnityProject/** (Assets, Packages, ProjectSettings) with
+**Unity 6000.3.26f1**, then **Assets/CrowdSim/Scenes/Bootstrap.unity**.
 
-M1–M9 were accepted by the user; M10 awaits local testing. Follow the numbered
-[M10 checklist](docs/unity-migration/M10_LOCAL_TESTING.md),
-[validation evidence](docs/unity-migration/VALIDATION.md) and
-[migration status](docs/unity-migration/STATUS.md). Cloud passes 404 original,
-415 portable and 217 migration tests, unchanged simulation traces and independent
-FFmpeg AVI decoding. **Actual Unity import/tests/capture/orientation/rendering and
-player builds were not executed.** Custom stage sizes use Unity schema v5;
-ordinary/default-size files retain native-compatible v4. The original application,
-tests and main remain the behavioural reference; final player acceptance is M11.
+GPU-instanced batches now draw volumetric crowd bodies, outlines and rings with
+accurate picking/Follow/POV and an optional compatibility renderer. Exact CPU
+optimizations reduce repeated furniture sight checks and force/distance work.
+Debug shows rendering backend/submissions and detailed simulation phases, with a
+reproducible 800-person/32-table fixture. M10 recording and adjustable concert stage
+remain included. Physics stays on the CPU with the original rules.
+
+Cloud passes **404 original, 415 portable and 232 migration tests**, unchanged
+traces/file interop/AVI decoding, and 24 exact paired CPU comparison hashes.
+Dense .NET CPU comparisons improve **1.6–1.9×**; actual Unity Mono/GPU/FPS results
+are unmeasured. **Unity frontend/shader compilation, Unity tests, actual instancing,
+visual/input/recording checks and player builds were not executed.**
+
+Follow the numbered [performance testing checklist](docs/unity-migration/M10_PERFORMANCE_LOCAL_TESTING.md),
+[CPU evidence](docs/unity-migration/M10_PERFORMANCE_BENCHMARK.md) and
+[status](docs/unity-migration/STATUS.md). M1–M9 were accepted; M10 and this fix await
+local acceptance. Main/original application/tests remain unchanged. M11 remains
+pending. The original application notes below are historical reference.
 
 # Always-3D agents — current revision
 

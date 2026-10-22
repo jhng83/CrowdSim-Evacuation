@@ -52,6 +52,7 @@ namespace CrowdSim.Workspace
         }
         public bool New(ScenarioType scenario) => Request(FileTransition.New, new WorkspaceSession(scenario), null);
         public bool NewScale(int count, bool furnished, bool hybrid) => Request(FileTransition.New, WorkspaceSession.ScaleExample(count, furnished, hybrid, Session.Scenario), null);
+        public bool NewDense() => Request(FileTransition.New, WorkspaceSession.DenseExample(Session.Hybrid, Session.Scenario), null);
         public bool Leave(bool diagnostics) => Request(diagnostics ? FileTransition.Diagnostics : FileTransition.Startup, null, null);
         private bool Request(FileTransition transition, WorkspaceSession? prepared, ScenarioEntry? entry)
         {

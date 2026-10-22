@@ -60,3 +60,13 @@ always labelled in the header, with path/folder, frames/drops/queue/capture/enco
 values together on the scrollable Recording page. Text remains black on pale panels.
 Only Unity's built-in imageconversion/screencapture modules are added for capture;
 there is no added third-party asset or runtime codec dependency.
+
+The M10 performance fix keeps every zoom level volumetric through GPU-instanced
+body/outline/ring volumes. State colours/shades, black silhouettes, poses, labels
+and picking remain meaningful; the lightweight shader uses main-light/ambient
+shading without per-person shadow passes. Check actual colour/outline readability
+against the off-white floor in both backends locally. Debug exposes a labelled GPU
+checkbox, actual backend, instance/submission counts and separated timing phases;
+unsupported hardware uses compatibility renderers. The shader/backend change is
+cosmetic and never changes physical state or movement. No FPS/GPU claim follows
+from a static colour/source check.

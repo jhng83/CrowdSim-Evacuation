@@ -54,6 +54,7 @@ namespace CrowdSim.Core.Systems
         /// <summary>Compute desired, social and wall forces for one agent.</summary>
         public Vector2 ComputeForces(Simulation simulation, Agent agent, Vector2 desiredDirection)
         {
+            long profileStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             Vector2 velocity = VectorMath.IsFinite(agent.Velocity) ? agent.Velocity : Vector2.Zero;
             Vector2 desiredDir = VectorMath.SafeNormalize(desiredDirection);
 
@@ -265,6 +266,9 @@ namespace CrowdSim.Core.Systems
                     }
                 }
 
+                float minimumExponential = MathF.Exp(-60f);
+                float maximumExponential = MathF.Exp(20f);
+                float obstacleDecay = Math.Max(_config.SfmB, 1e-5f);
                 foreach (CircleBlockage circle in simulation.Environment.CircularBlockages)
                 {
                     Vector2 difference = agent.Position - circle.Center;
@@ -279,9 +283,11 @@ namespace CrowdSim.Core.Systems
                         : Vector2.UnitX;
                     float surfaceDistance = centerDistance - circle.Radius;
                     float bodyRadius = _config.Radius;
-                    float exponent = (bodyRadius - surfaceDistance) / Math.Max(_config.SfmB, 1e-5f);
-                    exponent = Math.Clamp(exponent, -60f, 20f);
-                    Vector2 force = _config.SfmA * MathF.Exp(exponent) * normal;
+                    float exponent = (bodyRadius - surfaceDistance) / obstacleDecay;
+                    // Retain every distant force and its accumulation order, including the
+                    // original nonzero clamp floor; only repeated Exp(-60) evaluations disappear.
+                    float exponential = exponent <= -60f ? minimumExponential : exponent >= 20f ? maximumExponential : MathF.Exp(exponent);
+                    Vector2 force = _config.SfmA * exponential * normal;
 
                     if (surfaceDistance < bodyRadius)
                     {
@@ -307,6 +313,7 @@ namespace CrowdSim.Core.Systems
 
             agent.LastDesiredDirection = desiredDir;
             agent.LastSfmForce = total;
+            simulation.LastSfmMilliseconds += ReferenceClock.ElapsedMilliseconds(profileStarted);
             return total;
         }
 
@@ -317,6 +324,9 @@ namespace CrowdSim.Core.Systems
                 return Vector2.Zero;
             }
 
+            // Far-field forces are overwhelmingly below the cap. This conservative bound
+            // returns exactly the original vector, without a square root. Near-cap math stays intact.
+            if (MathF.Abs(force.X) + MathF.Abs(force.Y) < cap * .5f) return force;
             float magnitude = force.Length();
             if (magnitude > cap && magnitude > VectorMath.Epsilon)
             {

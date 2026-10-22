@@ -6,6 +6,20 @@ using CrowdSim.Core;
 using CrowdSim.Core.Model;
 using CrowdSim.Diagnostics;
 
+if (args.Length > 0 && args[0] == "--write-dense-fixtures")
+{
+    Directory.CreateDirectory(args[1]);
+    foreach (ScenarioType scenario in new[] { ScenarioType.Explosion, ScenarioType.ToxicFume })
+    {
+        var definition = CrowdSim.Core.Persistence.ScenarioDefinition.Capture(DenseCrowdLayout.Create(false, scenario), 800, "Dense 800 / 32 tables");
+        File.WriteAllText(Path.Combine(args[1], "dense800-" + scenario + ".json"), CrowdSim.Core.Persistence.ScenarioJson.Serialize(definition));
+    }
+    return;
+}
+if (args.Length > 0 && args[0] == "--profile")
+{
+    PerformanceComparison.Run(args[1], args.Length > 2 ? int.Parse(args[2]) : 120, args.Length > 3 ? args[3] : null); return;
+}
 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
 string output = args.Length > 0 ? args[0] : throw new ArgumentException("Provide an output directory outside source.");
 int frames = args.Length > 1 ? int.Parse(args[1]) : 60;

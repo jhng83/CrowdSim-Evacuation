@@ -8,6 +8,8 @@ namespace CrowdSim.Workspace
     {
         public static WorkspaceSession ScaleExample(int count, bool furnished, bool hybrid, Core.Model.ScenarioType scenario)
             => new WorkspaceSession(CrowdScaleLayout.Create(count, furnished, hybrid, scenario), count, "Scale " + count + (furnished ? " furnished" : " open"));
+        public static WorkspaceSession DenseExample(bool hybrid, Core.Model.ScenarioType scenario)
+            => new WorkspaceSession(DenseCrowdLayout.Create(hybrid, scenario), 800, "Dense 800 / 32 tables");
         private DiagnosticFrame? _diagnostics;
         public DiagnosticFrame Diagnostics => _diagnostics ?? (_diagnostics = new DiagnosticFrame(_simulation, SelectedAgentId));
         public DiagnosticOverlay Overlays { get; set; }

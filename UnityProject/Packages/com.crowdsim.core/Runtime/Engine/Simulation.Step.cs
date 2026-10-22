@@ -38,10 +38,27 @@ namespace CrowdSim.Core
                 return;
             }
 
+            try
+            {
+                StepCore();
+            }
+            finally { _sightSnapshotActive = false; }
+        }
+
+        private void StepCore()
+        {
             long stepStarted = System.Diagnostics.Stopwatch.GetTimestamp();
+            _sightWalls.Clear(); _sightCircles.Clear();
+            foreach (Wall wall in Environment.Walls) if (!wall.IsFurniture) _sightWalls.Add(wall);
+            foreach (CircleBlockage circle in Environment.CircularBlockages) if (!circle.IsFurniture) _sightCircles.Add(circle);
+            _sightSnapshotActive = true;
             LastRoutePlanningMilliseconds = 0d;
             LastRoutePlanRequests = 0;
+            LastSfmMilliseconds = LastCollisionMilliseconds = 0d;
+            long phaseStarted = stepStarted;
             RebuildAgentGrid();
+            LastGridMilliseconds = ReferenceClock.ElapsedMilliseconds(phaseStarted);
+            phaseStarted = System.Diagnostics.Stopwatch.GetTimestamp();
 
             // Resolve the selected hazard before panic for this frame. Both scenarios feed the same
             // panic/SFM/route engine; only the hazard-specific exposure calculation differs.
@@ -61,6 +78,8 @@ namespace CrowdSim.Core
                 ToxicFumeSystem.UpdateAgents(this);
             }
 
+            LastHazardMilliseconds = ReferenceClock.ElapsedMilliseconds(phaseStarted);
+            phaseStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             EvacuationSystem.UpdatePanic(this);
             if (ScenarioType == CrowdSim.Core.Model.ScenarioType.Explosion)
             {
@@ -135,11 +154,15 @@ namespace CrowdSim.Core
                 }
             }
 
+            LastResponseMilliseconds = ReferenceClock.ElapsedMilliseconds(phaseStarted);
             long furnitureStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             UpdateFurniture();
             LastFurnitureMilliseconds = ReferenceClock.ElapsedMilliseconds(furnitureStarted);
+            phaseStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             EvacuationSystem.BeginNaturalNavigationFrame(this);
             HybridMovement.BeginFrame(this);
+            LastPreparationMilliseconds = ReferenceClock.ElapsedMilliseconds(phaseStarted);
+            phaseStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             foreach (Agent agent in Agents)
             {
                 if (UpdateSeating(agent))
@@ -224,9 +247,14 @@ namespace CrowdSim.Core
                 RefreshAgentCell(agent);
             }
 
+            LastMovementMilliseconds = ReferenceClock.ElapsedMilliseconds(phaseStarted);
+            phaseStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             ResolveCrowdContacts();
+            LastContactsMilliseconds = ReferenceClock.ElapsedMilliseconds(phaseStarted);
+            phaseStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             EvacuationSystem.ApplyExitFlows(this);
             UpdateExitMetrics();
+            LastExitMilliseconds = ReferenceClock.ElapsedMilliseconds(phaseStarted);
             FrameIndex++;
             LastStepMilliseconds = ReferenceClock.ElapsedMilliseconds(stepStarted);
         }

@@ -167,6 +167,16 @@ def validate() -> None:
         require((PROJECT / "Packages/com.crowdsim.core/Runtime" / name).is_file(), "M10 runtime contract missing: " + name)
     require((PROJECT / "Assets/CrowdSim/Runtime/Workspace/WorkspaceController.Stage.cs").is_file(), "M10 stage controls missing")
 
+    gpu_shader = PROJECT / "Assets/CrowdSim/Resources/CrowdSim/CrowdInstanced.shader"
+    gpu_batch = PROJECT / "Assets/CrowdSim/Runtime/Workspace/CrowdInstanceBatch.cs"
+    require(gpu_shader.is_file() and "#pragma multi_compile_instancing" in gpu_shader.read_text(), "GPU crowd instancing shader missing")
+    require("Graphics.RenderMeshInstanced" in gpu_batch.read_text(), "GPU crowd must submit instanced volumes")
+    graphics = (PROJECT / "ProjectSettings/GraphicsSettings.asset").read_text()
+    require("m_InstancingStripping: 2" in graphics, "Runtime instancing variants must use Keep All")
+    for shader in [gpu_shader, PROJECT / "Assets/CrowdSim/Resources/CrowdSim/HumanOutline.shader"]:
+        guid = re.search(r"^guid: ([0-9a-f]{32})$", Path(str(shader) + ".meta").read_text(), re.M).group(1)
+        require(guid in graphics, "Runtime-instanced shader must be retained for builds: " + shader.name)
+
     parity_scene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity"
     require((PROJECT / parity_scene).is_file(), "M2 diagnostic scene missing")
     require(parity_scene in (PROJECT / "ProjectSettings/EditorBuildSettings.asset").read_text(), "Diagnostic scene is absent from build settings")

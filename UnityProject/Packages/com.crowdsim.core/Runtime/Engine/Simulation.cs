@@ -27,9 +27,23 @@ namespace CrowdSim.Core
         /// <summary>Wall-clock CPU time for the last completed simulation tick.</summary>
         public double LastStepMilliseconds { get; private set; }
         public double LastFurnitureMilliseconds { get; private set; }
+        /// <summary>Exclusive phase timings of the last completed tick; diagnostic only.</summary>
+        public double LastGridMilliseconds { get; private set; }
+        public double LastHazardMilliseconds { get; private set; }
+        public double LastResponseMilliseconds { get; private set; }
+        public double LastPreparationMilliseconds { get; private set; }
+        public double LastMovementMilliseconds { get; private set; }
+        public double LastContactsMilliseconds { get; private set; }
+        public double LastExitMilliseconds { get; private set; }
+        /// <summary>Nested subsets of movement/response, not additional exclusive phases.</summary>
+        public double LastSfmMilliseconds { get; internal set; }
+        public double LastCollisionMilliseconds { get; private set; }
         public double LastRoutePlanningMilliseconds { get; internal set; }
         public int LastRoutePlanRequests { get; internal set; }
 
+        private readonly List<Wall> _sightWalls = new();
+        private readonly List<CircleBlockage> _sightCircles = new();
+        private bool _sightSnapshotActive;
         private readonly Dictionary<(int X, int Y), List<Agent>> _agentGrid = new();
         private (int X, int Y)[] _indexedAgentCells = Array.Empty<(int, int)>();
         private readonly List<(int X, int Y)> _activeAgentGridCells = new(512);
@@ -460,7 +474,17 @@ namespace CrowdSim.Core
         /// walls the simple scan is cheaper; obstacle-rich builder scenes switch to grid traversal.
         /// </summary>
         public bool HasLineOfSight(Vector2 start, Vector2 end)
-            => !SegmentHitsWall(start, end, 0f, ignoreFurniture: true);
+        {
+            // Architecture cannot change during a synchronous Step. Furniture may move, but
+            // has always been transparent to sight. Avoid rescanning hundreds of ignored chairs
+            // for each social-awareness pair. Outside Step, query live lists as before.
+            if (!_sightSnapshotActive) return !SegmentHitsWall(start, end, 0f, ignoreFurniture: true);
+            foreach (Wall wall in _sightWalls)
+                if (SegmentIntersectsExpandedWall(start, end, wall, 0f)) return false;
+            foreach (CircleBlockage circle in _sightCircles)
+                if (CircleGeometry.SegmentIntersectsCircle(start, end, circle.Center, circle.Radius)) return false;
+            return true;
+        }
 
         /// <summary>
         /// Exact body-clear segment test using spatially culled wall candidates. Walls are still

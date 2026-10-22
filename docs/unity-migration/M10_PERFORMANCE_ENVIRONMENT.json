@@ -1,0 +1,123 @@
+{
+  "Utc": "2026-10-22T05:38:14.4940314Z",
+  "Runtime": ".NET 8.0.21",
+  "OS": "Debian GNU/Linux 13 (trixie)",
+  "CPUs": 4,
+  "Warmup": 12,
+  "Frames": 120,
+  "Note": "M10 + diagnostic phase timers baseline versus optimized portable CPU. No Unity, Mono, graphics or GPU executed.",
+  "ClientDate": "2026-10-22 Asia/Singapore",
+  "BaselineCommit": "6343f9d52ceb5a7e980e97bd1c7e04310ce37808",
+  "BaselineAdaptation": "Exact M10 engine + diagnostic clocks only; current valid dense fixture is shared authored input.",
+  "TieredCompilation": false,
+  "Trials": 3,
+  "CasesPerTrial": 8,
+  "MeasuredTicksPerCase": 120,
+  "MeasuredTicksTotalBothVersions": 5760,
+  "MatchedStateHashPairs": 24,
+  "Summary": "Median of three trial mean step times. Per-trial means and p95 in CSV. CPU wall elapsed time on a shared worker, not a universal speed guarantee.",
+  "AssemblyHashes": [
+    {
+      "role": "M10 + clocks",
+      "sha256": "a30295e1a7683357037f0bfd7707244e505cecc1bc1bb08af9640283bf6f4644"
+    },
+    {
+      "role": "Optimized portable CPU",
+      "sha256": "117aabab573f6a540939d3cc6a2f25dbcebb0002aa37c768b9a7b5b07721e03f"
+    }
+  ],
+  "FixtureSHA256": {
+    "dense800-ToxicFume.json": "88a8f04db22acb74d599658e686d63d5f14027a2a940ab220be9581dbba21e74",
+    "dense800-Explosion.json": "d42bacfd7a703d1f4e46fe214903b97ab024add1dbc566675b60eee4d0e99632"
+  },
+  "ObservedStateSHA256": {
+    "ToxicFume-dense800-True.sha256": "1B0E5A1702D8C34BE2A2F9106A68700F8DE2A660AA4A7FB5452521EFE61321A9",
+    "ToxicFume-dense800-False.sha256": "7CE6753FDC16D435764841A64A2EB7CDD9EB697C5BE566BD7F40F23FC8EAD43B",
+    "ToxicFume-open1000-True.sha256": "43248F57EE88BE96460308C8572AA549DFE006B79CCC9CE10E6528C2D805C716",
+    "ToxicFume-open1000-False.sha256": "A7B3AD79B56067BE8B47CFCAD3EAEDE073E6AD8DA7245D38A0EA79E43B12CA40",
+    "Explosion-dense800-True.sha256": "484583D5A2A3E2EC56F1C456041441D2D4977AEC86007FDEFE7347CB917162CC",
+    "Explosion-dense800-False.sha256": "567B547C02256016E9293D32E3CE607BE4A76421B301FFBF2558E929D99737F8",
+    "Explosion-open1000-True.sha256": "02EEAF0C68FE0D44AFCAAD0308621549F1D83EE906E1B17721AAF67D36CA9B7C",
+    "Explosion-open1000-False.sha256": "BDE14382749EDA03B584183BEC6F65B344CAE1B4826D4D81A28DE330F2F0340D"
+  },
+  "Results": [
+    {
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "False",
+      "base_median_of_trial_means_ms": 32.060521375,
+      "opt_median_of_trial_means_ms": 19.284953258333335,
+      "ratio": 1.662463006548701,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "True",
+      "base_median_of_trial_means_ms": 30.753592308333335,
+      "opt_median_of_trial_means_ms": 18.996727441666668,
+      "ratio": 1.6188889587834812,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "False",
+      "base_median_of_trial_means_ms": 11.995428658333333,
+      "opt_median_of_trial_means_ms": 10.774414466666666,
+      "ratio": 1.1133253408288848,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "True",
+      "base_median_of_trial_means_ms": 11.7133313,
+      "opt_median_of_trial_means_ms": 10.345388883333333,
+      "ratio": 1.132227259128988,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "False",
+      "base_median_of_trial_means_ms": 32.21169406666667,
+      "opt_median_of_trial_means_ms": 16.896933691666668,
+      "ratio": 1.90636328782855,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "True",
+      "base_median_of_trial_means_ms": 33.22268223333333,
+      "opt_median_of_trial_means_ms": 17.363666325,
+      "ratio": 1.91334488992683,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "False",
+      "base_median_of_trial_means_ms": 11.237918441666666,
+      "opt_median_of_trial_means_ms": 10.097683341666666,
+      "ratio": 1.1129204651620417,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "True",
+      "base_median_of_trial_means_ms": 11.592613616666666,
+      "opt_median_of_trial_means_ms": 10.79544915,
+      "ratio": 1.0738426401338443,
+      "matched_trials": 3
+    }
+  ],
+  "NotExecuted": [
+    "Unity Editor/Mono frontend and tests",
+    "Shader compile/GPU rendering",
+    "GPU timings/application FPS",
+    "Standalone/IL2CPP builds"
+  ]
+}

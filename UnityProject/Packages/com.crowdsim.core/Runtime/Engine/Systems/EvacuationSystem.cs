@@ -2866,6 +2866,7 @@ namespace CrowdSim.Core.Systems
             Vector2 lookAhead = agent.Position + desired * probeDistance;
             foreach (CircleBlockage circle in simulation.Environment.CircularBlockages)
             {
+                if (!CircleGeometry.CouldTouch(agent.Position, circle.Center, circle.Radius + _config.Radius + activationDistance)) continue;
                 Vector2 offset = agent.Position - circle.Center;
                 float centerDistance = offset.Length();
                 if (!float.IsFinite(centerDistance) || centerDistance < VectorMath.Epsilon)

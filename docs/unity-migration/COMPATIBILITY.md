@@ -534,3 +534,56 @@ additionally verifies v5 Unity round-trip plus native rejection.
 Readback RGBA buffers use ArrayPool to avoid a full managed image allocation on
 every frame. Ownership returns after encode, rejection, worker failure and stop
 drain. Native JPEG allocations and actual graphics memory still require profiling.
+
+## M10 performance-fix scope
+
+The user explicitly requested using M10 as the base to address slow simulation CPU
+and use GPU rendering. This is a fix iteration before M11, package **0.10.1**.
+No Editor/URP/runtime dependency pin changes or original source changes are needed.
+Physics remains portable CPU C#, with fixed dt/seed/order/guards intact; no Jobs,
+Burst or compute-shader solver is introduced.
+
+Portable `Simulation.Step.cs`/`Simulation.cs` add read-only exclusive phase clocks
+and a per-tick architecture-only sight snapshot, safely disabled in finally.
+Existing sight semantics already exclude furniture, which can move during a tick;
+architecture cannot be authored mid-tick. Outside-Step queries consult live lists.
+Physical traversability/collision retains all furniture. `SfmEngine.cs` reuses exact
+Exp(-60)/Exp(20) clamp values for circle forces and bypasses magnitude square roots
+only when a conservative L1 bound proves the original vector stays below the cap.
+No far-field force is truncated. `CircleGeometry.cs`, `Simulation.Collisions.cs`
+and one circular-follow candidate loop in `EvacuationSystem.cs` add conservative
+padded axis rejection before unchanged exact distance tests. Original order and
+exact physical acceptance/correction paths remain. MoveAgent's timing wrapper
+includes all return paths; nested SFM/move-collision/route timings are subsets.
+
+The frontend uses **Graphics.RenderMeshInstanced<Matrix4x4>**, matching the exact
+6000.3.26f1 Graphics/RenderParams API. Per-material/mesh blocks hold ≤256 matrices,
+conservatively below the default nonuniform-scale instancing constant-buffer limit;
+no uniform-scaling assumption corrupts body normals. The custom URP crowd shader
+and silhouette shader declare instanced vertex input/setup. Both are explicitly
+retained in GraphicsSettings so player variant stripping cannot remove a shader
+used only through runtime submission. GPU bodies keep the same detached geometry,
+poses, material-state shades, outlines and CPU interpolation. Annulus instances
+replace per-agent ring renderers. Labels remain black and readable. Matrix-based
+picking uses the same normalized oriented part boxes in both render modes. GPU mode
+retains lightweight person roots for anchors/visibility but no body-part renderer
+hierarchy. Unsupported shaders/devices or a disabled Debug checkbox use the original
+compatibility renderer. Actual shader/GPU execution remains unrun here.
+
+`InstanceBatchPlan` and the valid DenseCrowdLayout are portable/testable helpers.
+The latter creates 800 people (320 seated at 32 tables) with the persisted furniture
+clearance margin, four exits and seed 731. It is a representative fixture, not a
+reconstruction of the user's exact screenshot. UI creation respects dirty prompts.
+Three paired CPU trials use identical authored inputs and exact ordered output
+hashes; all 24 pairs and unchanged original traces match. See the benchmark report
+for actual measured scopes, baseline instrumentation and reproduction.
+
+Runtime shader preservation also sets GraphicsSettings **Instancing Variants =
+Keep All** (`m_InstancingStripping: 2`), verified against the exact Editor source
+enum. This prevents variants used only by scripted submissions from being stripped;
+actual player shader compilation remains unexecuted and part of local/M11 checks.
+
+Instancing targets the runtime crowd. Builder planning markers and authored
+furniture/stage use the existing world renderer; those objects are not converted
+to the new crowd batches in this fix. All still render through Unity's graphics
+pipeline. Local profiling should include their cost in heavily furnished scenes.
