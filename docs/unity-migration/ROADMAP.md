@@ -20,6 +20,12 @@ Unity handles input, presentation, UI, cameras and capture. View interpolation a
 animation never mutate physical state. Keep perimeter geometry physically active
 and visually transparent; retain volumetric runtime humanoids at every zoom.
 
+The user requested a second performance fix during M10 testing after accepting the
+recording namespace correction and observing improved but remaining lag. This is
+an M10 fix iteration (CPU repeated work/allocations and retained Unity views), with
+the same preservation requirements; it does not advance to or replace M11. See
+M10_PERFORMANCE_2_LOCAL_TESTING.md and VALIDATION.md.
+
 ## Milestones
 
 Each milestone depends on the previously accepted milestone. Each delivers a

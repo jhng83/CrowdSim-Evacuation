@@ -46,6 +46,13 @@ namespace CrowdSim.Core.Systems
         {
             if (wall.OrientedFootprint is OrientedRectangle rotated)
                 return rotated.IntersectsSegment(p1, p2);
+            // Most social sightlines are wholly on one side of a distant wall. Reject only
+            // disjoint bounds; keep the original strict edge tests (including tangencies).
+            const float padding = .0001f;
+            if ((p1.X < wall.X1 - padding && p2.X < wall.X1 - padding) ||
+                (p1.X > wall.X2 + padding && p2.X > wall.X2 + padding) ||
+                (p1.Y < wall.Y1 - padding && p2.Y < wall.Y1 - padding) ||
+                (p1.Y > wall.Y2 + padding && p2.Y > wall.Y2 + padding)) return false;
             // Avoid allocating a four-corner array for every line-of-sight test. This routine sits
             // on several hot perception/routing paths and is called thousands of times per step.
             Vector2 topLeft = new(wall.X1, wall.Y1);

@@ -4,12 +4,14 @@ Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24`. A reference test passing
 does not establish Unity parity. M1–M9 were accepted by the user; M10 awaits local Unity acceptance.
 "Core" means programmatic behavior; "UI" means the complete Unity workflow.
 
-Latest local import was blocked by recording CS0234 namespace shadowing plus failed
-package authentication/missing package files. This fix qualifies the NativeArray
-copy as `global::Unity.Collections`; a reduced compiler probe reproduces the failure
-and passes with the corrected statement. Full Unity compilation, recording and GPU
-acceptance remain pending after [package recovery](M10_IMPORT_RECOVERY.md). No feature
-is marked accepted by this source correction; M11 remains pending.
+The user reports the recording/import bug fixed and lag much better, with further
+M10 performance work requested. The second update adds exact wall bounds rejection,
+allocation-free segment queries and scalar non-contact circle math with all forces
+retained. Unchanged world views and crowd materials are reused; orthographic detail
+projection is shared with a threshold fallback. Features/physics are not removed.
+Current cloud validation is recorded in VALIDATION.md; actual Unity performance,
+view/colour/cache invalidation, recording and M10 acceptance require the
+[new local checklist](M10_PERFORMANCE_2_LOCAL_TESTING.md). M11 remains pending.
 
 | ID | Existing capability / preservation requirement | Core / UI ownership | Current status (M10 + performance fix; local acceptance pending) |
 | --- | --- | --- | --- |
@@ -46,7 +48,7 @@ is marked accepted by this source correction; M11 remains pending.
 Future milestones must record cloud evidence and user acceptance against these IDs.
 Only an explicitly approved difference can close a parity item without equivalent behavior.
 
-The M10 performance fix retains all 404 original cases against portable production
+The first M10 performance fix retained all 404 original cases against portable production
 source plus 11 presentation cases (415 total). Migration tests pass 232 cases,
 including 15 new instancing-plan/conservative-contact/valid dense authoring/sight-
 lifetime/detached phase contracts. Both unchanged six-case captures/oracle, five
@@ -58,3 +60,11 @@ viewport and unchanged original files. 52 EditMode / 22 PlayMode cases are suppl
 unexecuted. M10 recording/stage acceptance and GPU/Mono/performance checks remain
 local; M11 final player/distribution ownership is unchanged. See VALIDATION.md and
 M10_PERFORMANCE_LOCAL_TESTING.md.
+
+Performance update 2 passes **404 original / 415 portable / 239 migration** cases,
+including seven new strict-ray/exact-view/no-allocation/scalar-force checks, unchanged
+captures/file interop/AVI decode and a second 24-pair CPU comparison against `38ab742`.
+Static checks cover **190 GUIDs** and the 106 original files. **52 EditMode / 24
+PlayMode** cases are supplied and unrun; two new PlayMode cases exercise world-view
+invalidation and cached body-material shades. Local acceptance and Editor Release/
+Debug compilation/performance checks remain pending; no parity feature is removed.

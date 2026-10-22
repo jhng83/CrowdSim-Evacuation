@@ -269,25 +269,38 @@ namespace CrowdSim.Core.Systems
                 float minimumExponential = MathF.Exp(-60f);
                 float maximumExponential = MathF.Exp(20f);
                 float obstacleDecay = Math.Max(_config.SfmB, 1e-5f);
+                float agentX = agent.Position.X, agentY = agent.Position.Y;
                 foreach (CircleBlockage circle in simulation.Environment.CircularBlockages)
                 {
-                    Vector2 difference = agent.Position - circle.Center;
-                    float centerDistance = difference.Length();
+                    // Spell out the same two-component arithmetic for Mono, where repeated
+                    // System.Numerics helper/operator calls are expensive in furnished rooms.
+                    float dx = agentX - circle.Center.X, dy = agentY - circle.Center.Y;
+                    float centerDistance = MathF.Sqrt(dx * dx + dy * dy);
                     if (!float.IsFinite(centerDistance))
                     {
                         continue;
                     }
 
-                    Vector2 normal = centerDistance > VectorMath.Epsilon
-                        ? difference / centerDistance
-                        : Vector2.UnitX;
+                    float normalX = centerDistance > VectorMath.Epsilon ? dx / centerDistance : 1f;
+                    float normalY = centerDistance > VectorMath.Epsilon ? dy / centerDistance : 0f;
                     float surfaceDistance = centerDistance - circle.Radius;
                     float bodyRadius = _config.Radius;
                     float exponent = (bodyRadius - surfaceDistance) / obstacleDecay;
                     // Retain every distant force and its accumulation order, including the
                     // original nonzero clamp floor; only repeated Exp(-60) evaluations disappear.
                     float exponential = exponent <= -60f ? minimumExponential : exponent >= 20f ? maximumExponential : MathF.Exp(exponent);
-                    Vector2 force = _config.SfmA * exponential * normal;
+                    float scale = _config.SfmA * exponential;
+                    float forceX = scale * normalX, forceY = scale * normalY;
+                    if (surfaceDistance >= bodyRadius && float.IsFinite(forceX) && float.IsFinite(forceY) &&
+                        MathF.Abs(forceX) + MathF.Abs(forceY) < MaxRepulsion * .5f)
+                    {
+                        // Exactly the existing non-contact SoftCap fast path: retain even
+                        // the nonzero far clamp floor and add each circle in original order.
+                        wallForce.X += forceX; wallForce.Y += forceY;
+                        continue;
+                    }
+                    Vector2 normal = new Vector2(normalX, normalY);
+                    Vector2 force = new Vector2(forceX, forceY);
 
                     if (surfaceDistance < bodyRadius)
                     {

@@ -1,4 +1,50 @@
-# M10 recording compiler correction
+# M10 performance update 2 — current validation
+
+Executed 2026-10-22 (Asia/Singapore), Linux x64, SDK 8.0.415/runtime 8.0.21.
+Base: `38ab7420478fe7f9b47a478a294eb77a625187c5`. The user reports the import bug
+fixed and lag much better, but requests further M10 optimization. This iteration
+keeps the same M10 features and physics; M11 is not implemented.
+
+| Check | Actual result |
+| --- | --- |
+| Full cloud validation | `bash Migration/Tools/validate.sh` passed; Release builds and C#9/Standard2.1 portable production build passed |
+| Original / portable / migration cases | **404 / 415 / 239 passed**, zero failures/skips; seven new checks in FramePerformanceTests |
+| Wall sight behavior | 100,000 seeded random/boundary/degenerate rays match the original strict-edge predicate; rotated path retained |
+| Circle force behavior | Exact original vector/contact/clamp formula matches scalar loop for three decay settings, coincident centers, contact/friction and far circles |
+| Segment allocation | 1,000 warmed physical queries allocate zero managed bytes with or without walls; circles still block motion and furniture stays sight-transparent |
+| View equality | Every geometry/state input invalidates exact reuse; small physical movements are not hidden by a tolerance |
+| Original/portable captures | Both six-case captures and compatibility oracle match unchanged goldens |
+| Persistence / recording | Five v1–v4 native interop cases, custom-stage v5 round trip/native rejection and independent FFmpeg AVI decode pass |
+| Repeated CPU/state comparison | 3 serial paired trials × 8 cases × 120 ticks: **24 hashes match**, 5,760 measured ticks across versions |
+| Extended late-phase verification | 1 paired trial × 8 cases × 240 ticks: **8 further hashes match**, 3,840 further ticks; covers screenshot ticks 110/190 |
+| CPU results against 38ab742 | First 120 ticks: open mean-step ratios **1.28–1.34×**, dense **0.99–1.18×** (one within timing noise); allocations reduced; [report](M10_PERFORMANCE_2_BENCHMARK.md) includes full results/limits |
+| Static contract | **190 unique GUIDs**, Editor-only helper assembly, package/shader/font/project wiring and **106 unchanged original files** pass |
+| Editor menu API | `CompilationPipeline.codeOptimization` and Debug/Release enums verified against exact 6000.3.26f1 reference source; explicit menu only, no auto-load mutation |
+| Unity frontend/shader/Editor-menu compilation | **Not executed — no Editor installed** |
+| Unity tests | **52 EditMode / 24 PlayMode supplied, not executed**; two new PlayMode cases for view invalidation and cached material shades |
+| Actual Unity CPU/Mono/GPU/FPS, optimization toggle, rendering/input/recording/player builds | **Not executed** |
+| GitHub Actions | **Not verified** |
+
+The CPU benchmark excludes Unity transforms/render submission, native GPU/paint,
+world-view/material/LOD caching and the optional Editor Release compilation setting.
+Actual effects of those frontend changes require [local tests](M10_PERFORMANCE_2_LOCAL_TESTING.md).
+The first performance fix's 1.6–1.9× dense ratio below compared against original
+M10, not against this iteration's already improved baseline. Do not combine those
+ratios into a prediction of local FPS. Main, original source/tests/scenarios/pins,
+all original goldens, dt/RNG/order, collision/exposure/navigation and features remain.
+
+Reproduce the second comparison using the existing script's optional fourth argument:
+
+```bash
+bash Migration/Tools/validate.sh
+DOTNET=/path/to/dotnet bash Migration/Tools/profile_m10_comparison.sh /tmp/crowdsim-perf2 120 3 38ab7420478fe7f9b47a478a294eb77a625187c5
+DOTNET=/path/to/dotnet bash Migration/Tools/profile_m10_comparison.sh /tmp/crowdsim-perf2-long 240 1 38ab7420478fe7f9b47a478a294eb77a625187c5
+```
+
+Without the fourth argument, the script retains the original M10+timers comparison.
+No benchmark output is written to original source or reference goldens.
+
+# M10 recording compiler correction at 38ab742
 
 Based on performance update `dbe40329d1f47634fb1d086742aa60123720d907`.
 The user's local log identifies CS0234 at recording line 150 and separate failed

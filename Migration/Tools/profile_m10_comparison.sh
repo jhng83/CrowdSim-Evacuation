@@ -7,14 +7,19 @@ crowdsim_dotnet="${DOTNET:-dotnet}"
 crowdsim_output="${1:?Provide an output directory outside the checkout}"
 crowdsim_frames="${2:-120}"
 crowdsim_trials="${3:-3}"
+crowdsim_baseline="${4:-6343f9d52ceb5a7e980e97bd1c7e04310ce37808}"
 crowdsim_temporary="$(mktemp -d)"
 trap 'rm -rf "$crowdsim_temporary"' EXIT
 mkdir -p "$crowdsim_output" "$crowdsim_temporary/source" "$crowdsim_temporary/baseline"
 cd "$crowdsim_root"
-# The baseline has identical model code to M10 plus diagnostic clocks only. The
-# current dense fixture is a shared input, not a modification of M10's simulation.
-git archive 6343f9d52ceb5a7e980e97bd1c7e04310ce37808 | tar -x -C "$crowdsim_temporary/source"
-python3 Migration/Tools/instrument_m10_baseline.py "$crowdsim_temporary/source"
+# By default compare original M10 plus read-only clocks. An optional fourth argument
+# selects a later baseline commit already containing phase clocks (e.g. 38ab742).
+# The current dense fixture is a shared input, not a modification of baseline physics.
+git archive "$crowdsim_baseline" | tar -x -C "$crowdsim_temporary/source"
+if [[ "$crowdsim_baseline" == "6343f9d52ceb5a7e980e97bd1c7e04310ce37808" ]]; then
+    python3 Migration/Tools/instrument_m10_baseline.py "$crowdsim_temporary/source"
+fi
+git rev-parse "$crowdsim_baseline^{commit}" > "$crowdsim_output/baseline-commit.txt"
 cp UnityProject/Packages/com.crowdsim.core/Runtime/Diagnostics/DenseCrowdLayout.cs "$crowdsim_temporary/source/UnityProject/Packages/com.crowdsim.core/Runtime/Diagnostics/"
 "$crowdsim_dotnet" restore "$crowdsim_temporary/source/Migration/Build/CrowdSim.Portable.csproj" --locked-mode
 "$crowdsim_dotnet" build "$crowdsim_temporary/source/Migration/Build/CrowdSim.Portable.csproj" -c Release --no-restore

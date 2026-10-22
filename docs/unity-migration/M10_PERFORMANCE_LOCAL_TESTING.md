@@ -1,5 +1,9 @@
 # M10 performance-fix local testing
 
+For the current second update use [M10_PERFORMANCE_2_LOCAL_TESTING.md](M10_PERFORMANCE_2_LOCAL_TESTING.md).
+The checklist below records the first performance update; its supplied test counts
+are historical (the second update supplies 52 EditMode / 24 PlayMode cases).
+
 This is a fix iteration based on M10 `6343f9d`, **not M11**. Use **Unity 6000.3.26f1**,
 URP **17.3.0**, a fresh extraction and the committed packages. Your screenshot's
 `recording: M10 pending` identifies M9; this download includes M10 recording and

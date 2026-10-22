@@ -15,6 +15,8 @@ namespace CrowdSim.Unity.Workspace
         {
             public GameObject Root;
             public readonly Matrix4x4[] LocalMatrices = new Matrix4x4[16];
+            public readonly Material[] Materials = new Material[16];
+            public readonly float[] Shades = new float[16];
             public readonly List<Transform> Parts = new List<Transform>();
             public readonly List<MeshRenderer> Renderers = new List<MeshRenderer>();
             public float LastPhase = float.NaN, LastRise = float.NaN, LastPanic = float.NaN;
@@ -82,6 +84,12 @@ namespace CrowdSim.Unity.Workspace
             _gpu.Reset();
             _selected = selected; VisibleCount = 0;
             GeometryUtility.CalculateFrustumPlanes(_camera, _frustum);
+            // Orthographic body height in pixels is independent of ground position. Keep
+            // per-person projection only for perspective or the rounding-sensitive LOD boundary.
+            float orthoPixels = 0;
+            if (_camera.orthographic)
+                orthoPixels = Vector2.Distance(_camera.WorldToScreenPoint(Vector3.zero), _camera.WorldToScreenPoint(Vector3.up * 1.7f));
+            bool sharedDetail = _camera.orthographic && Mathf.Abs(orthoPixels - 48) > .01f;
             _active.Clear();
             foreach (AgentVisualFrame agent in samples)
             {
@@ -106,9 +114,9 @@ namespace CrowdSim.Unity.Workspace
                 Vector2 ground = new Vector2(human.Motion.Position.X, human.Motion.Position.Y);
                 human.Root.transform.localPosition = new Vector3(ground.x, 0, ground.y);
                 human.Root.transform.localRotation = Quaternion.Euler(0, -Mathf.Atan2(agent.Heading.Y, agent.Heading.X) * Mathf.Rad2Deg, 0);
-                Vector3 foot = _camera.WorldToScreenPoint(human.Root.transform.position);
-                Vector3 head = _camera.WorldToScreenPoint(human.Root.transform.position + Vector3.up * 1.7f);
-                bool detail = agent.Id == _selected || Vector2.Distance(foot, head) >= 48;
+                bool detail = agent.Id == _selected || (sharedDetail ? orthoPixels >= 48 :
+                    Vector2.Distance(_camera.WorldToScreenPoint(human.Root.transform.position),
+                        _camera.WorldToScreenPoint(human.Root.transform.position + Vector3.up * 1.7f)) >= 48);
                 bool rebuild = human.Geometry.Count == 0 || human.LastPhase != human.Motion.Phase || human.LastRise != human.Motion.Rise ||
                     human.LastDetail != detail || human.LastState != agent.State || human.LastPose != agent.Pose;
                 if (rebuild)
@@ -117,8 +125,10 @@ namespace CrowdSim.Unity.Workspace
                     for (int i = 0; i < human.Geometry.Count; i++)
                     {
                         HumanPart geometry = human.Geometry[i];
+                        bool recolor = human.LastState != agent.State || human.Materials[i] == null || human.Shades[i] != geometry.Shade;
                         human.LocalMatrices[i] = Matrix4x4.TRS(Vector(geometry.Center),
                             new Quaternion(geometry.Rotation.X, geometry.Rotation.Y, geometry.Rotation.Z, geometry.Rotation.W), Vector(geometry.Size));
+                        if (recolor) { human.Materials[i] = Material(agent, geometry.Shade); human.Shades[i] = geometry.Shade; }
                         if (_gpuActive) continue;
                         if (i == human.Parts.Count)
                         {
@@ -129,14 +139,11 @@ namespace CrowdSim.Unity.Workspace
                         if (!part.gameObject.activeSelf) part.gameObject.SetActive(true);
                         part.localPosition = Vector(geometry.Center); part.localScale = Vector(geometry.Size);
                         part.localRotation = new Quaternion(geometry.Rotation.X, geometry.Rotation.Y, geometry.Rotation.Z, geometry.Rotation.W);
-                        if (human.LastState != agent.State || human.Renderers[i].sharedMaterial == null)
-                            human.Renderers[i].sharedMaterial = Material(agent, geometry.Shade);
+                        if (recolor || human.Renderers[i].sharedMaterial == null)
+                            human.Renderers[i].sharedMaterial = human.Materials[i];
                     }
                     for (int i = human.Geometry.Count; i < human.Parts.Count; i++)
                         if (human.Parts[i].gameObject.activeSelf) human.Parts[i].gameObject.SetActive(false);
-                    // Part indices can change meaning/shade when a pose/detail level changes.
-                    if (!_gpuActive && (human.LastDetail != detail || human.LastPose != agent.Pose))
-                        for (int i = 0; i < human.Geometry.Count; i++) human.Renderers[i].sharedMaterial = Material(agent, human.Geometry[i].Shade);
                     human.LastPhase = human.Motion.Phase; human.LastRise = human.Motion.Rise;
                     human.LastDetail = detail; human.LastState = agent.State; human.LastPose = agent.Pose;
                 }
@@ -146,7 +153,7 @@ namespace CrowdSim.Unity.Workspace
                     for (int i = 0; i < human.Geometry.Count; i++)
                     {
                         Matrix4x4 matrix = rootMatrix * human.LocalMatrices[i];
-                        _gpu.Add(Material(agent, human.Geometry[i].Shade), _box, matrix);
+                        _gpu.Add(human.Materials[i], _box, matrix);
                         _gpu.Add(_outline, _box, matrix * Matrix4x4.Scale(Vector3.one * 1.075f));
                     }
                     if (agent.Id == _selected) AddGpuRing(human, _white, .57f);

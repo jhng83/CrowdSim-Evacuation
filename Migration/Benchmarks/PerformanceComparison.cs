@@ -17,7 +17,7 @@ internal static class PerformanceComparison
         File.WriteAllText(Path.Combine(output, "environment.json"), JsonSerializer.Serialize(new {
             Utc = DateTime.UtcNow, Runtime = RuntimeInformation.FrameworkDescription, OS = RuntimeInformation.OSDescription,
             CPUs = Environment.ProcessorCount, Warmup = 12, Frames = frames,
-            Note = "M10 + diagnostic phase timers baseline versus optimized portable CPU. No Unity, Mono, graphics or GPU executed."
+            Note = "Paired portable CPU profile; baseline commit is recorded by the comparison script. No Unity, Mono, graphics or GPU executed."
         }, new JsonSerializerOptions { WriteIndented = true }));
         using StreamWriter csv = new(Path.Combine(output, "phases.csv"));
         csv.WriteLine("hazard,layout,hybrid,tick,total_ms,grid_ms,hazard_ms,response_ms,furniture_ms,preparation_ms,movement_ms,contacts_ms,exit_ms,sfm_nested_ms,collision_nested_ms,bytes");

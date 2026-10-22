@@ -595,3 +595,53 @@ namespace lookup correction, not a missing assembly reference or a new dependenc
 Package pins and assembly definitions remain unchanged. A separate local Input
 System registry authentication failure and missing package DLLs require Hub sign-in
 and a clean import; see [M10_IMPORT_RECOVERY.md](M10_IMPORT_RECOVERY.md).
+
+## M10 performance update 2 (base 38ab742)
+
+The user reports the import bug fixed and first performance update much better.
+Supplied screenshots still show engine CPU spikes with GPU instancing enabled:
+dense 800/32 tables 123.87 ms/tick and open 1000 65.69 ms/tick. This iteration:
+
+- `EvacuationSystem.LineIntersectsRect` conservatively rejects segments wholly
+  outside an axis-aligned wall's bounds (0.0001 m padding), before the original
+  strict crossing tests. Rotated geometry and endpoint/collinear behavior retain
+  their original paths. 100,000 seeded boundary/random ray checks compare against
+  the unchanged strict predicate; original captures remain the oracle.
+- `Simulation.SegmentHitsWall` uses a direct circle loop in the wall-less branch.
+  Removing its capturing lambda also avoids the generated closure allocation at
+  method entry when walls exist. Warm physical queries are tested for zero managed
+  allocation, with circle collision and furniture transparency retained.
+- `SfmEngine` spells out circle differences, length, normal and non-contact force
+  components using the same float operation order. Finite, provably below-cap,
+  non-contact forces use the existing conservative SoftCap fast path directly.
+  Contact/friction/cap/finiteness paths stay active. No distant force is truncated,
+  including the nonzero Exp(-60) floor; original circle accumulation order stays.
+  Seeded component-force checks across three decay settings compare exactly with
+  the original vector/contact formula, including coincident centers and far circles.
+- `ViewBody.HasSameVisuals` compares detached geometry/state exactly, without an
+  epsilon. `WorkspaceWorldView` skips transforms, component lookups, formatted
+  material keys and assignments for unchanged views. Override colour is compared
+  separately. Shape/kind/pillar transitions recreate the structural view. Draw
+  scratch collections are retained; prefix-scoped stale cleanup remains intact.
+  Debug reports the last scene draw's updated/reused counts; these exclude humans.
+- `WorkspaceHumanoidView` caches each part's material by exact state/shade, refreshing
+  when either changes. Orthographic projected body height is shared across agents;
+  within 0.01 pixels of the 48-pixel boundary, and in perspective, original per-agent
+  projection remains. Selected agents still force detailed volumes. Pose building,
+  interpolation, outlines/rings, culling, picking and backend fallback stay active.
+- An Editor-only assembly adds explicit **CrowdSim → Performance → Use Release
+  Code Optimization** / **Use Debug Code Optimization** menus. These call the
+  pinned Editor's `CompilationPipeline.codeOptimization` property; the API/enum
+  was checked against 6000.3.26f1 reference source. Nothing runs on import, and menu
+  validation disallows Play/compilation. The Debug panel reports the active Editor
+  mode through a UNITY_EDITOR-guarded, globally qualified API; player output simply
+  says Standalone player. Release changes the Editor compilation/debugging setting
+  and requires recompilation; Debug restores script debugging. This may affect
+  Editor CPU cost, but its performance effect and actual Unity compilation have
+  not been measured here. The assembly is excluded from player platforms.
+
+Package 0.10.2 adds no dependencies or assembly references. Unity 6000.3.26f1/URP
+17.3.0 pins, fixed dt, RNG, agent ordering, actual contacts, routing, exposure,
+custom-stage persistence and recording remain. No background worker, Jobs, Burst,
+GPU simulation or changed Hybrid default is introduced. Cloud tests/benchmarks do
+not establish actual Unity Mono/GPU/FPS; see the new benchmark and local checklist.

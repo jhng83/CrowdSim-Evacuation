@@ -1,0 +1,392 @@
+{
+  "BaselineCommit": "38ab7420478fe7f9b47a478a294eb77a625187c5",
+  "CandidateBaseCommit": "38ab7420478fe7f9b47a478a294eb77a625187c5",
+  "Environment": {
+    "Utc": "2026-10-22T06:49:08.5151854Z",
+    "Runtime": ".NET 8.0.21",
+    "OS": "Debian GNU/Linux 13 (trixie)",
+    "CPUs": 4,
+    "Warmup": 12,
+    "Frames": 120,
+    "Note": "Current M10 portable baseline 38ab742 versus performance update 2. CPU only; no Unity/Mono/GPU/FPS."
+  },
+  "BaselinePortableDllSha256": "aba4232e50110af3b783e0d2236ea0728897ace63bda094154a09ee00825b759",
+  "CandidatePortableDllSha256": "b4677ec5374e86754d52129c2ccc525a2e8609aa5046079486062df9b23134eb",
+  "FixtureSha256": {
+    "dense800-Explosion.json": "d42bacfd7a703d1f4e46fe214903b97ab024add1dbc566675b60eee4d0e99632",
+    "dense800-ToxicFume.json": "88a8f04db22acb74d599658e686d63d5f14027a2a940ab220be9581dbba21e74"
+  },
+  "MatchedStateHashes": {
+    "Explosion-dense800-False": "567B547C02256016E9293D32E3CE607BE4A76421B301FFBF2558E929D99737F8",
+    "Explosion-dense800-True": "484583D5A2A3E2EC56F1C456041441D2D4977AEC86007FDEFE7347CB917162CC",
+    "Explosion-open1000-False": "BDE14382749EDA03B584183BEC6F65B344CAE1B4826D4D81A28DE330F2F0340D",
+    "Explosion-open1000-True": "02EEAF0C68FE0D44AFCAAD0308621549F1D83EE906E1B17721AAF67D36CA9B7C",
+    "ToxicFume-dense800-False": "7CE6753FDC16D435764841A64A2EB7CDD9EB697C5BE566BD7F40F23FC8EAD43B",
+    "ToxicFume-dense800-True": "1B0E5A1702D8C34BE2A2F9106A68700F8DE2A660AA4A7FB5452521EFE61321A9",
+    "ToxicFume-open1000-False": "A7B3AD79B56067BE8B47CFCAD3EAEDE073E6AD8DA7245D38A0EA79E43B12CA40",
+    "ToxicFume-open1000-True": "43248F57EE88BE96460308C8572AA549DFE006B79CCC9CE10E6528C2D805C716"
+  },
+  "PairedHashMatches": 24,
+  "MeasuredTicksAcrossBothVersions": 5760,
+  "Method": "3 serial paired trials; 12 warmup ticks on separate model; 120 measured ticks/case; DOTNET_TieredCompilation=0 equally; original M10-update1 portable baseline has phase clocks, no extra instrumentation.",
+  "Scope": "Production portable CPU under .NET8 Release, not Unity Mono/native rendering/GPU/FPS/Editor optimization. Same fixtures, seeded input and unchanged goldens. View caching and material/LOD changes not timed here.",
+  "AllocationTrials": [
+    {
+      "trial": 1,
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "False",
+      "baseline_bytes_mean": 225608.06666666668,
+      "candidate_bytes_mean": 160407.53333333333
+    },
+    {
+      "trial": 1,
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "True",
+      "baseline_bytes_mean": 226707.46666666667,
+      "candidate_bytes_mean": 158049.8
+    },
+    {
+      "trial": 1,
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "False",
+      "baseline_bytes_mean": 116874.13333333333,
+      "candidate_bytes_mean": 63408.13333333333
+    },
+    {
+      "trial": 1,
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "True",
+      "baseline_bytes_mean": 122507.46666666666,
+      "candidate_bytes_mean": 66211.13333333333
+    },
+    {
+      "trial": 1,
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "False",
+      "baseline_bytes_mean": 187494.4,
+      "candidate_bytes_mean": 146648.4
+    },
+    {
+      "trial": 1,
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "True",
+      "baseline_bytes_mean": 193911.0,
+      "candidate_bytes_mean": 149467.33333333334
+    },
+    {
+      "trial": 1,
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "False",
+      "baseline_bytes_mean": 94229.2,
+      "candidate_bytes_mean": 71827.53333333334
+    },
+    {
+      "trial": 1,
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "True",
+      "baseline_bytes_mean": 101449.6,
+      "candidate_bytes_mean": 74746.93333333333
+    },
+    {
+      "trial": 2,
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "False",
+      "baseline_bytes_mean": 225604.6,
+      "candidate_bytes_mean": 160407.53333333333
+    },
+    {
+      "trial": 2,
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "True",
+      "baseline_bytes_mean": 226726.93333333332,
+      "candidate_bytes_mean": 158049.8
+    },
+    {
+      "trial": 2,
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "False",
+      "baseline_bytes_mean": 116874.13333333333,
+      "candidate_bytes_mean": 63408.13333333333
+    },
+    {
+      "trial": 2,
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "True",
+      "baseline_bytes_mean": 122507.46666666666,
+      "candidate_bytes_mean": 66621.13333333333
+    },
+    {
+      "trial": 2,
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "False",
+      "baseline_bytes_mean": 187494.4,
+      "candidate_bytes_mean": 146648.4
+    },
+    {
+      "trial": 2,
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "True",
+      "baseline_bytes_mean": 193911.0,
+      "candidate_bytes_mean": 149467.33333333334
+    },
+    {
+      "trial": 2,
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "False",
+      "baseline_bytes_mean": 94229.2,
+      "candidate_bytes_mean": 71827.53333333334
+    },
+    {
+      "trial": 2,
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "True",
+      "baseline_bytes_mean": 101449.6,
+      "candidate_bytes_mean": 74746.93333333333
+    },
+    {
+      "trial": 3,
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "False",
+      "baseline_bytes_mean": 225608.06666666668,
+      "candidate_bytes_mean": 160376.26666666666
+    },
+    {
+      "trial": 3,
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "True",
+      "baseline_bytes_mean": 226707.46666666667,
+      "candidate_bytes_mean": 158049.8
+    },
+    {
+      "trial": 3,
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "False",
+      "baseline_bytes_mean": 116874.13333333333,
+      "candidate_bytes_mean": 63408.13333333333
+    },
+    {
+      "trial": 3,
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "True",
+      "baseline_bytes_mean": 122507.46666666666,
+      "candidate_bytes_mean": 66211.13333333333
+    },
+    {
+      "trial": 3,
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "False",
+      "baseline_bytes_mean": 187577.2,
+      "candidate_bytes_mean": 146648.4
+    },
+    {
+      "trial": 3,
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "True",
+      "baseline_bytes_mean": 193911.0,
+      "candidate_bytes_mean": 149533.26666666666
+    },
+    {
+      "trial": 3,
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "False",
+      "baseline_bytes_mean": 94229.2,
+      "candidate_bytes_mean": 71827.53333333334
+    },
+    {
+      "trial": 3,
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "True",
+      "baseline_bytes_mean": 101449.6,
+      "candidate_bytes_mean": 74746.93333333333
+    }
+  ],
+  "Summaries": [
+    {
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "False",
+      "base_median_of_trial_means_ms": 19.357051675,
+      "opt_median_of_trial_means_ms": 18.566573516666665,
+      "ratio": 1.0425753388272612,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "Explosion",
+      "layout": "dense800",
+      "hybrid": "True",
+      "base_median_of_trial_means_ms": 18.392165066666667,
+      "opt_median_of_trial_means_ms": 18.53740875,
+      "ratio": 0.9921648335378409,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "False",
+      "base_median_of_trial_means_ms": 10.358091483333334,
+      "opt_median_of_trial_means_ms": 7.746318941666667,
+      "ratio": 1.3371630527137486,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "Explosion",
+      "layout": "open1000",
+      "hybrid": "True",
+      "base_median_of_trial_means_ms": 10.233865558333333,
+      "opt_median_of_trial_means_ms": 7.675998308333333,
+      "ratio": 1.3332292618177222,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "False",
+      "base_median_of_trial_means_ms": 17.136180875,
+      "opt_median_of_trial_means_ms": 15.598733225,
+      "ratio": 1.098562340147977,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "ToxicFume",
+      "layout": "dense800",
+      "hybrid": "True",
+      "base_median_of_trial_means_ms": 18.281805458333334,
+      "opt_median_of_trial_means_ms": 15.543963100000001,
+      "ratio": 1.1761354128750687,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "False",
+      "base_median_of_trial_means_ms": 10.423279675,
+      "opt_median_of_trial_means_ms": 7.78067095,
+      "ratio": 1.3396376407615591,
+      "matched_trials": 3
+    },
+    {
+      "hazard": "ToxicFume",
+      "layout": "open1000",
+      "hybrid": "True",
+      "base_median_of_trial_means_ms": 10.254001758333333,
+      "opt_median_of_trial_means_ms": 8.014623391666667,
+      "ratio": 1.2794115527618046,
+      "matched_trials": 3
+    }
+  ],
+  "ExtendedLatePhaseVerification": {
+    "FramesPerCase": 240,
+    "Trials": 1,
+    "PairedHashMatches": 8,
+    "MeasuredTicksAcrossBothVersions": 3840,
+    "MatchedStateHashes": {
+      "Explosion-dense800-False": "01CD50863A243BC822582CE46B62E5A3DA9588A6E90284D35F11D6882C9A5F0C",
+      "Explosion-dense800-True": "824CFC2AFC2D7D476489DCBF8D7287948B8ACA2C6593A0AE34B537295F79C864",
+      "Explosion-open1000-False": "66B3305F5E7EBA6FA43B349A626365C2D429560BD3E83A2A4A4DA699DA68AED5",
+      "Explosion-open1000-True": "833C1B0F81933485295D6FBBCCAC29A31427D8D1AAD87EF822794FF5778F0B79",
+      "ToxicFume-dense800-False": "0A0A05594EDA223E550B51E2F3DFD3C8B9F08A7B084F64DEA444BC52996CB912",
+      "ToxicFume-dense800-True": "8761821DC9306A288280FE6A9EC15B38F3E698F149E5C0CD1BAE8645296ADFEE",
+      "ToxicFume-open1000-False": "62853EBC6E25B02293FC160525682D32DF6EC43B5E439286ED04C37BC7DE9FBC",
+      "ToxicFume-open1000-True": "CB711D83310942228233877A715E6085247589FDB25EC07AD040104158DD396A"
+    },
+    "Summaries": [
+      {
+        "hazard": "Explosion",
+        "layout": "dense800",
+        "hybrid": "False",
+        "base_median_of_trial_means_ms": 17.86928910416667,
+        "opt_median_of_trial_means_ms": 17.405031891666667,
+        "ratio": 1.0266737352387318,
+        "matched_trials": 1
+      },
+      {
+        "hazard": "Explosion",
+        "layout": "dense800",
+        "hybrid": "True",
+        "base_median_of_trial_means_ms": 15.925476966666666,
+        "opt_median_of_trial_means_ms": 15.788032812500001,
+        "ratio": 1.0087055908610632,
+        "matched_trials": 1
+      },
+      {
+        "hazard": "Explosion",
+        "layout": "open1000",
+        "hybrid": "False",
+        "base_median_of_trial_means_ms": 9.5283296875,
+        "opt_median_of_trial_means_ms": 8.3833818625,
+        "ratio": 1.1365735026483172,
+        "matched_trials": 1
+      },
+      {
+        "hazard": "Explosion",
+        "layout": "open1000",
+        "hybrid": "True",
+        "base_median_of_trial_means_ms": 8.8189307125,
+        "opt_median_of_trial_means_ms": 7.637928854166667,
+        "ratio": 1.1546233122725502,
+        "matched_trials": 1
+      },
+      {
+        "hazard": "ToxicFume",
+        "layout": "dense800",
+        "hybrid": "False",
+        "base_median_of_trial_means_ms": 16.482268883333333,
+        "opt_median_of_trial_means_ms": 15.161967,
+        "ratio": 1.0870798547004707,
+        "matched_trials": 1
+      },
+      {
+        "hazard": "ToxicFume",
+        "layout": "dense800",
+        "hybrid": "True",
+        "base_median_of_trial_means_ms": 16.94698467916667,
+        "opt_median_of_trial_means_ms": 16.456769816666668,
+        "ratio": 1.0297880366536776,
+        "matched_trials": 1
+      },
+      {
+        "hazard": "ToxicFume",
+        "layout": "open1000",
+        "hybrid": "False",
+        "base_median_of_trial_means_ms": 10.0343514625,
+        "opt_median_of_trial_means_ms": 8.944921316666667,
+        "ratio": 1.1217931502430822,
+        "matched_trials": 1
+      },
+      {
+        "hazard": "ToxicFume",
+        "layout": "open1000",
+        "hybrid": "True",
+        "base_median_of_trial_means_ms": 10.590688654166666,
+        "opt_median_of_trial_means_ms": 8.978584408333333,
+        "ratio": 1.1795499348802785,
+        "matched_trials": 1
+      }
+    ],
+    "Note": "Additional late-phase correctness check through screenshot tick 190; single-trial timing is illustrative, not used for the repeated 120-tick median table."
+  }
+}

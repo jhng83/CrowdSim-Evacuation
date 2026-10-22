@@ -27,6 +27,12 @@ namespace CrowdSim.Diagnostics
         public ChairState MotionState { get; }
         public float Energy { get; }
         public bool IsPillar { get; }
+        /// <summary>Exact detached visual equality for retaining already applied Unity views.
+        /// No model references or tolerance can hide a small physical movement.</summary>
+        public bool HasSameVisuals(ViewBody other)
+            => other != null && Shape == other.Shape && Kind == other.Kind && Position == other.Position && Size == other.Size &&
+                GroundAngle == other.GroundAngle && State == other.State && Posture == other.Posture && RiseProgress == other.RiseProgress &&
+                MotionState == other.MotionState && Energy == other.Energy && IsPillar == other.IsPillar;
         public ViewBody(string id, ViewShape shape, ViewKind kind, Vector3 position, Vector3 size,
             float groundAngle = 0f, AgentState state = AgentState.Wandering,
             SeatingPosture posture = SeatingPosture.Walking, float riseProgress = 0f, ChairState motionState = ChairState.Upright, float energy = 1f, bool isPillar = false)

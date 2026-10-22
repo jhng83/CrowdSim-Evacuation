@@ -1,4 +1,4 @@
-# Unity migration — M10 performance update
+# Unity migration — M10 performance update 2
 
 This fix uses M10 `6343f9d` as its base. On `unity-migration`, extract the delivered
 commit ZIP, open **UnityProject/** (Assets, Packages, ProjectSettings) with
@@ -11,14 +11,21 @@ Debug shows rendering backend/submissions and detailed simulation phases, with a
 reproducible 800-person/32-table fixture. M10 recording and adjustable concert stage
 remain included. Physics stays on the CPU with the original rules.
 
-Cloud passes **404 original, 415 portable and 232 migration tests**, unchanged
-traces/file interop/AVI decoding, and 24 exact paired CPU comparison hashes.
-Dense .NET CPU comparisons improve **1.6–1.9×**; actual Unity Mono/GPU/FPS results
-are unmeasured. **Unity frontend/shader compilation, Unity tests, actual instancing,
-visual/input/recording checks and player builds were not executed.**
+Update 2 builds on `38ab742`, whose import bug the user reports fixed and whose lag
+is much better. It reduces wall-query/force overhead and allocations, retains
+unchanged furniture views/materials and shares orthographic detail projections.
+Startup says **PERFORMANCE UPDATE 2**. Debug reports Editor C# optimization mode;
+while stopped, **CrowdSim → Performance → Use Release Code Optimization** is an
+explicit option, with a Debug restore menu. Nothing changes automatically on import.
 
-Follow the numbered [performance testing checklist](docs/unity-migration/M10_PERFORMANCE_LOCAL_TESTING.md),
-[CPU evidence](docs/unity-migration/M10_PERFORMANCE_BENCHMARK.md) and
+Cloud passes **404 original, 415 portable and 239 migration tests**, unchanged
+traces/file interop/AVI decoding, and 24 exact paired CPU comparison hashes against
+`38ab742`. Open 1000 CPU ratios are **1.28–1.34×**, dense 800 **0.99–1.18×** (one case
+within timing noise). Actual Unity/Mono/GPU/FPS gains are unmeasured. **Unity frontend/
+shader/Editor-menu compilation, Unity tests, rendering, recording and player builds
+were not executed.** Follow the numbered
+[local checklist](docs/unity-migration/M10_PERFORMANCE_2_LOCAL_TESTING.md),
+[new CPU evidence](docs/unity-migration/M10_PERFORMANCE_2_BENCHMARK.md) and
 [status](docs/unity-migration/STATUS.md). M1–M9 were accepted; M10 and this fix await
 local acceptance. Main/original application/tests remain unchanged. M11 remains
 pending. The original application notes below are historical reference.

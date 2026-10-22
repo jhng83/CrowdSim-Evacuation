@@ -15,6 +15,15 @@ namespace CrowdSim.Unity.Workspace
         private readonly FrameStatistics _performance = new FrameStatistics();
         private long _previousAllocated;
         private float _performanceRefresh;
+        private static string CodeOptimizationLabel()
+        {
+#if UNITY_EDITOR
+            return "Editor C# optimization: " + global::UnityEditor.Compilation.CompilationPipeline.codeOptimization +
+                " (change while stopped: CrowdSim > Performance)";
+#else
+            return "Standalone player";
+#endif
+        }
         private void ResetPerformance()
         { _performance.Clear(); _previousAllocated = 0; _performanceRefresh = 0; }
 
@@ -102,6 +111,8 @@ namespace CrowdSim.Unity.Workspace
                 "Managed main-thread bytes/frame " + _performance.ManagedBytes.ToString("N0") + "\nVisible / active " + _world.Humans.VisibleCount + " / " + _world.Humans.ActiveCount +
                 "\nHybrid open/detailed " + d.Open + " / " + d.Detailed + " · grouped " + d.Grouped + " in " + d.Groups + " groups\nShared field builds " + d.FieldBuilds + " · geometry refreshes " + d.GeometryRefreshes +
                 "\nCrowd rendering: " + _world.Humans.RenderBackend + " · GPU instances " + _world.Humans.GpuInstances + " · submissions " + _world.Humans.GpuDraws +
+                "\nLast scene draw · updated " + _world.LastSceneBodyUpdates + " · reused unchanged " + _world.LastSceneBodyReuses +
+                "\n" + CodeOptimizationLabel() +
                 "\nGPU time: not measured · recording " + (IsRecording ? "active" : "idle") +
                 "\nCapture CPU " + _captureMilliseconds.ToString("F2") + " ms · encode/write " + (_recording?.LastEncodingMilliseconds ?? _encodeMilliseconds).ToString("F2") +
                 " ms · queue " + (_recording?.QueueCount ?? 0) + "/3 · dropped " + (_recording?.DroppedFrames ?? _lastDropped);

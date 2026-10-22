@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using CrowdSim.Core.Model;
 using CrowdSim.Diagnostics;
 using CrowdSim.Workspace;
@@ -14,6 +13,12 @@ namespace CrowdSim.Unity.Workspace
         private readonly Dictionary<string, GameObject> _views = new Dictionary<string, GameObject>();
         private readonly Dictionary<string, ViewShape> _shapes = new Dictionary<string, ViewShape>();
         private readonly Dictionary<string, Material> _materials = new Dictionary<string, Material>();
+        private readonly Dictionary<string, ViewBody> _appliedBodies = new Dictionary<string, ViewBody>();
+        private readonly Dictionary<string, Color?> _appliedOverrides = new Dictionary<string, Color?>();
+        private readonly HashSet<string> _activeBodies = new HashSet<string>();
+        private readonly List<string> _obsoleteBodies = new List<string>();
+        public int LastSceneBodyUpdates { get; private set; }
+        public int LastSceneBodyReuses { get; private set; }
         private WorkspaceSurfaceLibrary _surfaces;
         private Material _pillarInk, _pillarHull;
         public Camera ViewCamera { get; private set; }
@@ -44,17 +49,22 @@ namespace CrowdSim.Unity.Workspace
         }
         public void Draw(IEnumerable<ViewBody> bodies, string prefix = "", Color? overrideColor = null)
         {
-            HashSet<string> active = new HashSet<string>();
+            _activeBodies.Clear();
+            int updates = 0, reuses = 0;
             foreach (ViewBody body in bodies)
             {
                 // Runtime anchors remain in the portable frame for existing diagnostics, not as duplicate capsules.
                 if (prefix.Length == 0 && body.Id.StartsWith("agent-", StringComparison.Ordinal)) continue;
                 string id = prefix + body.Id;
-                active.Add(id);
-                if (_views.TryGetValue(id, out GameObject previous) && _shapes[id] != body.Shape)
+                _activeBodies.Add(id);
+                if (_views.TryGetValue(id, out GameObject previous) && (_shapes[id] != body.Shape ||
+                    (_appliedBodies.TryGetValue(id, out ViewBody oldBody) && (oldBody.Kind != body.Kind || oldBody.IsPillar != body.IsPillar))))
                 {
-                    Destroy(previous); _views.Remove(id); _shapes.Remove(id);
+                    Destroy(previous); _views.Remove(id); _shapes.Remove(id); _appliedBodies.Remove(id); _appliedOverrides.Remove(id);
                 }
+                if (_appliedBodies.TryGetValue(id, out ViewBody applied) && body.HasSameVisuals(applied) &&
+                    Nullable.Equals(_appliedOverrides[id], overrideColor)) { reuses++; continue; }
+                updates++;
                 if (!_views.TryGetValue(id, out GameObject view))
                 {
                     PrimitiveType primitive = body.Shape == ViewShape.Capsule ? PrimitiveType.Capsule
@@ -112,12 +122,19 @@ namespace CrowdSim.Unity.Workspace
                 }
                 if (surface == "floor") material.mainTextureScale = new Vector2(body.Size.X / 2, body.Size.Z / 2);
                 view.GetComponent<Renderer>().sharedMaterial = material;
+                _appliedBodies[id] = body; _appliedOverrides[id] = overrideColor;
             }
-            foreach (string id in _views.Keys.Where(id => id.StartsWith(prefix, StringComparison.Ordinal) && (prefix.Length > 0 || (!id.StartsWith("preview-") && !id.StartsWith("grid-") && !id.StartsWith("selection-"))) && !active.Contains(id)).ToArray())
+            _obsoleteBodies.Clear();
+            foreach (string id in _views.Keys)
+                if (id.StartsWith(prefix, StringComparison.Ordinal) &&
+                    (prefix.Length > 0 || (!id.StartsWith("preview-", StringComparison.Ordinal) && !id.StartsWith("grid-", StringComparison.Ordinal) && !id.StartsWith("selection-", StringComparison.Ordinal))) &&
+                    !_activeBodies.Contains(id)) _obsoleteBodies.Add(id);
+            foreach (string id in _obsoleteBodies)
             {
                 Destroy(_views[id]);
-                _views.Remove(id); _shapes.Remove(id);
+                _views.Remove(id); _shapes.Remove(id); _appliedBodies.Remove(id); _appliedOverrides.Remove(id);
             }
+            if (prefix.Length == 0) { LastSceneBodyUpdates = updates; LastSceneBodyReuses = reuses; }
         }
 
         public void Fit(float width, float length, Rect viewport, WorkspaceSession session = null)

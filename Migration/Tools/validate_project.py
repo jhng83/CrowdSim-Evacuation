@@ -85,6 +85,8 @@ def validate() -> None:
         require(data["name"] not in assemblies, "Duplicate assembly name")
         assemblies[data["name"]] = data
     require(assemblies["CrowdSim.Portable"]["noEngineReferences"], "Portable core permits UnityEngine references")
+    require(assemblies["CrowdSim.Editor"].get("includePlatforms") == ["Editor"],
+            "Editor performance menus must be excluded from player platforms")
     core_assembly = assemblies["CrowdSim.Portable"]
     require(core_assembly.get("overrideReferences") and
             "Newtonsoft.Json.dll" in core_assembly.get("precompiledReferences", []),

@@ -1,0 +1,7 @@
+{
+  "name": "CrowdSim.Editor",
+  "rootNamespace": "CrowdSim.Unity.Editor",
+  "references": [],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": false
+}

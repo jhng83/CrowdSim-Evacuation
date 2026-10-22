@@ -497,9 +497,12 @@ namespace CrowdSim.Core
         {
             if (Environment.Walls.Count == 0)
             {
-                return Environment.CircularBlockages.Any(circle =>
-                    !(ignoreFurniture && circle.IsFurniture) && CircleGeometry.SegmentIntersectsCircle(
-                        start, end, circle.Center, circle.Radius + clearance));
+                foreach (CircleBlockage circle in Environment.CircularBlockages)
+                {
+                    if (ignoreFurniture && circle.IsFurniture) continue;
+                    if (CircleGeometry.SegmentIntersectsCircle(start, end, circle.Center, circle.Radius + clearance)) return true;
+                }
+                return false;
             }
 
             // For small/moderate layouts a direct scan is cheaper than walking many grid cells along a
