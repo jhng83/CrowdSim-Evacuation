@@ -10,13 +10,13 @@ using CrowdSim.Core.Persistence;
 
 internal static class PerformanceComparison
 {
-    public static void Run(string output, int frames, string? fixtureDirectory)
+    public static void Run(string output, int frames, string? fixtureDirectory, bool triggerHazard = true)
     {
         if (frames < 20 || frames > 2000) throw new ArgumentOutOfRangeException(nameof(frames));
         CultureInfo.CurrentCulture = CultureInfo.InvariantCulture; Directory.CreateDirectory(output);
         File.WriteAllText(Path.Combine(output, "environment.json"), JsonSerializer.Serialize(new {
             Utc = DateTime.UtcNow, Runtime = RuntimeInformation.FrameworkDescription, OS = RuntimeInformation.OSDescription,
-            CPUs = Environment.ProcessorCount, Warmup = 12, Frames = frames,
+            CPUs = Environment.ProcessorCount, Warmup = 12, Frames = frames, TriggerHazard = triggerHazard,
             Note = "Paired portable CPU profile; baseline commit is recorded by the comparison script. No Unity, Mono, graphics or GPU executed."
         }, new JsonSerializerOptions { WriteIndented = true }));
         using StreamWriter csv = new(Path.Combine(output, "phases.csv"));
@@ -36,7 +36,10 @@ internal static class PerformanceComparison
                 }
                 m.SpawnAgentsAtPositions(m.Environment.GetPlannedAgentPositions());
                 if (scenario == ScenarioType.ToxicFume) m.PrecomputeToxicFume();
-                m.SetRunning(true); if (scenario == ScenarioType.Explosion) m.TriggerExplosion(28, 17); else m.TriggerToxicFumeRelease(); return m;
+                m.SetRunning(true);
+                if (triggerHazard)
+                { if (scenario == ScenarioType.Explosion) m.TriggerExplosion(28, 17); else m.TriggerToxicFumeRelease(); }
+                return m;
             }
             Simulation warm = Ready(); for (int i = 0; i < 12; i++) warm.Step();
             Simulation model = Ready(); using IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);

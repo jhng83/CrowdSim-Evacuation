@@ -103,9 +103,14 @@ namespace CrowdSim.Core
                     point.X > Environment.Width - Environment.BoundaryThickness - radius ||
                     point.Y > Environment.Height - Environment.BoundaryThickness - radius ||
                     Environment.Walls.Any(w => w.Contains(point, radius))) return false;
-                foreach (CircleBlockage circle in Environment.CircularBlockages)
+                for (int circleIndex = 0;
+                    circleIndex < Environment.CircularBlockages.Count;
+                    circleIndex = NextCircleCandidate(point, radius + .005f, circleIndex + 1))
+                {
+                    CircleBlockage circle = Environment.CircularBlockages[circleIndex];
                     if (!ReferenceEquals(circle, chair.Obstacle) &&
                         !SeparatingOrClear(previous, point, circle.Center, radius + circle.Radius + 0.005f)) return false;
+                }
                 foreach (Agent other in _collisionAgentScratch)
                     if (other.IsActive && !SeparatingOrClear(previous, point, other.Position,
                         radius * (other.IsCasualtyObstacle ? 2.25f : 2f) + 0.005f)) return false;

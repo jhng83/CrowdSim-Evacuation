@@ -15,16 +15,21 @@ Original reference/main: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24` (unchanged).
 | M8 — Humanoids/cameras | `55652fc407d3eb96527f836e57067da42dc41459` | Accepted by user |
 | M9 — Diagnostics/scale/theme | `86ae9d16d8a7f928b6d004d84fd8b639bc7f5ad2` | Accepted by user |
 | M10 — Recording/stage, CPU/GPU improvements and menu correction | Final accepted revision `c97d49c84ecf9c79d08239fa83e4703eeb7353bc` | User reported “M10 tested successfully”; accepted |
-| M11 — Standalone application and distribution | This iteration, based on accepted M10 | Implementation delivered for local Editor/build/player acceptance; not yet accepted |
+| M11 — Standalone application and distribution | Initial delivery `e76d726`; v0.11.1 fixes reported dense-scene CPU lag | Performance correction and full Editor/build/player acceptance pending; not yet accepted |
 
 M11 targets the approved roadmap's **Windows x64 / Mono** player, consistent with
 the user's Windows testing. Unity stays **6000.3.26f1**, URP **17.3.0**; portable
-production stays **C#9 / .NET Standard 2.1**, package/application version **0.11.0**.
+production stays **C#9 / .NET Standard 2.1**, package/application version **0.11.1**.
 Company/product identity stays CrowdSim / CrowdSim Unity to retain M10 user data.
 No Editor optimization changes, automatic target switches or new dependencies.
 
 Delivered M11 capabilities:
 
+- CPU query correction: ordered conservative circle candidates for collision,
+  contact, chair departure/pushing and local navigation. Positional corrections
+  re-query later candidates; moved/removed chairs invalidate the index immediately.
+  Outside synchronous Step, geometry stays live. No SFM force cutoff, approximation,
+  dt/RNG/order/default-Hybrid or guard change. Debug exposes version/mode first.
 - Startup/workspace Quit and normal OS close use save/discard/cancel transactions;
   failed saving/overwrite cancellation keeps the app open, and approved exit drains
   recording before the owner exits. Editor Quit stops Play; forced termination or
@@ -40,9 +45,13 @@ Delivered M11 capabilities:
   UnityProject source download with commit/file hashes, excluding caches/builds.
   A source artifact is not a prebuilt Windows executable.
 
-Cloud evidence: [VALIDATION.md](VALIDATION.md), **404 original / 415 portable / 263
+Paired CPU evidence: [48 matching ordered state hashes](M11_PERFORMANCE_FIX_BENCHMARK.md),
+19,200 measured ticks across versions. Dense Toxic Fume uses ~14–38% less CPU in
+these cloud windows; open results are mixed. Unity FPS remains unmeasured.
+
+Cloud evidence: [VALIDATION.md](VALIDATION.md), **404 original / 415 portable / 272
 migration** cases, unchanged six-case captures/oracle, file interop and AVI decode;
-200 GUIDs and 106 unchanged original files. New package tests use synthetic binary
+202 GUIDs and 106 unchanged original files. New package tests use synthetic binary
 headers/layouts and do not establish player executability. Source ZIP content/hash
 validation ran against the working candidate; committed export is checked at delivery.
 
@@ -53,7 +62,8 @@ GitHub Actions execution/artifact publication cannot be verified through the cur
 GitHub API access (403). The build command and source download are supplied; no
 prebuilt .exe or final complete-replacement acceptance is claimed.
 
-Next: [M11_LOCAL_TESTING.md](M11_LOCAL_TESTING.md). Test Editor, build the Windows
+Next: [CPU fix retesting](M11_PERFORMANCE_FIX_LOCAL_TESTING.md), then
+[M11_LOCAL_TESTING.md](M11_LOCAL_TESTING.md). Test Editor, build the Windows
 player and complete F01–F29 acceptance. Fix reported issues before marking M11 or
 the replacement accepted. No further milestone or main merge is authorized by this
 handoff. Earlier M10 performance/recording/import evidence remains in the M10 reports;

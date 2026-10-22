@@ -42,12 +42,13 @@ namespace CrowdSim.Core
             {
                 StepCore();
             }
-            finally { _sightSnapshotActive = false; }
+            finally { _sightSnapshotActive = false; _circleIndexActive = false; }
         }
 
         private void StepCore()
         {
             long stepStarted = System.Diagnostics.Stopwatch.GetTimestamp();
+            _circleIndexActive = true; _circleIndexCount = -1;
             _sightWalls.Clear(); _sightCircles.Clear();
             foreach (Wall wall in Environment.Walls) if (!wall.IsFurniture) _sightWalls.Add(wall);
             foreach (CircleBlockage circle in Environment.CircularBlockages) if (!circle.IsFurniture) _sightCircles.Add(circle);

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 using CrowdSim.Diagnostics;
+using CrowdSim.Migration;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -98,7 +99,8 @@ namespace CrowdSim.Unity.Workspace
             if (Session.InspectorTab != 3 || _performanceText == null || Time.unscaledTime < _performanceRefresh) return;
             _performanceRefresh = Time.unscaledTime + .25f;
             DiagnosticFrame d = Session.Diagnostics;
-            _performanceText.text = "Observed FPS " + _performance.FramesPerSecond.ToString("F1") + " · frame " + _performance.FrameMilliseconds.ToString("F2") + " ms\n" +
+            _performanceText.text = "Build " + MigrationContract.ApplicationVersion + " · " + CodeOptimizationLabel() + "\n" +
+                "Observed FPS " + _performance.FramesPerSecond.ToString("F1") + " · frame " + _performance.FrameMilliseconds.ToString("F2") + " ms\n" +
                 "Frame p50/p95 " + _performance.Percentile(.5).ToString("F2") + " / " + _performance.Percentile(.95).ToString("F2") + " ms (last ≤120 frames)\n" +
                 "Physics commands CPU " + _performance.PhysicsCommandsMilliseconds.ToString("F2") + " ms\n" +
                 "Last engine tick CPU " + d.PhysicsMilliseconds.ToString("F2") + " ms · furniture " + d.FurnitureMilliseconds.ToString("F2") + " ms\n" +
@@ -112,7 +114,6 @@ namespace CrowdSim.Unity.Workspace
                 "\nHybrid open/detailed " + d.Open + " / " + d.Detailed + " · grouped " + d.Grouped + " in " + d.Groups + " groups\nShared field builds " + d.FieldBuilds + " · geometry refreshes " + d.GeometryRefreshes +
                 "\nCrowd rendering: " + _world.Humans.RenderBackend + " · GPU instances " + _world.Humans.GpuInstances + " · submissions " + _world.Humans.GpuDraws +
                 "\nLast scene draw · updated " + _world.LastSceneBodyUpdates + " · reused unchanged " + _world.LastSceneBodyReuses +
-                "\n" + CodeOptimizationLabel() +
                 "\nGPU time: not measured · recording " + (IsRecording ? "active" : "idle") +
                 "\nCapture CPU " + _captureMilliseconds.ToString("F2") + " ms · encode/write " + (_recording?.LastEncodingMilliseconds ?? _encodeMilliseconds).ToString("F2") +
                 " ms · queue " + (_recording?.QueueCount ?? 0) + "/3 · dropped " + (_recording?.DroppedFrames ?? _lastDropped);

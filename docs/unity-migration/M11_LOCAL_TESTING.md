@@ -4,13 +4,15 @@ M10 was accepted by the user at `c97d49c`. M11 supplies integrated quit/help,
 Windows x64/Mono build/packaging, notices and source distribution. This is not
 final player acceptance until the steps below pass locally. Cloud has no Unity
 Editor or Windows player: no executable build or native test is claimed.
+The v0.11.1 CPU correction also needs
+[performance retesting](M11_PERFORMANCE_FIX_LOCAL_TESTING.md) before acceptance.
 
 1. **Open the source project.** Use a fresh short path such as
    `C:\Unity\CrowdSim\UnityProject`, directly containing Assets, Packages and
    ProjectSettings. Use **Unity 6000.3.26f1**, URP **17.3.0**. Open
    **Assets/CrowdSim/Scenes/Bootstrap.unity**. Do not change Editor code optimization;
    CrowdSim → Performance still only reports its current mode.
-2. **Editor smoke test.** Play: expect the M11 startup and v0.11.0, black readable
+2. **Editor smoke test.** Play: expect the M11 startup and v0.11.1, black readable
    text, familiar scenario entry and all M10 visuals/features. Open User guide and
    Credits and licenses: expect local bundled text files. Build a dirty scene and
    click Quit: Keep working retains it paused; Save and continue saves then stops
@@ -27,7 +29,7 @@ Editor or Windows player: no executable build or native test is claimed.
    choose **CrowdSim → Build → Windows x64 Player and ZIP**. The command validates
    settings; it never changes Editor optimization or switches the target for you.
    Expect a new `UnityProject/Builds/Windows-x64/<run>/` folder containing **Player/**
-   and **CrowdSim-Windows-x64-0.11.0.zip**, with a successful build/ZIP Console message.
+   and **CrowdSim-Windows-x64-0.11.1.zip**, with a successful build/ZIP Console message.
    A failed build or incomplete output must not yield a purported release ZIP.
    Keep the build log/receipt; previous builds are never overwritten.
 5. **Run independently.** Extract the entire player ZIP into another short folder,

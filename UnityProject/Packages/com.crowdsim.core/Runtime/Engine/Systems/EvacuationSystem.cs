@@ -2793,8 +2793,11 @@ namespace CrowdSim.Core.Systems
                 agent.CircleFollowCenter is Vector2 committedCenter)
             {
                 CircleBlockage? activeCircle = null;
-                foreach (CircleBlockage circle in simulation.Environment.CircularBlockages)
+                for (int circleIndex = 0;
+                    circleIndex < simulation.Environment.CircularBlockages.Count;
+                    circleIndex = simulation.NextCircleCandidate(committedCenter, .02f, circleIndex + 1))
                 {
+                    CircleBlockage circle = simulation.Environment.CircularBlockages[circleIndex];
                     if (Vector2.DistanceSquared(circle.Center, committedCenter) <= 0.0004f &&
                         MathF.Abs(circle.Radius - agent.CircleFollowObstacleRadius) <= 0.01f)
                     {
@@ -2871,8 +2874,11 @@ namespace CrowdSim.Core.Systems
             Vector2 nearestNormal = Vector2.Zero;
             float nearestSurfaceGap = float.PositiveInfinity;
             Vector2 lookAhead = agent.Position + desired * probeDistance;
-            foreach (CircleBlockage circle in simulation.Environment.CircularBlockages)
+            for (int circleIndex = 0;
+                circleIndex < simulation.Environment.CircularBlockages.Count;
+                circleIndex = simulation.NextCircleCandidate(agent.Position, _config.Radius + activationDistance, circleIndex + 1))
             {
+                CircleBlockage circle = simulation.Environment.CircularBlockages[circleIndex];
                 if (!CircleGeometry.CouldTouch(agent.Position, circle.Center, circle.Radius + _config.Radius + activationDistance)) continue;
                 Vector2 offset = agent.Position - circle.Center;
                 float centerDistance = offset.Length();

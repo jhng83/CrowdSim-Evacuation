@@ -9,8 +9,8 @@ namespace CrowdSim.Migration
         public const string UrpVersion = "17.3.0";
         public const string ReferenceCommit = "01b435568f211f5c8ddf99b32b05e7ceb1ad3a24";
         public const string BootstrapScene = "Assets/CrowdSim/Scenes/Bootstrap.unity";
-        public const string Milestone = "M11 - Standalone application and distribution";
-        public const string ApplicationVersion = "0.11.0";
+        public const string Milestone = "M11 - Standalone application and distribution · CPU query fix";
+        public const string ApplicationVersion = "0.11.1";
         public const string ParityScene = "Assets/CrowdSim/Scenes/Validation/SimulationParity.unity";
         public const string HumanoidScene = "Assets/CrowdSim/Scenes/Validation/HumanoidPresentation.unity";
         public const float ReferenceStepSeconds = 0.15f;

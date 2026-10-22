@@ -179,7 +179,7 @@ def validate() -> None:
 
     settings = (PROJECT / "ProjectSettings/ProjectSettings.asset").read_text()
     contract = (PROJECT / "Packages/com.crowdsim.core/Runtime/MigrationContract.cs").read_text()
-    require('ApplicationVersion = "0.11.0"' in contract and "bundleVersion: 0.11.0" in settings,
+    require('ApplicationVersion = "0.11.1"' in contract and "bundleVersion: 0.11.1" in settings,
             "M11 application/version settings disagree")
     require("companyName: CrowdSim\n" in settings and "productName: CrowdSim Unity\n" in settings,
             "Player identity change would move existing saves")

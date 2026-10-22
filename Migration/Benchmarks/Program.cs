@@ -16,9 +16,10 @@ if (args.Length > 0 && args[0] == "--write-dense-fixtures")
     }
     return;
 }
-if (args.Length > 0 && args[0] == "--profile")
+if (args.Length > 0 && (args[0] == "--profile" || args[0] == "--profile-unreleased"))
 {
-    PerformanceComparison.Run(args[1], args.Length > 2 ? int.Parse(args[2]) : 120, args.Length > 3 ? args[3] : null); return;
+    PerformanceComparison.Run(args[1], args.Length > 2 ? int.Parse(args[2]) : 120,
+        args.Length > 3 ? args[3] : null, args[0] != "--profile-unreleased"); return;
 }
 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
 string output = args.Length > 0 ? args[0] : throw new ArgumentException("Provide an output directory outside source.");

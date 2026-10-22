@@ -431,8 +431,11 @@ namespace CrowdSim.Core.Systems
         private void CollectNaturalCircles(Simulation simulation, Vector2 origin, float range)
         {
             _naturalCircles.Clear();
-            foreach (CircleBlockage circle in simulation.Environment.CircularBlockages)
+            for (int circleIndex = 0;
+                circleIndex < simulation.Environment.CircularBlockages.Count;
+                circleIndex = simulation.NextCircleCandidate(origin, range + _config.Radius, circleIndex + 1))
             {
+                CircleBlockage circle = simulation.Environment.CircularBlockages[circleIndex];
                 float reach = range + circle.Radius + _config.Radius;
                 if (Vector2.DistanceSquared(origin, circle.Center) <= reach * reach) _naturalCircles.Add(circle);
             }

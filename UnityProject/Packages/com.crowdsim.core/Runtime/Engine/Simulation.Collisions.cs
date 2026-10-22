@@ -245,8 +245,11 @@ namespace CrowdSim.Core
                     }
                 }
 
-                foreach (CircleBlockage circle in Environment.CircularBlockages)
+                for (int circleIndex = 0;
+                    circleIndex < Environment.CircularBlockages.Count;
+                    circleIndex = NextCircleCandidate(agent.Position, radius, circleIndex + 1))
                 {
+                    CircleBlockage circle = Environment.CircularBlockages[circleIndex];
                     if (agent.Posture != SeatingPosture.Walking && ReferenceEquals(circle, agent.Chair?.Obstacle)) continue;
                     float minimumDistance = circle.Radius + radius;
                     if (!CircleGeometry.CouldTouch(agent.Position, circle.Center, minimumDistance)) continue;
@@ -748,8 +751,11 @@ namespace CrowdSim.Core
                 }
             }
 
-            foreach (CircleBlockage circle in Environment.CircularBlockages)
+            for (int circleIndex = 0;
+                circleIndex < Environment.CircularBlockages.Count;
+                circleIndex = NextCircleCandidate(agent.Position, radius, circleIndex + 1))
             {
+                CircleBlockage circle = Environment.CircularBlockages[circleIndex];
                 if (agent.Posture != SeatingPosture.Walking && ReferenceEquals(circle, agent.Chair?.Obstacle)) continue;
                 float minimumDistance = circle.Radius + radius;
                 if (!CircleGeometry.CouldTouch(agent.Position, circle.Center, minimumDistance)) continue;
@@ -772,8 +778,11 @@ namespace CrowdSim.Core
 
         private bool IsNearCircularBlockage(Vector2 position, float margin)
         {
-            foreach (CircleBlockage circle in Environment.CircularBlockages)
+            for (int circleIndex = 0;
+                circleIndex < Environment.CircularBlockages.Count;
+                circleIndex = NextCircleCandidate(position, Math.Max(0f, margin), circleIndex + 1))
             {
+                CircleBlockage circle = Environment.CircularBlockages[circleIndex];
                 float reach = circle.Radius + Math.Max(0f, margin);
                 if (Vector2.DistanceSquared(position, circle.Center) <= reach * reach)
                 {

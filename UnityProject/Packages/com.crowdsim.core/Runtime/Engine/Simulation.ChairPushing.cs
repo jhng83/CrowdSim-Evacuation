@@ -101,8 +101,11 @@ namespace CrowdSim.Core
                 for (int step = 1; step <= steps; step++)
                 {
                     Vector2 point = member.Position + displacement * (step / (float)steps);
-                    foreach (CircleBlockage obstacle in Environment.CircularBlockages)
+                    for (int circleIndex = 0;
+                        circleIndex < Environment.CircularBlockages.Count;
+                        circleIndex = NextCircleCandidate(point, member.Obstacle!.Radius, circleIndex + 1))
                     {
+                        CircleBlockage obstacle = Environment.CircularBlockages[circleIndex];
                         if (ReferenceEquals(obstacle, member.Obstacle) ||
                             (obstacle.ChairOwner is FurnitureChair grouped && _chairPushGroup.Contains(grouped))) continue;
                         if (SeparatingOrClear(previous, point, obstacle.Center, member.Obstacle!.Radius + obstacle.Radius)) continue;
@@ -149,8 +152,11 @@ namespace CrowdSim.Core
                     point.X > Environment.Width - Environment.BoundaryThickness - radius ||
                     point.Y > Environment.Height - Environment.BoundaryThickness - radius ||
                     Environment.Walls.Any(w => w.Contains(point, radius))) return false;
-                foreach (CircleBlockage other in Environment.CircularBlockages)
+                for (int circleIndex = 0;
+                    circleIndex < Environment.CircularBlockages.Count;
+                    circleIndex = NextCircleCandidate(point, radius, circleIndex + 1))
                 {
+                    CircleBlockage other = Environment.CircularBlockages[circleIndex];
                     if (ReferenceEquals(other, chair.Obstacle) ||
                         (other.ChairOwner is FurnitureChair member && movingGroup?.Contains(member) == true)) continue;
                     if (!SeparatingOrClear(previous, point, other.Center, radius + other.Radius)) return false;
@@ -188,14 +194,17 @@ namespace CrowdSim.Core
             CircleBlockage? nearest = null;
             float best = float.PositiveInfinity;
             Vector2 direction = VectorMath.SafeNormalize(desired);
-            foreach (CircleBlockage circle in Environment.CircularBlockages)
+            float reachMargin = agent.State == AgentState.Injured ? 0.45f : 0.30f;
+            for (int circleIndex = 0;
+                circleIndex < Environment.CircularBlockages.Count;
+                circleIndex = NextCircleCandidate(agent.Position, Config.Agent.Radius + reachMargin, circleIndex + 1))
             {
+                CircleBlockage circle = Environment.CircularBlockages[circleIndex];
                 if (circle.ChairOwner is not FurnitureChair chair || chair.OccupantId is not null ||
                     chair.State is not (ChairState.Upright or ChairState.Fallen)) continue;
                 Vector2 delta = circle.Center - agent.Position;
                 float distance = delta.Length();
                 float gap = distance - circle.Radius - Config.Agent.Radius;
-                float reachMargin = agent.State == AgentState.Injured ? 0.45f : 0.30f;
                 if (gap > reachMargin || Vector2.Dot(direction, VectorMath.SafeNormalize(delta)) < 0.10f) continue;
                 if (gap < best) { best = gap; nearest = circle; }
             }

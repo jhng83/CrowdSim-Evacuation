@@ -657,7 +657,8 @@ Application/core package version becomes **0.11.0**; Unity 6000.3.26f1, URP 17.3
 C#9/Standard2.1 and all dependencies remain pinned. Product/company remain
 **CrowdSim Unity / CrowdSim** so accepted M10 saves/recordings remain discoverable.
 Original .NET project, tests/scenarios/pins and main remain behavioral reference.
-Portable Engine sources and hot renderer/recording implementations are unchanged.
+The initial `e76d726` distribution delivery left Engine sources and hot renderer/
+recording implementations unchanged. Its subsequent CPU correction is below.
 
 `WorkspaceFiles.Quit` appends a lifecycle transition without changing existing enum
 values. It shares pause/dirty/save/overwrite/discard/cancel logic with leaving or
@@ -697,3 +698,35 @@ is configured after cloud checks but unverified with current API access. No Unit
 Editor/license is installed in cloud, so no prebuilt player, actual native build,
 frontend/helper/shader compilation, player test or final acceptance is claimed.
 See M11_LOCAL_TESTING.md and VALIDATION.md; all F01–F29 standalone gates stay open.
+
+## M11 v0.11.1 — reported dense-scene CPU lag
+
+The screenshot reports roughly 94 ms engine / 75 ms movement with GPU instancing
+on. This identifies substantial CPU movement work; it does not prove an M11 engine
+regression, because initial M11's engine equals accepted M10. Actual Editor mode,
+hardware and matched player timings remain local context, not inferred causes.
+
+The new CircleCandidateIndex buckets complete circle AABBs and returns increasing
+source-list indices. Original exact narrow-phase tests, thresholds and arithmetic
+still decide contact. Collision/containment loops query again using the corrected
+position after every visited obstacle: later newly reachable circles are included,
+earlier ones stay processed, matching the original ordered pass. The first circle
+is visited directly so empty layouts never invoke the new lookup. Tiny/invalid/
+huge geometry uses the authoritative linear order. No radius/force cutoff is added.
+In particular SFM still scans and accumulates every original circle force including
+the nonzero far clamp floor; all substeps/iterations/speed/finite guards remain.
+
+Only synchronous Step owns the index. Each tick invalidates it; chair moves,
+proxy replacement/removal and destruction update existing navigation revision and
+cause rebuilding before the next query, even during the same tick. Outside Step,
+direct authoring/test list edits remain visible without a revision notification.
+Caller logic retains seating exceptions, chair reach/group/collision guards,
+circle-follow tie order and natural-navigation exact distance filters.
+
+Version becomes 0.11.1 without a dependency/editor/backend change. Debug moves
+build version and read-only Editor optimization status to the beginning of the
+performance card; it introduces no optimization setter/recompile request. Frame
+scheduling, GPU/world rendering, capture/encoding and M11 quit/build stay unchanged.
+Cloud tests and paired state/CPU comparisons are recorded in VALIDATION.md and
+M11_PERFORMANCE_FIX_BENCHMARK.md. They do not establish Unity/Mono/GPU/FPS or final
+M11 acceptance; follow M11_PERFORMANCE_FIX_LOCAL_TESTING.md locally.

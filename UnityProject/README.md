@@ -4,10 +4,15 @@ M1–M10 are accepted by the user. M11 integrates standalone quit, help/notices,
 Windows player build/packaging and source downloads. Final M11 acceptance needs
 local Editor and Windows player testing; no prebuilt executable is claimed.
 
+**v0.11.1 fixes repeated dense-scene obstacle queries** while preserving exact
+contact order, movement rules and every SFM contribution. Debug's performance card
+now starts with build version and read-only optimization status. Follow
+[CPU fix retesting](../docs/unity-migration/M11_PERFORMANCE_FIX_LOCAL_TESTING.md).
+
 Open **UnityProject/** (Assets, Packages, ProjectSettings) with **Unity 6000.3.26f1**,
 URP **17.3.0**, then **Assets/CrowdSim/Scenes/Bootstrap.unity**. Use a short path,
 for example `C:\Unity\CrowdSim\UnityProject`. Startup shows **M11** and version
-**0.11.0**. First import requires Unity registry access; sign in through Hub if
+**0.11.1**. First import requires Unity registry access; sign in through Hub if
 requested. CrowdSim → Performance remains read-only; keep Editor optimization mode.
 
 ## Build a standalone Windows app
@@ -17,7 +22,7 @@ requested. CrowdSim → Performance remains read-only; keep Editor optimization 
    **Disabled managed stripping**, and CrowdSim / CrowdSim Unity product identity.
 2. Stop Play and choose **CrowdSim → Build → Windows x64 Player and ZIP**.
 3. On success a fresh `Builds/Windows-x64/<run>/` contains **Player/** and
-   **CrowdSim-Windows-x64-0.11.0.zip**. The build command validates real Unity output,
+   **CrowdSim-Windows-x64-0.11.1.zip**. The build command validates real Unity output,
    preserves previous builds, copies package notices, records the build receipt and
    adds SHA256 file checksums. It never changes Editor optimization or active target.
 4. Extract the entire ZIP separately, close Unity and run **CrowdSim.exe**. Keep
@@ -54,7 +59,7 @@ Editor recording needs active Game view. No promised FPS or GPU physics.
 
 ## Validation and downloads
 
-Cloud passes **404 original / 415 portable / 263 migration** cases, unchanged
+Cloud passes **404 original / 415 portable / 272 migration** cases, unchanged
 six-case captures/oracle, files/AVI decode and source-package checks. Player ZIP
 regressions use synthetic headers/layouts; they do not prove a real Unity build.
 **55 EditMode / 26 PlayMode** cases are supplied, **not executed in cloud**.

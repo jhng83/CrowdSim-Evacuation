@@ -99,8 +99,11 @@ namespace CrowdSim.Core
                     return;
                 }
             }
-            foreach (CircleBlockage circle in Environment.CircularBlockages)
+            for (int circleIndex = 0;
+                circleIndex < Environment.CircularBlockages.Count;
+                circleIndex = NextCircleCandidate(candidate, radius, circleIndex + 1))
             {
+                CircleBlockage circle = Environment.CircularBlockages[circleIndex];
                 float clearance = circle.Radius + radius;
                 if (Vector2.DistanceSquared(candidate, circle.Center) < clearance * clearance)
                 {

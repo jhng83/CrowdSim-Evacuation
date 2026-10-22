@@ -1,6 +1,6 @@
 {
   "name": "com.crowdsim.core",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "displayName": "CrowdSim Portable Core",
   "description": "Unity-independent C# 9/.NET Standard 2.1 simulation, authored storage/replay, both hazards, detached presentation, bounded AVI recording and validated standalone release packaging.",
   "unity": "6000.3",

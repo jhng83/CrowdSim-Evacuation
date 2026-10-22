@@ -1,4 +1,4 @@
-CROWD / SIM - WINDOWS USER GUIDE (M11 / 0.11.0)
+CROWD / SIM - WINDOWS USER GUIDE (M11 / 0.11.1)
 
 RUN
 Extract the entire Windows player ZIP to a short, writable location. Keep
