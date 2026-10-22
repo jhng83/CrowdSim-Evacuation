@@ -5,7 +5,8 @@ The user accepted **M1–M10**, finishing at `c97d49c`. These are user acceptanc
 reports, not hosted Unity test XML. M11 implementation is supplied; every workflow
 must still be checked in the Windows standalone player before final acceptance.
 M11 v0.11.1 corrects reported dense CPU lag with ordered conservative obstacle
-queries; local performance acceptance remains pending. See
+queries; the user reports latency solved at `eeb484b`. Standalone build remains blocked
+by local package authentication/Burst errors; see [build recovery](M11_BUILD_RECOVERY.md). See
 [retesting](M11_PERFORMANCE_FIX_LOCAL_TESTING.md) and
 [CPU evidence](M11_PERFORMANCE_FIX_BENCHMARK.md).
 "Core" means programmatic behavior, "UI" the complete Unity workflow.
@@ -40,14 +41,14 @@ queries; local performance acceptance remains pending. See
 | F26 | Desired/avoidance/herd/SFM/blast vectors; vision cones; congestion; trails; overlays survive hidden inspector | M9 | All eight batched desired/avoidance/herd/SFM/blast/vision/congestion/trail layers supplied, including three-tick/40-point history, POV self exclusion, hidden-inspector persistence and replay/new/load cleanup; M9 accepted | Pending local Windows player acceptance |
 | F27 | Frame/physics/draw/UI/record timing; allocations; visible/active and Hybrid counters; CPU benchmark comparisons | M2 harness / M9 | Distinct wall FPS/frame p50/p95, physics commands/native last step/furniture/routes, world/UI commands, main-thread allocations and visible/active/Hybrid counters supplied; 24 CPU comparison cases executed; actual Unity/GPU scale testing unrun; M10 capture/worker counters retained; fix adds exclusive engine phases, nested SFM/collision/route, actual backend/instanced submissions and valid dense-800 fixture; 24 paired CPU hashes with 1.6–1.9× dense cloud improvement; Unity/GPU/FPS unrun M11 v0.11.1 reports build/mode first; 48 released/unreleased paired hashes match. Dense Fume CPU ~14–38% lower in cloud; open results mixed, Unity FPS unmeasured. | Pending local Windows player acceptance |
 | F28 | Runtime complete-UI 1280x720/20 fps MJPEG AVI; arm/start/stop/path; bounded queue/drops; replay/quit cleanup | M10 | Implemented: runtime full-window end-of-frame capture, next-Start/manual start/stop/path/folder, native JPEG worker/indexed AVI, 3-frame queue/drops, letterboxing and replay/new/exit cleanup; cloud production worker/muxer known frames + independent FFmpeg decode pass; M10 accepted by user; actual standalone capture/encoder/orientation pending | Pending local Windows player acceptance |
-| F29 | Startup/quit; examples; independent player; dependency notices; source downloads and final acceptance | M1 foundation / M11 | M11 guarded Quit/normal window close, help/notices, existing examples, explicit Windows x64/Mono build, validated ZIP/receipt/hashes and source artifact export supplied; real BuildPipeline/player acceptance pending | Pending local Windows player acceptance |
+| F29 | Startup/quit; examples; independent player; dependency notices; source downloads and final acceptance | M1 foundation / M11 | M11 guarded Quit/normal window close, help/notices, existing examples, explicit Windows x64/Mono build, validated ZIP/receipt/hashes and source artifact export supplied; real BuildPipeline/player acceptance pending Read-only package preflight and recovery guidance supplied after reported authentication/Unsafe build failure; no real build success claimed. | Pending local Windows player acceptance |
 
 The added M11 column deliberately remains pending for every feature. Prior Editor
 acceptance and passing portable tests do not establish standalone parity. Complete
 [M11_LOCAL_TESTING.md](M11_LOCAL_TESTING.md) and report coverage against F01–F29;
 close entries only after actual player tests or an explicitly approved difference.
 
-Current cloud validation: **404 original / 415 portable / 272 migration** cases,
+Current cloud validation: **404 original / 415 portable / 280 migration** cases,
 unchanged six-case captures/oracle, five legacy interop cases, custom-stage v5
 round trip/native rejection and independent AVI decode. New M11 checks cover quit
 pause/save/overwrite/failure/cancellation, synthetic x64 runtime layouts/receipts,

@@ -18,6 +18,34 @@ namespace CrowdSim.Unity.Editor
     public static class PlayerBuild
     {
         private const string Menu = "CrowdSim/Build/Windows x64 Player and ZIP";
+        private const string PackageMenu = "CrowdSim/Build/Check Package Readiness";
+
+        [MenuItem(PackageMenu)]
+        private static void CheckPackagesFromMenu()
+        {
+            try
+            {
+                RequirePackagesReady();
+                const string message = "Registered package versions, package errors and package.json files passed preflight. " +
+                    "This does not test Hub authentication, every DLL dependency, shader import or the Windows build.";
+                Debug.Log(message); EditorUtility.DisplayDialog("CrowdSim package preflight", message, "OK");
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+                EditorUtility.DisplayDialog("CrowdSim packages need attention", exception.Message, "OK");
+            }
+        }
+
+        private static void RequirePackagesReady()
+        {
+            string project = Directory.GetParent(Application.dataPath).FullName;
+            IReadOnlyList<string> issues = PackageReadiness.Inspect(File.ReadAllText(Path.Combine(project, "Packages", "packages-lock.json")),
+                PackageInfo.GetAllRegisteredPackages().Select(p => new PackageReadiness.ResolvedPackage(
+                    p.name, p.version, p.resolvedPath, p.errors.Select(e => e.message))));
+            if (issues.Count > 0) throw new BuildFailedException("Package preflight failed; player build was not started.\n\n" +
+                string.Join("\n", issues) + "\n\n" + PackageReadiness.Recovery);
+        }
 
         [MenuItem(Menu)]
         private static void FromMenu()
@@ -49,6 +77,7 @@ namespace CrowdSim.Unity.Editor
             if (!CanBuild()) throw new BuildFailedException("Stop Play Mode and wait for compilation before building.");
             if (Application.unityVersion != MigrationContract.EditorVersion)
                 throw new BuildFailedException("Use Unity " + MigrationContract.EditorVersion + ".");
+            RequirePackagesReady();
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.StandaloneWindows64)
                 throw new BuildFailedException("Select Windows x64 in File > Build Profiles first, then retry. The command does not switch targets automatically.");
             if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64))
@@ -83,7 +112,9 @@ namespace CrowdSim.Unity.Editor
                 options = BuildOptions.None
             });
             if (report == null || report.summary.result != BuildResult.Succeeded || report.summary.totalErrors != 0)
-                throw new BuildFailedException("Unity player build failed. See Console and the Unity build log; no release ZIP was created.");
+                throw new BuildFailedException("Unity player build failed; no release ZIP was created. " +
+                    "See the first failing build step in Console/Editor.log. " +
+                    "For authentication, missing Unsafe/Burst dependencies or URP import errors, " + PackageReadiness.Recovery);
 
             string docs = Path.Combine(player, "CrowdSim_Data", "StreamingAssets", "Documentation");
             File.Copy(Path.Combine(docs, "USER_GUIDE.txt"), Path.Combine(player, "README.txt"));

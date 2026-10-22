@@ -188,6 +188,14 @@ def validate() -> None:
     build = (PROJECT / "Assets/CrowdSim/Editor/PlayerBuild.cs").read_text()
     require("BuildPipeline.BuildPlayer" in build and "BuildOptions.None" in build and "PlayerRelease.CreateArchive" in build,
             "M11 requires a real non-development Unity build before packaging")
+    require(build.index("            RequirePackagesReady();", build.index("public static string BuildWindows64")) <
+            build.index("            Directory.CreateDirectory(output)"),
+            "M11 must check package readiness before creating output or invoking Unity BuildPipeline")
+    require("CrowdSim/Build/Check Package Readiness" in build,
+            "M11 read-only package readiness menu missing")
+    package_check = (PROJECT / "Assets/CrowdSim/Editor/PackageReadiness.cs").read_text()
+    require(not re.search(r"\b(?:WriteAll\w*|CreateDirectory|Delete|Move|Copy|Resolve|AddAndRemove)\s*\(", package_check),
+            "Package readiness must not mutate files, caches or resolved packages")
     require({"quit-application", "open-guide", "open-notices"}.issubset(names), "M11 startup quit/help entries missing")
     require("Application.wantsToQuit += WantsToQuit" in controller.read_text() and
             "Application.wantsToQuit -= WantsToQuit" in controller.read_text(), "M11 normal window-close handler missing")

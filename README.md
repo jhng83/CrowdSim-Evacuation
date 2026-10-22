@@ -7,7 +7,10 @@ artifact packaging. M11 player acceptance is pending local testing.
 **M11 CPU query fix (v0.11.1)** addresses reported dense-scene lag with ordered,
 conservative chair/table candidate queries. Original exact contact/force rules
 remain. Follow [performance retesting](docs/unity-migration/M11_PERFORMANCE_FIX_LOCAL_TESTING.md)
-before completing M11 acceptance; Unity Mono/FPS still requires local measurement.
+before completing M11 acceptance. The user reports latency solved; Windows build
+is blocked by authentication/Burst package errors. Follow
+[build recovery](docs/unity-migration/M11_BUILD_RECOVERY.md); a new read-only package
+preflight runs before building. Actual standalone acceptance remains pending.
 
 Open **UnityProject/** with **Unity 6000.3.26f1**, URP **17.3.0**, then
 **Assets/CrowdSim/Scenes/Bootstrap.unity**. Use a short path such as
@@ -21,7 +24,7 @@ professional light theme and AVI recording features remain. Physics behavior and
 main/original source/tests/scenarios/dependency pins are preserved. Company/product
 identity is unchanged so existing user data remains discoverable.
 
-Cloud passes **404 original / 415 portable / 272 migration** cases, unchanged traces,
+Cloud passes **404 original / 415 portable / 280 migration** cases, unchanged traces,
 file interoperability, AVI decode and source/package validation. **No Unity Editor
 is installed: frontend/shader/build-helper compilation, 55 EditMode/26 PlayMode
 cases, actual Windows build/player/ZIP, rendering and native quit were not executed.**

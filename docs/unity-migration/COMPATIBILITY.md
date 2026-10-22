@@ -730,3 +730,26 @@ scheduling, GPU/world rendering, capture/encoding and M11 quit/build stay unchan
 Cloud tests and paired state/CPU comparisons are recorded in VALIDATION.md and
 M11_PERFORMANCE_FIX_BENCHMARK.md. They do not establish Unity/Mono/GPU/FPS or final
 M11 acceptance; follow M11_PERFORMANCE_FIX_LOCAL_TESTING.md locally.
+
+## M11 build/package recovery after accepted latency fix
+
+The user reports v0.11.1 latency solved at `eeb484b`, but an actual local Windows
+build fails: Input System download/search explicitly lack authentication, Burst
+cannot load Unsafe 6.0.3.0 in its native-plugin step, and URP/Core import errors
+remain. These messages establish blockers, not a complete causal explanation.
+CrowdSim's build invocation is the call site; no failed build is packaged.
+
+The new Editor-only PackageReadiness helper checks registered lock versions,
+reported package errors and matching readable package.json payload metadata.
+PlayerBuild invokes it before creating output or entering BuildPipeline and also
+offers a read-only menu. Errors include Hub/short-path recovery guidance. It does
+not authenticate, read credential files, resolve/upgrade/remove packages, clear
+caches, disable Burst, change Editor optimization or validate every DLL/import.
+Virtual engine modules do not require filesystem payloads. Eight cloud tests link
+the actual pure helper; their package fixtures are synthetic, not Unity downloads.
+
+All production portable/runtime/physics/GPU/recording sources, package pins and
+application version 0.11.1 stay unchanged from accepted `eeb484b`. No repeated CPU
+benchmark is claimed or needed. Full regressions are rerun for this delivery;
+actual Hub session restoration, clean import, Burst/URP, preflight menu wiring and
+Windows build/player remain local. See M11_BUILD_RECOVERY.md and VALIDATION.md.

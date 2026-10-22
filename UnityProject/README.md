@@ -15,6 +15,12 @@ for example `C:\Unity\CrowdSim\UnityProject`. Startup shows **M11** and version
 **0.11.1**. First import requires Unity registry access; sign in through Hub if
 requested. CrowdSim → Performance remains read-only; keep Editor optimization mode.
 
+Package authentication/Burst/URP build failures: follow
+[build recovery](../docs/unity-migration/M11_BUILD_RECOVERY.md). Close Unity, sign
+in through Hub and allow clean short-path package restoration. **CrowdSim → Build
+→ Check Package Readiness** is read-only; its pass is not proof every DLL/import
+or the real build will succeed. The user reports v0.11.1 latency solved.
+
 ## Build a standalone Windows app
 
 1. Install Windows Build Support for the pinned Editor via Hub; select **Windows
@@ -59,7 +65,7 @@ Editor recording needs active Game view. No promised FPS or GPU physics.
 
 ## Validation and downloads
 
-Cloud passes **404 original / 415 portable / 272 migration** cases, unchanged
+Cloud passes **404 original / 415 portable / 280 migration** cases, unchanged
 six-case captures/oracle, files/AVI decode and source-package checks. Player ZIP
 regressions use synthetic headers/layouts; they do not prove a real Unity build.
 **55 EditMode / 26 PlayMode** cases are supplied, **not executed in cloud**.

@@ -15,7 +15,7 @@ Original reference/main: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24` (unchanged).
 | M8 — Humanoids/cameras | `55652fc407d3eb96527f836e57067da42dc41459` | Accepted by user |
 | M9 — Diagnostics/scale/theme | `86ae9d16d8a7f928b6d004d84fd8b639bc7f5ad2` | Accepted by user |
 | M10 — Recording/stage, CPU/GPU improvements and menu correction | Final accepted revision `c97d49c84ecf9c79d08239fa83e4703eeb7353bc` | User reported “M10 tested successfully”; accepted |
-| M11 — Standalone application and distribution | Initial delivery `e76d726`; v0.11.1 fixes reported dense-scene CPU lag | Performance correction and full Editor/build/player acceptance pending; not yet accepted |
+| M11 — Standalone application and distribution | Initial delivery `e76d726`; CPU fix `eeb484b`; this correction adds package preflight/recovery | User reports latency solved; build blocked by package authentication/Burst dependency; player acceptance pending |
 
 M11 targets the approved roadmap's **Windows x64 / Mono** player, consistent with
 the user's Windows testing. Unity stays **6000.3.26f1**, URP **17.3.0**; portable
@@ -23,7 +23,18 @@ production stays **C#9 / .NET Standard 2.1**, package/application version **0.11
 Company/product identity stays CrowdSim / CrowdSim Unity to retain M10 user data.
 No Editor optimization changes, automatic target switches or new dependencies.
 
+Latest local evidence: the user reports **“the latency issue is solved”** for
+`eeb484b`. Player build failed with unauthenticated Input System/package search,
+missing Burst Unsafe dependency and URP host-type errors. See
+[build recovery](M11_BUILD_RECOVERY.md); source diagnostics do not repair credentials
+or establish the unproven causes of all import/compiler errors.
+
 Delivered M11 capabilities:
+
+- Read-only Check Package Readiness menu and automatic preflight before output/
+  BuildPipeline: registered lock versions/errors and matching readable package.json
+  files. Actionable failures retain real-build/no-ZIP gates. This does not verify
+  every DLL, import, account session or compiler. No cache/package/settings mutation.
 
 - CPU query correction: ordered conservative circle candidates for collision,
   contact, chair departure/pushing and local navigation. Positional corrections
@@ -49,9 +60,9 @@ Paired CPU evidence: [48 matching ordered state hashes](M11_PERFORMANCE_FIX_BENC
 19,200 measured ticks across versions. Dense Toxic Fume uses ~14–38% less CPU in
 these cloud windows; open results are mixed. Unity FPS remains unmeasured.
 
-Cloud evidence: [VALIDATION.md](VALIDATION.md), **404 original / 415 portable / 272
+Cloud evidence: [VALIDATION.md](VALIDATION.md), **404 original / 415 portable / 280
 migration** cases, unchanged six-case captures/oracle, file interop and AVI decode;
-202 GUIDs and 106 unchanged original files. New package tests use synthetic binary
+203 GUIDs and 106 unchanged original files. New package tests use synthetic binary
 headers/layouts and do not establish player executability. Source ZIP content/hash
 validation ran against the working candidate; committed export is checked at delivery.
 
@@ -62,7 +73,7 @@ GitHub Actions execution/artifact publication cannot be verified through the cur
 GitHub API access (403). The build command and source download are supplied; no
 prebuilt .exe or final complete-replacement acceptance is claimed.
 
-Next: [CPU fix retesting](M11_PERFORMANCE_FIX_LOCAL_TESTING.md), then
+Next: [build recovery](M11_BUILD_RECOVERY.md), then
 [M11_LOCAL_TESTING.md](M11_LOCAL_TESTING.md). Test Editor, build the Windows
 player and complete F01–F29 acceptance. Fix reported issues before marking M11 or
 the replacement accepted. No further milestone or main merge is authorized by this

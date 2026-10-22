@@ -23,7 +23,9 @@ The v0.11.1 CPU correction also needs
    counts/results are in VALIDATION.md. New tests exercise quit cancellation/save
    and recording finalization via a callback, without actually closing the Editor.
    Preserve test XML and any Console errors. These tests were not run in cloud.
-4. **Build the player.** Install Windows Build Support for 6000.3.26f1 through Hub.
+4. **Build the player.** Resolve authentication/import/Burst errors first using
+   [build recovery](M11_BUILD_RECOVERY.md), then run CrowdSim → Build → Check
+   Package Readiness (metadata check only, not all DLLs/imports). Install Windows Build Support for 6000.3.26f1 through Hub.
    In File → Build Profiles select **Windows x64**. Keep committed Mono backend,
    .NET Standard 2.1, disabled managed stripping and product identity. Stop Play and
    choose **CrowdSim → Build → Windows x64 Player and ZIP**. The command validates
