@@ -587,3 +587,11 @@ Instancing targets the runtime crowd. Builder planning markers and authored
 furniture/stage use the existing world renderer; those objects are not converted
 to the new crowd batches in this fix. All still render through Unity's graphics
 pipeline. Local profiling should include their cost in heavily furnished scenes.
+
+The recording NativeArray copy explicitly uses **global::Unity.Collections**.
+Inside `namespace CrowdSim.Unity.Workspace`, an unqualified `Unity.Collections`
+binds to `CrowdSim.Unity` and causes CS0234, even with valid packages. This is a
+namespace lookup correction, not a missing assembly reference or a new dependency.
+Package pins and assembly definitions remain unchanged. A separate local Input
+System registry authentication failure and missing package DLLs require Hub sign-in
+and a clean import; see [M10_IMPORT_RECOVERY.md](M10_IMPORT_RECOVERY.md).

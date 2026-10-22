@@ -5,6 +5,10 @@ URP **17.3.0**, a fresh extraction and the committed packages. Your screenshot's
 `recording: M10 pending` identifies M9; this download includes M10 recording and
 the adjustable concert stage as well as this performance fix.
 
+If import is blocked, first follow [M10_IMPORT_RECOVERY.md](M10_IMPORT_RECOVERY.md).
+The latest source correction fixes recording CS0234 namespace shadowing. Hub sign-in
+and successful package resolution are separate prerequisites for these tests.
+
 1. **Open the correct folder.** Add the extracted **UnityProject/** folder to Hub;
    it contains **Assets/**, **Packages/** and **ProjectSettings/**. Open
    **Assets/CrowdSim/Scenes/Bootstrap.unity**, then Play. **Expect:** startup banner

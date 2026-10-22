@@ -163,6 +163,8 @@ def validate() -> None:
             "M10 must capture the complete composed window at end of frame")
     require("EncodeArrayToJPG" in recorder and "UnityEditor" not in re.sub(r"//[^\n]*", "", recorder),
             "M10 encoder must work independently of Editor tools")
+    require(not re.search(r"(?<!global::)\bUnity\.Collections\.", recorder),
+            "Recording must qualify global::Unity.Collections to avoid CrowdSim.Unity namespace shadowing")
     for name in ["Recording/MjpegAviWriter.cs", "Recording/VideoRecording.cs", "Workspace/WorkspaceSession.Stage.cs"]:
         require((PROJECT / "Packages/com.crowdsim.core/Runtime" / name).is_file(), "M10 runtime contract missing: " + name)
     require((PROJECT / "Assets/CrowdSim/Runtime/Workspace/WorkspaceController.Stage.cs").is_file(), "M10 stage controls missing")

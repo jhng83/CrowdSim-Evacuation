@@ -147,7 +147,7 @@ namespace CrowdSim.Unity.Workspace
                 byte[] pixels = ArrayPool<byte>.Shared.Rent(VideoRecording.Width * VideoRecording.Height * 4);
                 try
                 {
-                    Unity.Collections.NativeArray<byte>.Copy(_readback.GetRawTextureData<byte>(), pixels, VideoRecording.Width * VideoRecording.Height * 4);
+                    global::Unity.Collections.NativeArray<byte>.Copy(_readback.GetRawTextureData<byte>(), pixels, VideoRecording.Width * VideoRecording.Height * 4);
                     return pixels;
                 }
                 catch { ArrayPool<byte>.Shared.Return(pixels); throw; }

@@ -1,4 +1,29 @@
-# M10 performance-fix validation
+# M10 recording compiler correction
+
+Based on performance update `dbe40329d1f47634fb1d086742aa60123720d907`.
+The user's local log identifies CS0234 at recording line 150 and separate failed
+package authentication/missing package files. The copy call now explicitly names
+`global::Unity.Collections`; no engine, GPU renderer, package pin or asmdef changes.
+
+A reduced compiler probe extracted the actual original/corrected copy statements
+into the same `CrowdSim.Unity.Workspace` namespace with minimal API shims, using
+SDK 8.0.415 Roslyn, C#9 and Standard2.1 reference assemblies. Original statement
+reproduced **CS0234: Collections does not exist in CrowdSim.Unity**; corrected
+statement compiled with exit 0. This is namespace-binding evidence, **not** Unity
+frontend/API compilation. Static validation now rejects the unqualified namespace
+in the recording source. See [local recovery](M10_IMPORT_RECOVERY.md).
+
+Full `bash Migration/Tools/validate.sh` rerun for this correction passed: **404
+original, 415 portable, 232 migration** cases with zero failures/skips; Release
+builds, both six-trace captures/oracle, five legacy file interop cases, custom-stage
+v5 round trip/native rejection and independent FFmpeg AVI decode passed. Static
+contract passed with 187 unique GUIDs and 106 unchanged original files. The earlier
+CPU benchmark was not repeated because simulation sources are unchanged; its evidence
+below belongs to `dbe4032`. Actual Unity import/compilation, package authentication,
+shader/GPU execution, 52 EditMode/22 PlayMode cases and recording remain unexecuted
+in cloud. Main and the original behavioral reference remain unchanged.
+
+# M10 performance-fix validation at dbe4032
 
 Executed 2026-10-22 (Asia/Singapore), Linux x64, SDK 8.0.415/runtime 8.0.21.
 Base: M10 `6343f9d52ceb5a7e980e97bd1c7e04310ce37808`.

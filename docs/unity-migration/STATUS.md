@@ -15,8 +15,19 @@ Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24` (main unchanged).
 | M8 — Humanoids/cameras | `55652fc407d3eb96527f836e57067da42dc41459` | [M8](M8_VALIDATION.md) | User reported successful testing; accepted |
 | M9 — Diagnostics/scale + requested light architecture theme | `86ae9d16d8a7f928b6d004d84fd8b639bc7f5ad2` | [M9](M9_VALIDATION.md), [CPU comparisons](M9_BENCHMARK.md) | Accepted by user |
 | M10 — Recording + requested adjustable concert stage | `6343f9d52ceb5a7e980e97bd1c7e04310ce37808` | [M10](M10_VALIDATION.md) | Awaiting retest with performance fix |
-| M10 fix — CPU performance + GPU-instanced crowd | This fix commit, based on M10 | [Current validation](VALIDATION.md), [CPU comparison](M10_PERFORMANCE_BENCHMARK.md) | Awaiting user testing |
+| M10 fix — CPU performance + GPU-instanced crowd | `dbe40329d1f47634fb1d086742aa60123720d907` | [Current validation](VALIDATION.md), [CPU comparison](M10_PERFORMANCE_BENCHMARK.md) | Local import blocked; performance testing pending |
+| M10 fix — Recording namespace/import recovery | This fix commit, based on `dbe4032` | [Current validation](VALIDATION.md), [import recovery](M10_IMPORT_RECOVERY.md) | Awaiting clean local import and retest |
 | M11 — Complete replacement | Planned | Unrun | Unrun |
+
+Latest local report identified a real recording compiler error, CS0234 at
+WorkspaceController.Recording.cs:150: `Unity.Collections` bound to `CrowdSim.Unity`.
+The copy call now uses `global::Unity.Collections`. A reduced C#9/Standard2.1 compiler
+probe reproduces the original error and compiles the corrected production statement;
+the static contract guards this namespace qualification. The same report includes
+an unauthenticated Input System package download, missing Collections/Unsafe files
+and package importer errors. Those require local package recovery; this source fix
+does not claim to resolve authentication or establish a successful Editor import.
+Follow [M10_IMPORT_RECOVERY.md](M10_IMPORT_RECOVERY.md) before performance testing.
 
 The user reported ~3.5 FPS/~300 ms simulation CPU with about 800 people in a furnished
 Unity Editor scene and explicitly requested performance work using M10 as the base,

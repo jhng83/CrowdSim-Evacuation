@@ -4,6 +4,13 @@ Reference: `01b435568f211f5c8ddf99b32b05e7ceb1ad3a24`. A reference test passing
 does not establish Unity parity. M1–M9 were accepted by the user; M10 awaits local Unity acceptance.
 "Core" means programmatic behavior; "UI" means the complete Unity workflow.
 
+Latest local import was blocked by recording CS0234 namespace shadowing plus failed
+package authentication/missing package files. This fix qualifies the NativeArray
+copy as `global::Unity.Collections`; a reduced compiler probe reproduces the failure
+and passes with the corrected statement. Full Unity compilation, recording and GPU
+acceptance remain pending after [package recovery](M10_IMPORT_RECOVERY.md). No feature
+is marked accepted by this source correction; M11 remains pending.
+
 | ID | Existing capability / preservation requirement | Core / UI ownership | Current status (M10 + performance fix; local acceptance pending) |
 | --- | --- | --- | --- |
 | F01 | Seeded population; default 0.15 s and smaller fixed steps; units; finite guards; acceleration and physical speed ceilings | M2 / M3 | Core regressions/unchanged traces pass; exact CPU sight/force/contact optimizations retain dt/RNG/order/guards, with 24 paired dense/open state hashes; transport/starts/bounds retained |
