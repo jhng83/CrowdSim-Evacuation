@@ -1,36 +1,33 @@
-# Unity migration — M10 performance update 2
+# Unity migration — M11 standalone application
 
-This fix uses M10 `6343f9d` as its base. On `unity-migration`, extract the delivered
-commit ZIP, open **UnityProject/** (Assets, Packages, ProjectSettings) with
-**Unity 6000.3.26f1**, then **Assets/CrowdSim/Scenes/Bootstrap.unity**.
+M1–M10 were accepted by the user. M11 adds guarded application/window quit, bundled
+help and notices, an explicit Windows x64/Mono player-and-ZIP build, and source
+artifact packaging. M11 player acceptance is pending local testing.
 
-GPU-instanced batches now draw volumetric crowd bodies, outlines and rings with
-accurate picking/Follow/POV and an optional compatibility renderer. Exact CPU
-optimizations reduce repeated furniture sight checks and force/distance work.
-Debug shows rendering backend/submissions and detailed simulation phases, with a
-reproducible 800-person/32-table fixture. M10 recording and adjustable concert stage
-remain included. Physics stays on the CPU with the original rules.
+Open **UnityProject/** with **Unity 6000.3.26f1**, URP **17.3.0**, then
+**Assets/CrowdSim/Scenes/Bootstrap.unity**. Use a short path such as
+`C:\Unity\CrowdSim\UnityProject`. Stop Play and use **CrowdSim → Build → Windows
+x64 Player and ZIP** after installing Windows Build Support/selecting Windows x64.
+On success extract the entire player ZIP and launch **CrowdSim.exe** independently.
+Keep Editor code optimization unchanged; the Performance menu only reports status.
 
-Update 2 builds on `38ab742`, whose import bug the user reports fixed and whose lag
-is much better. It reduces wall-query/force overhead and allocations, retains
-unchanged furniture views/materials and shares orthographic detail projections.
-Startup says **PERFORMANCE UPDATE 2 · MENU CORRECTION**. Debug reports Editor C#
-optimization mode. **CrowdSim → Performance → Show Editor Optimization Status**
-is read-only; the previous mode-switch commands were removed after a native Mono
-reload crash. Keep the current mode and extract to a short path such as
-`C:\Unity\CrowdSimM10`; see [crash recovery](docs/unity-migration/M10_EDITOR_RELOAD_RECOVERY.md).
+All accepted simulation, GPU rendering, stage, files/replay, cameras, diagnostics,
+professional light theme and AVI recording features remain. Physics behavior and
+main/original source/tests/scenarios/dependency pins are preserved. Company/product
+identity is unchanged so existing user data remains discoverable.
 
-Cloud passes **404 original, 415 portable and 239 migration tests**, unchanged
-traces/file interop/AVI decoding, and 24 exact paired CPU comparison hashes against
-`38ab742`. Open 1000 CPU ratios are **1.28–1.34×**, dense 800 **0.99–1.18×** (one case
-within timing noise). Actual Unity/Mono/GPU/FPS gains are unmeasured. **Unity frontend/
-shader/Editor-menu compilation, Unity tests, rendering, recording and player builds
-were not executed.** Follow the numbered
-[local checklist](docs/unity-migration/M10_PERFORMANCE_2_LOCAL_TESTING.md),
-[new CPU evidence](docs/unity-migration/M10_PERFORMANCE_2_BENCHMARK.md) and
-[status](docs/unity-migration/STATUS.md). M1–M9 were accepted; M10 and this fix await
-local acceptance. Main/original application/tests remain unchanged. M11 remains
-pending. The original application notes below are historical reference.
+Cloud passes **404 original / 415 portable / 263 migration** cases, unchanged traces,
+file interoperability, AVI decode and source/package validation. **No Unity Editor
+is installed: frontend/shader/build-helper compilation, 55 EditMode/26 PlayMode
+cases, actual Windows build/player/ZIP, rendering and native quit were not executed.**
+No prebuilt .exe or completed replacement acceptance is claimed. A source ZIP and
+build command are supplied for your local acceptance.
+
+Follow [M11 local testing](docs/unity-migration/M11_LOCAL_TESTING.md),
+[validation](docs/unity-migration/VALIDATION.md), [feature parity](docs/unity-migration/FEATURE_PARITY.md)
+and [status](docs/unity-migration/STATUS.md). [Unity project guide](UnityProject/README.md)
+explains build outputs, source artifacts, help/notices and retained limitations.
+Earlier original-application notes below are historical reference.
 
 # Always-3D agents — current revision
 

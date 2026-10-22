@@ -1,69 +1,71 @@
-# CrowdSim Unity migration — M10 performance update 2
+# CrowdSim Unity — M11 standalone application
 
-Open **UnityProject/** with **Unity 6000.3.26f1**, URP **17.3.0**, then
-**Assets/CrowdSim/Scenes/Bootstrap.unity** and press Play. **Assets/**, **Packages/**
-and **ProjectSettings/** are all inside UnityProject. No original .NET executable
-or SDK is required locally; first import needs Unity package-registry access.
+M1–M10 are accepted by the user. M11 integrates standalone quit, help/notices,
+Windows player build/packaging and source downloads. Final M11 acceptance needs
+local Editor and Windows player testing; no prebuilt executable is claimed.
 
-This update retains the M10 performance changes from `b127185`. Startup says
-**PERFORMANCE UPDATE 2 · MENU CORRECTION**.
-Default GPU instancing batches volumetric crowd bodies, outlines and selection/panic
-rings without per-body-part Unity renderers. Debug's **GPU instanced crowd rendering**
-checkbox allows comparison with the compatibility renderer. Matrix-based picking,
-poses, state colours, labels, hidden inspector, Follow and POV remain available.
-Physics stays on the CPU; exact sight/force/contact optimizations preserve behavior.
-Debug supplies exclusive phase/nested SFM/collision readouts and a valid dense
-800-person/32-table layout. Package version is **0.10.2**. Update 2 also removes
-wall-query/force overhead and temporary closures, reuses unchanged world views and
-crowd materials, and shares orthographic detail projections. Debug adds updated/
-reused scene counters and the current Editor C# optimization mode. The only
-**CrowdSim → Performance** command is **Show Editor Optimization Status**. It reads
-the current setting and does not change it or request recompilation. Earlier
-mode-switch commands were removed after a native Mono reload crash. Keep the current
-mode; use a fresh short-path extraction and [recovery steps](../docs/unity-migration/M10_EDITOR_RELOAD_RECOVERY.md).
+Open **UnityProject/** (Assets, Packages, ProjectSettings) with **Unity 6000.3.26f1**,
+URP **17.3.0**, then **Assets/CrowdSim/Scenes/Bootstrap.unity**. Use a short path,
+for example `C:\Unity\CrowdSim\UnityProject`. Startup shows **M11** and version
+**0.11.0**. First import requires Unity registry access; sign in through Hub if
+requested. CrowdSim → Performance remains read-only; keep Editor optimization mode.
 
-Use the numbered [new checklist](../docs/unity-migration/M10_PERFORMANCE_2_LOCAL_TESTING.md).
-Cloud passes **404 original / 415 portable / 239 migration** cases, unchanged goldens,
-AVI decode and **24 exact paired CPU comparison hashes** against `38ab742`. Open
-1000 .NET CPU ratios are **1.28–1.34×**, dense 800 **0.99–1.18×**, including one case
-within timing noise. **Unity Mono/GPU/FPS, Editor menus and frontend/shader compilation
-were not executed**. **52 EditMode / 24 PlayMode** cases are supplied but unrun.
-[New CPU evidence](../docs/unity-migration/M10_PERFORMANCE_2_BENCHMARK.md) distinguishes
-these measurements from actual Unity rendering performance. All M10 features below
-remain included; M11 is not implemented.
+## Build a standalone Windows app
 
-M10 adds full-window recording including the application UI: **1280×720, 20 fps,
-MJPEG AVI**, arm/start/stop, output folder, queue/drop/timing counters, letterboxing
-on resize and replay/new/exit cleanup. Runtime recording uses Unity's thread-safe
-JPEG encoder and a portable bounded AVI worker, without an Editor Recorder package.
-The builder's single stage has adjustable length/depth, including resizing the
-placed stage before finalising. Rotated footprints must fit inside the physical
-room perimeter and avoid exits/obstacles/people. A charcoal deck, metal truss,
-LED backdrop, speaker stacks and warm lamp lenses provide the concert appearance.
+1. Install Windows Build Support for the pinned Editor via Hub; select **Windows
+   x64** in File → Build Profiles. Keep committed **Mono**, **.NET Standard 2.1**,
+   **Disabled managed stripping**, and CrowdSim / CrowdSim Unity product identity.
+2. Stop Play and choose **CrowdSim → Build → Windows x64 Player and ZIP**.
+3. On success a fresh `Builds/Windows-x64/<run>/` contains **Player/** and
+   **CrowdSim-Windows-x64-0.11.0.zip**. The build command validates real Unity output,
+   preserves previous builds, copies package notices, records the build receipt and
+   adds SHA256 file checksums. It never changes Editor optimization or active target.
+4. Extract the entire ZIP separately, close Unity and run **CrowdSim.exe**. Keep
+   UnityPlayer.dll, CrowdSim_Data and MonoBleedingEdge together. No original .NET
+   executable, Unity Editor or separate .NET SDK is needed by the player.
 
-1. Use the asset picker → Concert stage; edit length/depth before placing, or
-   resize it in place. Dimensions are in metres; invalid edits revert with a reason.
-2. Finalise an example, open **Recording**, arm **Record next Start** and Start,
-   or choose **Start recording now**. Stop and use **Open recording folder**.
-3. Follow the numbered [M10 checklist](../docs/unity-migration/M10_LOCAL_TESTING.md),
-   including **52 EditMode / 24 PlayMode** supplied cases and actual video review.
+[Full local tests and batch command](../docs/unity-migration/M11_LOCAL_TESTING.md).
+A licensed Editor must actually execute the build. Cloud has no Editor, so Windows
+build, executable launch, real ZIP output and native lifecycle remain unexecuted.
+Other OS targets/IL2CPP are not covered by this Windows Mono acceptance path.
 
-Custom-size stages use **schema v5**: Unity reads/writes it; the original .NET app
-explicitly rejects it. Older v1–v4 imports and default-size v4 exports are preserved.
-The stage remains fixed/non-walkable/unoccupied; concert details have no extra
-physical or hazard-shielding effect. Black fonts, off-white outlined pillars,
-off-white metric-grid floor, volumetric people and all previous tools remain.
+## Integrated workflows
 
-M1–M9 were accepted; M10 awaits local testing. Cloud passes 404 original, 415 portable
-and 239 migration cases, exact unchanged simulation traces/oracle, five legacy file
-round trips plus v5 explicit native rejection, and independent FFmpeg known-frame
-decoding. **Unity import/frontend compilation, Unity tests, full-window capture,
-orientation, visual/input checks and standalone/IL2CPP builds were not executed.**
+All accepted M10 tools remain: both hazards, authored files/replay, every asset and
+adjustable concert stage, black text/off-white outlined pillars/grid, volumetric
+poses/cameras, GPU instancing with compatibility fallback, diagnostics/comparisons
+and full-window AVI recording. Physics/dt/RNG/order/guards are unchanged.
 
-Video has no audio. Dropped frames shorten playback; the writer stops at 1 GiB or
-100,000 frames. Synchronous GPU readback may reduce observed FPS. Editor capture
-requires the Game view; switching to Scene can suspend end-of-frame capture.
-See [validation](../docs/unity-migration/VALIDATION.md),
-[compatibility](../docs/unity-migration/COMPATIBILITY.md),
-[design](../docs/unity-migration/DESIGN.md) and [status](../docs/unity-migration/STATUS.md).
-Final standalone acceptance/distribution remains M11.
+Quit at startup/workspace and normal player window close use the existing authored
+save/discard/cancel flow. Save failure keeps the app open; approved exit finalizes
+recording before closing. Keep working leaves the simulation paused. In Editor,
+Quit stops Play. Forced termination/toolbar Stop cannot guarantee a save prompt.
+Startup opens bundled user guide and credits/licenses; Files can open the save
+folder. Company/product identity is unchanged, preserving accepted M10 user data.
+[User guide](Assets/StreamingAssets/Documentation/USER_GUIDE.txt) and
+[credits/licenses](Assets/StreamingAssets/Documentation/THIRD_PARTY_NOTICES.txt)
+are copied into every player. Full font OFL/JSON MIT texts are included; the build
+copies available license/notice texts from actual resolved Unity packages.
+
+Custom-size stages still use schema v5, explicitly rejected by the original app;
+v1–v4 imports/default v4 exports remain compatible. AVI remains MJPEG 1280×720,
+20 fps, no audio, bounded queue, 1 GiB/100,000-frame limits. Readback can stall;
+Editor recording needs active Game view. No promised FPS or GPU physics.
+
+## Validation and downloads
+
+Cloud passes **404 original / 415 portable / 263 migration** cases, unchanged
+six-case captures/oracle, files/AVI decode and source-package checks. Player ZIP
+regressions use synthetic headers/layouts; they do not prove a real Unity build.
+**55 EditMode / 26 PlayMode** cases are supplied, **not executed in cloud**.
+[Validation](../docs/unity-migration/VALIDATION.md),
+[feature parity](../docs/unity-migration/FEATURE_PARITY.md),
+[status](../docs/unity-migration/STATUS.md). Original .NET source/tests/scenarios,
+framework/dependency pins and main remain unchanged.
+
+The GitHub workflow exports **CrowdSim-UnityProject-M11.zip** as a source artifact
+with a short-root UnityProject folder and SOURCE_RECEIPT.json commit/file hashes.
+Artifact publication is unverified with current API access. The commit's normal
+GitHub source ZIP is also usable: copy its UnityProject directly to a short path.
+Neither source ZIP is a player executable. Original/reference/cloud tools remain
+available in the [full repository](https://github.com/jhng83/CrowdSim-Evacuation).

@@ -20,6 +20,14 @@ jobs:
           dotnet-version: 8.0.415
       - name: Verify regressions, Unity contract, seeded captures and native file interoperability
         run: bash Migration/Tools/validate.sh
+      - name: Package committed Unity source with a short root and SHA256 receipt
+        run: python3 Migration/Tools/package_unity_source.py --output Migration/artifacts/CrowdSim-UnityProject-M11.zip
+      - name: Retain downloadable Unity source
+        uses: actions/upload-artifact@v4
+        with:
+          name: CrowdSim-UnityProject-M11
+          path: Migration/artifacts/CrowdSim-UnityProject-M11.zip
+          if-no-files-found: error
       - name: Retain actual test results
         if: always()
         uses: actions/upload-artifact@v4

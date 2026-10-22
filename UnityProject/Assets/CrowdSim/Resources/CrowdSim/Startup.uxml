@@ -43,6 +43,11 @@
                 <ui:Label name="setup-status" class="body" />
                 <ui:Button name="run-checks" text="Run startup checks" class="quiet-button" />
             </ui:Foldout>
+            <ui:VisualElement class="startup-actions">
+                <ui:Button name="open-guide" text="User guide" class="quiet-button" />
+                <ui:Button name="open-notices" text="Credits and licenses" class="quiet-button" />
+                <ui:Button name="quit-application" text="Quit" class="quiet-button" />
+            </ui:VisualElement>
             <ui:VisualElement class="footer">
                 <ui:Label text="CROWD / SIM • UNITY WORKSPACE" class="footer-label" />
                 <ui:Label name="editor-version" class="footer-label" />

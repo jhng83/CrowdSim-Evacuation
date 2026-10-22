@@ -1,0 +1,78 @@
+CROWD / SIM - WINDOWS USER GUIDE (M11 / 0.11.0)
+
+RUN
+Extract the entire Windows player ZIP to a short, writable location. Keep
+CrowdSim.exe, UnityPlayer.dll, CrowdSim_Data and MonoBleedingEdge together. Run
+CrowdSim.exe outside the ZIP. The player needs neither Unity Editor nor the
+original .NET application or a separate .NET SDK. Windows x64/Mono is the M11 target.
+
+SOURCE PROJECT
+Open the folder containing Assets, Packages and ProjectSettings using Unity
+6000.3.26f1. A short path such as C:\Unity\CrowdSim\UnityProject avoids Windows
+package-cache path limits. Sign in through Unity Hub if package downloads require
+authentication. Do not change Editor optimization mode; the Performance menu only
+reports status. Use CrowdSim > Build > Windows x64 Player and ZIP for a fresh build.
+The Editor requires Windows Build Support. Player build/execution is a local
+acceptance check, not established by cloud .NET tests.
+
+START AND BUILD
+Choose Explosion or Toxic Fume, or open the furnished/205-person examples. Place
+an exit and people. Asset placement includes square/circular pillars, tables,
+chairs, a single adjustable concert stage and rotated/snapped barricades. Green
+previews are valid; red previews are rejected. Undo removes the last placement.
+Room dimensions and behavior settings lock after finalisation. Finalise and Start.
+
+EXPLOSION
+Configure the five ordered zone radii before detonation. Start, Arm Explosion and
+click clear floor once. Inspect damage, debris and response. Zone overlays only
+change the display. Replay returns to the original paused frame-zero scene.
+
+TOXIC FUME
+Place the source, configure parameters, Compute dispersion and preview the
+timeline. Finalise, Start and Release. Edits to geometry/source/settings invalidate
+the cache before finalisation. This is an abstract normalized hazard/exposure
+model, not calibrated chemical CFD, NIST FDS or a safety certification tool.
+
+INSPECT AND COMPARE
+Click people to select. Use Camera for rotation/elevation/zoom, Follow and POV.
+F4 hides/shows the inspector while retaining its selection/tab/overlays. Show
+selected agent explicitly opens details. Debug contains vectors, vision, trails,
+congestion, phase timings, GPU/compatibility rendering and comparison generators.
+The dense 800-person/32-table and open 1,000-person layouts are generated there.
+Hybrid is optional and off by default; it approximates eligible shared steering,
+while individual contacts/exposure and detailed fallback remain. CPU timings and
+FPS measure different work. Physics stays on the CPU; crowd drawing uses GPU
+instancing when supported. No guaranteed frame rate or altered fixed dt is implied.
+
+SAVE AND LOAD
+Files shows the exact writable save directory and an Open save folder button.
+Default Windows data lives under %USERPROFILE%\AppData\LocalLow\CrowdSim\CrowdSim Unity.
+Saves are in its scenarios folder; recordings are in recordings. Keeping company
+and product identity unchanged preserves the M10 save location. Bundled/legacy
+examples and imported paths are read-only sources; Save As writes your own copy.
+Saves describe authored starts, not current panic/injuries/moved positions. Replay
+restores the finalized start. Legacy v1-v4 files are supported. Custom-sized stages
+use Unity v5; the original application explicitly rejects v5.
+
+RECORD
+Recording can arm the next Start or begin manually after finalising. Stop and save
+before reviewing the AVI. Output includes the complete window/UI, 1280x720,
+20 fps MJPEG, no audio. Resizing letterboxes the window. The queue holds at most
+three frames; dropped frames shorten playback. Limits: 1 GiB/100,000 frames.
+GPU readback may add stalls. Editor capture needs the Game view active.
+
+QUIT
+Use Quit or the player's window close button/Alt+F4. Unsaved authored changes
+offer Save and continue, Discard, or Keep working. Failed saves/overwrite decisions
+must be resolved before quitting. The simulation pauses during the decision; keep
+working leaves it paused. Active recording is drained/finalized before approved
+exit. Return to startup uses the same authored-data protection. Forced OS process
+termination or the Editor Stop button cannot guarantee an authored save prompt.
+
+SUPPORT
+For player issues retain Player.log in the Windows data directory above. Report
+the source commit/download, Unity/player version, CPU/GPU, layout/seed, hazard,
+tick, Hybrid/backend/recording state, reproduction steps and Debug readings.
+For import issues, preserve Editor.log and use a fresh short-path project before
+changing package versions. Credits and full font/JSON licenses are bundled here;
+actual resolved-package license texts accompany a successfully packaged player.

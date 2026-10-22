@@ -25,6 +25,7 @@ namespace CrowdSim.Unity.Workspace
         private UIDocument _document;
         private PanelSettings _settings;
         private Action _exit;
+        private Action _requestApplicationQuit;
         private VisualElement _root, _left, _right, _viewport, _page, _inspectorPage, _builder, _footer;
         private Label _status, _metrics, _readiness, _selection, _inspectorText, _phaseBadge;
         private readonly List<Button> _navigation = new List<Button>();
@@ -49,9 +50,10 @@ namespace CrowdSim.Unity.Workspace
         private float _lastPreviewTime;
         private readonly List<ViewBody> _grid = new List<ViewBody>();
 
-        public void Open(ScenarioType scenario, Action exit = null, bool furnished = false, string storageDirectory = null)
+        public void Open(ScenarioType scenario, Action exit = null, bool furnished = false, string storageDirectory = null, Action quit = null)
         {
             _exit = exit;
+            _requestApplicationQuit = quit;
             Files = new WorkspaceFiles(furnished ? WorkspaceExamples.Furniture() : new WorkspaceSession(scenario),
                 new ScenarioLibrary(storageDirectory ?? Path.Combine(Application.persistentDataPath, "scenarios"),
                     Path.Combine(Application.streamingAssetsPath, "Scenarios"), ScenarioFileStore.DefaultDirectory, ScenarioFileStore.LegacyDirectory));
@@ -91,6 +93,11 @@ namespace CrowdSim.Unity.Workspace
             _recordBadge = Label(top, "VIDEO IDLE", "phase-badge"); _recordBadge.name = "recording-badge";
             _toggleInspector = Button(top, "Hide inspector (F4)", () => { Session.ToggleInspector(); Refresh(); });
             Button(top, "Return to startup", RequestExit);
+            Button(top, "Quit", () =>
+            {
+                if (_requestApplicationQuit != null) _requestApplicationQuit();
+                else RequestQuit(() => Application.Quit());
+            }).name = "quit-workspace";
             VisualElement body = Box(_root, "workspace-body");
             _left = Box(body, "controls");
             VisualElement tabs = Box(_left, "tabs");

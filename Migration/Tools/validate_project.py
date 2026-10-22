@@ -14,6 +14,8 @@ PROJECT = ROOT / "UnityProject"
 EXTERNAL_GUIDS = {
     "bf2edee5c58d82540a51f03df9d42094",  # URP 17.3.0 UniversalRenderPipelineAsset
     "de640fe3d0db1804a85f9fc8f5cadab6",  # URP 17.3.0 UniversalRendererData
+    "933532a4fcc9baf4fa0491de14d08ed7",  # URP Lit: runtime-created world/fallback materials
+    "650dd9526735d5b46b79224bc6e94025",  # URP Unlit: runtime overlays/indicators
 }
 
 
@@ -175,11 +177,36 @@ def validate() -> None:
         require((PROJECT / "Packages/com.crowdsim.core/Runtime" / name).is_file(), "M10 runtime contract missing: " + name)
     require((PROJECT / "Assets/CrowdSim/Runtime/Workspace/WorkspaceController.Stage.cs").is_file(), "M10 stage controls missing")
 
+    settings = (PROJECT / "ProjectSettings/ProjectSettings.asset").read_text()
+    contract = (PROJECT / "Packages/com.crowdsim.core/Runtime/MigrationContract.cs").read_text()
+    require('ApplicationVersion = "0.11.0"' in contract and "bundleVersion: 0.11.0" in settings,
+            "M11 application/version settings disagree")
+    require("companyName: CrowdSim\n" in settings and "productName: CrowdSim Unity\n" in settings,
+            "Player identity change would move existing saves")
+    require("scriptingBackend:\n    Standalone: 0" in settings and "managedStrippingLevel:\n    Standalone: 0" in settings,
+            "M11 requires Mono with disabled managed stripping")
+    build = (PROJECT / "Assets/CrowdSim/Editor/PlayerBuild.cs").read_text()
+    require("BuildPipeline.BuildPlayer" in build and "BuildOptions.None" in build and "PlayerRelease.CreateArchive" in build,
+            "M11 requires a real non-development Unity build before packaging")
+    require({"quit-application", "open-guide", "open-notices"}.issubset(names), "M11 startup quit/help entries missing")
+    require("Application.wantsToQuit += WantsToQuit" in controller.read_text() and
+            "Application.wantsToQuit -= WantsToQuit" in controller.read_text(), "M11 normal window-close handler missing")
+    docs = PROJECT / "Assets/StreamingAssets/Documentation"
+    require((docs / "Notices/AtkinsonHyperlegible-OFL.txt").read_bytes() == font.with_name("OFL.txt").read_bytes(),
+            "M11 player font notice differs from the bundled license")
+    require("Permission is hereby granted" in (docs / "Notices/Newtonsoft.Json-LICENSE.txt").read_text(),
+            "M11 full MIT license missing")
+    for name in ["USER_GUIDE.txt", "THIRD_PARTY_NOTICES.txt"]:
+        require((docs / name).is_file(), "M11 player documentation missing: " + name)
+    require((ROOT / "Migration/Tools/package_unity_source.py").is_file(), "M11 source packager missing")
+
     gpu_shader = PROJECT / "Assets/CrowdSim/Resources/CrowdSim/CrowdInstanced.shader"
     gpu_batch = PROJECT / "Assets/CrowdSim/Runtime/Workspace/CrowdInstanceBatch.cs"
     require(gpu_shader.is_file() and "#pragma multi_compile_instancing" in gpu_shader.read_text(), "GPU crowd instancing shader missing")
     require("Graphics.RenderMeshInstanced" in gpu_batch.read_text(), "GPU crowd must submit instanced volumes")
     graphics = (PROJECT / "ProjectSettings/GraphicsSettings.asset").read_text()
+    for guid in ["933532a4fcc9baf4fa0491de14d08ed7", "650dd9526735d5b46b79224bc6e94025"]:
+        require(guid in graphics, "M11 runtime-created URP surface shader must be retained for player builds")
     require("m_InstancingStripping: 2" in graphics, "Runtime instancing variants must use Keep All")
     for shader in [gpu_shader, PROJECT / "Assets/CrowdSim/Resources/CrowdSim/HumanOutline.shader"]:
         guid = re.search(r"^guid: ([0-9a-f]{32})$", Path(str(shader) + ".meta").read_text(), re.M).group(1)

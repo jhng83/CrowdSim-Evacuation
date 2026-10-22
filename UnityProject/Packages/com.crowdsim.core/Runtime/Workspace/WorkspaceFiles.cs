@@ -5,7 +5,7 @@ using CrowdSim.Core.Model;
 
 namespace CrowdSim.Workspace
 {
-    public enum FileTransition { None, Load, New, Startup, Diagnostics }
+    public enum FileTransition { None, Load, New, Startup, Diagnostics, Quit }
     /// <summary>Transactional file/session lifecycle, including dirty and overwrite decisions. No Unity dependency.</summary>
     public sealed class WorkspaceFiles
     {
@@ -16,7 +16,8 @@ namespace CrowdSim.Workspace
         public FileTransition Pending { get; private set; }
         public FileTransition Completed { get; private set; }
         public string PendingDescription => Pending == FileTransition.Load && _preparedEntry != null ? "Load " + _preparedEntry.Label
-            : Pending == FileTransition.New && _prepared != null ? "New " + _prepared.Scenario + " scenario" : Pending.ToString();
+            : Pending == FileTransition.New && _prepared != null ? "New " + _prepared.Scenario + " scenario"
+            : Pending == FileTransition.Quit ? "Quit application" : Pending.ToString();
         public string Message { get; private set; } = "";
         public string? OverwriteName { get; private set; }
         private WorkspaceSession? _prepared;
@@ -54,6 +55,8 @@ namespace CrowdSim.Workspace
         public bool NewScale(int count, bool furnished, bool hybrid) => Request(FileTransition.New, WorkspaceSession.ScaleExample(count, furnished, hybrid, Session.Scenario), null);
         public bool NewDense() => Request(FileTransition.New, WorkspaceSession.DenseExample(Session.Hybrid, Session.Scenario), null);
         public bool Leave(bool diagnostics) => Request(diagnostics ? FileTransition.Diagnostics : FileTransition.Startup, null, null);
+        /// <summary>Pause and guard application exit with the existing save/discard/cancel transaction.</summary>
+        public bool Quit() => Request(FileTransition.Quit, null, null);
         private bool Request(FileTransition transition, WorkspaceSession? prepared, ScenarioEntry? entry)
         {
             if (Pending != FileTransition.None || OverwriteName != null) return false;

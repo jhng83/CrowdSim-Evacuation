@@ -650,3 +650,50 @@ reload and a native `mono-2.0-bdwgc!unload_thread_main` fault. This identifies t
 trigger/phase, not a proven native root cause. It also contains 149 distinct missing
 package paths, all 260–320 characters long. A new short-path import is recommended
 instead of changing package pins or adding DLLs. See M10_EDITOR_RELOAD_RECOVERY.md.
+
+## M11 standalone lifecycle and distribution
+
+Application/core package version becomes **0.11.0**; Unity 6000.3.26f1, URP 17.3.0,
+C#9/Standard2.1 and all dependencies remain pinned. Product/company remain
+**CrowdSim Unity / CrowdSim** so accepted M10 saves/recordings remain discoverable.
+Original .NET project, tests/scenarios/pins and main remain behavioral reference.
+Portable Engine sources and hot renderer/recording implementations are unchanged.
+
+`WorkspaceFiles.Quit` appends a lifecycle transition without changing existing enum
+values. It shares pause/dirty/save/overwrite/discard/cancel logic with leaving or
+loading. Unity workspace finalizes/drains recording before invoking the owner's
+approved-exit callback. Bootstrap intercepts normal Application.wantsToQuit, defers
+the real exit one frame outside the callback/UI dispatch, and removes its handler
+on disable. Editor Quit stops Play; forced process termination/toolbar Stop is not
+a normal transactional quit. New tests inject a callback instead of closing Editor.
+
+The Editor build helper explicitly requires Windows x64, Mono, Standard2.1 and
+disabled managed stripping, all retained diagnostic scenes with Bootstrap first,
+the pinned version and a fresh output directory. It does not change target or
+Editor optimization. A real BuildPipeline.BuildPlayer with BuildOptions.None must
+succeed first. The receipt records actual result/GUID/options/warnings/errors;
+available LICENSE/NOTICE/COPYING texts from exact resolved packages are copied
+verbatim and indexed. Existing full OFL and pinned JSON MIT texts are always bundled.
+No new license is assigned to the original repository.
+
+GraphicsSettings explicitly retains URP Lit/Unlit as well as the two custom crowd
+shaders, because world/overlay/compatibility materials use runtime Shader.Find.
+Their stable GUIDs were verified in Unity Graphics' 6000.3 source. This prevents
+omitting those shaders just because no serialized material references them; actual
+Windows shader compilation, variants, appearance and build time remain local checks.
+
+The portable PlayerRelease validator requires x64 PE headers for entry/Unity/Mono,
+runtime/managed assemblies, examples, guide/notices and a supported successful
+receipt with all diagnostic scenes. It rejects missing payload/editor/test
+assemblies, links, existing archives and self-inclusion; ZIP output includes SHA256
+checksums and excludes symbols/DoNotShip backup folders. Synthetic fixtures verify
+these checks, **not** a real executable build. Actual Windows/Mono output layout
+must still pass locally. No IL2CPP/additional OS or binary signing is supplied.
+
+The Git source exporter packages committed HEAD by default, with a short-root
+UnityProject folder, migration docs and SOURCE_RECEIPT.json commit/file hashes.
+--worktree explicitly labels a validation candidate. GitHub artifact publication
+is configured after cloud checks but unverified with current API access. No Unity
+Editor/license is installed in cloud, so no prebuilt player, actual native build,
+frontend/helper/shader compilation, player test or final acceptance is claimed.
+See M11_LOCAL_TESTING.md and VALIDATION.md; all F01–F29 standalone gates stay open.

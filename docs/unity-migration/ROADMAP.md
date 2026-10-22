@@ -214,6 +214,14 @@ work. Hardware is useful before setting performance gates. Actual Unity compilat
 Mono numeric behavior, package resolution and recording integration remain checks,
 not assumptions. IL2CPP or additional platform acceptance needs an explicit target.
 
+M11 uses the roadmap's Windows x64/Mono target: the user's actual Editor/crash logs
+and screenshots establish Windows, and their M10 acceptance authorizes the next
+approved milestone. The explicit build path, source export and packaging/quit tests
+are implemented in cloud. No licensed Unity Editor is installed here, so actual
+BuildPipeline execution and independent Windows player acceptance remain the user's
+local gate. This follows the milestone's conditional Editor/build validation scope;
+it does not assert the complete-replacement completion criterion has already passed.
+
 
 ## Ongoing visual design requirement (M8 authorization)
 

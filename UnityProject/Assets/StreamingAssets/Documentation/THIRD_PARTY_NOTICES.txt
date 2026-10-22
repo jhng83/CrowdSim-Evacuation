@@ -1,0 +1,33 @@
+CROWD / SIM - CREDITS AND LICENSES
+
+CrowdSim Unity 0.11.0, migration milestone M11.
+Repository: https://github.com/jhng83/CrowdSim-Evacuation
+
+Original CrowdSim source and scenario authors retain their rights. This document
+does not assign a new license to the original project or grant additional rights.
+The repository has no root project LICENSE file at this milestone.
+
+Atkinson Hyperlegible, Copyright 2020 Braille Institute of America, Inc.
+SIL Open Font License 1.1. Full text: Notices/AtkinsonHyperlegible-OFL.txt.
+The font is bundled unmodified for readable, high-contrast application text.
+
+Newtonsoft.Json 13.0.2, supplied by Unity package
+com.unity.nuget.newtonsoft-json 3.2.2. Copyright (c) 2007 James Newton-King.
+MIT license. Full text: Notices/Newtonsoft.Json-LICENSE.txt.
+
+Unity 6000.3.26f1 and its Mono Windows runtime are provided by the Unity player
+build process and governed by Unity's applicable terms and third-party notices.
+Unity packages are pinned in Packages/manifest.json and packages-lock.json in the
+source project. URP/Core/Shader Graph 17.3.0, Input System 1.14.2, Collections,
+Mathematics, Burst and their dependencies retain their respective license terms.
+The standalone build copies available LICENSE/NOTICE/COPYING files from the exact
+resolved Unity packages to the player-root Notices/Packages directory. Its
+Notices/package-inventory.json records actual resolved names, versions and copied
+legal-file paths. Some inventory entries are build-time/editor-only dependencies;
+listing them does not assert that all are linked into the player. Missing package
+legal files are listed explicitly, not replaced by an invented license grant.
+
+The Unity application does not use the original desktop frontend's Silk.NET,
+ImGui.NET, SharpAvi or ImageSharp rendering/recording stack. Those original projects
+and cloud compatibility probes remain in the repository as reference tooling.
+Runtime Unity AVI output uses the project's portable muxer and Unity JPEG encoder.

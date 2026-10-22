@@ -28,6 +28,8 @@ namespace CrowdSim.Unity.Foundation
         private Action _openFurnished;
         private Action _openFume;
         private Action _openFumeExample;
+        private Action _quit, _guide, _notices;
+        private bool _quitApproved;
         private GameObject _workspace;
 
         /// <summary>The currently displayed scenario overview, for integration tests.</summary>
@@ -89,8 +91,15 @@ namespace CrowdSim.Unity.Foundation
                 _workspace.GetComponent<WorkspaceController>().OpenScenarioFile(Path.Combine(Application.streamingAssetsPath, "Scenarios", "toxic_fume_205.json"));
             };
             _root.Q<Button>("open-fume-example").clicked += _openFumeExample;
-            _root.Q<Label>("editor-version").text = "EDITOR  " + Application.unityVersion;
-            _root.Q<Label>("milestone-label").text = MigrationContract.Milestone + " · PERFORMANCE UPDATE 2 · MENU CORRECTION";
+            _quit = RequestQuit; _guide = () => OpenDocumentation("USER_GUIDE.txt");
+            _notices = () => OpenDocumentation("THIRD_PARTY_NOTICES.txt");
+            _root.Q<Button>("quit-application").clicked += _quit;
+            _root.Q<Button>("open-guide").clicked += _guide;
+            _root.Q<Button>("open-notices").clicked += _notices;
+            _root.Q<Label>("editor-version").text = (Application.isEditor ? "EDITOR  " : "PLAYER  ") + Application.unityVersion + " · v" + Application.version;
+            _root.Q<Label>("milestone-label").text = MigrationContract.Milestone;
+            _quitApproved = false;
+            Application.wantsToQuit += WantsToQuit;
             ResetOverview();
             StartCoroutine(CheckAfterFirstFrame());
         }
@@ -105,7 +114,49 @@ namespace CrowdSim.Unity.Foundation
             _workspace.AddComponent<WorkspaceController>().Open(scenario, () =>
             {
                 if (_root != null) _root.style.display = DisplayStyle.Flex;
-            }, furnished);
+            }, furnished, quit: RequestQuit);
+        }
+
+        private void OpenDocumentation(string name)
+        {
+            try
+            {
+                string path = Path.Combine(Application.streamingAssetsPath, "Documentation", name);
+                if (!File.Exists(path)) throw new FileNotFoundException("Bundled document is missing.", name);
+                Application.OpenURL(new Uri(path).AbsoluteUri);
+            }
+            catch (Exception exception) { _root.Q<Label>("setup-status").text = "Cannot open document: " + exception.Message; }
+        }
+
+        private bool WantsToQuit()
+        {
+            if (_quitApproved) return true;
+            RequestQuit(); return false;
+        }
+
+        private void RequestQuit()
+        {
+            if (_quitApproved) return;
+            if (_workspace != null) _workspace.GetComponent<WorkspaceController>().RequestQuit(ApproveQuit);
+            else ApproveQuit();
+        }
+
+        private void ApproveQuit()
+        {
+            if (_quitApproved) return;
+            _quitApproved = true;
+            // Exit on the next frame, outside an OS wantsToQuit callback or UI dispatch.
+            StartCoroutine(ExitAfterDecision());
+        }
+
+        private IEnumerator ExitAfterDecision()
+        {
+            yield return null;
+#if UNITY_EDITOR
+            global::UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
 
         private IEnumerator CheckAfterFirstFrame()
@@ -135,10 +186,12 @@ namespace CrowdSim.Unity.Foundation
             bool editorOk = MigrationContract.IsExpectedEditor(Application.unityVersion);
             bool pipelineOk = GraphicsSettings.currentRenderPipeline is UniversalRenderPipelineAsset;
             bool samplesOk = File.Exists(Path.Combine(Application.streamingAssetsPath, "Scenarios", "legacy_v2.json")) &&
-                File.Exists(Path.Combine(Application.streamingAssetsPath, "Scenarios", "toxic_fume_205.json"));
+                File.Exists(Path.Combine(Application.streamingAssetsPath, "Scenarios", "toxic_fume_205.json")) &&
+                File.Exists(Path.Combine(Application.streamingAssetsPath, "Documentation", "USER_GUIDE.txt")) &&
+                File.Exists(Path.Combine(Application.streamingAssetsPath, "Documentation", "THIRD_PARTY_NOTICES.txt"));
             _root.Q<Label>("editor-check").text = (editorOk ? "PASS" : "CHECK") + "  Editor " + MigrationContract.EditorVersion;
             _root.Q<Label>("pipeline-check").text = (pipelineOk ? "PASS" : "CHECK") + "  Universal Render Pipeline";
-            _root.Q<Label>("samples-check").text = (samplesOk ? "PASS" : "CHECK") + "  Two bundled reference examples";
+            _root.Q<Label>("samples-check").text = (samplesOk ? "PASS" : "CHECK") + "  Bundled examples, guide and notices";
             _root.Q<Label>("setup-status").text = editorOk && pipelineOk && samplesOk
                 ? "Project ready. Choose a scenario or an example to begin."
                 : "Check the setup items above before running diagnostics.";
@@ -146,6 +199,7 @@ namespace CrowdSim.Unity.Foundation
 
         private void OnDisable()
         {
+            Application.wantsToQuit -= WantsToQuit;
             StopAllCoroutines();
             if (_workspace != null) Destroy(_workspace);
             if (_root != null)
@@ -159,6 +213,9 @@ namespace CrowdSim.Unity.Foundation
                 _root.Q<Button>("open-furnished-workspace").clicked -= _openFurnished;
                 _root.Q<Button>("open-fume-workspace").clicked -= _openFume;
                 _root.Q<Button>("open-fume-example").clicked -= _openFumeExample;
+                _root.Q<Button>("quit-application").clicked -= _quit;
+                _root.Q<Button>("open-guide").clicked -= _guide;
+                _root.Q<Button>("open-notices").clicked -= _notices;
             }
             if (_document != null)
             {

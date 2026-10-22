@@ -6,7 +6,7 @@ PlayerSettings:
   serializedVersion: 27
   companyName: CrowdSim
   productName: CrowdSim Unity
-  bundleVersion: 0.1.0
+  bundleVersion: 0.11.0
   defaultScreenWidth: 1440
   defaultScreenHeight: 900
   defaultIsNativeResolution: 0
@@ -16,6 +16,9 @@ PlayerSettings:
   fullscreenMode: 3
   scriptingBackend:
     Standalone: 0
+  managedStrippingLevel:
+    Standalone: 0
+  stripEngineCode: 0
   apiCompatibilityLevelPerPlatform:
     Standalone: 6
   activeInputHandler: 2

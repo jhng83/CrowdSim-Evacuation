@@ -70,3 +70,13 @@ checkbox, actual backend, instance/submission counts and separated timing phases
 unsupported hardware uses compatibility renderers. The shader/backend change is
 cosmetic and never changes physical state or movement. No FPS/GPU claim follows
 from a static colour/source check.
+
+M11 keeps the accepted visual system and adds familiar User guide, Credits and
+licenses and Quit actions at startup, plus Quit in the workspace and Open save
+folder on Files. Normal quit reuses the scrollable authored-data decision dialog:
+Keep working is the initial focus, saving/overwrite failures retain the session,
+and recording finalization precedes approved exit. Native forced termination is
+not represented as a safe transaction. Product identity stays stable for saved data.
+Build/packaging controls remain Editor tools; users of the player need only its
+executable and adjacent files. The Performance menu stays read-only. Actual focus,
+wrapping/window resize, native close and standalone visual/input checks remain local.

@@ -16,12 +16,32 @@ namespace CrowdSim.Unity.Workspace
         private TextField _saveField;
         private Button _loadFile, _importFile, _replay, _releaseFume;
         private string _saveName = "Untitled", _importPath = "", _entryPath = "", _operationStatus = "";
+        private Action _approvedQuit;
+
+        /// <summary>Request normal application exit. The owner exits only after authored-data decisions
+        /// and synchronous recording finalization. Also serves the OS window-close path.</summary>
+        public void RequestQuit(Action approved)
+        {
+            if (approved == null) throw new ArgumentNullException(nameof(approved));
+            if (Files.Pending != FileTransition.None || Files.OverwriteName != null) return;
+            _approvedQuit = approved;
+            Files.Quit(); SyncFiles();
+        }
 
         private void BuildFilesPage()
         {
             Label(_page, "Scenario files", "heading");
             Label(_page, "Saves contain authored configuration and starting placement. Runtime damage and motion are excluded.", "muted");
             Label(_page, "Save directory:\n" + Files.Library.DirectoryPath, "file-path");
+            Button(_page, "Open save folder", () =>
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(Files.Library.DirectoryPath);
+                    Application.OpenURL(new Uri(Files.Library.DirectoryPath + System.IO.Path.DirectorySeparatorChar).AbsoluteUri);
+                }
+                catch (Exception exception) { _operationStatus = "Cannot open save folder: " + exception.Message; Refresh(); }
+            });
             _dirtyLabel = Label(_page, "", "metrics");
             _saveField = new TextField("Save name") { value = _saveName, name = "save-name" };
             _saveField.RegisterValueChangedCallback(evt => _saveName = evt.newValue); _page.Add(_saveField);
@@ -73,6 +93,12 @@ namespace CrowdSim.Unity.Workspace
         {
             CloseModal();
             _operationStatus = Files.Message;
+            if (Files.Completed == FileTransition.Quit)
+            {
+                StopRecording("Saved before application exit."); Files.AcknowledgeTransition();
+                Action approved = _approvedQuit; _approvedQuit = null; approved?.Invoke(); return;
+            }
+            if (Files.Pending != FileTransition.Quit) _approvedQuit = null;
             if (Files.Completed == FileTransition.Startup)
             { StopRecording("Saved before leaving workspace."); Files.AcknowledgeTransition(); _exit?.Invoke(); Destroy(gameObject); return; }
             if (Files.Completed == FileTransition.Diagnostics)
